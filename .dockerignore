@@ -1,0 +1,11 @@
+node_modules
+.nvmrc
+.vscode
+.idea
+README.md
+*.log
+.git
+.env
+build
+dist
+.next
