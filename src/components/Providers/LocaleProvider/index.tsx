@@ -50,7 +50,10 @@ const LocaleContext = React.createContext<LocaleContext>(initialState);
 export const LocaleProvider: React.FC = ({ children }) => {
   // Get the locale
   const { locale: routerLocale } = useRouter();
-  const locale = useMemo(() => (routerLocale || initialState.locale) as LocaleEnum, [routerLocale]);
+  const locale = useMemo(
+    () => (routerLocale && locales[routerLocale] ? routerLocale : initialState.locale) as LocaleEnum,
+    [routerLocale]
+  );
 
   const [dayjsLocale, setDayjsLocale] = useState<LocaleContext['dayjsLocale']>(dayjsLocaleMap[locale]);
 
