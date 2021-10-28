@@ -2,7 +2,7 @@ const path = require('path');
 
 module.exports = {
   '*': 'prettier --ignore-unknown --write',
-  '**/*.{js,jsx,ts,tsx,html,css,md,mdx}': (filenames) => {
+  '**/*.{js,jsx,ts,tsx,html,css,scss,md,mdx}': (filenames) => {
     const relativeFilenames = filenames
       // Completely removes the current path(at __dirname) to an absolute path
       // By replacing the initial part of the string to nothing
