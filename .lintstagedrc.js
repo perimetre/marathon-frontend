@@ -10,5 +10,7 @@ module.exports = {
       .join(' --file ');
     return `next lint --fix --file ${relativeFilenames}`;
   },
-  '/**/*.{js,jsx,ts,tsx,css}': 'stylelint --fix'
+  // Make sure to keep forward slash on stylelint
+  '/**/*.{js,jsx,ts,tsx,css}': 'stylelint --fix',
+  '**/*.ts?(x)': 'eslint --fix --plugin tsc --rule \'tsc/config: [2, {configFile: "./tsconfig.json"}]\''
 };
