@@ -1,7 +1,7 @@
 ####################################
 # Base image
 ####################################
-FROM node:14.15.5-alpine AS base
+FROM node:14.17.0-alpine AS base
 
 # Set github token
 ARG GITHUB_PACKAGES_TOKEN
@@ -50,7 +50,7 @@ RUN npm run build
 ####################################
 # Production image
 ####################################
-FROM node:14.15.5-alpine AS production
+FROM node:14.17.0-alpine AS production
 ENV NODE_ENV=production
 WORKDIR /app
 

@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { IntlProvider } from 'react-intl';
 import locales, { defaultLocale, LocaleEnum, dayjsLocaleMap } from '../../../lib/locale';
 import { LOCALE_NAME } from '../../../constraints';
-import { setCookie } from '../../../utils/cookieUtils';
+import { setCookie } from '../../../lib/cookie';
 import { shouldPolyfill } from '@formatjs/intl-pluralrules/should-polyfill';
 
 const polyfill = async (locale: LocaleEnum) => {
@@ -50,7 +50,10 @@ const LocaleContext = React.createContext<LocaleContext>(initialState);
 export const LocaleProvider: React.FC = ({ children }) => {
   // Get the locale
   const { locale: routerLocale } = useRouter();
-  const locale = useMemo(() => (routerLocale || initialState.locale) as LocaleEnum, [routerLocale]);
+  const locale = useMemo(
+    () => (routerLocale && locales[routerLocale] ? routerLocale : initialState.locale) as LocaleEnum,
+    [routerLocale]
+  );
 
   const [dayjsLocale, setDayjsLocale] = useState<LocaleContext['dayjsLocale']>(dayjsLocaleMap[locale]);
 
