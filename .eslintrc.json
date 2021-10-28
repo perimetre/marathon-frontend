@@ -15,5 +15,14 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
     "@typescript-eslint/no-unused-vars": "error"
-  }
+  },
+  "overrides": [
+    {
+      "files": ["*.js"],
+      "rules": {
+        // Disable "no requires" for js files
+        "@typescript-eslint/no-var-requires": "off"
+      }
+    }
+  ]
 }
