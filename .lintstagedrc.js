@@ -9,5 +9,6 @@ module.exports = {
       .map((x) => path.normalize(x).replace(path.resolve(__dirname), ''))
       .join(' --file ');
     return `next lint --fix --file ${relativeFilenames}`;
-  }
+  },
+  '**/*.css': 'stylelint --fix'
 };
