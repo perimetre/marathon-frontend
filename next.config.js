@@ -4,7 +4,7 @@ module.exports = {
   i18n: {
     // These are all the locales you want to support in
     // your application
-    locales: ['en', 'fr', 'catchAll'],
+    locales: ['en' /*'fr'*/, , 'catchAll'],
     // This is the default locale you want to be used when visiting
     // a non-locale prefixed path e.g. `/hello`
     // Ref, fix: https://github.com/vercel/next.js/discussions/18419#discussioncomment-327128

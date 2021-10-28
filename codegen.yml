@@ -1,0 +1,19 @@
+overwrite: true
+schema: ${NEXT_PUBLIC_GRAPHQL_URI}
+documents:
+  - './src/**/*.{graphql,ts,tsx}'
+  - './pages/**/*.{graphql,ts,tsx}'
+generates:
+  src/apollo/generated/graphql.tsx:
+    hooks:
+      afterAllFileWrite:
+        - prettier --write
+      afterOneFileWrite:
+        - next lint --fix --file
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'
+  ./graphql.schema.json:
+    plugins:
+      - 'introspection'
