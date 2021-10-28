@@ -2,7 +2,6 @@
   "compilerOptions": {
     /* ------ Next.js required options ------ */
     /* ------ This was generated automatically by next.js, and it is recommended not to change ------ */
-
     "target": "es5" /* Specify ECMAScript target version: 'ES3' (default), 'ES5', 'ES2015', 'ES2016', 'ES2017', 'ES2018', 'ES2019' or 'ESNEXT'. */,
     "lib": ["dom", "dom.iterable", "esnext"] /* Specify library files to be included in the compilation. */,
     "allowJs": true /* Allow javascript files to be compiled. */,
@@ -16,13 +15,10 @@
     "resolveJsonModule": true,
     "isolatedModules": true /* Transpile each file as a separate module (similar to 'ts.transpileModule'). */,
     "jsx": "preserve" /* Specify JSX code generation: 'preserve', 'react-native', or 'react'. */,
-
     /* ------ Our additional configuration ------ */
-
     /* Basic Options */
     "outDir": "dist" /* Redirect output structure to the directory. */,
     "removeComments": true /* Do not emit comments to output. */,
-
     /* Strict Type-Checking Options */
     "noImplicitReturns": true,
     "noImplicitAny": true /* Raise error on expressions and declarations with an implied 'any' type. */,
@@ -30,19 +26,17 @@
     "strictFunctionTypes": true /* Enable strict checking of function types. */,
     "strictPropertyInitialization": true /* Enable strict checking of property initialization in classes. */,
     "noImplicitThis": true /* Raise error on 'this' expressions with an implied 'any' type. */,
-
     /* Module Resolution Options */
     "allowSyntheticDefaultImports": true /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */,
-
     /* Additional Checks */
     "noUnusedLocals": false /* Report errors on unused locals. */,
     "noUnusedParameters": false /* Report errors on unused parameters. */,
     "preserveConstEnums": true,
     "suppressImplicitAnyIndexErrors": true,
-
     /* Source Map Options */
     "sourceMap": true /* Generates corresponding '.map' file. */,
-    "inlineSources": true /* Emit the source alongside the sourcemaps within a single file; requires '--inlineSourceMap' or '--sourceMap' to be set. */
+    "inlineSources": true /* Emit the source alongside the sourcemaps within a single file; requires '--inlineSourceMap' or '--sourceMap' to be set. */,
+    "incremental": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]
