@@ -4,7 +4,7 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { IntlProvider } from 'react-intl';
 import locales, { defaultLocale, LocaleEnum, dayjsLocaleMap } from '../../../lib/locale';
 import { LOCALE_NAME } from '../../../constraints';
-import { setCookie } from '../../../utils/cookieUtils';
+import { setCookie } from '../../../lib/cookie';
 import { shouldPolyfill } from '@formatjs/intl-pluralrules/should-polyfill';
 
 const polyfill = async (locale: LocaleEnum) => {

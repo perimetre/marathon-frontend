@@ -1,7 +1,7 @@
 import cookie from 'js-cookie';
 import { NextPageContext, GetServerSidePropsContext } from 'next';
 import nextCookie from 'next-cookies';
-import env from '../env';
+import env from '../../env';
 import { ParsedUrlQuery } from 'querystring';
 
 const getDefaultAttributes = () => {
