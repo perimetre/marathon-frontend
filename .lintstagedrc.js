@@ -10,5 +10,5 @@ module.exports = {
       .join(' --file ');
     return `next lint --fix --file ${relativeFilenames}`;
   },
-  '**/*.css': 'stylelint --fix'
+  '**/*.{js,jsx,ts,tsx,css}': 'stylelint --fix'
 };
