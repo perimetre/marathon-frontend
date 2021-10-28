@@ -1,8 +1,8 @@
 import { NextPage } from 'next';
 import NextError, { ErrorProps } from 'next/error';
 import React from 'react';
-import logging from '../src/lib/logging';
-import { redirectServerOrClient } from '../src/lib/next';
+import logging from '../lib/logging';
+import { redirectServerOrClient } from '../lib/next';
 
 type CustomErrorGetInitialProps = ErrorProps & {
   // Workaround for https://github.com/vercel/next.js/issues/8592, mark when getInitialProps has run
