@@ -16,7 +16,14 @@
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "error",
     "@typescript-eslint/no-unused-vars": "error",
-    "tailwind/class-order": "error"
+    "tailwind/class-order": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        // Fixes mismatching windows/unix file end of lines
+        "endOfLine": "auto"
+      }
+    ]
   },
   "overrides": [
     {
