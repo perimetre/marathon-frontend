@@ -3,3 +3,4 @@ build
 node_modules
 storybook-static
 .next
+.lintstagedrc.js
