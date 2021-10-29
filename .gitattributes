@@ -1,1 +1,1 @@
-/public/unity*/**/*.data
+/public/unity*/**/*.data filter=lfs diff=lfs merge=lfs -text
