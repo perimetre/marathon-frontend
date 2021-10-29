@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
-import { useAppContext } from '../../Providers/AppProvider';
+import { useProjectCreationProvider } from '../../Providers/ProjectCreationProvider';
 import { Button } from '../../UI/Button';
 import { UserIcon, XCircleSolid } from '../../UI/Icons';
 
@@ -12,7 +12,7 @@ export type NavbarProps = {
 };
 
 export const NavBar: React.FC<NavbarProps> = ({ goBack }) => {
-  const context = useAppContext();
+  const context = useProjectCreationProvider();
 
   const router = useRouter();
 

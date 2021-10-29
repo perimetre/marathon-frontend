@@ -4,7 +4,7 @@ import { ApolloProvider } from '@apollo/client';
 import { config } from '@fortawesome/fontawesome-svg-core';
 import { useApollo } from '../lib/apollo';
 import { LocaleProvider } from '../components/Providers/LocaleProvider';
-import { AppProvider } from '../components/Providers/AppProvider';
+import { ProjectCreationProvider } from '../components/Providers/ProjectCreationProvider';
 
 import '../../node_modules/@fortawesome/fontawesome-svg-core/styles.css';
 import '../styles/globals.css';
@@ -16,11 +16,11 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
 
   return (
     <LocaleProvider {...pageProps}>
-      <AppProvider>
+      <ProjectCreationProvider>
         <ApolloProvider client={apolloClient}>
           <Component {...pageProps} />
         </ApolloProvider>
-      </AppProvider>
+      </ProjectCreationProvider>
     </LocaleProvider>
   );
 };

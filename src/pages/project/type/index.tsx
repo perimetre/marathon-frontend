@@ -1,7 +1,7 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import { DefaultLayout } from '../../../components/Layouts/Default';
-import { useAppContext } from '../../../components/Providers/AppProvider';
+import { useProjectCreationProvider } from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { TYPE_QUERY } from '../../../apollo/type';
 import { useGetTypeQuery } from '../../../apollo/generated/graphql';
@@ -10,7 +10,7 @@ import { ProjectCreationTemplate, TypeTemplate } from '../../../components/Templ
 type TypeContainerProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const TypeContainer: NextPage<TypeContainerProps> = () => {
-  const context = useAppContext();
+  const context = useProjectCreationProvider();
   const router = useRouter();
 
   const { data } = useGetTypeQuery();
