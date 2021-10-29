@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   reactStrictMode: true,
+  images: { domains: ['marathon-media-dev01.nyc3.digitaloceanspaces.com'] },
   i18n: {
     // These are all the locales you want to support in
     // your application

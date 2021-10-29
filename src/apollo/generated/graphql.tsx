@@ -3279,6 +3279,50 @@ export type UserWhereUniqueInput = {
   id?: Maybe<Scalars['Int']>;
 };
 
+export type GetCollectionsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetCollectionsQuery = {
+  __typename?: 'Query';
+  collections: Array<{
+    __typename?: 'Collection';
+    id: number;
+    name: string;
+    slug: string;
+    subtitle?: string | null | undefined;
+    description?: string | null | undefined;
+    footer?: string | null | undefined;
+    thumbnailUrl?: string | null | undefined;
+  }>;
+};
+
+export type GetFinishQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetFinishQuery = {
+  __typename?: 'Query';
+  finishes: Array<{
+    __typename?: 'Finish';
+    id: number;
+    description?: string | null | undefined;
+    name: string;
+    slug: string;
+    thumbnailUrl?: string | null | undefined;
+  }>;
+};
+
+export type GetTypeQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetTypeQuery = {
+  __typename?: 'Query';
+  types: Array<{
+    __typename?: 'Type';
+    id: number;
+    description?: string | null | undefined;
+    name: string;
+    slug: string;
+    thumbnailUrl?: string | null | undefined;
+  }>;
+};
+
 export type HomeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type HomeQuery = {
@@ -3293,6 +3337,167 @@ export type HomeQuery = {
   }>;
 };
 
+export type GetSupplierQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetSupplierQuery = {
+  __typename?: 'Query';
+  slides: Array<{
+    __typename?: 'Slide';
+    id: number;
+    slug: string;
+    supplier: {
+      __typename?: 'SlideSupplier';
+      id: number;
+      name: string;
+      slug: string;
+      thumbnailUrl?: string | null | undefined;
+    };
+  }>;
+};
+
+export type GetSlideSupplierQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetSlideSupplierQuery = {
+  __typename?: 'Query';
+  slideSuppliers: Array<{
+    __typename?: 'SlideSupplier';
+    id: number;
+    name: string;
+    slug: string;
+    thumbnailUrl?: string | null | undefined;
+    slides: Array<{
+      __typename?: 'Slide';
+      id: number;
+      slug: string;
+      formula: string;
+      product: string;
+      depths: Array<{ __typename?: 'SlideDepth'; id: number; display: string; depth: number }>;
+    }>;
+  }>;
+};
+
+export const GetCollectionsDocument = gql`
+  query GetCollections {
+    collections {
+      id
+      name
+      slug
+      subtitle
+      description
+      footer
+      thumbnailUrl
+    }
+  }
+`;
+
+/**
+ * __useGetCollectionsQuery__
+ *
+ * To run a query within a React component, call `useGetCollectionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCollectionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCollectionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetCollectionsQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetCollectionsQuery, GetCollectionsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetCollectionsQuery, GetCollectionsQueryVariables>(GetCollectionsDocument, options);
+}
+export function useGetCollectionsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetCollectionsQuery, GetCollectionsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetCollectionsQuery, GetCollectionsQueryVariables>(GetCollectionsDocument, options);
+}
+export type GetCollectionsQueryHookResult = ReturnType<typeof useGetCollectionsQuery>;
+export type GetCollectionsLazyQueryHookResult = ReturnType<typeof useGetCollectionsLazyQuery>;
+export type GetCollectionsQueryResult = Apollo.QueryResult<GetCollectionsQuery, GetCollectionsQueryVariables>;
+export const GetFinishDocument = gql`
+  query GetFinish {
+    finishes {
+      id
+      description
+      name
+      slug
+      thumbnailUrl
+    }
+  }
+`;
+
+/**
+ * __useGetFinishQuery__
+ *
+ * To run a query within a React component, call `useGetFinishQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFinishQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetFinishQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetFinishQuery(baseOptions?: Apollo.QueryHookOptions<GetFinishQuery, GetFinishQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetFinishQuery, GetFinishQueryVariables>(GetFinishDocument, options);
+}
+export function useGetFinishLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetFinishQuery, GetFinishQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetFinishQuery, GetFinishQueryVariables>(GetFinishDocument, options);
+}
+export type GetFinishQueryHookResult = ReturnType<typeof useGetFinishQuery>;
+export type GetFinishLazyQueryHookResult = ReturnType<typeof useGetFinishLazyQuery>;
+export type GetFinishQueryResult = Apollo.QueryResult<GetFinishQuery, GetFinishQueryVariables>;
+export const GetTypeDocument = gql`
+  query GetType {
+    types {
+      id
+      description
+      name
+      slug
+      thumbnailUrl
+    }
+  }
+`;
+
+/**
+ * __useGetTypeQuery__
+ *
+ * To run a query within a React component, call `useGetTypeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTypeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTypeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTypeQuery(baseOptions?: Apollo.QueryHookOptions<GetTypeQuery, GetTypeQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetTypeQuery, GetTypeQueryVariables>(GetTypeDocument, options);
+}
+export function useGetTypeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTypeQuery, GetTypeQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetTypeQuery, GetTypeQueryVariables>(GetTypeDocument, options);
+}
+export type GetTypeQueryHookResult = ReturnType<typeof useGetTypeQuery>;
+export type GetTypeLazyQueryHookResult = ReturnType<typeof useGetTypeLazyQuery>;
+export type GetTypeQueryResult = Apollo.QueryResult<GetTypeQuery, GetTypeQueryVariables>;
 export const HomeDocument = gql`
   query Home {
     types {
@@ -3331,3 +3536,100 @@ export function useHomeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeQ
 export type HomeQueryHookResult = ReturnType<typeof useHomeQuery>;
 export type HomeLazyQueryHookResult = ReturnType<typeof useHomeLazyQuery>;
 export type HomeQueryResult = Apollo.QueryResult<HomeQuery, HomeQueryVariables>;
+export const GetSupplierDocument = gql`
+  query GetSupplier {
+    slides {
+      id
+      slug
+      supplier {
+        id
+        name
+        slug
+        thumbnailUrl
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetSupplierQuery__
+ *
+ * To run a query within a React component, call `useGetSupplierQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSupplierQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSupplierQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetSupplierQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetSupplierQuery, GetSupplierQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetSupplierQuery, GetSupplierQueryVariables>(GetSupplierDocument, options);
+}
+export function useGetSupplierLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetSupplierQuery, GetSupplierQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetSupplierQuery, GetSupplierQueryVariables>(GetSupplierDocument, options);
+}
+export type GetSupplierQueryHookResult = ReturnType<typeof useGetSupplierQuery>;
+export type GetSupplierLazyQueryHookResult = ReturnType<typeof useGetSupplierLazyQuery>;
+export type GetSupplierQueryResult = Apollo.QueryResult<GetSupplierQuery, GetSupplierQueryVariables>;
+export const GetSlideSupplierDocument = gql`
+  query GetSlideSupplier {
+    slideSuppliers {
+      id
+      name
+      slug
+      thumbnailUrl
+      slides {
+        id
+        slug
+        formula
+        product
+        depths {
+          id
+          display
+          depth
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * __useGetSlideSupplierQuery__
+ *
+ * To run a query within a React component, call `useGetSlideSupplierQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetSlideSupplierQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetSlideSupplierQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetSlideSupplierQuery(
+  baseOptions?: Apollo.QueryHookOptions<GetSlideSupplierQuery, GetSlideSupplierQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetSlideSupplierQuery, GetSlideSupplierQueryVariables>(GetSlideSupplierDocument, options);
+}
+export function useGetSlideSupplierLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetSlideSupplierQuery, GetSlideSupplierQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetSlideSupplierQuery, GetSlideSupplierQueryVariables>(GetSlideSupplierDocument, options);
+}
+export type GetSlideSupplierQueryHookResult = ReturnType<typeof useGetSlideSupplierQuery>;
+export type GetSlideSupplierLazyQueryHookResult = ReturnType<typeof useGetSlideSupplierLazyQuery>;
+export type GetSlideSupplierQueryResult = Apollo.QueryResult<GetSlideSupplierQuery, GetSlideSupplierQueryVariables>;

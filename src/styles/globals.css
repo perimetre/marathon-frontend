@@ -2,6 +2,34 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .btn-default {
+    @apply flex px-6 py-2 font-semibold text-white bg-primary rounded-sm gap-2 hover:bg-red-700 hover:shadow-sm transition-all;
+    &:disabled {
+      @apply cursor-default bg-gray-300;
+    }
+  }
+
+  .btn-text {
+    @apply flex px-6 py-2 gap-2 font-semibold;
+    &:disabled {
+      @apply cursor-default bg-gray-200;
+    }
+  }
+
+  .card {
+    @apply overflow-hidden bg-white rounded-md cursor-pointer w-96 transition-all border border-gray-100 hover:shadow-lg hover:-translate-y-1;
+  }
+
+  .card.active {
+    @apply border-primary border-2;
+  }
+
+  .select {
+    @apply block w-full mt-1 border-t-0 pl-0 border-b border-l-0 border-r-0 outline-none bg-transparent focus:outline-none form-select focus:border-primary;
+  }
+}
+
 html,
 body {
   padding: 0;

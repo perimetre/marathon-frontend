@@ -8,7 +8,12 @@ module.exports = {
     './public/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
-    extend: {}
+    extend: {
+      colors: {
+        primary: 'var(--primary, #DA291C)',
+        background: 'var(--primary, #2C2926)'
+      }
+    }
   },
   variants: {
     extend: {}
