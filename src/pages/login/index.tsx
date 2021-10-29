@@ -1,12 +1,12 @@
 import type { GetStaticProps, NextPage } from 'next';
-import { addApolloState, initializeApollo } from '../lib/apollo';
-import { HomeTemplate } from '../components/Templates';
-import { DefaultLayout } from '../components/Layouts/Default';
+import { addApolloState, initializeApollo } from '../../lib/apollo';
+import { LoginTemplate } from '../../components/Templates';
+import { DefaultLayout } from '../../components/Layouts/Default';
 
 const Home: NextPage = () => {
   return (
     <DefaultLayout>
-      <HomeTemplate />
+      <LoginTemplate onSubmit={console.log} />
     </DefaultLayout>
   );
 };

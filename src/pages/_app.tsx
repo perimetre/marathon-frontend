@@ -5,6 +5,7 @@ import { config } from '@fortawesome/fontawesome-svg-core';
 import { useApollo } from '../lib/apollo';
 import { LocaleProvider } from '../components/Providers/LocaleProvider';
 import DefaultPageTitle from '../components/Elements/DefaultPageTitle';
+import { ProjectCreationProvider } from '../components/Providers/ProjectCreationProvider';
 
 import '../../node_modules/@fortawesome/fontawesome-svg-core/styles.css';
 import '../styles/globals.css';
@@ -17,9 +18,11 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
   return (
     <LocaleProvider {...pageProps}>
       <DefaultPageTitle />
-      <ApolloProvider client={apolloClient}>
-        <Component {...pageProps} />
-      </ApolloProvider>
+      <ProjectCreationProvider>
+        <ApolloProvider client={apolloClient}>
+          <Component {...pageProps} />
+        </ApolloProvider>
+      </ProjectCreationProvider>
     </LocaleProvider>
   );
 };

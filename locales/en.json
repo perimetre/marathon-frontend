@@ -4,5 +4,40 @@
   "description": "Marathon space planner",
   "build": {
     "title": "Build"
+  },
+  "home": {
+    "title": "Drawers that fit your lifestyle",
+    "accordion": {
+      "startNow": "Start now",
+      "choosePortfolio": "CHOOSE FROM OUR PORTFOLIO",
+      "portfolioDescription": "Headstart your project by selecting one of our preconfigured drawers",
+      "firstProject": "MY FIRST PROJECT",
+      "projectDescription": "Browse our drawer collections, pick the one that fits your need and customize it to fit your lifestyle",
+      "pickWhereLeft": "PICK UP WHERE YOU LEFT OFF",
+      "leftDescription": "Already started a project ? {message} to continue editing it."
+    }
+  },
+  "login": {
+    "title": "Sign in and start designing",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "singinButton": "Sing in",
+    "forgotPass": "Forgot password?",
+    "dontHaveAccount": "Dont have an account ? {message}",
+    "startDesigning": "Start designing"
+  },
+  "projects": {
+    "title": "My projects",
+    "description": "Organize your work by projects. To keep your workspace clean, you can archive projects you're not working on anymore",
+    "kitchen": "Kitchen",
+    "activeProjects": "Active Projects",
+    "addProject": "Add a project",
+    "editButton": "Edit"
+  },
+  "sizeAssistant": {
+    "cabinetWidth": "Cabinet width",
+    "cabinetWidthDescription": "Enter the size of your cabinet",
+    "boardThickness": "Board thickness",
+    "boardThicknessDescription": "Gable thickness"
   }
 }

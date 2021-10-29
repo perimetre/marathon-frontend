@@ -1,0 +1,5 @@
+@layer components {
+  .select {
+    @apply block w-full mt-1 border-t-0 pl-0 border-b border-l-0 border-r-0 outline-none bg-transparent focus:outline-none form-select focus:border-mui-primary;
+  }
+}
