@@ -9,6 +9,8 @@ import { useUnityPlayerContext, UnityPlayerProvider } from '../../../Providers/U
 import BuilderSidebar from '../../../UI/BuilderSidebar';
 import ProgressBar from '../../../UI/ProgressBar';
 import Spinner from '../../../UI/Spinner';
+import { PlannerQuery } from '../../../../apollo/generated/graphql';
+import { Button } from '../../../UI/Button';
 
 const LoadingState: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -46,7 +48,9 @@ const LoadingState: React.FC = () => {
   );
 };
 
-const ErrorState: React.FC = () => {
+type ErrorStateProps = Pick<PlannerTemplateProps, 'error' | 'handleTryAgain'>;
+
+const ErrorState: React.FC<ErrorStateProps> = ({ error }) => {
   const { errorMessage } = useUnityPlayerContext();
 
   const intl = useIntl();
@@ -58,42 +62,55 @@ const ErrorState: React.FC = () => {
           id="build.error"
           values={{
             appTitle: intl.formatMessage({ id: 'title' }),
-            errorMessage,
+            errorMessage: error || errorMessage,
             error: (msg: string) => <p className="mt-2 text-xl font-bold text-red-500">{msg}</p>
           }}
         />
       </p>
+
+      {error && (
+        <Button className="mt-4">
+          <FormattedMessage id="common.tryAgain" />
+        </Button>
+      )}
     </CenterContent>
   );
 };
 
-type PlannerProps = Record<string, never>;
+type PlannerProps = PlannerTemplateProps;
 
-const Planner: React.FC<PlannerProps> = () => {
+const Planner: React.FC<PlannerProps> = ({ data, loading, error, handleTryAgain }) => {
   const { loadingProgress, state } = useUnityPlayerContext();
 
   return (
     <div className="flex min-h-screen">
       {/* Left sidebar, fixed width */}
-      <BuilderSidebar />
+      <BuilderSidebar modules={data?.project?.modules} />
       {/* Right section, takes remaining space(flex-grow) */}
       <div className="relative flex-grow">
-        <UnityPlayer
-          className={classnames('opacity-0', { 'animate-fade-in': state === 'complete' && loadingProgress >= 1 })}
-        />
+        {!error && (
+          <UnityPlayer
+            className={classnames('opacity-0', { 'animate-fade-in': state === 'complete' && loadingProgress >= 1 })}
+          />
+        )}
         {/* Content on top of unity player */}
         <div className="absolute inset-0 pointer-events-none">
-          {state === 'loading' && <LoadingState />}
-          {state === 'error' && <ErrorState />}
+          {(state === 'loading' || loading) && <LoadingState />}
+          {(state === 'error' || error) && <ErrorState handleTryAgain={handleTryAgain} error={error} />}
         </div>
       </div>
     </div>
   );
 };
 
-type PlannerTemplateProps = Record<string, never>;
+type PlannerTemplateProps = {
+  data?: PlannerQuery;
+  loading: boolean;
+  error?: string;
+  handleTryAgain: () => void;
+};
 
-const PlannerTemplate: React.FC<PlannerTemplateProps> = () => {
+const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ data, loading, error, handleTryAgain }) => {
   const intl = useIntl();
 
   return (
@@ -108,7 +125,7 @@ const PlannerTemplate: React.FC<PlannerTemplateProps> = () => {
       </Head>
       <div id="build-template">
         <UnityPlayerProvider>
-          <Planner />
+          <Planner data={data} loading={loading} error={error} handleTryAgain={handleTryAgain} />
         </UnityPlayerProvider>
       </div>
     </>

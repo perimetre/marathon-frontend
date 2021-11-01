@@ -3075,6 +3075,46 @@ export type GetFinishQuery = {
   }>;
 };
 
+export type ModuleDataFragment = {
+  __typename?: 'Module';
+  id: number;
+  bundleUrl?: string | null | undefined;
+  hasPegs: boolean;
+  isImprintExtension: boolean;
+  isMat: boolean;
+  isSubmodule: boolean;
+  partNumber: string;
+  rules?: any | null | undefined;
+  thumbnailUrl?: string | null | undefined;
+};
+
+export type PlannerQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+export type PlannerQuery = {
+  __typename?: 'Query';
+  project?:
+    | {
+        __typename?: 'Project';
+        id: number;
+        modules: Array<{
+          __typename?: 'Module';
+          id: number;
+          bundleUrl?: string | null | undefined;
+          hasPegs: boolean;
+          isImprintExtension: boolean;
+          isMat: boolean;
+          isSubmodule: boolean;
+          partNumber: string;
+          rules?: any | null | undefined;
+          thumbnailUrl?: string | null | undefined;
+        }>;
+      }
+    | null
+    | undefined;
+};
+
 export type GetSlideSupplierQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetSlideSupplierQuery = {
@@ -3110,6 +3150,19 @@ export type GetTypeQuery = {
   }>;
 };
 
+export const ModuleDataFragmentDoc = gql`
+  fragment ModuleData on Module {
+    id
+    bundleUrl
+    hasPegs
+    isImprintExtension
+    isMat
+    isSubmodule
+    partNumber
+    rules
+    thumbnailUrl
+  }
+`;
 export const GetCollectionsDocument = gql`
   query GetCollections {
     collections {
@@ -3194,6 +3247,45 @@ export function useGetFinishLazyQuery(
 export type GetFinishQueryHookResult = ReturnType<typeof useGetFinishQuery>;
 export type GetFinishLazyQueryHookResult = ReturnType<typeof useGetFinishLazyQuery>;
 export type GetFinishQueryResult = Apollo.QueryResult<GetFinishQuery, GetFinishQueryVariables>;
+export const PlannerDocument = gql`
+  query Planner($slug: String!) {
+    project(where: { slug: $slug }) {
+      id
+      modules {
+        ...ModuleData
+      }
+    }
+  }
+  ${ModuleDataFragmentDoc}
+`;
+
+/**
+ * __usePlannerQuery__
+ *
+ * To run a query within a React component, call `usePlannerQuery` and pass it any options that fit your needs.
+ * When your component renders, `usePlannerQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = usePlannerQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function usePlannerQuery(baseOptions: Apollo.QueryHookOptions<PlannerQuery, PlannerQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<PlannerQuery, PlannerQueryVariables>(PlannerDocument, options);
+}
+export function usePlannerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<PlannerQuery, PlannerQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<PlannerQuery, PlannerQueryVariables>(PlannerDocument, options);
+}
+export type PlannerQueryHookResult = ReturnType<typeof usePlannerQuery>;
+export type PlannerLazyQueryHookResult = ReturnType<typeof usePlannerLazyQuery>;
+export type PlannerQueryResult = Apollo.QueryResult<PlannerQuery, PlannerQueryVariables>;
 export const GetSlideSupplierDocument = gql`
   query GetSlideSupplier {
     slideSuppliers {
