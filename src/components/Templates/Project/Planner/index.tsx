@@ -1,4 +1,5 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Image from 'next/image';
@@ -48,9 +49,9 @@ const LoadingState: React.FC = () => {
   );
 };
 
-type ErrorStateProps = Pick<PlannerTemplateProps, 'error' | 'handleTryAgain'>;
+type ErrorStateProps = Pick<PlannerTemplateProps, 'slug' | 'error' | 'handleTryAgain'>;
 
-const ErrorState: React.FC<ErrorStateProps> = ({ error }) => {
+const ErrorState: React.FC<ErrorStateProps> = ({ error, handleTryAgain, slug }) => {
   const { errorMessage } = useUnityPlayerContext();
 
   const intl = useIntl();
@@ -69,9 +70,26 @@ const ErrorState: React.FC<ErrorStateProps> = ({ error }) => {
       </p>
 
       {error && (
-        <Button className="mt-4">
+        <Button className="mt-4" onClick={handleTryAgain}>
           <FormattedMessage id="common.tryAgain" />
         </Button>
+      )}
+
+      {errorMessage && (
+        <Link
+          href={{
+            pathname: '/project/[slug]/planner',
+            query: { slug }
+          }}
+          // disable prefetch to hard refresh
+          prefetch={false}
+        >
+          <a>
+            <Button className="mt-4">
+              <FormattedMessage id="common.tryAgain" />
+            </Button>
+          </a>
+        </Link>
       )}
     </CenterContent>
   );
@@ -79,7 +97,7 @@ const ErrorState: React.FC<ErrorStateProps> = ({ error }) => {
 
 type PlannerProps = PlannerTemplateProps;
 
-const Planner: React.FC<PlannerProps> = ({ data, loading, error, handleTryAgain }) => {
+const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTryAgain }) => {
   const { loadingProgress, state } = useUnityPlayerContext();
 
   return (
@@ -96,7 +114,7 @@ const Planner: React.FC<PlannerProps> = ({ data, loading, error, handleTryAgain 
         {/* Content on top of unity player */}
         <div className="absolute inset-0 pointer-events-none">
           {(state === 'loading' || loading) && <LoadingState />}
-          {(state === 'error' || error) && <ErrorState handleTryAgain={handleTryAgain} error={error} />}
+          {(state === 'error' || error) && <ErrorState slug={slug} handleTryAgain={handleTryAgain} error={error} />}
         </div>
       </div>
     </div>
@@ -104,13 +122,14 @@ const Planner: React.FC<PlannerProps> = ({ data, loading, error, handleTryAgain 
 };
 
 type PlannerTemplateProps = {
+  slug: string;
   data?: PlannerQuery;
   loading: boolean;
   error?: string;
   handleTryAgain: () => void;
 };
 
-const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ data, loading, error, handleTryAgain }) => {
+const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ slug, data, loading, error, handleTryAgain }) => {
   const intl = useIntl();
 
   return (
@@ -125,7 +144,7 @@ const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ data, loading, error,
       </Head>
       <div id="build-template">
         <UnityPlayerProvider>
-          <Planner data={data} loading={loading} error={error} handleTryAgain={handleTryAgain} />
+          <Planner slug={slug} data={data} loading={loading} error={error} handleTryAgain={handleTryAgain} />
         </UnityPlayerProvider>
       </div>
     </>

@@ -23,7 +23,6 @@ const PlannerContainer: NextPage<PlannerContainerProps> = ({ slug, data: ssrData
   // ***********
 
   // ** Queries
-  // Get the profile details(this query will probably get the info from the apollo cache)
   const [getPlanner, { data, error: queryError, refetch, loading }] = usePlannerLazyQuery({
     // This makes the "loading" state to be updated when we run "refetch"
     // if we don't do this, it'll run in background and state will only be updated if the query finishes
@@ -57,7 +56,15 @@ const PlannerContainer: NextPage<PlannerContainerProps> = ({ slug, data: ssrData
     }
   }, [refetch]);
 
-  return <PlannerTemplate data={data || ssrData} loading={loading} error={error} handleTryAgain={handleTryAgain} />;
+  return (
+    <PlannerTemplate
+      slug={slug}
+      data={data || ssrData}
+      loading={loading}
+      error={error}
+      handleTryAgain={handleTryAgain}
+    />
+  );
 };
 
 export const getServerSideProps: GetServerSideProps<WithApolloProps<PlannerServerSideProps>, PlannerParams> = async ({
