@@ -925,6 +925,8 @@ export type Module = {
   finishId: Scalars['Int'];
   hasPegs: Scalars['Boolean'];
   id: Scalars['Int'];
+  isImprintExtension: Scalars['Boolean'];
+  isMat: Scalars['Boolean'];
   isSubmodule: Scalars['Boolean'];
   partNumber: Scalars['String'];
   projectModules: Array<ProjectModule>;
@@ -941,9 +943,11 @@ export type ModuleProjectModulesArgs = {
 export type ModuleCreateManyCollectionInput = {
   bundleUrl?: Maybe<Scalars['String']>;
   finishId: Scalars['Int'];
-  hasPegs: Scalars['Boolean'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
-  isSubmodule: Scalars['Boolean'];
+  isImprintExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
@@ -957,9 +961,11 @@ export type ModuleCreateManyCollectionInputEnvelope = {
 export type ModuleCreateManyFinishInput = {
   bundleUrl?: Maybe<Scalars['String']>;
   collectionId: Scalars['Int'];
-  hasPegs: Scalars['Boolean'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
-  isSubmodule: Scalars['Boolean'];
+  isImprintExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
@@ -1008,8 +1014,10 @@ export type ModuleCreateOrConnectWithoutProjectModulesInput = {
 export type ModuleCreateWithoutCollectionInput = {
   bundleUrl?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
-  hasPegs: Scalars['Boolean'];
-  isSubmodule: Scalars['Boolean'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isImprintExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1019,8 +1027,10 @@ export type ModuleCreateWithoutCollectionInput = {
 export type ModuleCreateWithoutFinishInput = {
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
-  hasPegs: Scalars['Boolean'];
-  isSubmodule: Scalars['Boolean'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isImprintExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1031,8 +1041,10 @@ export type ModuleCreateWithoutProjectModulesInput = {
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
   finish: FinishCreateNestedOneWithoutModulesInput;
-  hasPegs: Scalars['Boolean'];
-  isSubmodule: Scalars['Boolean'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isImprintExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
@@ -1050,6 +1062,8 @@ export type ModuleOrderByInput = {
   finishId?: Maybe<SortOrder>;
   hasPegs?: Maybe<SortOrder>;
   id?: Maybe<SortOrder>;
+  isImprintExtension?: Maybe<SortOrder>;
+  isMat?: Maybe<SortOrder>;
   isSubmodule?: Maybe<SortOrder>;
   partNumber?: Maybe<SortOrder>;
   rules?: Maybe<SortOrder>;
@@ -1065,6 +1079,8 @@ export type ModuleScalarWhereInput = {
   finishId?: Maybe<IntFilter>;
   hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
+  isImprintExtension?: Maybe<BoolFilter>;
+  isMat?: Maybe<BoolFilter>;
   isSubmodule?: Maybe<BoolFilter>;
   partNumber?: Maybe<StringFilter>;
   rules?: Maybe<JsonNullableFilter>;
@@ -1074,6 +1090,8 @@ export type ModuleScalarWhereInput = {
 export type ModuleUpdateManyMutationInput = {
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isImprintExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1140,6 +1158,8 @@ export type ModuleUpdateWithoutCollectionInput = {
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isImprintExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
@@ -1151,6 +1171,8 @@ export type ModuleUpdateWithoutFinishInput = {
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isImprintExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
@@ -1163,6 +1185,8 @@ export type ModuleUpdateWithoutProjectModulesInput = {
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isImprintExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1197,6 +1221,8 @@ export type ModuleWhereInput = {
   finishId?: Maybe<IntFilter>;
   hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
+  isImprintExtension?: Maybe<BoolFilter>;
+  isMat?: Maybe<BoolFilter>;
   isSubmodule?: Maybe<BoolFilter>;
   partNumber?: Maybe<StringFilter>;
   projectModules?: Maybe<ProjectModuleListRelationFilter>;
