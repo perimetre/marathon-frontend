@@ -10,10 +10,14 @@ type PlannerParams = {
   slug: string;
 };
 
-type PlannerServerSideProps = PlannerParams;
+type PlannerServerSideProps = PlannerParams & {
+  // Graphql data
+  data: PlannerQuery;
+};
+
 type PlannerContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const PlannerContainer: NextPage<PlannerContainerProps> = ({ slug }) => {
+const PlannerContainer: NextPage<PlannerContainerProps> = ({ slug, data: ssrData }) => {
   // ***********
   // ** Grapqhl declarations
   // ***********
@@ -53,7 +57,7 @@ const PlannerContainer: NextPage<PlannerContainerProps> = ({ slug }) => {
     }
   }, [refetch]);
 
-  return <PlannerTemplate data={data} loading={loading} error={error} handleTryAgain={handleTryAgain} />;
+  return <PlannerTemplate data={data || ssrData} loading={loading} error={error} handleTryAgain={handleTryAgain} />;
 };
 
 export const getServerSideProps: GetServerSideProps<WithApolloProps<PlannerServerSideProps>, PlannerParams> = async ({
@@ -89,7 +93,8 @@ export const getServerSideProps: GetServerSideProps<WithApolloProps<PlannerServe
 
   return addApolloState(apolloClient, {
     props: {
-      slug
+      slug,
+      data
     }
   });
 };
