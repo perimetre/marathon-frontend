@@ -14,7 +14,7 @@ import BuildTemplate from '../../components/Templates/Build';
 //     }
 // `;
 
-type BuildContainerProps = {};
+type BuildContainerProps = Record<string, unknown>;
 
 const BuildContainer: NextPage<BuildContainerProps> = ({}) => {
   // const { data } = useHomeQuery();

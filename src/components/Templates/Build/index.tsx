@@ -34,18 +34,18 @@ const LoadingState: React.FC = () => {
           onLoadingComplete={() => setImageLoaded(true)}
         />
       </div>
-      <div className="flex items-center justify-center gap-4 my-6">
+      <div className="flex items-center justify-center my-6 gap-4">
         <p className="text-2xl font-semibold uppercase text-mui-dark">
           <FormattedMessage id="title" />
         </p>
-        <Spinner className="h-6 w-6" />
+        <Spinner className="w-6 h-6" />
       </div>
       <ProgressBar color="mui-color-mui-dark" className="max-w-xs" progress={loadingProgress * 100} />
     </div>
   );
 };
 
-type DrawerBuilderProps = {};
+type DrawerBuilderProps = Record<string, never>;
 
 const DrawerBuilder: React.FC<DrawerBuilderProps> = () => {
   const { loadingProgress, state } = useUnityPlayerContext();
@@ -55,7 +55,7 @@ const DrawerBuilder: React.FC<DrawerBuilderProps> = () => {
       {/* Left sidebar, fixed width */}
       <BuilderSidebar />
       {/* Right section, takes remaining space(flex-grow) */}
-      <div className="flex-grow relative">
+      <div className="relative flex-grow">
         <UnityPlayer className={classnames('opacity-0', { 'animate-fade-in': loadingProgress >= 1 })} />
         {/* Content on top of unity player */}
         <div className="absolute inset-0 pointer-events-none">{state === 'loading' && <LoadingState />}</div>
@@ -64,7 +64,7 @@ const DrawerBuilder: React.FC<DrawerBuilderProps> = () => {
   );
 };
 
-type BuildTemplateProps = {};
+type BuildTemplateProps = Record<string, never>;
 
 const BuildTemplate: React.FC<BuildTemplateProps> = () => {
   const intl = useIntl();
