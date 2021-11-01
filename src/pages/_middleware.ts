@@ -9,5 +9,7 @@ export function middleware(request: NextRequest) {
     !request.nextUrl.pathname.includes('/api/') &&
     request.nextUrl.locale === 'default';
 
-  return shouldHandleLocale ? NextResponse.redirect(`/en${request.nextUrl.href}`) : undefined;
+  return shouldHandleLocale && !request.nextUrl.href.startsWith('/en')
+    ? NextResponse.redirect(`/en${request.nextUrl.href}`)
+    : undefined;
 }
