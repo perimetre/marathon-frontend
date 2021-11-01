@@ -6,6 +6,7 @@ import classnames from 'classnames';
 import Script from 'next/script';
 import env from '../../../env';
 import { useUnityPlayerContext } from '../../Providers/UnityPlayerProvider';
+import logging from '../../../lib/logging';
 
 export type UnityPlayerRef = {
   sendMessage: (gameObjectName: string, methodName: string, value: number | string) => void;
@@ -121,6 +122,7 @@ const UnityPlayer = forwardRef<UnityPlayerRef, UnityPlayerProps>(function UnityP
         } catch (error: any) {
           setState('error');
           setErrorMessage(error as string);
+          logging.error(error, undefined, { config });
         }
       }
     };

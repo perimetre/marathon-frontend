@@ -3,7 +3,8 @@
   "title": "Space Planner",
   "description": "Marathon space planner",
   "build": {
-    "title": "Build"
+    "title": "Build",
+    "error": "Unable to load the {appTitle} app: \r\n <error>{errorMessage}</error>"
   },
   "home": {
     "title": "Drawers that fit your lifestyle",

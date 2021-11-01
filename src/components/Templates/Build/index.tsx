@@ -8,14 +8,15 @@ import classnames from 'classnames';
 import ProgressBar from '../../UI/ProgressBar';
 import Spinner from '../../UI/Spinner';
 import { UnityPlayerProvider, useUnityPlayerContext } from '../../Providers/UnityPlayerProvider';
+import { CenterContent } from './styles';
 
 const LoadingState: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const { loadingProgress } = useUnityPlayerContext();
 
   return (
-    <div
-      className={classnames('w-full h-full flex flex-col justify-center items-center', {
+    <CenterContent
+      className={classnames({
         'opacity-0 animate-fade-in': loadingProgress < 1, // Animate in when progress starts
         'animate-fade-out': loadingProgress >= 1 // Fade out when loading is finished
       })}
@@ -41,7 +42,28 @@ const LoadingState: React.FC = () => {
         <Spinner className="w-6 h-6" />
       </div>
       <ProgressBar color="mui-color-mui-dark" className="max-w-xs" progress={loadingProgress * 100} />
-    </div>
+    </CenterContent>
+  );
+};
+
+const ErrorState: React.FC = () => {
+  const { errorMessage } = useUnityPlayerContext();
+
+  const intl = useIntl();
+
+  return (
+    <CenterContent>
+      <p className="text-2xl text-center">
+        <FormattedMessage
+          id="build.error"
+          values={{
+            appTitle: intl.formatMessage({ id: 'title' }),
+            errorMessage,
+            error: (msg: string) => <p className="mt-2 text-xl font-bold text-red-500">{msg}</p>
+          }}
+        />
+      </p>
+    </CenterContent>
   );
 };
 
@@ -56,9 +78,14 @@ const DrawerBuilder: React.FC<DrawerBuilderProps> = () => {
       <BuilderSidebar />
       {/* Right section, takes remaining space(flex-grow) */}
       <div className="relative flex-grow">
-        <UnityPlayer className={classnames('opacity-0', { 'animate-fade-in': loadingProgress >= 1 })} />
+        <UnityPlayer
+          className={classnames('opacity-0', { 'animate-fade-in': state === 'complete' && loadingProgress >= 1 })}
+        />
         {/* Content on top of unity player */}
-        <div className="absolute inset-0 pointer-events-none">{state === 'loading' && <LoadingState />}</div>
+        <div className="absolute inset-0 pointer-events-none">
+          {state === 'loading' && <LoadingState />}
+          {state === 'error' && <ErrorState />}
+        </div>
       </div>
     </div>
   );
