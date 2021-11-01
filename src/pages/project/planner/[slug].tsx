@@ -1,6 +1,6 @@
 import type { NextPage } from 'next';
 import React from 'react';
-import BuildTemplate from '../../components/Templates/Build';
+import PlannerTemplate from '../../../components/Templates/Project/Planner';
 
 // export const HOME_QUERY = gql`
 //     query Home {
@@ -14,13 +14,13 @@ import BuildTemplate from '../../components/Templates/Build';
 //     }
 // `;
 
-type BuildContainerProps = Record<string, unknown>;
+type PlannerContainerProps = Record<string, unknown>;
 
-const BuildContainer: NextPage<BuildContainerProps> = ({}) => {
+const PlannerContainer: NextPage<PlannerContainerProps> = ({}) => {
   // const { data } = useHomeQuery();
   // console.log(data);
 
-  return <BuildTemplate />;
+  return <PlannerTemplate />;
 };
 
-export default BuildContainer;
+export default PlannerContainer;

@@ -1,14 +1,14 @@
 import Head from 'next/head';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import BuilderSidebar from '../../UI/BuilderSidebar';
-import UnityPlayer from '../../Elements/UnityPlayer';
 import Image from 'next/image';
 import classnames from 'classnames';
-import ProgressBar from '../../UI/ProgressBar';
-import Spinner from '../../UI/Spinner';
-import { UnityPlayerProvider, useUnityPlayerContext } from '../../Providers/UnityPlayerProvider';
 import { CenterContent } from './styles';
+import UnityPlayer from '../../../Elements/UnityPlayer';
+import { useUnityPlayerContext, UnityPlayerProvider } from '../../../Providers/UnityPlayerProvider';
+import BuilderSidebar from '../../../UI/BuilderSidebar';
+import ProgressBar from '../../../UI/ProgressBar';
+import Spinner from '../../../UI/Spinner';
 
 const LoadingState: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -67,9 +67,9 @@ const ErrorState: React.FC = () => {
   );
 };
 
-type DrawerBuilderProps = Record<string, never>;
+type PlannerProps = Record<string, never>;
 
-const DrawerBuilder: React.FC<DrawerBuilderProps> = () => {
+const Planner: React.FC<PlannerProps> = () => {
   const { loadingProgress, state } = useUnityPlayerContext();
 
   return (
@@ -91,9 +91,9 @@ const DrawerBuilder: React.FC<DrawerBuilderProps> = () => {
   );
 };
 
-type BuildTemplateProps = Record<string, never>;
+type PlannerTemplateProps = Record<string, never>;
 
-const BuildTemplate: React.FC<BuildTemplateProps> = () => {
+const PlannerTemplate: React.FC<PlannerTemplateProps> = () => {
   const intl = useIntl();
 
   return (
@@ -108,11 +108,11 @@ const BuildTemplate: React.FC<BuildTemplateProps> = () => {
       </Head>
       <div id="build-template">
         <UnityPlayerProvider>
-          <DrawerBuilder />
+          <Planner />
         </UnityPlayerProvider>
       </div>
     </>
   );
 };
 
-export default BuildTemplate;
+export default PlannerTemplate;
