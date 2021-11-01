@@ -35,7 +35,7 @@ const UnityPlayer = forwardRef<UnityPlayerRef, UnityPlayerProps>(function UnityP
     const buildName = NEXT_PUBLIC_UNITY_BUILD_NAME;
 
     const buildUrl = `${unityPublicServePath}/Build`;
-    const loaderUrl = `${buildUrl}/${buildName}.loader.js`;
+    const loaderUrl = `/${buildUrl}/${buildName}.loader.js`;
 
     return {
       unityPublicServePath,
@@ -78,9 +78,9 @@ const UnityPlayer = forwardRef<UnityPlayerRef, UnityPlayerProps>(function UnityP
       if (isScriptLoaded && unityCanvas.current && state === 'initializing') {
         // Initial unity config
         const config: any = {
-          dataUrl: `${buildUrl}/${buildName}.data`,
-          frameworkUrl: `${buildUrl}/${buildName}.framework.js`,
-          codeUrl: `${buildUrl}/${buildName}.wasm`,
+          dataUrl: `/${buildUrl}/${buildName}.data`,
+          frameworkUrl: `/${buildUrl}/${buildName}.framework.js`,
+          codeUrl: `/${buildUrl}/${buildName}.wasm`,
           streamingAssetsUrl: 'StreamingAssets',
           companyName,
           productName,
