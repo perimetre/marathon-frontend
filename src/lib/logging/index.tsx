@@ -19,7 +19,7 @@ const info = (message: string, extra: Record<string, unknown> | string = {}) => 
 };
 
 const debug = (message: string, extra: Record<string, unknown> | string = {}) => {
-  console.log('sentry.debug', message, extra);
+  console.log('log.debug', message, extra);
 };
 
 const warn = (message: string, extra: Record<string, unknown> | string = {}) => {

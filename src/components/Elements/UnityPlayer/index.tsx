@@ -6,6 +6,7 @@ import classnames from 'classnames';
 import Script from 'next/script';
 import env from '../../../env';
 import { useUnityPlayerContext } from '../../Providers/UnityPlayerProvider';
+import logging from '../../../lib/logging';
 
 export type UnityPlayerRef = {
   sendMessage: (gameObjectName: string, methodName: string, value: number | string) => void;
@@ -35,7 +36,7 @@ const UnityPlayer = forwardRef<UnityPlayerRef, UnityPlayerProps>(function UnityP
     const buildName = NEXT_PUBLIC_UNITY_BUILD_NAME;
 
     const buildUrl = `${unityPublicServePath}/Build`;
-    const loaderUrl = `${buildUrl}/${buildName}.loader.js`;
+    const loaderUrl = `/${buildUrl}/${buildName}.loader.js`;
 
     return {
       unityPublicServePath,
@@ -78,9 +79,9 @@ const UnityPlayer = forwardRef<UnityPlayerRef, UnityPlayerProps>(function UnityP
       if (isScriptLoaded && unityCanvas.current && state === 'initializing') {
         // Initial unity config
         const config: any = {
-          dataUrl: `${buildUrl}/${buildName}.data`,
-          frameworkUrl: `${buildUrl}/${buildName}.framework.js`,
-          codeUrl: `${buildUrl}/${buildName}.wasm`,
+          dataUrl: `/${buildUrl}/${buildName}.data`,
+          frameworkUrl: `/${buildUrl}/${buildName}.framework.js`,
+          codeUrl: `/${buildUrl}/${buildName}.wasm`,
           streamingAssetsUrl: 'StreamingAssets',
           companyName,
           productName,
@@ -121,6 +122,7 @@ const UnityPlayer = forwardRef<UnityPlayerRef, UnityPlayerProps>(function UnityP
         } catch (error: any) {
           setState('error');
           setErrorMessage(error as string);
+          logging.error(error, undefined, { config });
         }
       }
     };

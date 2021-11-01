@@ -3,6 +3,7 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@import '../components/UI/base';
 @import '../components/UI';
 
 html,
