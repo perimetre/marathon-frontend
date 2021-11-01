@@ -10,5 +10,6 @@ module.exports = {
     // Ref, fix: https://github.com/vercel/next.js/discussions/18419#discussioncomment-1561577
     defaultLocale: 'default',
     localeDetection: false
-  }
+  },
+  trailingSlash: true
 };
