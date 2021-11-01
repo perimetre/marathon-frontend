@@ -41,26 +41,34 @@ export type Collection = {
 
 export type CollectionCollectionFinishesArgs = {
   cursor?: Maybe<CollectionFinishesWhereUniqueInput>;
+  orderBy?: Maybe<Array<CollectionFinishesOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
+  where?: Maybe<CollectionFinishesWhereInput>;
 };
 
 export type CollectionModulesArgs = {
   cursor?: Maybe<ModuleWhereUniqueInput>;
+  orderBy?: Maybe<Array<ModuleOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
+  where?: Maybe<ModuleWhereInput>;
 };
 
 export type CollectionProjectsArgs = {
   cursor?: Maybe<ProjectWhereUniqueInput>;
+  orderBy?: Maybe<Array<ProjectOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
+  where?: Maybe<ProjectWhereInput>;
 };
 
 export type CollectionSlidesArgs = {
   cursor?: Maybe<SlideWhereUniqueInput>;
+  orderBy?: Maybe<Array<SlideOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
+  where?: Maybe<SlideWhereInput>;
 };
 
 export type CollectionCreateNestedOneWithoutCollectionFinishesInput = {
@@ -565,17 +573,6 @@ export type EnumLocaleFilter = {
   notIn?: Maybe<Array<Locale>>;
 };
 
-export type EnumUserProjectGroupRelationshipTypeFieldUpdateOperationsInput = {
-  set?: Maybe<UserProjectGroupRelationshipType>;
-};
-
-export type EnumUserProjectGroupRelationshipTypeFilter = {
-  equals?: Maybe<UserProjectGroupRelationshipType>;
-  in?: Maybe<Array<UserProjectGroupRelationshipType>>;
-  not?: Maybe<NestedEnumUserProjectGroupRelationshipTypeFilter>;
-  notIn?: Maybe<Array<UserProjectGroupRelationshipType>>;
-};
-
 export type Finish = {
   __typename?: 'Finish';
   collectionFinishes: Array<CollectionFinishes>;
@@ -590,20 +587,26 @@ export type Finish = {
 
 export type FinishCollectionFinishesArgs = {
   cursor?: Maybe<CollectionFinishesWhereUniqueInput>;
+  orderBy?: Maybe<Array<CollectionFinishesOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
+  where?: Maybe<CollectionFinishesWhereInput>;
 };
 
 export type FinishModulesArgs = {
   cursor?: Maybe<ModuleWhereUniqueInput>;
+  orderBy?: Maybe<Array<ModuleOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
+  where?: Maybe<ModuleWhereInput>;
 };
 
 export type FinishProjectsArgs = {
   cursor?: Maybe<ProjectWhereUniqueInput>;
+  orderBy?: Maybe<Array<ProjectOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
+  where?: Maybe<ProjectWhereInput>;
 };
 
 export type FinishCreateNestedOneWithoutCollectionFinishesInput = {
@@ -921,10 +924,13 @@ export type Module = {
   bundleUrl?: Maybe<Scalars['String']>;
   collection: Collection;
   collectionId: Scalars['Int'];
+  description?: Maybe<Scalars['String']>;
   finish: Finish;
   finishId: Scalars['Int'];
   hasPegs: Scalars['Boolean'];
   id: Scalars['Int'];
+  isImprintExtension: Scalars['Boolean'];
+  isMat: Scalars['Boolean'];
   isSubmodule: Scalars['Boolean'];
   partNumber: Scalars['String'];
   projectModules: Array<ProjectModule>;
@@ -934,16 +940,21 @@ export type Module = {
 
 export type ModuleProjectModulesArgs = {
   cursor?: Maybe<ProjectModuleWhereUniqueInput>;
+  orderBy?: Maybe<Array<ProjectModuleOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
+  where?: Maybe<ProjectModuleWhereInput>;
 };
 
 export type ModuleCreateManyCollectionInput = {
   bundleUrl?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   finishId: Scalars['Int'];
-  hasPegs: Scalars['Boolean'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
-  isSubmodule: Scalars['Boolean'];
+  isImprintExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
@@ -957,9 +968,12 @@ export type ModuleCreateManyCollectionInputEnvelope = {
 export type ModuleCreateManyFinishInput = {
   bundleUrl?: Maybe<Scalars['String']>;
   collectionId: Scalars['Int'];
-  hasPegs: Scalars['Boolean'];
+  description?: Maybe<Scalars['String']>;
+  hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
-  isSubmodule: Scalars['Boolean'];
+  isImprintExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
@@ -1007,9 +1021,12 @@ export type ModuleCreateOrConnectWithoutProjectModulesInput = {
 
 export type ModuleCreateWithoutCollectionInput = {
   bundleUrl?: Maybe<Scalars['String']>;
+  description?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
-  hasPegs: Scalars['Boolean'];
-  isSubmodule: Scalars['Boolean'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isImprintExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1019,8 +1036,11 @@ export type ModuleCreateWithoutCollectionInput = {
 export type ModuleCreateWithoutFinishInput = {
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
-  hasPegs: Scalars['Boolean'];
-  isSubmodule: Scalars['Boolean'];
+  description?: Maybe<Scalars['String']>;
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isImprintExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1030,9 +1050,12 @@ export type ModuleCreateWithoutFinishInput = {
 export type ModuleCreateWithoutProjectModulesInput = {
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
+  description?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
-  hasPegs: Scalars['Boolean'];
-  isSubmodule: Scalars['Boolean'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isImprintExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
@@ -1047,9 +1070,12 @@ export type ModuleListRelationFilter = {
 export type ModuleOrderByInput = {
   bundleUrl?: Maybe<SortOrder>;
   collectionId?: Maybe<SortOrder>;
+  description?: Maybe<SortOrder>;
   finishId?: Maybe<SortOrder>;
   hasPegs?: Maybe<SortOrder>;
   id?: Maybe<SortOrder>;
+  isImprintExtension?: Maybe<SortOrder>;
+  isMat?: Maybe<SortOrder>;
   isSubmodule?: Maybe<SortOrder>;
   partNumber?: Maybe<SortOrder>;
   rules?: Maybe<SortOrder>;
@@ -1062,9 +1088,12 @@ export type ModuleScalarWhereInput = {
   OR?: Maybe<Array<ModuleScalarWhereInput>>;
   bundleUrl?: Maybe<StringNullableFilter>;
   collectionId?: Maybe<IntFilter>;
+  description?: Maybe<StringNullableFilter>;
   finishId?: Maybe<IntFilter>;
   hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
+  isImprintExtension?: Maybe<BoolFilter>;
+  isMat?: Maybe<BoolFilter>;
   isSubmodule?: Maybe<BoolFilter>;
   partNumber?: Maybe<StringFilter>;
   rules?: Maybe<JsonNullableFilter>;
@@ -1073,7 +1102,10 @@ export type ModuleScalarWhereInput = {
 
 export type ModuleUpdateManyMutationInput = {
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isImprintExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1138,8 +1170,11 @@ export type ModuleUpdateWithWhereUniqueWithoutFinishInput = {
 
 export type ModuleUpdateWithoutCollectionInput = {
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isImprintExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
@@ -1150,7 +1185,10 @@ export type ModuleUpdateWithoutCollectionInput = {
 export type ModuleUpdateWithoutFinishInput = {
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isImprintExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
@@ -1161,8 +1199,11 @@ export type ModuleUpdateWithoutFinishInput = {
 export type ModuleUpdateWithoutProjectModulesInput = {
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isImprintExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1193,10 +1234,13 @@ export type ModuleWhereInput = {
   bundleUrl?: Maybe<StringNullableFilter>;
   collection?: Maybe<CollectionWhereInput>;
   collectionId?: Maybe<IntFilter>;
+  description?: Maybe<StringNullableFilter>;
   finish?: Maybe<FinishWhereInput>;
   finishId?: Maybe<IntFilter>;
   hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
+  isImprintExtension?: Maybe<BoolFilter>;
+  isMat?: Maybe<BoolFilter>;
   isSubmodule?: Maybe<BoolFilter>;
   partNumber?: Maybe<StringFilter>;
   projectModules?: Maybe<ProjectModuleListRelationFilter>;
@@ -1234,13 +1278,6 @@ export type NestedEnumLocaleFilter = {
   in?: Maybe<Array<Locale>>;
   not?: Maybe<NestedEnumLocaleFilter>;
   notIn?: Maybe<Array<Locale>>;
-};
-
-export type NestedEnumUserProjectGroupRelationshipTypeFilter = {
-  equals?: Maybe<UserProjectGroupRelationshipType>;
-  in?: Maybe<Array<UserProjectGroupRelationshipType>>;
-  not?: Maybe<NestedEnumUserProjectGroupRelationshipTypeFilter>;
-  notIn?: Maybe<Array<UserProjectGroupRelationshipType>>;
 };
 
 export type NestedFloatFilter = {
@@ -1315,9 +1352,8 @@ export type Project = {
   finish: Finish;
   finishId: Scalars['Int'];
   gable: Scalars['Float'];
-  group: ProjectGroup;
-  groupId: Scalars['Int'];
   id: Scalars['Int'];
+  modules: Array<Module>;
   projectModules: Array<ProjectModule>;
   slide: Slide;
   slideDepth: SlideDepth;
@@ -1340,7 +1376,6 @@ export type ProjectCreateInput = {
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
-  group: ProjectGroupCreateNestedOneWithoutProjectsInput;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
@@ -1353,7 +1388,6 @@ export type ProjectCreateInput = {
 export type ProjectCreateManyCollectionInput = {
   finishId: Scalars['Int'];
   gable: Scalars['Float'];
-  groupId: Scalars['Int'];
   id?: Maybe<Scalars['Int']>;
   slideDepthId: Scalars['Int'];
   slideId: Scalars['Int'];
@@ -1371,7 +1405,6 @@ export type ProjectCreateManyCollectionInputEnvelope = {
 export type ProjectCreateManyFinishInput = {
   collectionId: Scalars['Int'];
   gable: Scalars['Float'];
-  groupId: Scalars['Int'];
   id?: Maybe<Scalars['Int']>;
   slideDepthId: Scalars['Int'];
   slideId: Scalars['Int'];
@@ -1390,7 +1423,6 @@ export type ProjectCreateManySlideDepthInput = {
   collectionId: Scalars['Int'];
   finishId: Scalars['Int'];
   gable: Scalars['Float'];
-  groupId: Scalars['Int'];
   id?: Maybe<Scalars['Int']>;
   slideId: Scalars['Int'];
   slug: Scalars['String'];
@@ -1408,7 +1440,6 @@ export type ProjectCreateManySlideInput = {
   collectionId: Scalars['Int'];
   finishId: Scalars['Int'];
   gable: Scalars['Float'];
-  groupId: Scalars['Int'];
   id?: Maybe<Scalars['Int']>;
   slideDepthId: Scalars['Int'];
   slug: Scalars['String'];
@@ -1484,7 +1515,6 @@ export type ProjectCreateOrConnectWithoutSlideInput = {
 export type ProjectCreateWithoutCollectionInput = {
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
-  group: ProjectGroupCreateNestedOneWithoutProjectsInput;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
@@ -1497,7 +1527,6 @@ export type ProjectCreateWithoutCollectionInput = {
 export type ProjectCreateWithoutFinishInput = {
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
-  group: ProjectGroupCreateNestedOneWithoutProjectsInput;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
@@ -1511,7 +1540,6 @@ export type ProjectCreateWithoutProjectModulesInput = {
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
-  group: ProjectGroupCreateNestedOneWithoutProjectsInput;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
   slug: Scalars['String'];
@@ -1524,7 +1552,6 @@ export type ProjectCreateWithoutSlideDepthInput = {
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
-  group: ProjectGroupCreateNestedOneWithoutProjectsInput;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slug: Scalars['String'];
@@ -1537,92 +1564,12 @@ export type ProjectCreateWithoutSlideInput = {
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
-  group: ProjectGroupCreateNestedOneWithoutProjectsInput;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
   slug: Scalars['String'];
   title: Scalars['String'];
   type: TypeCreateNestedOneWithoutProjectsInput;
   width: Scalars['Float'];
-};
-
-export type ProjectGroup = {
-  __typename?: 'ProjectGroup';
-  id: Scalars['Int'];
-  name: Scalars['String'];
-  projects: Array<Project>;
-  slug: Scalars['String'];
-  users: Array<UserProjectGroup>;
-};
-
-export type ProjectGroupProjectsArgs = {
-  cursor?: Maybe<ProjectWhereUniqueInput>;
-  skip?: Maybe<Scalars['Int']>;
-  take?: Maybe<Scalars['Int']>;
-};
-
-export type ProjectGroupUsersArgs = {
-  cursor?: Maybe<UserProjectGroupWhereUniqueInput>;
-  skip?: Maybe<Scalars['Int']>;
-  take?: Maybe<Scalars['Int']>;
-};
-
-export type ProjectGroupCreateNestedOneWithoutProjectsInput = {
-  connect?: Maybe<ProjectGroupWhereUniqueInput>;
-  connectOrCreate?: Maybe<ProjectGroupCreateOrConnectWithoutProjectsInput>;
-  create?: Maybe<ProjectGroupCreateWithoutProjectsInput>;
-};
-
-export type ProjectGroupCreateOrConnectWithoutProjectsInput = {
-  create: ProjectGroupCreateWithoutProjectsInput;
-  where: ProjectGroupWhereUniqueInput;
-};
-
-export type ProjectGroupCreateWithoutProjectsInput = {
-  name: Scalars['String'];
-  slug: Scalars['String'];
-  users?: Maybe<UserProjectGroupCreateNestedManyWithoutGroupInput>;
-};
-
-export type ProjectGroupOrderByInput = {
-  id?: Maybe<SortOrder>;
-  name?: Maybe<SortOrder>;
-  slug?: Maybe<SortOrder>;
-};
-
-export type ProjectGroupUpdateOneRequiredWithoutProjectsInput = {
-  connect?: Maybe<ProjectGroupWhereUniqueInput>;
-  connectOrCreate?: Maybe<ProjectGroupCreateOrConnectWithoutProjectsInput>;
-  create?: Maybe<ProjectGroupCreateWithoutProjectsInput>;
-  update?: Maybe<ProjectGroupUpdateWithoutProjectsInput>;
-  upsert?: Maybe<ProjectGroupUpsertWithoutProjectsInput>;
-};
-
-export type ProjectGroupUpdateWithoutProjectsInput = {
-  name?: Maybe<StringFieldUpdateOperationsInput>;
-  slug?: Maybe<StringFieldUpdateOperationsInput>;
-  users?: Maybe<UserProjectGroupUpdateManyWithoutGroupInput>;
-};
-
-export type ProjectGroupUpsertWithoutProjectsInput = {
-  create: ProjectGroupCreateWithoutProjectsInput;
-  update: ProjectGroupUpdateWithoutProjectsInput;
-};
-
-export type ProjectGroupWhereInput = {
-  AND?: Maybe<Array<ProjectGroupWhereInput>>;
-  NOT?: Maybe<Array<ProjectGroupWhereInput>>;
-  OR?: Maybe<Array<ProjectGroupWhereInput>>;
-  id?: Maybe<IntFilter>;
-  name?: Maybe<StringFilter>;
-  projects?: Maybe<ProjectListRelationFilter>;
-  slug?: Maybe<StringFilter>;
-  users?: Maybe<UserProjectGroupListRelationFilter>;
-};
-
-export type ProjectGroupWhereUniqueInput = {
-  id?: Maybe<Scalars['Int']>;
-  slug?: Maybe<Scalars['String']>;
 };
 
 export type ProjectListRelationFilter = {
@@ -1978,7 +1925,6 @@ export type ProjectOrderByInput = {
   collectionId?: Maybe<SortOrder>;
   finishId?: Maybe<SortOrder>;
   gable?: Maybe<SortOrder>;
-  groupId?: Maybe<SortOrder>;
   id?: Maybe<SortOrder>;
   slideDepthId?: Maybe<SortOrder>;
   slideId?: Maybe<SortOrder>;
@@ -1995,7 +1941,6 @@ export type ProjectScalarWhereInput = {
   collectionId?: Maybe<IntFilter>;
   finishId?: Maybe<IntFilter>;
   gable?: Maybe<FloatFilter>;
-  groupId?: Maybe<IntFilter>;
   id?: Maybe<IntFilter>;
   slideDepthId?: Maybe<IntFilter>;
   slideId?: Maybe<IntFilter>;
@@ -2009,7 +1954,6 @@ export type ProjectUpdateInput = {
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
-  group?: Maybe<ProjectGroupUpdateOneRequiredWithoutProjectsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
@@ -2135,7 +2079,6 @@ export type ProjectUpdateWithWhereUniqueWithoutSlideInput = {
 export type ProjectUpdateWithoutCollectionInput = {
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
-  group?: Maybe<ProjectGroupUpdateOneRequiredWithoutProjectsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
@@ -2148,7 +2091,6 @@ export type ProjectUpdateWithoutCollectionInput = {
 export type ProjectUpdateWithoutFinishInput = {
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
-  group?: Maybe<ProjectGroupUpdateOneRequiredWithoutProjectsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
@@ -2162,7 +2104,6 @@ export type ProjectUpdateWithoutProjectModulesInput = {
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
-  group?: Maybe<ProjectGroupUpdateOneRequiredWithoutProjectsInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -2175,7 +2116,6 @@ export type ProjectUpdateWithoutSlideDepthInput = {
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
-  group?: Maybe<ProjectGroupUpdateOneRequiredWithoutProjectsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -2188,7 +2128,6 @@ export type ProjectUpdateWithoutSlideInput = {
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
-  group?: Maybe<ProjectGroupUpdateOneRequiredWithoutProjectsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -2235,8 +2174,6 @@ export type ProjectWhereInput = {
   finish?: Maybe<FinishWhereInput>;
   finishId?: Maybe<IntFilter>;
   gable?: Maybe<FloatFilter>;
-  group?: Maybe<ProjectGroupWhereInput>;
-  groupId?: Maybe<IntFilter>;
   id?: Maybe<IntFilter>;
   projectModules?: Maybe<ProjectModuleListRelationFilter>;
   slide?: Maybe<SlideWhereInput>;
@@ -2265,8 +2202,6 @@ export type Query = {
   module?: Maybe<Module>;
   modules: Array<Module>;
   project?: Maybe<Project>;
-  projectGroup?: Maybe<ProjectGroup>;
-  projectGroups: Array<ProjectGroup>;
   projectModule?: Maybe<ProjectModule>;
   projectModules: Array<ProjectModule>;
   projects: Array<Project>;
@@ -2326,18 +2261,6 @@ export type QueryModulesArgs = {
 
 export type QueryProjectArgs = {
   where: ProjectWhereUniqueInput;
-};
-
-export type QueryProjectGroupArgs = {
-  where: ProjectGroupWhereUniqueInput;
-};
-
-export type QueryProjectGroupsArgs = {
-  cursor?: Maybe<ProjectGroupWhereUniqueInput>;
-  orderBy?: Maybe<Array<ProjectGroupOrderByInput>>;
-  skip?: Maybe<Scalars['Int']>;
-  take?: Maybe<Scalars['Int']>;
-  where?: Maybe<ProjectGroupWhereInput>;
 };
 
 export type QueryProjectModuleArgs = {
@@ -2424,14 +2347,18 @@ export type Slide = {
 
 export type SlideDepthsArgs = {
   cursor?: Maybe<SlideDepthWhereUniqueInput>;
+  orderBy?: Maybe<Array<SlideDepthOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
+  where?: Maybe<SlideDepthWhereInput>;
 };
 
 export type SlideProjectsArgs = {
   cursor?: Maybe<ProjectWhereUniqueInput>;
+  orderBy?: Maybe<Array<ProjectOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
+  where?: Maybe<ProjectWhereInput>;
 };
 
 export type SlideCreateManyCollectionInput = {
@@ -2520,8 +2447,10 @@ export type SlideDepth = {
 
 export type SlideDepthProjectsArgs = {
   cursor?: Maybe<ProjectWhereUniqueInput>;
+  orderBy?: Maybe<Array<ProjectOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
+  where?: Maybe<ProjectWhereInput>;
 };
 
 export type SlideDepthCreateManySlideInput = {
@@ -2707,8 +2636,10 @@ export type SlideSupplier = {
 
 export type SlideSupplierSlidesArgs = {
   cursor?: Maybe<SlideWhereUniqueInput>;
+  orderBy?: Maybe<Array<SlideOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
+  where?: Maybe<SlideWhereInput>;
 };
 
 export type SlideSupplierCreateNestedOneWithoutSlidesInput = {
@@ -2929,8 +2860,10 @@ export type Type = {
 
 export type TypeProjectsArgs = {
   cursor?: Maybe<ProjectWhereUniqueInput>;
+  orderBy?: Maybe<Array<ProjectOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
+  where?: Maybe<ProjectWhereInput>;
 };
 
 export type TypeCreateNestedOneWithoutProjectsInput = {
@@ -3110,173 +3043,6 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String'];
   id: Scalars['Int'];
-  userProjectGroups: Array<UserProjectGroup>;
-};
-
-export type UserUserProjectGroupsArgs = {
-  cursor?: Maybe<UserProjectGroupWhereUniqueInput>;
-  skip?: Maybe<Scalars['Int']>;
-  take?: Maybe<Scalars['Int']>;
-};
-
-export type UserCreateNestedOneWithoutUserProjectGroupsInput = {
-  connect?: Maybe<UserWhereUniqueInput>;
-  connectOrCreate?: Maybe<UserCreateOrConnectWithoutUserProjectGroupsInput>;
-  create?: Maybe<UserCreateWithoutUserProjectGroupsInput>;
-};
-
-export type UserCreateOrConnectWithoutUserProjectGroupsInput = {
-  create: UserCreateWithoutUserProjectGroupsInput;
-  where: UserWhereUniqueInput;
-};
-
-export type UserCreateWithoutUserProjectGroupsInput = {
-  email: Scalars['String'];
-};
-
-export type UserProjectGroup = {
-  __typename?: 'UserProjectGroup';
-  group: ProjectGroup;
-  groupId: Scalars['Int'];
-  id: Scalars['Int'];
-  relationshipType: UserProjectGroupRelationshipType;
-  user: User;
-  userId: Scalars['Int'];
-};
-
-export type UserProjectGroupCreateManyGroupInput = {
-  id?: Maybe<Scalars['Int']>;
-  relationshipType: UserProjectGroupRelationshipType;
-  userId: Scalars['Int'];
-};
-
-export type UserProjectGroupCreateManyGroupInputEnvelope = {
-  data?: Maybe<Array<UserProjectGroupCreateManyGroupInput>>;
-  skipDuplicates?: Maybe<Scalars['Boolean']>;
-};
-
-export type UserProjectGroupCreateNestedManyWithoutGroupInput = {
-  connect?: Maybe<Array<UserProjectGroupWhereUniqueInput>>;
-  connectOrCreate?: Maybe<Array<UserProjectGroupCreateOrConnectWithoutGroupInput>>;
-  create?: Maybe<Array<UserProjectGroupCreateWithoutGroupInput>>;
-  createMany?: Maybe<UserProjectGroupCreateManyGroupInputEnvelope>;
-};
-
-export type UserProjectGroupCreateOrConnectWithoutGroupInput = {
-  create: UserProjectGroupCreateWithoutGroupInput;
-  where: UserProjectGroupWhereUniqueInput;
-};
-
-export type UserProjectGroupCreateWithoutGroupInput = {
-  relationshipType: UserProjectGroupRelationshipType;
-  user: UserCreateNestedOneWithoutUserProjectGroupsInput;
-};
-
-export type UserProjectGroupListRelationFilter = {
-  every?: Maybe<UserProjectGroupWhereInput>;
-  none?: Maybe<UserProjectGroupWhereInput>;
-  some?: Maybe<UserProjectGroupWhereInput>;
-};
-
-export enum UserProjectGroupRelationshipType {
-  Member = 'member',
-  Owner = 'owner'
-}
-
-export type UserProjectGroupScalarWhereInput = {
-  AND?: Maybe<Array<UserProjectGroupScalarWhereInput>>;
-  NOT?: Maybe<Array<UserProjectGroupScalarWhereInput>>;
-  OR?: Maybe<Array<UserProjectGroupScalarWhereInput>>;
-  groupId?: Maybe<IntFilter>;
-  id?: Maybe<IntFilter>;
-  relationshipType?: Maybe<EnumUserProjectGroupRelationshipTypeFilter>;
-  userId?: Maybe<IntFilter>;
-};
-
-export type UserProjectGroupUpdateManyMutationInput = {
-  relationshipType?: Maybe<EnumUserProjectGroupRelationshipTypeFieldUpdateOperationsInput>;
-};
-
-export type UserProjectGroupUpdateManyWithWhereWithoutGroupInput = {
-  data: UserProjectGroupUpdateManyMutationInput;
-  where: UserProjectGroupScalarWhereInput;
-};
-
-export type UserProjectGroupUpdateManyWithoutGroupInput = {
-  connect?: Maybe<Array<UserProjectGroupWhereUniqueInput>>;
-  connectOrCreate?: Maybe<Array<UserProjectGroupCreateOrConnectWithoutGroupInput>>;
-  create?: Maybe<Array<UserProjectGroupCreateWithoutGroupInput>>;
-  createMany?: Maybe<UserProjectGroupCreateManyGroupInputEnvelope>;
-  delete?: Maybe<Array<UserProjectGroupWhereUniqueInput>>;
-  deleteMany?: Maybe<Array<UserProjectGroupScalarWhereInput>>;
-  disconnect?: Maybe<Array<UserProjectGroupWhereUniqueInput>>;
-  set?: Maybe<Array<UserProjectGroupWhereUniqueInput>>;
-  update?: Maybe<Array<UserProjectGroupUpdateWithWhereUniqueWithoutGroupInput>>;
-  updateMany?: Maybe<Array<UserProjectGroupUpdateManyWithWhereWithoutGroupInput>>;
-  upsert?: Maybe<Array<UserProjectGroupUpsertWithWhereUniqueWithoutGroupInput>>;
-};
-
-export type UserProjectGroupUpdateWithWhereUniqueWithoutGroupInput = {
-  data: UserProjectGroupUpdateWithoutGroupInput;
-  where: UserProjectGroupWhereUniqueInput;
-};
-
-export type UserProjectGroupUpdateWithoutGroupInput = {
-  relationshipType?: Maybe<EnumUserProjectGroupRelationshipTypeFieldUpdateOperationsInput>;
-  user?: Maybe<UserUpdateOneRequiredWithoutUserProjectGroupsInput>;
-};
-
-export type UserProjectGroupUpsertWithWhereUniqueWithoutGroupInput = {
-  create: UserProjectGroupCreateWithoutGroupInput;
-  update: UserProjectGroupUpdateWithoutGroupInput;
-  where: UserProjectGroupWhereUniqueInput;
-};
-
-export type UserProjectGroupWhereInput = {
-  AND?: Maybe<Array<UserProjectGroupWhereInput>>;
-  NOT?: Maybe<Array<UserProjectGroupWhereInput>>;
-  OR?: Maybe<Array<UserProjectGroupWhereInput>>;
-  group?: Maybe<ProjectGroupWhereInput>;
-  groupId?: Maybe<IntFilter>;
-  id?: Maybe<IntFilter>;
-  relationshipType?: Maybe<EnumUserProjectGroupRelationshipTypeFilter>;
-  user?: Maybe<UserWhereInput>;
-  userId?: Maybe<IntFilter>;
-};
-
-export type UserProjectGroupWhereUniqueInput = {
-  id?: Maybe<Scalars['Int']>;
-};
-
-export type UserUpdateOneRequiredWithoutUserProjectGroupsInput = {
-  connect?: Maybe<UserWhereUniqueInput>;
-  connectOrCreate?: Maybe<UserCreateOrConnectWithoutUserProjectGroupsInput>;
-  create?: Maybe<UserCreateWithoutUserProjectGroupsInput>;
-  update?: Maybe<UserUpdateWithoutUserProjectGroupsInput>;
-  upsert?: Maybe<UserUpsertWithoutUserProjectGroupsInput>;
-};
-
-export type UserUpdateWithoutUserProjectGroupsInput = {
-  email?: Maybe<StringFieldUpdateOperationsInput>;
-};
-
-export type UserUpsertWithoutUserProjectGroupsInput = {
-  create: UserCreateWithoutUserProjectGroupsInput;
-  update: UserUpdateWithoutUserProjectGroupsInput;
-};
-
-export type UserWhereInput = {
-  AND?: Maybe<Array<UserWhereInput>>;
-  NOT?: Maybe<Array<UserWhereInput>>;
-  OR?: Maybe<Array<UserWhereInput>>;
-  email?: Maybe<StringFilter>;
-  id?: Maybe<IntFilter>;
-  userProjectGroups?: Maybe<UserProjectGroupListRelationFilter>;
-};
-
-export type UserWhereUniqueInput = {
-  email?: Maybe<Scalars['String']>;
-  id?: Maybe<Scalars['Int']>;
 };
 
 export type GetCollectionsQueryVariables = Exact<{ [key: string]: never }>;
@@ -3309,52 +3075,6 @@ export type GetFinishQuery = {
   }>;
 };
 
-export type GetTypeQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetTypeQuery = {
-  __typename?: 'Query';
-  types: Array<{
-    __typename?: 'Type';
-    id: number;
-    description?: string | null | undefined;
-    name: string;
-    slug: string;
-    thumbnailUrl?: string | null | undefined;
-  }>;
-};
-
-export type HomeQueryVariables = Exact<{ [key: string]: never }>;
-
-export type HomeQuery = {
-  __typename?: 'Query';
-  types: Array<{
-    __typename?: 'Type';
-    id: number;
-    description?: string | null | undefined;
-    name: string;
-    slug: string;
-    thumbnailUrl?: string | null | undefined;
-  }>;
-};
-
-export type GetSupplierQueryVariables = Exact<{ [key: string]: never }>;
-
-export type GetSupplierQuery = {
-  __typename?: 'Query';
-  slides: Array<{
-    __typename?: 'Slide';
-    id: number;
-    slug: string;
-    supplier: {
-      __typename?: 'SlideSupplier';
-      id: number;
-      name: string;
-      slug: string;
-      thumbnailUrl?: string | null | undefined;
-    };
-  }>;
-};
-
 export type GetSlideSupplierQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetSlideSupplierQuery = {
@@ -3373,6 +3093,20 @@ export type GetSlideSupplierQuery = {
       product: string;
       depths: Array<{ __typename?: 'SlideDepth'; id: number; display: string; depth: number }>;
     }>;
+  }>;
+};
+
+export type GetTypeQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GetTypeQuery = {
+  __typename?: 'Query';
+  types: Array<{
+    __typename?: 'Type';
+    id: number;
+    description?: string | null | undefined;
+    name: string;
+    slug: string;
+    thumbnailUrl?: string | null | undefined;
   }>;
 };
 
@@ -3460,127 +3194,6 @@ export function useGetFinishLazyQuery(
 export type GetFinishQueryHookResult = ReturnType<typeof useGetFinishQuery>;
 export type GetFinishLazyQueryHookResult = ReturnType<typeof useGetFinishLazyQuery>;
 export type GetFinishQueryResult = Apollo.QueryResult<GetFinishQuery, GetFinishQueryVariables>;
-export const GetTypeDocument = gql`
-  query GetType {
-    types {
-      id
-      description
-      name
-      slug
-      thumbnailUrl
-    }
-  }
-`;
-
-/**
- * __useGetTypeQuery__
- *
- * To run a query within a React component, call `useGetTypeQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetTypeQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetTypeQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetTypeQuery(baseOptions?: Apollo.QueryHookOptions<GetTypeQuery, GetTypeQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetTypeQuery, GetTypeQueryVariables>(GetTypeDocument, options);
-}
-export function useGetTypeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTypeQuery, GetTypeQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetTypeQuery, GetTypeQueryVariables>(GetTypeDocument, options);
-}
-export type GetTypeQueryHookResult = ReturnType<typeof useGetTypeQuery>;
-export type GetTypeLazyQueryHookResult = ReturnType<typeof useGetTypeLazyQuery>;
-export type GetTypeQueryResult = Apollo.QueryResult<GetTypeQuery, GetTypeQueryVariables>;
-export const HomeDocument = gql`
-  query Home {
-    types {
-      id
-      description
-      name
-      slug
-      thumbnailUrl
-    }
-  }
-`;
-
-/**
- * __useHomeQuery__
- *
- * To run a query within a React component, call `useHomeQuery` and pass it any options that fit your needs.
- * When your component renders, `useHomeQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useHomeQuery({
- *   variables: {
- *   },
- * });
- */
-export function useHomeQuery(baseOptions?: Apollo.QueryHookOptions<HomeQuery, HomeQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<HomeQuery, HomeQueryVariables>(HomeDocument, options);
-}
-export function useHomeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeQuery, HomeQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<HomeQuery, HomeQueryVariables>(HomeDocument, options);
-}
-export type HomeQueryHookResult = ReturnType<typeof useHomeQuery>;
-export type HomeLazyQueryHookResult = ReturnType<typeof useHomeLazyQuery>;
-export type HomeQueryResult = Apollo.QueryResult<HomeQuery, HomeQueryVariables>;
-export const GetSupplierDocument = gql`
-  query GetSupplier {
-    slides {
-      id
-      slug
-      supplier {
-        id
-        name
-        slug
-        thumbnailUrl
-      }
-    }
-  }
-`;
-
-/**
- * __useGetSupplierQuery__
- *
- * To run a query within a React component, call `useGetSupplierQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetSupplierQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useGetSupplierQuery({
- *   variables: {
- *   },
- * });
- */
-export function useGetSupplierQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetSupplierQuery, GetSupplierQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetSupplierQuery, GetSupplierQueryVariables>(GetSupplierDocument, options);
-}
-export function useGetSupplierLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetSupplierQuery, GetSupplierQueryVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetSupplierQuery, GetSupplierQueryVariables>(GetSupplierDocument, options);
-}
-export type GetSupplierQueryHookResult = ReturnType<typeof useGetSupplierQuery>;
-export type GetSupplierLazyQueryHookResult = ReturnType<typeof useGetSupplierLazyQuery>;
-export type GetSupplierQueryResult = Apollo.QueryResult<GetSupplierQuery, GetSupplierQueryVariables>;
 export const GetSlideSupplierDocument = gql`
   query GetSlideSupplier {
     slideSuppliers {
@@ -3633,3 +3246,41 @@ export function useGetSlideSupplierLazyQuery(
 export type GetSlideSupplierQueryHookResult = ReturnType<typeof useGetSlideSupplierQuery>;
 export type GetSlideSupplierLazyQueryHookResult = ReturnType<typeof useGetSlideSupplierLazyQuery>;
 export type GetSlideSupplierQueryResult = Apollo.QueryResult<GetSlideSupplierQuery, GetSlideSupplierQueryVariables>;
+export const GetTypeDocument = gql`
+  query GetType {
+    types {
+      id
+      description
+      name
+      slug
+      thumbnailUrl
+    }
+  }
+`;
+
+/**
+ * __useGetTypeQuery__
+ *
+ * To run a query within a React component, call `useGetTypeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetTypeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetTypeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGetTypeQuery(baseOptions?: Apollo.QueryHookOptions<GetTypeQuery, GetTypeQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetTypeQuery, GetTypeQueryVariables>(GetTypeDocument, options);
+}
+export function useGetTypeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetTypeQuery, GetTypeQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetTypeQuery, GetTypeQueryVariables>(GetTypeDocument, options);
+}
+export type GetTypeQueryHookResult = ReturnType<typeof useGetTypeQuery>;
+export type GetTypeLazyQueryHookResult = ReturnType<typeof useGetTypeLazyQuery>;
+export type GetTypeQueryResult = Apollo.QueryResult<GetTypeQuery, GetTypeQueryVariables>;

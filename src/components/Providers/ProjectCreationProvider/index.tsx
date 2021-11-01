@@ -134,7 +134,7 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
   );
 };
 
-export const useProjectCreationProvider = () => useContext(ProjectCreationContext);
+export const useProjectCreationContext = () => useContext(ProjectCreationContext);
 
 export const requiredData = <T extends ParsedUrlQuery>(ctx: NextPageContext | GetServerSidePropsContext<T>) => {
   console.log(ctx);

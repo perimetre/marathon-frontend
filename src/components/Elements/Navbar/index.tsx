@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { useProjectCreationProvider } from '../../Providers/ProjectCreationProvider';
+import { useProjectCreationContext } from '../../Providers/ProjectCreationProvider';
 import { Button } from '../../UI/Button';
 import { UserIcon, XCircleSolid } from '../../UI/Icons';
 
@@ -13,7 +13,7 @@ export type NavbarProps = {
 };
 
 export const NavBar: React.FC<NavbarProps> = ({ goBack }) => {
-  const context = useProjectCreationProvider();
+  const context = useProjectCreationContext();
 
   const router = useRouter();
 

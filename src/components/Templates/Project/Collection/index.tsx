@@ -1,22 +1,22 @@
+import { useField } from 'formik';
 import { GetCollectionsQuery } from '../../../../apollo/generated/graphql';
 import Card from '../../../UI/Card';
 import { ChevronRight } from '../../../UI/Icons';
 
 export type CollectionTemplateProps = {
   data?: GetCollectionsQuery;
-  onSelectCard: (selected: string) => void;
-  selectedCard?: string;
 };
 
-export const CollectionTemplate: React.FC<CollectionTemplateProps> = ({ data, selectedCard, onSelectCard }) => {
+export const CollectionTemplate: React.FC<CollectionTemplateProps> = ({ data }) => {
+  const [field, , helpers] = useField({ name: 'collection' });
   return (
     <div className="container flex flex-wrap justify-center mx-auto my-16 gap-16">
       {data?.collections.map((collection) => (
         <Card
           key={`collection-card-${collection.id}`}
-          active={selectedCard === collection.slug}
           category={collection.subtitle}
-          onClick={() => onSelectCard(collection.slug)}
+          active={field.value === collection.id}
+          onClick={() => helpers.setValue(collection.id)}
           image={collection.thumbnailUrl}
           title={collection.name}
           description={collection.description}

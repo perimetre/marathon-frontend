@@ -29,10 +29,15 @@
   "projects": {
     "title": "My projects",
     "description": "Organize your work by projects. To keep your workspace clean, you can archive projects you're not working on anymore",
-    "kitchen": "Kitchen",
+    "myProjects": "My Projects",
+    "kitPortfolio": "Kit Portfolio",
     "activeProjects": "Active Projects",
     "addProject": "Add a project",
-    "editButton": "Edit"
+    "addDrawer": "Add a drawer",
+    "editButton": "Edit",
+    "modalTitle": "Project name",
+    "modalBody": "First provide the project name",
+    "modalInputPlaceholder": "The pots and pan drawer (example)"
   },
   "sizeAssistant": {
     "cabinetWidth": "Cabinet width",

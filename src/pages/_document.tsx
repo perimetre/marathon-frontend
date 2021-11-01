@@ -1,5 +1,5 @@
 import React from 'react';
-import Document, { DocumentContext } from 'next/document';
+import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
 // Ref: https://nextjs.org/docs/advanced-features/custom-document
@@ -43,6 +43,18 @@ class MyDocument extends Document {
     } finally {
       sheet.seal();
     }
+  }
+  render() {
+    return (
+      <Html>
+        <Head />
+        <body>
+          <div id="modal-root"></div>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
   }
 }
 

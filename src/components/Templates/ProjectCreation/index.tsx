@@ -48,7 +48,7 @@ export const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = (
         </div>
       </div>
       <div className="flex justify-center mx-4 mt-16 gap-6">
-        {Array.from({ length: 6 }).map((_item, i) => (
+        {Array.from({ length: 5 }).map((_item, i) => (
           <div
             key={`step-${i}`}
             className={classNames('w-20 h-2 rounded-sm', step > i ? 'bg-red-500' : 'bg-gray-500')}

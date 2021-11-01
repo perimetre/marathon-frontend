@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
-import { ApolloClient, HttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
+import { ApolloClient, from, HttpLink, InMemoryCache, NormalizedCacheObject } from '@apollo/client';
 import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import env from '../../env';
+import { authLink } from './links/authLink';
 
 // Ref: https://github.com/vercel/next.js/blob/0d924ca0252450089a2627993166c5131618b874/examples/with-apollo/lib/apolloClient.js#L1
 
@@ -18,10 +19,13 @@ let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 const createApolloClient = () => {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
-    link: new HttpLink({
-      uri: env().NEXT_PUBLIC_GRAPHQL_URI, // Server URL (must be absolute)
-      credentials: 'same-origin' // Additional fetch() options like `credentials` or `headers`
-    }),
+    link: from([
+      authLink,
+      new HttpLink({
+        uri: env().NEXT_PUBLIC_GRAPHQL_URI, // Server URL (must be absolute)
+        credentials: 'same-origin' // Additional fetch() options like `credentials` or `headers`
+      })
+    ]),
     cache: new InMemoryCache()
   });
 };

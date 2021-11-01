@@ -1,35 +1,65 @@
 import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import { DefaultLayout } from '../../../components/Layouts/Default';
-import { useProjectCreationProvider } from '../../../components/Providers/ProjectCreationProvider';
+import { useProjectCreationContext } from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { COLLECTION_QUERY } from '../../../apollo/collection';
 import { useGetCollectionsQuery } from '../../../apollo/generated/graphql';
 import { ProjectCreationTemplate, CollectionTemplate } from '../../../components/Templates';
+import { useCallback, useEffect, useMemo } from 'react';
+import { Formik } from 'formik';
+import * as yup from 'yup';
 
 type CollectionContainerProps = InferGetStaticPropsType<typeof getStaticProps>;
 
 const CollectionContainer: NextPage<CollectionContainerProps> = () => {
-  const context = useProjectCreationProvider();
+  const context = useProjectCreationContext();
   const router = useRouter();
 
   const { data } = useGetCollectionsQuery();
 
+  useEffect(() => {
+    if (!context.drawerType) {
+      router.push('/project/type', '/project/type');
+    }
+  }, [router, context]);
+
+  const schema = useMemo(
+    () =>
+      yup.object().shape({
+        collection: yup.string().label('Collection').required()
+      }),
+    []
+  );
+
+  const handleSubmit = useCallback(
+    (data: { collection: string }) => {
+      context.setDrawerCollection(data.collection);
+      router.push('/project/finish', '/project/finish');
+    },
+    [router, context]
+  );
+
   return (
     <DefaultLayout>
-      <ProjectCreationTemplate
-        step={3}
-        title="Which collection would you like?"
-        disableNext={!context.drawerCollection}
-        handleNext={() => router.push('/project/finish', '/project/finish')}
-        handlePrev={() => router.push('/project/description', '/project/description')}
+      <Formik
+        initialValues={{ collection: context.drawerCollection || '' }}
+        onSubmit={handleSubmit}
+        validationSchema={schema}
+        validateOnMount
       >
-        <CollectionTemplate
-          data={data}
-          onSelectCard={(type) => context.setDrawerCollection(type)}
-          selectedCard={context.drawerCollection}
-        />
-      </ProjectCreationTemplate>
+        {({ submitForm, isValid }) => (
+          <ProjectCreationTemplate
+            step={2}
+            title="Which collection would you like?"
+            disableNext={!isValid}
+            handleNext={submitForm}
+            handlePrev={() => router.push('/project/type', '/project/type')}
+          >
+            <CollectionTemplate data={data} />
+          </ProjectCreationTemplate>
+        )}
+      </Formik>
     </DefaultLayout>
   );
 };
@@ -40,7 +70,7 @@ export const getStaticProps: GetStaticProps = async () => {
   await apolloClient.query({ query: COLLECTION_QUERY });
 
   return addApolloState(apolloClient, {
-    props: { test: true },
+    props: {},
     revalidate: 1
   });
 };

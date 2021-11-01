@@ -12,7 +12,7 @@
     "start": "next start",
     "lint": "next lint --fix",
     "prepare": "husky install",
-    "graphql:codegen": "cross-env DOTENV_CONFIG_PATH=./.env.local graphql-codegen -r dotenv/config --config codegen.yml",
+    "graphql:codegen": "cross-env DOTENV_CONFIG_PATH=./.env.development.local graphql-codegen -r dotenv/config --config codegen.yml",
     "graphql:codegen-watch": "npm run graphql:codegen -- --watch src/**/*"
   },
   "dependencies": {
@@ -32,6 +32,7 @@
     "@tailwindcss/forms": "^0.3.4",
     "@tailwindcss/line-clamp": "^0.2.2",
     "@tailwindcss/typography": "^0.4.1",
+    "@tippyjs/react": "^4.2.6",
     "@types/classnames": "^2.3.1",
     "@types/flat": "^5.0.2",
     "@types/js-cookie": "^3.0.0",

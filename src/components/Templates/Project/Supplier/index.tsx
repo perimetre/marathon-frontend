@@ -1,30 +1,36 @@
+import { useField, useFormikContext } from 'formik';
 import { useMemo } from 'react';
 import { GetSlideSupplierQuery } from '../../../../apollo/generated/graphql';
 import Card from '../../../UI/Card';
+import { Select } from '../../../UI/Form/Select';
 
 export type SupplierTemplateProps = {
   data?: GetSlideSupplierQuery;
-  onSelectSupplier: (selected: { supplier?: string; model?: string; depth?: string }) => void;
-  selectedSupplier?: { supplier?: string; model?: string; depth?: string } | null;
 };
 
-export const SupplierTemplate: React.FC<SupplierTemplateProps> = ({ data, selectedSupplier, onSelectSupplier }) => {
+export const SupplierTemplate: React.FC<SupplierTemplateProps> = ({ data }) => {
+  const [supField, , supHelpers] = useField({ name: 'supplier' });
+
+  const { values, setFieldValue } = useFormikContext<{ supplier: number; model: number; depth: number }>();
+
   const models = useMemo(() => {
-    if (data && selectedSupplier?.supplier) {
-      const supplier = data.slideSuppliers.find((f) => f.slug === selectedSupplier.supplier);
+    if (data && supField.value) {
+      const supplier = data.slideSuppliers.find((f) => f.id === supField.value);
       return supplier?.slides;
     }
     return [];
-  }, [data, selectedSupplier?.supplier]);
+  }, [data, supField.value]);
 
   const depths = useMemo(() => {
-    if (data && selectedSupplier?.supplier && selectedSupplier?.model) {
-      const supplier = data.slideSuppliers.find((f) => f.slug === selectedSupplier.supplier);
-      const slide = supplier?.slides.find((f) => f.slug === selectedSupplier.model);
+    console.log({ values });
+    if (data && values?.supplier && values?.model) {
+      const supplier = data.slideSuppliers.find((f) => f.id === values.supplier);
+      const slide = supplier?.slides.find((f) => f.id === values.model);
+
       return slide?.depths;
     }
     return [];
-  }, [data, selectedSupplier?.supplier, selectedSupplier?.model]);
+  }, [values, data]);
 
   return (
     <div className="container flex mx-auto mt-16 mb-16">
@@ -33,8 +39,12 @@ export const SupplierTemplate: React.FC<SupplierTemplateProps> = ({ data, select
           <Card
             horizontal
             key={`type-card-${slide.id}`}
-            active={selectedSupplier?.supplier === slide.slug}
-            onClick={() => onSelectSupplier({ supplier: slide.slug })}
+            active={supField.value === slide.id}
+            onClick={() => {
+              setFieldValue('model', '');
+              setFieldValue('depth', '');
+              supHelpers.setValue(slide.id);
+            }}
             image={slide.thumbnailUrl}
             title={slide.name}
           />
@@ -42,30 +52,20 @@ export const SupplierTemplate: React.FC<SupplierTemplateProps> = ({ data, select
       </div>
       <div className="flex flex-col flex-1 pt-6 pl-6 lg:pl-16 gap-6">
         <label className="block w-full max-w-xl text-left">
-          <span className="text-gray-700 uppercase">Model</span>
-          <select
-            className="font-bold uppercase select form-select"
-            value={selectedSupplier?.model || '-1'}
-            onChange={(e) => onSelectSupplier({ ...selectedSupplier, model: e.target.value, depth: undefined })}
-          >
+          <Select name="model" label="Model" onChange={() => setFieldValue('depth', '')}>
             <option key="-1">Select Option</option>
             {models?.map((model) => (
               <option key={model.id}>{model.product}</option>
             ))}
-          </select>
+          </Select>
         </label>
         <label className="block w-full max-w-xl text-left">
-          <span className="text-gray-700 uppercase">Depth</span>
-          <select
-            className="font-bold uppercase select form-select"
-            value={selectedSupplier?.depth || '-1'}
-            onChange={(e) => onSelectSupplier({ ...selectedSupplier, depth: e.target.value })}
-          >
+          <Select name="depth" label="Depth">
             <option key="-1">Select Option</option>
             {depths?.map((depth) => (
               <option key={depth.id}>{depth.display}</option>
             ))}
-          </select>
+          </Select>
         </label>
       </div>
     </div>
