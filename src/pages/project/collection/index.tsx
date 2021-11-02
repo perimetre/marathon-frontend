@@ -1,6 +1,5 @@
 import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
-import { DefaultLayout } from '../../../components/Layouts/Default';
 import {
   projectCreationDataHoc,
   ProjectCreationProviderProps,
@@ -10,10 +9,11 @@ import {
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { COLLECTION_QUERY } from '../../../apollo/collection';
 import { useGetCollectionsQuery } from '../../../apollo/generated/graphql';
-import { ProjectCreationTemplate, CollectionTemplate } from '../../../components/Templates';
 import { useCallback, useMemo } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { ProjectCreationTemplate } from '../../../components/Templates/ProjectCreation';
+import { CollectionTemplate } from '../../../components/Templates/Project';
 
 type CollectionContainerGetServerProps = ProjectCreationProviderProps;
 
@@ -42,26 +42,24 @@ const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollect
   );
 
   return (
-    <DefaultLayout>
-      <Formik
-        initialValues={{ collection: drawerCollection || 0 }}
-        onSubmit={handleSubmit}
-        validationSchema={schema}
-        validateOnMount
-      >
-        {({ submitForm, isValid }) => (
-          <ProjectCreationTemplate
-            step={2}
-            title="Which collection would you like?"
-            disableNext={!isValid}
-            handleNext={submitForm}
-            handlePrev={() => router.push('/project/type', '/project/type')}
-          >
-            <CollectionTemplate data={data} />
-          </ProjectCreationTemplate>
-        )}
-      </Formik>
-    </DefaultLayout>
+    <Formik
+      initialValues={{ collection: drawerCollection || 0 }}
+      onSubmit={handleSubmit}
+      validationSchema={schema}
+      validateOnMount
+    >
+      {({ submitForm, isValid }) => (
+        <ProjectCreationTemplate
+          step={2}
+          title="Which collection would you like?"
+          disableNext={!isValid}
+          handleNext={submitForm}
+          handlePrev={() => router.push('/project/type', '/project/type')}
+        >
+          <CollectionTemplate data={data} />
+        </ProjectCreationTemplate>
+      )}
+    </Formik>
   );
 };
 

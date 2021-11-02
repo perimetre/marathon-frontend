@@ -1,6 +1,5 @@
 import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
-import { DefaultLayout } from '../../../components/Layouts/Default';
 import {
   projectCreationDataHoc,
   ProjectCreationProviderProps,
@@ -10,10 +9,11 @@ import {
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { SUPPLIER_QUERY } from '../../../apollo/supplier';
 import { useGetSlideSupplierByCollectionQuery } from '../../../apollo/generated/graphql';
-import { ProjectCreationTemplate, SupplierTemplate } from '../../../components/Templates';
 import { Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
+import { ProjectCreationTemplate } from '../../../components/Templates/ProjectCreation';
+import { SupplierTemplate } from '../../../components/Templates/Project';
 
 type SupplierContainerGetServerProps = ProjectCreationProviderProps;
 
@@ -48,30 +48,28 @@ const SupplierContainer: NextPage<SupplierContainerProps> = ({ drawerCollection,
   );
 
   return (
-    <DefaultLayout>
-      <Formik
-        initialValues={{
-          supplier: drawerSlide?.supplier || 0,
-          depth: drawerSlide?.depth || 0,
-          model: drawerSlide?.model || 0
-        }}
-        onSubmit={handleSubmit}
-        validationSchema={schema}
-        validateOnMount
-      >
-        {({ submitForm, isValid }) => (
-          <ProjectCreationTemplate
-            step={4}
-            title="What slides will be used?"
-            disableNext={!isValid}
-            handleNext={submitForm}
-            handlePrev={() => router.push('/project/finish', '/project/finish')}
-          >
-            <SupplierTemplate data={data} />
-          </ProjectCreationTemplate>
-        )}
-      </Formik>
-    </DefaultLayout>
+    <Formik
+      initialValues={{
+        supplier: drawerSlide?.supplier || 0,
+        depth: drawerSlide?.depth || 0,
+        model: drawerSlide?.model || 0
+      }}
+      onSubmit={handleSubmit}
+      validationSchema={schema}
+      validateOnMount
+    >
+      {({ submitForm, isValid }) => (
+        <ProjectCreationTemplate
+          step={4}
+          title="What slides will be used?"
+          disableNext={!isValid}
+          handleNext={submitForm}
+          handlePrev={() => router.push('/project/finish', '/project/finish')}
+        >
+          <SupplierTemplate data={data} />
+        </ProjectCreationTemplate>
+      )}
+    </Formik>
   );
 };
 

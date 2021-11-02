@@ -1,6 +1,5 @@
 import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
-import { DefaultLayout } from '../../../components/Layouts/Default';
 import {
   projectCreationDataHoc,
   ProjectCreationProviderProps,
@@ -8,10 +7,11 @@ import {
   useProjectCreationContext
 } from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
-import { ProjectCreationTemplate, SizeAssistantTemplate } from '../../../components/Templates';
 import { Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
+import { ProjectCreationTemplate } from '../../../components/Templates/ProjectCreation';
+import { SizeAssistantTemplate } from '../../../components/Templates/Project';
 
 type SizeAssistantContainerGetServerProps = ProjectCreationProviderProps;
 
@@ -38,29 +38,27 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({ drawerS
   );
 
   return (
-    <DefaultLayout>
-      <Formik
-        initialValues={{
-          thickness: drawerSize?.thickness || 0,
-          weight: drawerSize?.weight || 0
-        }}
-        onSubmit={handleSubmit}
-        validationSchema={schema}
-        validateOnMount
-      >
-        {({ submitForm, isValid }) => (
-          <ProjectCreationTemplate
-            step={5}
-            title="Starting measurement for this drawer"
-            disableNext={!isValid}
-            handlePrev={() => router.push('/project/supplier', '/project/supplier')}
-            handleNext={submitForm}
-          >
-            <SizeAssistantTemplate unit={context.unit} />
-          </ProjectCreationTemplate>
-        )}
-      </Formik>
-    </DefaultLayout>
+    <Formik
+      initialValues={{
+        thickness: drawerSize?.thickness || 0,
+        weight: drawerSize?.weight || 0
+      }}
+      onSubmit={handleSubmit}
+      validationSchema={schema}
+      validateOnMount
+    >
+      {({ submitForm, isValid }) => (
+        <ProjectCreationTemplate
+          step={5}
+          title="Starting measurement for this drawer"
+          disableNext={!isValid}
+          handlePrev={() => router.push('/project/supplier', '/project/supplier')}
+          handleNext={submitForm}
+        >
+          <SizeAssistantTemplate unit={context.unit} />
+        </ProjectCreationTemplate>
+      )}
+    </Formik>
   );
 };
 

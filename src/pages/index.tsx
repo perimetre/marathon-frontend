@@ -1,22 +1,6 @@
-import type { GetStaticProps, NextPage } from 'next';
-import { addApolloState, initializeApollo } from '../lib/apollo';
-import { HomeTemplate } from '../components/Templates';
-import { DefaultLayout } from '../components/Layouts/Default';
+import { NextPage } from 'next';
+import { HomeTemplate } from '../components/Templates/Home';
 
-const Home: NextPage = () => {
-  return (
-    <DefaultLayout>
-      <HomeTemplate />
-    </DefaultLayout>
-  );
-};
+const HomeContainer: NextPage = () => <HomeTemplate />;
 
-export const getStaticProps: GetStaticProps = async () => {
-  const apolloClient = initializeApollo();
-  return addApolloState(apolloClient, {
-    props: { test: true },
-    revalidate: 1
-  });
-};
-
-export default Home;
+export default HomeContainer;

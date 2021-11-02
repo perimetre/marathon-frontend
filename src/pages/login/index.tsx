@@ -1,22 +1,6 @@
-import type { GetStaticProps, NextPage } from 'next';
-import { addApolloState, initializeApollo } from '../../lib/apollo';
-import { LoginTemplate } from '../../components/Templates';
-import { DefaultLayout } from '../../components/Layouts/Default';
+import { NextPage } from 'next';
+import { LoginTemplate } from '../../components/Templates/Login';
 
-const Home: NextPage = () => {
-  return (
-    <DefaultLayout>
-      <LoginTemplate onSubmit={console.log} />
-    </DefaultLayout>
-  );
-};
+const LoginContainer: NextPage = () => <LoginTemplate onSubmit={console.log} />;
 
-export const getStaticProps: GetStaticProps = async () => {
-  const apolloClient = initializeApollo();
-  return addApolloState(apolloClient, {
-    props: { test: true },
-    revalidate: 1
-  });
-};
-
-export default Home;
+export default LoginContainer;

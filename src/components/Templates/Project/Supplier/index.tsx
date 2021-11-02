@@ -1,11 +1,11 @@
 import { useField, useFormikContext } from 'formik';
 import { useMemo } from 'react';
-import { GetSupplierByCollectionQuery } from '../../../../apollo/generated/graphql';
+import { GetSlideSupplierByCollectionQuery } from '../../../../apollo/generated/graphql';
 import Card from '../../../UI/Card';
 import { Select } from '../../../UI/Form/Select';
 
 export type SupplierTemplateProps = {
-  data?: GetSupplierByCollectionQuery;
+  data?: GetSlideSupplierByCollectionQuery;
 };
 
 export const SupplierTemplate: React.FC<SupplierTemplateProps> = ({ data }) => {

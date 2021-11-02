@@ -1,6 +1,5 @@
 import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
-import { DefaultLayout } from '../../../components/Layouts/Default';
 import {
   projectCreationDataHoc,
   ProjectCreationProviderProps,
@@ -10,10 +9,11 @@ import {
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { FINISH_QUERY } from '../../../apollo/finish';
 import { useGetFinishQuery } from '../../../apollo/generated/graphql';
-import { ProjectCreationTemplate, FinishTemplate } from '../../../components/Templates';
 import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
 import { Formik } from 'formik';
+import { ProjectCreationTemplate } from '../../../components/Templates/ProjectCreation';
+import { FinishTemplate } from '../../../components/Templates/Project';
 
 type FinishContainerGetServerProps = ProjectCreationProviderProps;
 
@@ -42,26 +42,24 @@ const FinishContainer: NextPage<FinishContainerProps> = ({ drawerFinish }) => {
   );
 
   return (
-    <DefaultLayout>
-      <Formik
-        initialValues={{ finish: drawerFinish || 0 }}
-        onSubmit={handleSubmit}
-        validationSchema={schema}
-        validateOnMount
-      >
-        {({ submitForm, isValid }) => (
-          <ProjectCreationTemplate
-            step={3}
-            title="What type of finish would look the best?"
-            disableNext={!isValid}
-            handleNext={submitForm}
-            handlePrev={() => router.push('/project/collection', '/project/collection')}
-          >
-            <FinishTemplate data={data} />
-          </ProjectCreationTemplate>
-        )}
-      </Formik>
-    </DefaultLayout>
+    <Formik
+      initialValues={{ finish: drawerFinish || 0 }}
+      onSubmit={handleSubmit}
+      validationSchema={schema}
+      validateOnMount
+    >
+      {({ submitForm, isValid }) => (
+        <ProjectCreationTemplate
+          step={3}
+          title="What type of finish would look the best?"
+          disableNext={!isValid}
+          handleNext={submitForm}
+          handlePrev={() => router.push('/project/collection', '/project/collection')}
+        >
+          <FinishTemplate data={data} />
+        </ProjectCreationTemplate>
+      )}
+    </Formik>
   );
 };
 

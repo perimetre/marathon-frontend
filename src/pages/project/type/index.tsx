@@ -1,6 +1,5 @@
 import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
-import { DefaultLayout } from '../../../components/Layouts/Default';
 import {
   projectCreationDataHoc,
   ProjectCreationProviderProps,
@@ -10,10 +9,11 @@ import {
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { TYPE_QUERY } from '../../../apollo/type';
 import { useGetTypeQuery } from '../../../apollo/generated/graphql';
-import { ProjectCreationTemplate, TypeTemplate } from '../../../components/Templates';
 import { Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
+import { ProjectCreationTemplate } from '../../../components/Templates/ProjectCreation';
+import { TypeTemplate } from '../../../components/Templates/Project';
 
 type TypeContainerGetServerProps = ProjectCreationProviderProps;
 
@@ -42,26 +42,19 @@ const TypeContainer: NextPage<TypeContainerProps> = ({ drawerType }) => {
   );
 
   return (
-    <DefaultLayout>
-      <Formik
-        initialValues={{ type: drawerType || 0 }}
-        onSubmit={handleSubmit}
-        validationSchema={schema}
-        validateOnMount
-      >
-        {({ submitForm, isValid }) => (
-          <ProjectCreationTemplate
-            step={1}
-            title="What kind of drawer will you be designing?"
-            disablePrev
-            disableNext={!isValid}
-            handleNext={submitForm}
-          >
-            <TypeTemplate data={data} />
-          </ProjectCreationTemplate>
-        )}
-      </Formik>
-    </DefaultLayout>
+    <Formik initialValues={{ type: drawerType || 0 }} onSubmit={handleSubmit} validationSchema={schema} validateOnMount>
+      {({ submitForm, isValid }) => (
+        <ProjectCreationTemplate
+          step={1}
+          title="What kind of drawer will you be designing?"
+          disablePrev
+          disableNext={!isValid}
+          handleNext={submitForm}
+        >
+          <TypeTemplate data={data} />
+        </ProjectCreationTemplate>
+      )}
+    </Formik>
   );
 };
 

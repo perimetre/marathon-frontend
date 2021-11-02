@@ -1,18 +1,16 @@
 import type { GetStaticProps, NextPage } from 'next';
-import { DefaultLayout } from '../../components/Layouts/Default';
+import React from 'react';
 import { useProjectCreationContext } from '../../components/Providers/ProjectCreationProvider';
-import { ProjectsTemplate } from '../../components/Templates';
+import { ProjectsTemplate } from '../../components/Templates/Projects';
 import { addApolloState, initializeApollo } from '../../lib/apollo';
 
 const Projects: NextPage = () => {
   const context = useProjectCreationContext();
   return (
-    <DefaultLayout>
-      <ProjectsTemplate
-        onChange={(description) => context.setDrawerDescription(description)}
-        description={context.drawerDescription}
-      />
-    </DefaultLayout>
+    <ProjectsTemplate
+      onChange={(description) => context.setDrawerDescription(description)}
+      description={context.drawerDescription}
+    />
   );
 };
 
