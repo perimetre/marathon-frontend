@@ -12,7 +12,8 @@ import '../styles/globals.css';
 
 config.autoAddCss = false;
 
-const MyApp: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MyApp: React.FC<AppProps & { err: any }> = ({ Component, pageProps, err }) => {
   const apolloClient = useApollo(pageProps);
 
   return (
@@ -20,7 +21,7 @@ const MyApp: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
       <DefaultPageTitle />
       <ProjectCreationProvider>
         <ApolloProvider client={apolloClient}>
-          <Component {...pageProps} />
+          <Component {...pageProps} err={err || pageProps?.err} />
         </ApolloProvider>
       </ProjectCreationProvider>
     </LocaleProvider>
