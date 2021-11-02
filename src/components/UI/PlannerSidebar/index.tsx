@@ -6,21 +6,21 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FormattedMessage } from 'react-intl';
 import { AnimatePresence, motion } from 'framer-motion';
 
-type BuilderSidebarState = 'closed' | 'categories' | 'modules';
+type PlannerSidebarState = 'closed' | 'categories' | 'modules';
 
-type BuilderSidebarProps = {
+type PlannerSidebarProps = {
   project?: {
     title?: string | null;
     modules?: ModuleDataFragment[];
   } | null;
 };
 
-type BuilderSidebarCategories = NonNullable<
+type PlannerSidebarCategories = NonNullable<
   NonNullable<SidebarCategoriesProps['project']>['modules']
 >[number]['categories'][number];
 
-type SidebarCategoriesProps = Pick<BuilderSidebarProps, 'project'> & {
-  onCategoryClick: (category: BuilderSidebarCategories) => void;
+type SidebarCategoriesProps = Pick<PlannerSidebarProps, 'project'> & {
+  onCategoryClick: (category: PlannerSidebarCategories) => void;
 };
 
 const SidebarCategories: React.FC<SidebarCategoriesProps> = ({ project, onCategoryClick }) => {
@@ -28,7 +28,7 @@ const SidebarCategories: React.FC<SidebarCategoriesProps> = ({ project, onCatego
     if (project?.modules) {
       return uniqBy(
         // Remove duplicates
-        project.modules.flatMap((module) => module.categories as BuilderSidebarCategories[]),
+        project.modules.flatMap((module) => module.categories as PlannerSidebarCategories[]),
         'slug'
       );
     }
@@ -60,8 +60,8 @@ const SidebarCategories: React.FC<SidebarCategoriesProps> = ({ project, onCatego
   );
 };
 
-type SidebarModulesProps = Pick<NonNullable<BuilderSidebarProps['project']>, 'modules'> & {
-  category?: BuilderSidebarCategories;
+type SidebarModulesProps = Pick<NonNullable<PlannerSidebarProps['project']>, 'modules'> & {
+  category?: PlannerSidebarCategories;
   onCloseClick: () => void;
 };
 
@@ -106,10 +106,10 @@ const animationVariants = {
   closed: { width: '0%', opacity: 0 }
 };
 
-const BuilderSidebar: React.FC<BuilderSidebarProps> = ({ project }) => {
+const PlannerSidebar: React.FC<PlannerSidebarProps> = ({ project }) => {
   const [isOpen] = useState(true);
-  const [state, setState] = useState<BuilderSidebarState>('categories');
-  const [category, setCategory] = useState<BuilderSidebarCategories | undefined>();
+  const [state, setState] = useState<PlannerSidebarState>('categories');
+  const [category, setCategory] = useState<PlannerSidebarCategories | undefined>();
 
   const onCategoryClick = useCallback((category) => {
     setCategory(category);
@@ -149,4 +149,4 @@ const BuilderSidebar: React.FC<BuilderSidebarProps> = ({ project }) => {
   );
 };
 
-export default BuilderSidebar;
+export default PlannerSidebar;

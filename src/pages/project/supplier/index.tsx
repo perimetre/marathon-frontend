@@ -1,6 +1,5 @@
 import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
-import { DefaultLayout } from '../../../components/Layouts/Default';
 import {
   projectCreationDataHoc,
   ProjectCreationProviderProps,
@@ -10,12 +9,8 @@ import {
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { SUPPLIER_QUERY } from '../../../apollo/supplier';
 import { useGetSlideSupplierByCollectionQuery } from '../../../apollo/generated/graphql';
-import ProjectCreationTemplate from '../../../components/Templates/ProjectCreation';
 import SupplierTemplate from '../../../components/Templates/Project/Supplier';
-import { Formik } from 'formik';
-import { useCallback, useMemo } from 'react';
-import * as yup from 'yup';
-import { useIntl } from 'react-intl';
+import { useCallback } from 'react';
 
 type SupplierContainerGetServerProps = ProjectCreationProviderProps;
 
@@ -23,25 +18,14 @@ type SupplierContainerProps = InferGetServerSidePropsType<typeof getServerSidePr
 
 const SupplierContainer: NextPage<SupplierContainerProps> = ({ drawerCollection, drawerSlide }) => {
   const { setDrawerSlide } = useProjectCreationContext();
-  const router = useRouter();
 
-  const intl = useIntl();
+  const router = useRouter();
 
   const { data } = useGetSlideSupplierByCollectionQuery({
     variables: {
       collectionId: Number(drawerCollection)
     }
   });
-
-  const schema = useMemo(
-    () =>
-      yup.object().shape({
-        slide: yup.number().label('Supplier').required(),
-        model: yup.string().label('Model').required(),
-        depth: yup.string().label('Depth').required()
-      }),
-    []
-  );
 
   const handleSubmit = useCallback(
     (data: { slide: number; model: number; depth: number }) => {
@@ -52,30 +36,11 @@ const SupplierContainer: NextPage<SupplierContainerProps> = ({ drawerCollection,
   );
 
   return (
-    <DefaultLayout>
-      <Formik
-        initialValues={{
-          slide: drawerSlide?.slide || 0,
-          depth: drawerSlide?.depth || 0,
-          model: drawerSlide?.model || 0
-        }}
-        onSubmit={handleSubmit}
-        validationSchema={schema}
-        validateOnMount
-      >
-        {({ submitForm, isValid }) => (
-          <ProjectCreationTemplate
-            step={4}
-            title={intl.formatMessage({ id: 'project.supplierTitle' })}
-            disableNext={!isValid}
-            handleNext={submitForm}
-            handlePrev={() => router.push('/project/finish', '/project/finish')}
-          >
-            <SupplierTemplate data={data} />
-          </ProjectCreationTemplate>
-        )}
-      </Formik>
-    </DefaultLayout>
+    <SupplierTemplate
+      data={data}
+      onSubmit={handleSubmit}
+      initialValue={{ slide: drawerSlide?.slide, model: drawerSlide?.model, depth: drawerSlide?.model }}
+    />
   );
 };
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { X } from '../Icons';
 import { ReactPortal } from '../ReactPortal';
+import { X } from '../Icons/X';
 
 export type ModalProps = {
   /**

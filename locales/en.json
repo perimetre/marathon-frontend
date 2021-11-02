@@ -16,7 +16,8 @@
   },
   "build": {
     "title": "Build",
-    "error": "Unable to load the {appTitle} app: \r\n <error>{errorMessage}</error>"
+    "error": "Unable to load the {appTitle} app: \r\n <error>{errorMessage}</error>",
+    "projectsPageNav": "Projects"
   },
   "home": {
     "title": "Drawers that fit your lifestyle",

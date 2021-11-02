@@ -2,7 +2,6 @@ import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from '
 import { useCallback, useEffect, useMemo } from 'react';
 import { useProjectsLazyQuery } from '../../apollo/generated/graphql';
 import { PROJECTS_QUERY } from '../../apollo/projects';
-import { DefaultLayout } from '../../components/Layouts/Default';
 import { projectCreationDataHoc } from '../../components/Providers/ProjectCreationProvider';
 import ProjectsTemplate from '../../components/Templates/Projects';
 import { addApolloState, initializeApollo } from '../../lib/apollo';
@@ -28,11 +27,7 @@ const ProjectsContainer: NextPage<ProjectsContainerProps> = () => {
     [queryError]
   );
 
-  return (
-    <DefaultLayout>
-      <ProjectsTemplate data={data} loading={loading} error={error} handleTryAgain={handleTryAgain} />
-    </DefaultLayout>
-  );
+  return <ProjectsTemplate data={data} loading={loading} error={error} handleTryAgain={handleTryAgain} />;
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
