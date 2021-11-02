@@ -1,14 +1,17 @@
 import Head from 'next/head';
+import Link from 'next/link';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Image from 'next/image';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import { CenterContent } from './styles';
 import UnityPlayer from '../../../Elements/UnityPlayer';
 import { useUnityPlayerContext, UnityPlayerProvider } from '../../../Providers/UnityPlayerProvider';
 import BuilderSidebar from '../../../UI/BuilderSidebar';
 import ProgressBar from '../../../UI/ProgressBar';
 import Spinner from '../../../UI/Spinner';
+import { PlannerQuery } from '../../../../apollo/generated/graphql';
+import { Button } from '../../../UI/Button';
 
 const LoadingState: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -16,13 +19,13 @@ const LoadingState: React.FC = () => {
 
   return (
     <CenterContent
-      className={classnames({
+      className={classNames({
         'opacity-0 animate-fade-in': loadingProgress < 1, // Animate in when progress starts
         'animate-fade-out': loadingProgress >= 1 // Fade out when loading is finished
       })}
     >
       <div
-        className={classnames('h-28 w-28 relative translate-y-2 opacity-0', {
+        className={classNames('h-28 w-28 relative translate-y-2 opacity-0', {
           'animate-fade-into': imageLoaded // Animate up when image gets loaded
         })}
       >
@@ -46,7 +49,9 @@ const LoadingState: React.FC = () => {
   );
 };
 
-const ErrorState: React.FC = () => {
+type ErrorStateProps = Pick<PlannerTemplateProps, 'slug' | 'error' | 'handleTryAgain'>;
+
+const ErrorState: React.FC<ErrorStateProps> = ({ error, handleTryAgain, slug }) => {
   const { errorMessage } = useUnityPlayerContext();
 
   const intl = useIntl();
@@ -58,42 +63,75 @@ const ErrorState: React.FC = () => {
           id="build.error"
           values={{
             appTitle: intl.formatMessage({ id: 'title' }),
-            errorMessage,
+            errorMessage: error || errorMessage,
             error: (msg: string) => <p className="mt-2 text-xl font-bold text-red-500">{msg}</p>
           }}
         />
       </p>
+
+      {error && (
+        <Button className="mt-4" onClick={handleTryAgain}>
+          <FormattedMessage id="common.tryAgain" />
+        </Button>
+      )}
+
+      {errorMessage && (
+        <Link
+          href={{
+            pathname: '/project/[slug]/planner',
+            query: { slug }
+          }}
+          // disable prefetch to hard refresh
+          prefetch={false}
+        >
+          <a>
+            <Button className="mt-4">
+              <FormattedMessage id="common.tryAgain" />
+            </Button>
+          </a>
+        </Link>
+      )}
     </CenterContent>
   );
 };
 
-type PlannerProps = Record<string, never>;
+type PlannerProps = PlannerTemplateProps;
 
-const Planner: React.FC<PlannerProps> = () => {
+const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTryAgain }) => {
   const { loadingProgress, state } = useUnityPlayerContext();
 
   return (
     <div className="flex min-h-screen">
       {/* Left sidebar, fixed width */}
-      <BuilderSidebar />
+      <BuilderSidebar project={data?.project} />
       {/* Right section, takes remaining space(flex-grow) */}
-      <div className="relative flex-grow">
-        <UnityPlayer
-          className={classnames('opacity-0', { 'animate-fade-in': state === 'complete' && loadingProgress >= 1 })}
-        />
+      <div className="relative flex-grow bg-mui-gray-300">
+        {/* Try avoiding wrapping unity player with more conditions, or else it won't load on init */}
+        {/* In this case it's valid because if graphql has an error, we shouldn't display the player anyway */}
+        {!error && (
+          <UnityPlayer
+            className={classNames('opacity-0', { 'animate-fade-in': state === 'complete' && loadingProgress >= 1 })}
+          />
+        )}
         {/* Content on top of unity player */}
         <div className="absolute inset-0 pointer-events-none">
-          {state === 'loading' && <LoadingState />}
-          {state === 'error' && <ErrorState />}
+          {(state === 'loading' || loading) && <LoadingState />}
+          {(state === 'error' || error) && <ErrorState slug={slug} handleTryAgain={handleTryAgain} error={error} />}
         </div>
       </div>
     </div>
   );
 };
 
-type PlannerTemplateProps = Record<string, never>;
+type PlannerTemplateProps = {
+  slug: string;
+  data?: PlannerQuery;
+  loading: boolean;
+  error?: string;
+  handleTryAgain: () => void;
+};
 
-const PlannerTemplate: React.FC<PlannerTemplateProps> = () => {
+const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ slug, data, loading, error, handleTryAgain }) => {
   const intl = useIntl();
 
   return (
@@ -101,14 +139,14 @@ const PlannerTemplate: React.FC<PlannerTemplateProps> = () => {
       <Head>
         {/*TODO: display project name*/}
         <title>
-          {intl.formatMessage({ id: 'build.title' })} | {intl.formatMessage({ id: 'title' })}
+          {data?.project?.title || intl.formatMessage({ id: 'build.title' })} | {intl.formatMessage({ id: 'title' })}
         </title>
         {/*TODO: display project description*/}
         {/*<meta name="description" content="Generated by create next app" />*/}
       </Head>
       <div id="build-template">
         <UnityPlayerProvider>
-          <Planner />
+          <Planner slug={slug} data={data} loading={loading} error={error} handleTryAgain={handleTryAgain} />
         </UnityPlayerProvider>
       </div>
     </>

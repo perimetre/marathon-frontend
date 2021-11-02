@@ -2,6 +2,18 @@
   "locale": "en",
   "title": "Space Planner",
   "description": "Marathon space planner",
+  "common": {
+    "tryAgain": "Try again",
+    "close": "Close"
+  },
+  "serverErrors": {
+    "unknownError": "An error has occurred. Please try again later.",
+    "Error": "An unexpected error occurred in our server.",
+    "TypeError": "An unexpected error occurred in our server. (TypeError)",
+    "connectionRefused": "Could not contact the server. The server might be down or your internet is turned off. Please try again later.",
+    "ECONNREFUSED": "Could not contact the server. The server might be down or your internet is turned off. Please try again later.",
+    "unauthorized": "You are not permitted to do this action"
+  },
   "build": {
     "title": "Build",
     "error": "Unable to load the {appTitle} app: \r\n <error>{errorMessage}</error>"

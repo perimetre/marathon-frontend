@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import { X } from '../Icons';
 import { ReactPortal } from '../ReactPortal';
 
@@ -86,9 +86,9 @@ export const Modal: React.FC<ModalProps> = ({
 
   return (
     <ReactPortal selector="#modal-root">
-      <div className={classnames('mui-modal', { open: isOpen })}>
+      <div className={classNames('mui-modal', { open: isOpen })}>
         <div className="mui-modal-container">
-          <div className={classnames('mui-modal-header', { absolute: isHeaderAbsolute })}>
+          <div className={classNames('mui-modal-header', { absolute: isHeaderAbsolute })}>
             <h3>{title}</h3>
             <button className="p-4 mui-btn-icon text-mui-paragraph-900" onClick={onToggle}>
               <X className="mui-animate-scaleHover-target" />

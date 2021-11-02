@@ -1,5 +1,5 @@
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 /**
  * CogIcon icon to use with JSX
@@ -13,7 +13,7 @@ export const CogIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({ className, ..
     viewBox="0 0 24 24"
     stroke="currentColor"
     {...props}
-    className={classnames('h-6 w-6 stroke-current', className)}
+    className={classNames('h-6 w-6 stroke-current', className)}
   >
     <path
       strokeLinecap="round"

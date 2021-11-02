@@ -1,5 +1,5 @@
 import React, { forwardRef } from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 const variantClassnameMap = {
   default: 'btn-default',
@@ -26,7 +26,7 @@ export type ButtonProps = React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTM
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = 'default', className, children, ...props }, ref) => {
     return (
-      <button type="button" {...props} ref={ref} className={classnames(variantClassnameMap[variant], className)}>
+      <button type="button" {...props} ref={ref} className={classNames(variantClassnameMap[variant], className)}>
         {children}
       </button>
     );

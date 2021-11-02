@@ -62,7 +62,7 @@ export const initializeApollo = (initialState: NormalizedCacheObject | null = nu
 export const addApolloState = <TPageProps extends { props?: TProps }, TProps>(
   client: ApolloClient<NormalizedCacheObject>,
   pageProps: TPageProps
-): TPageProps & { props: WithApolloProps<TProps> } => ({
+): TPageProps & { props?: WithApolloProps<TProps> } => ({
   ...pageProps,
   props: {
     ...pageProps?.props,

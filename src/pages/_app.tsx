@@ -11,7 +11,8 @@ import '../styles/globals.css';
 
 config.autoAddCss = false;
 
-const MyApp: React.FC<AppProps> = ({ Component, pageProps }: AppProps) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MyApp: React.FC<AppProps & { err: any }> = ({ Component, pageProps }) => {
   const apolloClient = useApollo(pageProps);
 
   return (

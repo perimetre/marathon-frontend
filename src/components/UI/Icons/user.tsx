@@ -1,5 +1,5 @@
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 /**
  * UserIcon icon to use with JSX
@@ -13,7 +13,7 @@ export const UserIcon: React.FC<React.SVGProps<SVGSVGElement>> = ({ className, .
     height="24"
     viewBox="0 0 24 24"
     {...props}
-    className={classnames('stroke-current', className)}
+    className={classNames('stroke-current', className)}
     fill="none"
   >
     <path

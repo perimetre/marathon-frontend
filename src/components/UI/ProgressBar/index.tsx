@@ -1,5 +1,5 @@
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 type ProgressBarProps = {
   /**
@@ -13,7 +13,7 @@ type ProgressBarProps = {
 const ProgressBar: React.FC<ProgressBarProps> = ({ progress, className, color }) => {
   return (
     <div
-      className={classnames(
+      className={classNames(
         color,
         'w-full overflow-hidden border-2 p-1 border-mui-placeholder-color h-6 mui-border-radius',
         className

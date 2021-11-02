@@ -1,8 +1,8 @@
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 type SpinnerProps = { className?: string };
 
-const Spinner: React.FC<SpinnerProps> = ({ className }) => <span className={classnames('mui-spinner', className)} />;
+const Spinner: React.FC<SpinnerProps> = ({ className }) => <span className={classNames('mui-spinner', className)} />;
 
 export default Spinner;
