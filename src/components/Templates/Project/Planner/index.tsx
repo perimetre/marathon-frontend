@@ -16,6 +16,7 @@ import AppLayout from '../../../Layouts/AppLayout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping, faBarsStaggered, faBars } from '@fortawesome/free-solid-svg-icons';
 import NavbarButton from '../../../UI/NavbarButton';
+import { Badge } from '../../../UI/Badge';
 
 const LoadingState: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -151,7 +152,11 @@ const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ slug, data, loading, 
         <>
           <NavbarButton
             iconPosition="left"
-            icon={() => <FontAwesomeIcon icon={faCartShopping} className="text-2xl" />}
+            icon={(className) => (
+              <Badge content="0">
+                <FontAwesomeIcon icon={faCartShopping} className={classNames('text-2xl', className)} />
+              </Badge>
+            )}
           />
 
           <Link href="/projects">
@@ -159,7 +164,12 @@ const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ slug, data, loading, 
               <NavbarButton
                 iconPosition="right"
                 content={<FormattedMessage id="build.projectsPageNav" />}
-                icon={() => <FontAwesomeIcon icon={faBarsStaggered} className="text-2xl text-mui-primary" />}
+                icon={(className) => (
+                  <FontAwesomeIcon
+                    icon={faBarsStaggered}
+                    className={classNames('text-2xl text-mui-primary', className)}
+                  />
+                )}
               />
             </a>
           </Link>
