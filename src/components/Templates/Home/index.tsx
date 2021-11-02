@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { ChevronDownIcon } from '../../UI/Icons/chevronDown';
 import AppLayout from '../../Layouts/AppLayout';
 
-export const HomeTemplate: React.FC = () => {
+const HomeTemplate: React.FC = () => {
   const [expanded, setExpanded] = useState('1');
   return (
     <AppLayout>
@@ -22,15 +22,18 @@ export const HomeTemplate: React.FC = () => {
             </h1>
             <div className="mt-8">
               <div className="py-8 border-b border-gray-300">
-                <button className="flex w-full text-left" onClick={() => setExpanded('1')}>
+                <button className="flex w-full text-left" onClick={() => setExpanded('ac-portfolio')}>
                   <h3 className="flex-1 font-bold uppercase">
                     <FormattedMessage id="home.accordion.choosePortfolio" />
                   </h3>
                   <ChevronDownIcon
-                    className={classNames('text-mui-primary transition-all', expanded === '1' && 'rotate-180')}
+                    className={classNames(
+                      'text-mui-primary transition-all',
+                      expanded === 'ac-portfolio' && 'rotate-180'
+                    )}
                   />
                 </button>
-                <Expander isExpanded={expanded === '1'}>
+                <Expander isExpanded={expanded === 'ac-portfolio'}>
                   <p className="py-4">
                     <FormattedMessage id="home.accordion.portfolioDescription" />
                   </p>
@@ -42,30 +45,30 @@ export const HomeTemplate: React.FC = () => {
                 </Expander>
               </div>
               <div className="py-8 border-b border-gray-300">
-                <button className="flex w-full text-left" onClick={() => setExpanded('2')}>
+                <button className="flex w-full text-left" onClick={() => setExpanded('ac-project')}>
                   <h3 className="flex-1 font-bold uppercase">
                     <FormattedMessage id="home.accordion.firstProject" />
                   </h3>
                   <ChevronDownIcon
-                    className={classNames('text-mui-primary transition-all', expanded === '2' && 'rotate-180')}
+                    className={classNames('text-mui-primary transition-all', expanded === 'ac-project' && 'rotate-180')}
                   />
                 </button>
-                <Expander isExpanded={expanded === '2'}>
+                <Expander isExpanded={expanded === 'ac-project'}>
                   <p className="py-4">
                     <FormattedMessage id="home.accordion.projectDescription" />
                   </p>
                 </Expander>
               </div>
               <div className="py-8">
-                <button className="flex w-full text-left" onClick={() => setExpanded('3')}>
+                <button className="flex w-full text-left" onClick={() => setExpanded('ac-pick')}>
                   <h3 className="flex-1 font-bold uppercase">
                     <FormattedMessage id="home.accordion.pickWhereLeft" />
                   </h3>
                   <ChevronDownIcon
-                    className={classNames('text-mui-primary transition-all', expanded === '3' && 'rotate-180')}
+                    className={classNames('text-mui-primary transition-all', expanded === 'ac-pick' && 'rotate-180')}
                   />
                 </button>
-                <Expander isExpanded={expanded === '3'}>
+                <Expander isExpanded={expanded === 'ac-pick'}>
                   <p className="py-4">
                     <FormattedMessage
                       id="home.accordion.leftDescription"
@@ -82,3 +85,5 @@ export const HomeTemplate: React.FC = () => {
     </AppLayout>
   );
 };
+
+export default HomeTemplate;

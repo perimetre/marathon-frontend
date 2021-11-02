@@ -35,10 +35,17 @@
     "title": "Sign in and start designing",
     "emailPlaceholder": "Email",
     "passwordPlaceholder": "Password",
-    "singinButton": "Sing in",
+    "signinButton": "Sign in",
     "forgotPass": "Forgot password?",
     "dontHaveAccount": "Dont have an account ? {message}",
     "startDesigning": "Start designing"
+  },
+  "project": {
+    "collectionTitle": "Which collection would you like?",
+    "finishTitle": "What type of finish would look the best?",
+    "sizeAssistantTitle": "Starting measurement for this drawer",
+    "supplierTitle": "What slides will be used?",
+    "typeTitle": "What kind of drawer will you be designing?"
   },
   "projects": {
     "title": "My projects",
@@ -50,8 +57,14 @@
     "addDrawer": "Add a drawer",
     "editButton": "Edit",
     "modalTitle": "Project name",
+    "modalRenameTitle": "Rename project",
     "modalBody": "First provide the project name",
-    "modalInputPlaceholder": "The pots and pan drawer (example)"
+    "modalInputPlaceholder": "The pots and pan drawer (example)",
+    "continue": "Continue",
+    "rename": "Rename",
+    "delete": "Delete",
+    "modalDeleteTitle": "Delete project",
+    "modalDeleteBody": "Are you sure you want do delete the project"
   },
   "sizeAssistant": {
     "cabinetWidth": "Cabinet width",

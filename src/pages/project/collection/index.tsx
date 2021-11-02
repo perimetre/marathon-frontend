@@ -9,58 +9,29 @@ import {
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { COLLECTION_QUERY } from '../../../apollo/collection';
 import { useGetCollectionsQuery } from '../../../apollo/generated/graphql';
-import { useCallback, useMemo } from 'react';
-import { Formik } from 'formik';
-import * as yup from 'yup';
-import { ProjectCreationTemplate } from '../../../components/Templates/ProjectCreation';
-import { CollectionTemplate } from '../../../components/Templates/Project';
+import CollectionTemplate from '../../../components/Templates/Project/Collection';
+import { useCallback } from 'react';
 
 type CollectionContainerGetServerProps = ProjectCreationProviderProps;
 
 type CollectionContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollection }) => {
-  const context = useProjectCreationContext();
+  const { setDrawerCollection } = useProjectCreationContext();
+
   const router = useRouter();
 
   const { data } = useGetCollectionsQuery();
 
-  const schema = useMemo(
-    () =>
-      yup.object().shape({
-        collection: yup.number().label('Collection').required()
-      }),
-    []
-  );
-
   const handleSubmit = useCallback(
     (data: { collection: number }) => {
-      context.setDrawerCollection(data.collection);
+      setDrawerCollection(data.collection);
       router.push('/project/finish', '/project/finish');
     },
-    [router, context]
+    [setDrawerCollection, router]
   );
 
-  return (
-    <Formik
-      initialValues={{ collection: drawerCollection || 0 }}
-      onSubmit={handleSubmit}
-      validationSchema={schema}
-      validateOnMount
-    >
-      {({ submitForm, isValid }) => (
-        <ProjectCreationTemplate
-          step={2}
-          title="Which collection would you like?"
-          disableNext={!isValid}
-          handleNext={submitForm}
-          handlePrev={() => router.push('/project/type', '/project/type')}
-        >
-          <CollectionTemplate data={data} />
-        </ProjectCreationTemplate>
-      )}
-    </Formik>
-  );
+  return <CollectionTemplate data={data} onSubmit={handleSubmit} initialValue={{ collection: drawerCollection }} />;
 };
 
 export const getServerSideProps: GetServerSideProps<CollectionContainerGetServerProps> = async (ctx) => {

@@ -7,58 +7,93 @@ import {
   useProjectCreationContext
 } from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
-import { Formik } from 'formik';
-import { useCallback, useMemo } from 'react';
-import * as yup from 'yup';
-import { ProjectCreationTemplate } from '../../../components/Templates/ProjectCreation';
-import { SizeAssistantTemplate } from '../../../components/Templates/Project';
+import SizeAssistantTemplate from '../../../components/Templates/Project/SizeAssistant';
+import { useCallback } from 'react';
+import { useCreateProjectMutation } from '../../../apollo/generated/graphql';
+import { slugify } from '../../../utils/string';
 
 type SizeAssistantContainerGetServerProps = ProjectCreationProviderProps;
 
 type SizeAssistantContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({ drawerSize }) => {
-  const context = useProjectCreationContext();
+const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
+  drawerSize,
+  drawerType,
+  drawerFinish,
+  drawerSlide,
+  drawerTitle,
+  drawerCollection
+}) => {
+  const { clear, unit, setDrawerSize } = useProjectCreationContext();
   const router = useRouter();
 
-  const schema = useMemo(
-    () =>
-      yup.object().shape({
-        thickness: yup.number().min(1).label('Thickness').required(),
-        weight: yup.number().min(1).label('Weight').required()
-      }),
-    []
-  );
+  const [doCreateProject, { loading }] = useCreateProjectMutation();
 
   const handleSubmit = useCallback(
-    (data: { thickness: number; weight: number }) => {
-      context.setDrawerSize(data);
+    async (data: { gable: number; width: number }) => {
+      setDrawerSize(data);
+
+      await doCreateProject({
+        variables: {
+          data: {
+            slug: slugify(drawerTitle),
+            title: drawerTitle as string,
+            gable: data.gable,
+            width: data.width,
+            type: {
+              connect: {
+                id: Number(drawerType)
+              }
+            },
+            finish: {
+              connect: {
+                id: Number(drawerFinish)
+              }
+            },
+            collection: {
+              connect: {
+                id: Number(drawerCollection)
+              }
+            },
+            slideDepth: {
+              connect: {
+                id: Number(drawerSlide?.depth)
+              }
+            },
+            slide: {
+              connect: {
+                id: Number(drawerSlide?.slide)
+              }
+            }
+          }
+        }
+      });
+
+      clear();
+
+      router.push('/projects', '/projects');
     },
-    [context]
+    [
+      clear,
+      doCreateProject,
+      drawerCollection,
+      drawerFinish,
+      drawerSlide?.depth,
+      drawerSlide?.slide,
+      drawerTitle,
+      drawerType,
+      router,
+      setDrawerSize
+    ]
   );
 
   return (
-    <Formik
-      initialValues={{
-        thickness: drawerSize?.thickness || 0,
-        weight: drawerSize?.weight || 0
-      }}
+    <SizeAssistantTemplate
+      unit={unit}
+      loading={loading}
       onSubmit={handleSubmit}
-      validationSchema={schema}
-      validateOnMount
-    >
-      {({ submitForm, isValid }) => (
-        <ProjectCreationTemplate
-          step={5}
-          title="Starting measurement for this drawer"
-          disableNext={!isValid}
-          handlePrev={() => router.push('/project/supplier', '/project/supplier')}
-          handleNext={submitForm}
-        >
-          <SizeAssistantTemplate unit={context.unit} />
-        </ProjectCreationTemplate>
-      )}
-    </Formik>
+      initialValue={{ gable: drawerSize?.gable, width: drawerSize?.width }}
+    />
   );
 };
 

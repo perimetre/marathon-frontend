@@ -1,10 +1,9 @@
 import { GetServerSidePropsContext, NextPageContext } from 'next';
-import { useRouter } from 'next/router';
 import { ParsedUrlQuery } from 'querystring';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {
   PROJECT_DRAWER_COLLECTION,
-  PROJECT_DRAWER_DESCRIPTION,
+  PROJECT_DRAWER_TITLE,
   PROJECT_DRAWER_FINISH,
   PROJECT_DRAWER_SIZE,
   PROJECT_DRAWER_SLIDE,
@@ -18,13 +17,13 @@ type ProjectCreationType = {
   hasProvider: boolean;
   unit: Unit;
   setUnit: (unit: Unit) => void;
-  restart: () => void;
+  clear: () => void;
 
   drawerType?: number;
   setDrawerType: (type: number) => void;
 
-  drawerDescription?: string;
-  setDrawerDescription: (description: string) => void;
+  drawerTitle?: string;
+  setDrawerTitle: (description: string) => void;
 
   drawerCollection?: number;
   setDrawerCollection: (collection: number) => void;
@@ -32,11 +31,11 @@ type ProjectCreationType = {
   drawerFinish?: number;
   setDrawerFinish: (finish: number) => void;
 
-  drawerSlide: { supplier?: number; model?: number; depth?: number } | null;
-  setDrawerSlide: (slide: { supplier?: number; model?: number; depth?: number }) => void;
+  drawerSlide: { slide?: number; model?: number; depth?: number } | null;
+  setDrawerSlide: (slide: { slide?: number; model?: number; depth?: number }) => void;
 
-  drawerSize: { weight?: number; thickness?: number } | null;
-  setDrawerSize: (size: { weight?: number; thickness?: number }) => void;
+  drawerSize: { width?: number; gable?: number } | null;
+  setDrawerSize: (size: { width?: number; gable?: number }) => void;
 };
 
 const initialState: ProjectCreationType = {
@@ -45,15 +44,15 @@ const initialState: ProjectCreationType = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setUnit: () => {},
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  restart: () => {},
+  clear: () => {},
 
   drawerType: undefined,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setDrawerType: () => {},
 
-  drawerDescription: undefined,
+  drawerTitle: undefined,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
-  setDrawerDescription: () => {},
+  setDrawerTitle: () => {},
 
   drawerCollection: undefined,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
@@ -77,7 +76,7 @@ const ProjectCreationContext = React.createContext<ProjectCreationType>(initialS
 export type ProjectCreationProviderProps = {
   unit?: ProjectCreationType['unit'];
   drawerType?: ProjectCreationType['drawerType'];
-  drawerDescription?: ProjectCreationType['drawerDescription'];
+  drawerTitle?: ProjectCreationType['drawerTitle'];
   drawerCollection?: ProjectCreationType['drawerCollection'];
   drawerFinish?: ProjectCreationType['drawerFinish'];
   drawerSlide?: ProjectCreationType['drawerSlide'];
@@ -88,7 +87,7 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
   children,
   unit: initUnit,
   drawerType: type,
-  drawerDescription: description,
+  drawerTitle: description,
   drawerCollection: collection,
   drawerFinish: finish,
   drawerSlide: slide,
@@ -96,35 +95,31 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
 }) => {
   const [unit, setUnit] = useState<ProjectCreationType['unit']>(initUnit || 'mm');
   const [drawerType, setDrawerType] = useState<ProjectCreationType['drawerType']>(Number(type || 0));
-  const [drawerDescription, setDrawerDescription] = useState<ProjectCreationType['drawerDescription']>(description);
+  const [drawerTitle, setDrawerTitle] = useState<ProjectCreationType['drawerTitle']>(description);
   const [drawerCollection, setDrawerCollection] = useState<ProjectCreationType['drawerCollection']>(collection);
   const [drawerFinish, setDrawerFinish] = useState<ProjectCreationType['drawerFinish']>(finish);
   const [drawerSlide, setDrawerSlide] = useState<ProjectCreationType['drawerSlide']>(slide || null);
   const [drawerSize, setDrawerSize] = useState<ProjectCreationType['drawerSize']>(size || null);
 
-  const route = useRouter();
-
-  const restart = useCallback(() => {
+  const clear = useCallback(() => {
     setUnit('mm');
     setDrawerType(undefined);
-    setDrawerDescription(undefined);
+    setDrawerTitle(undefined);
     setDrawerCollection(undefined);
     setDrawerFinish(undefined);
     setDrawerSlide(null);
     setDrawerSize(null);
-
-    route.push('/', '/');
-  }, [route]);
+  }, []);
 
   useEffect(() => {
     setCookieOrRemoveIfUndefined(PROJECT_UNIT, unit);
     setCookieOrRemoveIfUndefined(PROJECT_DRAWER_TYPE, drawerType?.toString());
-    setCookieOrRemoveIfUndefined(PROJECT_DRAWER_DESCRIPTION, drawerDescription);
+    setCookieOrRemoveIfUndefined(PROJECT_DRAWER_TITLE, drawerTitle);
     setCookieOrRemoveIfUndefined(PROJECT_DRAWER_COLLECTION, drawerCollection?.toString());
     setCookieOrRemoveIfUndefined(PROJECT_DRAWER_FINISH, drawerFinish?.toString());
     setCookieOrRemoveIfUndefined(PROJECT_DRAWER_SLIDE, JSON.stringify(drawerSlide));
     setCookieOrRemoveIfUndefined(PROJECT_DRAWER_SIZE, JSON.stringify(drawerSize));
-  }, [unit, drawerType, drawerDescription, drawerCollection, drawerFinish, drawerSlide, drawerSize]);
+  }, [unit, drawerType, drawerTitle, drawerCollection, drawerFinish, drawerSlide, drawerSize]);
 
   return (
     <div id="project-provider">
@@ -135,8 +130,8 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
           setUnit,
           drawerType,
           setDrawerType,
-          drawerDescription,
-          setDrawerDescription,
+          drawerTitle,
+          setDrawerTitle,
           drawerCollection,
           setDrawerCollection,
           drawerFinish,
@@ -145,7 +140,7 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
           setDrawerSlide,
           drawerSize,
           setDrawerSize,
-          restart
+          clear
         }}
       >
         {children}
@@ -180,7 +175,7 @@ export const stripUndefined = <T extends Record<string, any>>(obj: T) => JSON.pa
 export const requiredProjectData = <T extends ParsedUrlQuery>(ctx: NextPageContext | GetServerSidePropsContext<T>) => {
   const unit = getCookie(PROJECT_UNIT, ctx) as ProjectCreationType['unit'];
   const drawerType = getCookie(PROJECT_DRAWER_TYPE, ctx) as ProjectCreationType['drawerType'];
-  const drawerDescription = getCookie(PROJECT_DRAWER_DESCRIPTION, ctx) as ProjectCreationType['drawerDescription'];
+  const drawerTitle = getCookie(PROJECT_DRAWER_TITLE, ctx) as ProjectCreationType['drawerTitle'];
   const drawerCollection = getCookie(PROJECT_DRAWER_COLLECTION, ctx) as ProjectCreationType['drawerCollection'];
   const drawerFinish = getCookie(PROJECT_DRAWER_FINISH, ctx) as ProjectCreationType['drawerFinish'];
   const slide = getCookie(PROJECT_DRAWER_SLIDE, ctx);
@@ -192,7 +187,7 @@ export const requiredProjectData = <T extends ParsedUrlQuery>(ctx: NextPageConte
   return stripUndefined({
     unit,
     drawerType: Number(drawerType),
-    drawerDescription,
+    drawerTitle,
     drawerCollection: Number(drawerCollection),
     drawerFinish: Number(drawerFinish),
     drawerSlide,

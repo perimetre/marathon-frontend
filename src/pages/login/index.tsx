@@ -1,5 +1,5 @@
-import { NextPage } from 'next';
-import { LoginTemplate } from '../../components/Templates/Login';
+import type { NextPage } from 'next';
+import LoginTemplate from '../../components/Templates/Login';
 
 const LoginContainer: NextPage = () => <LoginTemplate onSubmit={console.log} />;
 

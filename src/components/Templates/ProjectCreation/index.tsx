@@ -5,24 +5,26 @@ import { motion } from 'framer-motion';
 import { ArrowLeft } from '../../UI/Icons/arrowLeft';
 import { ArrowRight } from '../../UI/Icons/arrowRight';
 import AppLayout from '../../Layouts/AppLayout';
+import Spinner from '../../UI/Spinner';
 
 export type ProjectCreationTemplateProps = {
   title: string;
   description?: string;
   step: number;
+  loading?: boolean;
   disableNext?: boolean;
   disablePrev?: boolean;
   handleNext?: () => void;
   handlePrev?: () => void;
 };
 
-export const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = ({
+const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = ({
   step,
   title,
+  loading,
   description,
   disableNext,
   disablePrev,
-  handleNext,
   handlePrev,
   children
 }) => {
@@ -33,7 +35,7 @@ export const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = (
           <div className="bg-gray-400 h-28" />
           <div className="container relative mx-auto">
             <Button
-              disabled={disablePrev}
+              disabled={disablePrev || loading}
               onClick={handlePrev}
               className="absolute left-0 flex items-center btn-default -bottom-5"
             >
@@ -41,12 +43,12 @@ export const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = (
               Back
             </Button>
             <Button
-              disabled={disableNext}
-              onClick={handleNext}
+              disabled={disableNext || loading}
               className="absolute right-0 flex items-center btn-default -bottom-5"
+              type="submit"
             >
               Next
-              <ArrowLeft />
+              {loading ? <Spinner className="w-5 h-5 ml-2" /> : <ArrowLeft />}
             </Button>
           </div>
         </div>
@@ -78,3 +80,5 @@ export const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = (
     </AppLayout>
   );
 };
+
+export default ProjectCreationTemplate;

@@ -10,7 +10,7 @@ export type LoginTemplateProps = {
   onSubmit: (form: { email: string; password: string }) => void;
 };
 
-export const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
+const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
   const intl = useIntl();
 
   const signupSchema = useMemo(
@@ -89,3 +89,5 @@ export const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
     </AppLayout>
   );
 };
+
+export default LoginTemplate;

@@ -9,53 +9,29 @@ import {
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { TYPE_QUERY } from '../../../apollo/type';
 import { useGetTypeQuery } from '../../../apollo/generated/graphql';
-import { Formik } from 'formik';
-import { useCallback, useMemo } from 'react';
-import * as yup from 'yup';
-import { ProjectCreationTemplate } from '../../../components/Templates/ProjectCreation';
-import { TypeTemplate } from '../../../components/Templates/Project';
+import TypeTemplate from '../../../components/Templates/Project/Type';
+import { useCallback } from 'react';
 
 type TypeContainerGetServerProps = ProjectCreationProviderProps;
 
 type TypeContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const TypeContainer: NextPage<TypeContainerProps> = ({ drawerType }) => {
-  const context = useProjectCreationContext();
+  const { setDrawerType } = useProjectCreationContext();
+
   const router = useRouter();
 
   const { data } = useGetTypeQuery();
 
-  const schema = useMemo(
-    () =>
-      yup.object().shape({
-        type: yup.number().label('Type').required()
-      }),
-    []
-  );
-
   const handleSubmit = useCallback(
     (data: { type: number }) => {
-      context.setDrawerType(data.type);
+      setDrawerType(data.type);
       router.push('/project/collection', '/project/collection');
     },
-    [router, context]
+    [router, setDrawerType]
   );
 
-  return (
-    <Formik initialValues={{ type: drawerType || 0 }} onSubmit={handleSubmit} validationSchema={schema} validateOnMount>
-      {({ submitForm, isValid }) => (
-        <ProjectCreationTemplate
-          step={1}
-          title="What kind of drawer will you be designing?"
-          disablePrev
-          disableNext={!isValid}
-          handleNext={submitForm}
-        >
-          <TypeTemplate data={data} />
-        </ProjectCreationTemplate>
-      )}
-    </Formik>
-  );
+  return <TypeTemplate data={data} onSubmit={handleSubmit} initialValue={{ type: drawerType }} />;
 };
 
 export const getServerSideProps: GetServerSideProps<TypeContainerGetServerProps> = async (ctx) => {

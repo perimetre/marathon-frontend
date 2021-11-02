@@ -9,58 +9,29 @@ import {
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { FINISH_QUERY } from '../../../apollo/finish';
 import { useGetFinishQuery } from '../../../apollo/generated/graphql';
-import { useCallback, useMemo } from 'react';
-import * as yup from 'yup';
-import { Formik } from 'formik';
-import { ProjectCreationTemplate } from '../../../components/Templates/ProjectCreation';
-import { FinishTemplate } from '../../../components/Templates/Project';
+import FinishTemplate from '../../../components/Templates/Project/Finish';
+import { useCallback } from 'react';
 
 type FinishContainerGetServerProps = ProjectCreationProviderProps;
 
 type FinishContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const FinishContainer: NextPage<FinishContainerProps> = ({ drawerFinish }) => {
-  const context = useProjectCreationContext();
+  const { setDrawerFinish } = useProjectCreationContext();
+
   const router = useRouter();
 
   const { data } = useGetFinishQuery();
 
-  const schema = useMemo(
-    () =>
-      yup.object().shape({
-        finish: yup.string().label('Finish').required()
-      }),
-    []
-  );
-
   const handleSubmit = useCallback(
     (data: { finish: number }) => {
-      context.setDrawerFinish(data.finish);
+      setDrawerFinish(data.finish);
       router.push('/project/supplier', '/project/supplier');
     },
-    [router, context]
+    [router, setDrawerFinish]
   );
 
-  return (
-    <Formik
-      initialValues={{ finish: drawerFinish || 0 }}
-      onSubmit={handleSubmit}
-      validationSchema={schema}
-      validateOnMount
-    >
-      {({ submitForm, isValid }) => (
-        <ProjectCreationTemplate
-          step={3}
-          title="What type of finish would look the best?"
-          disableNext={!isValid}
-          handleNext={submitForm}
-          handlePrev={() => router.push('/project/collection', '/project/collection')}
-        >
-          <FinishTemplate data={data} />
-        </ProjectCreationTemplate>
-      )}
-    </Formik>
-  );
+  return <FinishTemplate data={data} onSubmit={handleSubmit} initialValue={{ finish: drawerFinish }} />;
 };
 
 export const getServerSideProps: GetServerSideProps<FinishContainerGetServerProps> = async (ctx) => {
