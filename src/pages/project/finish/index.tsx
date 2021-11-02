@@ -1,28 +1,29 @@
-import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
+import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import { DefaultLayout } from '../../../components/Layouts/Default';
-import { useProjectCreationContext } from '../../../components/Providers/ProjectCreationProvider';
+import {
+  projectCreationDataHoc,
+  ProjectCreationProviderProps,
+  requiredProjectData,
+  useProjectCreationContext
+} from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { FINISH_QUERY } from '../../../apollo/finish';
 import { useGetFinishQuery } from '../../../apollo/generated/graphql';
 import { ProjectCreationTemplate, FinishTemplate } from '../../../components/Templates';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
 import { Formik } from 'formik';
 
-type FinishContainerProps = InferGetStaticPropsType<typeof getStaticProps>;
+type FinishContainerGetServerProps = ProjectCreationProviderProps;
 
-const FinishContainer: NextPage<FinishContainerProps> = () => {
+type FinishContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
+
+const FinishContainer: NextPage<FinishContainerProps> = ({ drawerFinish }) => {
   const context = useProjectCreationContext();
   const router = useRouter();
 
   const { data } = useGetFinishQuery();
-
-  useEffect(() => {
-    if (!context.drawerCollection) {
-      router.push('/project/collection', '/project/collection');
-    }
-  }, [router, context]);
 
   const schema = useMemo(
     () =>
@@ -33,7 +34,7 @@ const FinishContainer: NextPage<FinishContainerProps> = () => {
   );
 
   const handleSubmit = useCallback(
-    (data: { finish: string }) => {
+    (data: { finish: number }) => {
       context.setDrawerFinish(data.finish);
       router.push('/project/supplier', '/project/supplier');
     },
@@ -43,7 +44,7 @@ const FinishContainer: NextPage<FinishContainerProps> = () => {
   return (
     <DefaultLayout>
       <Formik
-        initialValues={{ finish: context.drawerFinish || '' }}
+        initialValues={{ finish: drawerFinish || 0 }}
         onSubmit={handleSubmit}
         validationSchema={schema}
         validateOnMount
@@ -64,15 +65,32 @@ const FinishContainer: NextPage<FinishContainerProps> = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps<FinishContainerGetServerProps> = async (ctx) => {
   const apolloClient = initializeApollo();
+
+  const projectData = requiredProjectData(ctx);
+
+  if (!projectData.drawerCollection) {
+    return {
+      props: {},
+      redirect: {
+        destination: '/project/collection',
+        permanent: true
+      }
+    };
+  }
+
+  const props: FinishContainerGetServerProps = {
+    ...ctx?.query,
+    ...ctx?.params,
+    ...projectData
+  };
 
   await apolloClient.query({ query: FINISH_QUERY });
 
   return addApolloState(apolloClient, {
-    props: { test: true },
-    revalidate: 1
+    props
   });
 };
 
-export default FinishContainer;
+export default projectCreationDataHoc(FinishContainer);

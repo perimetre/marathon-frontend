@@ -1,16 +1,15 @@
 import gql from 'graphql-tag';
 
 export const SUPPLIER_QUERY = gql`
-  query GetSlideSupplier {
+  query GetSlideSupplierByCollection($collectionId: Int!) {
     slideSuppliers {
       id
-      name
       slug
+      name
       thumbnailUrl
-      slides {
+      slides(where: { collection: { id: { equals: $collectionId } } }) {
         id
         slug
-        formula
         product
         depths {
           id

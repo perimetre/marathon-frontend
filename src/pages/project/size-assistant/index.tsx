@@ -1,36 +1,37 @@
-import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
+import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import { DefaultLayout } from '../../../components/Layouts/Default';
-import { useProjectCreationContext } from '../../../components/Providers/ProjectCreationProvider';
+import {
+  projectCreationDataHoc,
+  ProjectCreationProviderProps,
+  requiredProjectData,
+  useProjectCreationContext
+} from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { ProjectCreationTemplate, SizeAssistantTemplate } from '../../../components/Templates';
 import { Formik } from 'formik';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
 
-type SizeAssistantContainerProps = InferGetStaticPropsType<typeof getStaticProps>;
+type SizeAssistantContainerGetServerProps = ProjectCreationProviderProps;
 
-const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = () => {
+type SizeAssistantContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
+
+const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({ drawerSize }) => {
   const context = useProjectCreationContext();
   const router = useRouter();
-
-  useEffect(() => {
-    if (!context.drawerFinish) {
-      router.push('/project/finish', '/project/finish');
-    }
-  }, [router, context]);
 
   const schema = useMemo(
     () =>
       yup.object().shape({
-        thickness: yup.string().label('Thickness').required(),
-        weight: yup.string().label('Weight').required()
+        thickness: yup.number().min(1).label('Thickness').required(),
+        weight: yup.number().min(1).label('Weight').required()
       }),
     []
   );
 
   const handleSubmit = useCallback(
-    (data: { thickness: string; weight: string }) => {
+    (data: { thickness: number; weight: number }) => {
       context.setDrawerSize(data);
     },
     [context]
@@ -40,8 +41,8 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = () => {
     <DefaultLayout>
       <Formik
         initialValues={{
-          thickness: context.drawerSize?.thickness || '',
-          weight: context.drawerSize?.weight || ''
+          thickness: drawerSize?.thickness || 0,
+          weight: drawerSize?.weight || 0
         }}
         onSubmit={handleSubmit}
         validationSchema={schema}
@@ -63,12 +64,30 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps<SizeAssistantContainerGetServerProps> = async (ctx) => {
   const apolloClient = initializeApollo();
+
+  const projectData = requiredProjectData(ctx);
+
+  if (!projectData.drawerSlide) {
+    return {
+      props: {},
+      redirect: {
+        destination: '/project/supplier',
+        permanent: true
+      }
+    };
+  }
+
+  const props: SizeAssistantContainerGetServerProps = {
+    ...ctx?.query,
+    ...ctx?.params,
+    ...projectData
+  };
+
   return addApolloState(apolloClient, {
-    props: { test: true },
-    revalidate: 1
+    props
   });
 };
 
-export default SizeAssistantContainer;
+export default projectCreationDataHoc(SizeAssistantContainer);

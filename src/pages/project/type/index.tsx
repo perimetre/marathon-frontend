@@ -1,7 +1,12 @@
-import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
+import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import { DefaultLayout } from '../../../components/Layouts/Default';
-import { useProjectCreationContext } from '../../../components/Providers/ProjectCreationProvider';
+import {
+  projectCreationDataHoc,
+  ProjectCreationProviderProps,
+  requiredProjectData,
+  useProjectCreationContext
+} from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { TYPE_QUERY } from '../../../apollo/type';
 import { useGetTypeQuery } from '../../../apollo/generated/graphql';
@@ -10,9 +15,11 @@ import { Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
 
-type TypeContainerProps = InferGetStaticPropsType<typeof getStaticProps>;
+type TypeContainerGetServerProps = ProjectCreationProviderProps;
 
-const TypeContainer: NextPage<TypeContainerProps> = () => {
+type TypeContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
+
+const TypeContainer: NextPage<TypeContainerProps> = ({ drawerType }) => {
   const context = useProjectCreationContext();
   const router = useRouter();
 
@@ -21,13 +28,13 @@ const TypeContainer: NextPage<TypeContainerProps> = () => {
   const schema = useMemo(
     () =>
       yup.object().shape({
-        type: yup.string().label('Type').required()
+        type: yup.number().label('Type').required()
       }),
     []
   );
 
   const handleSubmit = useCallback(
-    (data: { type: string }) => {
+    (data: { type: number }) => {
       context.setDrawerType(data.type);
       router.push('/project/collection', '/project/collection');
     },
@@ -37,7 +44,7 @@ const TypeContainer: NextPage<TypeContainerProps> = () => {
   return (
     <DefaultLayout>
       <Formik
-        initialValues={{ type: context.drawerType || '' }}
+        initialValues={{ type: drawerType || 0 }}
         onSubmit={handleSubmit}
         validationSchema={schema}
         validateOnMount
@@ -58,15 +65,22 @@ const TypeContainer: NextPage<TypeContainerProps> = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps<TypeContainerGetServerProps> = async (ctx) => {
   const apolloClient = initializeApollo();
+
+  const projectData = requiredProjectData(ctx);
+
+  const props: TypeContainerGetServerProps = {
+    ...ctx?.query,
+    ...ctx?.params,
+    ...projectData
+  };
 
   await apolloClient.query({ query: TYPE_QUERY });
 
   return addApolloState(apolloClient, {
-    props: {},
-    revalidate: 1
+    props
   });
 };
 
-export default TypeContainer;
+export default projectCreationDataHoc(TypeContainer);

@@ -1,41 +1,46 @@
-import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
+import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import { DefaultLayout } from '../../../components/Layouts/Default';
-import { useProjectCreationContext } from '../../../components/Providers/ProjectCreationProvider';
+import {
+  projectCreationDataHoc,
+  ProjectCreationProviderProps,
+  requiredProjectData,
+  useProjectCreationContext
+} from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { SUPPLIER_QUERY } from '../../../apollo/supplier';
-import { useGetSlideSupplierQuery } from '../../../apollo/generated/graphql';
+import { useGetSlideSupplierByCollectionQuery } from '../../../apollo/generated/graphql';
 import { ProjectCreationTemplate, SupplierTemplate } from '../../../components/Templates';
 import { Formik } from 'formik';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
 
-type SupplierContainerProps = InferGetStaticPropsType<typeof getStaticProps>;
+type SupplierContainerGetServerProps = ProjectCreationProviderProps;
 
-const SupplierContainer: NextPage<SupplierContainerProps> = () => {
+type SupplierContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
+
+const SupplierContainer: NextPage<SupplierContainerProps> = ({ drawerCollection, drawerSlide }) => {
   const context = useProjectCreationContext();
   const router = useRouter();
 
-  const { data } = useGetSlideSupplierQuery();
-
-  useEffect(() => {
-    if (!context.drawerFinish) {
-      router.push('/project/finish', '/project/finish');
+  const { data } = useGetSlideSupplierByCollectionQuery({
+    variables: {
+      collectionId: Number(drawerCollection)
     }
-  }, [router, context]);
+  });
 
   const schema = useMemo(
     () =>
       yup.object().shape({
-        supplier: yup.string().label('Supplier').required(),
+        supplier: yup.number().label('Supplier').required(),
         model: yup.string().label('Model').required(),
-        depth: yup.string().label('Depth').nullable()
+        depth: yup.string().label('Depth').required()
       }),
     []
   );
 
   const handleSubmit = useCallback(
-    (data: { supplier: string; model: string; depth: string }) => {
+    (data: { supplier: number; model: number; depth: number }) => {
       context.setDrawerSlide(data);
       router.push('/project/size-assistant', '/project/size-assistant');
     },
@@ -46,9 +51,9 @@ const SupplierContainer: NextPage<SupplierContainerProps> = () => {
     <DefaultLayout>
       <Formik
         initialValues={{
-          supplier: context.drawerSlide?.supplier || '',
-          depth: context.drawerSlide?.depth || '',
-          model: context.drawerSlide?.model || ''
+          supplier: drawerSlide?.supplier || 0,
+          depth: drawerSlide?.depth || 0,
+          model: drawerSlide?.model || 0
         }}
         onSubmit={handleSubmit}
         validationSchema={schema}
@@ -70,15 +75,32 @@ const SupplierContainer: NextPage<SupplierContainerProps> = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps<SupplierContainerGetServerProps> = async (ctx) => {
   const apolloClient = initializeApollo();
 
-  await apolloClient.query({ query: SUPPLIER_QUERY });
+  const projectData = requiredProjectData(ctx);
+
+  if (!projectData.drawerFinish) {
+    return {
+      props: {},
+      redirect: {
+        destination: '/project/finish',
+        permanent: true
+      }
+    };
+  }
+
+  const props: SupplierContainerGetServerProps = {
+    ...ctx?.query,
+    ...ctx?.params,
+    ...projectData
+  };
+
+  await apolloClient.query({ query: SUPPLIER_QUERY, variables: { collectionId: projectData.drawerCollection } });
 
   return addApolloState(apolloClient, {
-    props: { test: true },
-    revalidate: 1
+    props
   });
 };
 
-export default SupplierContainer;
+export default projectCreationDataHoc(SupplierContainer);

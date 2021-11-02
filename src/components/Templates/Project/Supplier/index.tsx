@@ -1,11 +1,11 @@
 import { useField, useFormikContext } from 'formik';
 import { useMemo } from 'react';
-import { GetSlideSupplierQuery } from '../../../../apollo/generated/graphql';
+import { GetSupplierByCollectionQuery } from '../../../../apollo/generated/graphql';
 import Card from '../../../UI/Card';
 import { Select } from '../../../UI/Form/Select';
 
 export type SupplierTemplateProps = {
-  data?: GetSlideSupplierQuery;
+  data?: GetSupplierByCollectionQuery;
 };
 
 export const SupplierTemplate: React.FC<SupplierTemplateProps> = ({ data }) => {
@@ -22,11 +22,9 @@ export const SupplierTemplate: React.FC<SupplierTemplateProps> = ({ data }) => {
   }, [data, supField.value]);
 
   const depths = useMemo(() => {
-    console.log({ values });
     if (data && values?.supplier && values?.model) {
-      const supplier = data.slideSuppliers.find((f) => f.id === values.supplier);
-      const slide = supplier?.slides.find((f) => f.id === values.model);
-
+      const supplier = data.slideSuppliers.find((f) => f.id === Number(values.supplier));
+      const slide = supplier?.slides.find((f) => f.id === Number(values.model));
       return slide?.depths;
     }
     return [];
@@ -55,7 +53,9 @@ export const SupplierTemplate: React.FC<SupplierTemplateProps> = ({ data }) => {
           <Select name="model" label="Model" onChange={() => setFieldValue('depth', '')}>
             <option key="-1">Select Option</option>
             {models?.map((model) => (
-              <option key={model.id}>{model.product}</option>
+              <option key={model.id} value={model.id}>
+                {model.product}
+              </option>
             ))}
           </Select>
         </label>
@@ -63,7 +63,9 @@ export const SupplierTemplate: React.FC<SupplierTemplateProps> = ({ data }) => {
           <Select name="depth" label="Depth">
             <option key="-1">Select Option</option>
             {depths?.map((depth) => (
-              <option key={depth.id}>{depth.display}</option>
+              <option key={depth.id} value={depth.id}>
+                {depth.display}
+              </option>
             ))}
           </Select>
         </label>

@@ -1,39 +1,40 @@
-import type { GetStaticProps, InferGetStaticPropsType, NextPage } from 'next';
+import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import { useRouter } from 'next/dist/client/router';
 import { DefaultLayout } from '../../../components/Layouts/Default';
-import { useProjectCreationContext } from '../../../components/Providers/ProjectCreationProvider';
+import {
+  projectCreationDataHoc,
+  ProjectCreationProviderProps,
+  requiredProjectData,
+  useProjectCreationContext
+} from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { COLLECTION_QUERY } from '../../../apollo/collection';
 import { useGetCollectionsQuery } from '../../../apollo/generated/graphql';
 import { ProjectCreationTemplate, CollectionTemplate } from '../../../components/Templates';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
 
-type CollectionContainerProps = InferGetStaticPropsType<typeof getStaticProps>;
+type CollectionContainerGetServerProps = ProjectCreationProviderProps;
 
-const CollectionContainer: NextPage<CollectionContainerProps> = () => {
+type CollectionContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
+
+const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollection }) => {
   const context = useProjectCreationContext();
   const router = useRouter();
 
   const { data } = useGetCollectionsQuery();
 
-  useEffect(() => {
-    if (!context.drawerType) {
-      router.push('/project/type', '/project/type');
-    }
-  }, [router, context]);
-
   const schema = useMemo(
     () =>
       yup.object().shape({
-        collection: yup.string().label('Collection').required()
+        collection: yup.number().label('Collection').required()
       }),
     []
   );
 
   const handleSubmit = useCallback(
-    (data: { collection: string }) => {
+    (data: { collection: number }) => {
       context.setDrawerCollection(data.collection);
       router.push('/project/finish', '/project/finish');
     },
@@ -43,7 +44,7 @@ const CollectionContainer: NextPage<CollectionContainerProps> = () => {
   return (
     <DefaultLayout>
       <Formik
-        initialValues={{ collection: context.drawerCollection || '' }}
+        initialValues={{ collection: drawerCollection || 0 }}
         onSubmit={handleSubmit}
         validationSchema={schema}
         validateOnMount
@@ -64,15 +65,32 @@ const CollectionContainer: NextPage<CollectionContainerProps> = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps<CollectionContainerGetServerProps> = async (ctx) => {
   const apolloClient = initializeApollo();
+
+  const projectData = requiredProjectData(ctx);
+
+  if (!projectData.drawerType) {
+    return {
+      props: {},
+      redirect: {
+        destination: '/project/type',
+        permanent: true
+      }
+    };
+  }
+
+  const props: CollectionContainerGetServerProps = {
+    ...ctx?.query,
+    ...ctx?.params,
+    ...projectData
+  };
 
   await apolloClient.query({ query: COLLECTION_QUERY });
 
   return addApolloState(apolloClient, {
-    props: {},
-    revalidate: 1
+    props
   });
 };
 
-export default CollectionContainer;
+export default projectCreationDataHoc(CollectionContainer);
