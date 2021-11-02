@@ -3,8 +3,8 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { Button } from '../../UI/Button';
 import { Expander } from '../../UI/Expander';
-import { ChevronDownIcon } from '../../UI/Icons';
 import classNames from 'classnames';
+import { ChevronDownIcon } from '../../UI/Icons/chevronDown';
 
 export const HomeTemplate: React.FC = () => {
   const [expanded, setExpanded] = useState('1');

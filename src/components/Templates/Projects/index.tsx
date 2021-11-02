@@ -1,12 +1,14 @@
-import { useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'next/link';
 import { Button } from '../../UI/Button';
-import { ChevronDownIcon, CogIcon, PlusCircleSolid } from '../../UI/Icons';
 import { Expander } from '../../UI/Expander';
 import { Modal } from '../../UI/Modal';
 import classNames from 'classnames';
 import { Dropdown } from '../../UI/Dropdown';
+import { ChevronDownIcon } from '../../UI/Icons/chevronDown';
+import { CogIcon } from '../../UI/Icons/Gog';
+import { PlusCircleSolid } from '../../UI/Icons/plusCircle';
 
 export type ProjectsTemplateProps = {
   description?: string;

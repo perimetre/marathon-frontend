@@ -1,7 +1,7 @@
 import { useField } from 'formik';
 import { GetCollectionsQuery } from '../../../../apollo/generated/graphql';
 import Card from '../../../UI/Card';
-import { ChevronRight } from '../../../UI/Icons';
+import { ChevronRight } from '../../../UI/Icons/chevronRight';
 
 export type CollectionTemplateProps = {
   data?: GetCollectionsQuery;
