@@ -24,6 +24,73 @@ export type BoolFilter = {
   not?: Maybe<NestedBoolFilter>;
 };
 
+export type Category = {
+  __typename?: 'Category';
+  id: Scalars['Int'];
+  modules: Array<Module>;
+  name: Scalars['String'];
+  slug: Scalars['String'];
+};
+
+export type CategoryModulesArgs = {
+  where?: Maybe<ModuleWhereInput>;
+};
+
+export type CategoryCreateNestedOneWithoutModuleCategoriesInput = {
+  connect?: Maybe<CategoryWhereUniqueInput>;
+  connectOrCreate?: Maybe<CategoryCreateOrConnectWithoutModuleCategoriesInput>;
+  create?: Maybe<CategoryCreateWithoutModuleCategoriesInput>;
+};
+
+export type CategoryCreateOrConnectWithoutModuleCategoriesInput = {
+  create: CategoryCreateWithoutModuleCategoriesInput;
+  where: CategoryWhereUniqueInput;
+};
+
+export type CategoryCreateWithoutModuleCategoriesInput = {
+  name: Scalars['String'];
+  slug: Scalars['String'];
+};
+
+export type CategoryOrderByInput = {
+  id?: Maybe<SortOrder>;
+  name?: Maybe<SortOrder>;
+  slug?: Maybe<SortOrder>;
+};
+
+export type CategoryUpdateOneRequiredWithoutModuleCategoriesInput = {
+  connect?: Maybe<CategoryWhereUniqueInput>;
+  connectOrCreate?: Maybe<CategoryCreateOrConnectWithoutModuleCategoriesInput>;
+  create?: Maybe<CategoryCreateWithoutModuleCategoriesInput>;
+  update?: Maybe<CategoryUpdateWithoutModuleCategoriesInput>;
+  upsert?: Maybe<CategoryUpsertWithoutModuleCategoriesInput>;
+};
+
+export type CategoryUpdateWithoutModuleCategoriesInput = {
+  name?: Maybe<StringFieldUpdateOperationsInput>;
+  slug?: Maybe<StringFieldUpdateOperationsInput>;
+};
+
+export type CategoryUpsertWithoutModuleCategoriesInput = {
+  create: CategoryCreateWithoutModuleCategoriesInput;
+  update: CategoryUpdateWithoutModuleCategoriesInput;
+};
+
+export type CategoryWhereInput = {
+  AND?: Maybe<Array<CategoryWhereInput>>;
+  NOT?: Maybe<Array<CategoryWhereInput>>;
+  OR?: Maybe<Array<CategoryWhereInput>>;
+  id?: Maybe<IntFilter>;
+  moduleCategories?: Maybe<ModuleCategoryListRelationFilter>;
+  name?: Maybe<StringFilter>;
+  slug?: Maybe<StringFilter>;
+};
+
+export type CategoryWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
+  slug?: Maybe<Scalars['String']>;
+};
+
 export type Collection = {
   __typename?: 'Collection';
   collectionFinishes: Array<CollectionFinishes>;
@@ -922,6 +989,7 @@ export enum Locale {
 export type Module = {
   __typename?: 'Module';
   bundleUrl?: Maybe<Scalars['String']>;
+  categories: Array<Category>;
   collection: Collection;
   collectionId: Scalars['Int'];
   description?: Maybe<Scalars['String']>;
@@ -938,12 +1006,125 @@ export type Module = {
   thumbnailUrl?: Maybe<Scalars['String']>;
 };
 
+export type ModuleCategoriesArgs = {
+  where?: Maybe<CategoryWhereInput>;
+};
+
 export type ModuleProjectModulesArgs = {
   cursor?: Maybe<ProjectModuleWhereUniqueInput>;
   orderBy?: Maybe<Array<ProjectModuleOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
   where?: Maybe<ProjectModuleWhereInput>;
+};
+
+export type ModuleCategory = {
+  __typename?: 'ModuleCategory';
+  category: Category;
+  categoryId: Scalars['Int'];
+  id: Scalars['Int'];
+  module: Module;
+  moduleId: Scalars['Int'];
+};
+
+export type ModuleCategoryCreateManyModuleInput = {
+  categoryId: Scalars['Int'];
+  id?: Maybe<Scalars['Int']>;
+};
+
+export type ModuleCategoryCreateManyModuleInputEnvelope = {
+  data?: Maybe<Array<ModuleCategoryCreateManyModuleInput>>;
+  skipDuplicates?: Maybe<Scalars['Boolean']>;
+};
+
+export type ModuleCategoryCreateNestedManyWithoutModuleInput = {
+  connect?: Maybe<Array<ModuleCategoryWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ModuleCategoryCreateOrConnectWithoutModuleInput>>;
+  create?: Maybe<Array<ModuleCategoryCreateWithoutModuleInput>>;
+  createMany?: Maybe<ModuleCategoryCreateManyModuleInputEnvelope>;
+};
+
+export type ModuleCategoryCreateOrConnectWithoutModuleInput = {
+  create: ModuleCategoryCreateWithoutModuleInput;
+  where: ModuleCategoryWhereUniqueInput;
+};
+
+export type ModuleCategoryCreateWithoutModuleInput = {
+  category: CategoryCreateNestedOneWithoutModuleCategoriesInput;
+};
+
+export type ModuleCategoryListRelationFilter = {
+  every?: Maybe<ModuleCategoryWhereInput>;
+  none?: Maybe<ModuleCategoryWhereInput>;
+  some?: Maybe<ModuleCategoryWhereInput>;
+};
+
+export type ModuleCategoryOrderByInput = {
+  categoryId?: Maybe<SortOrder>;
+  id?: Maybe<SortOrder>;
+  moduleId?: Maybe<SortOrder>;
+};
+
+export type ModuleCategoryScalarWhereInput = {
+  AND?: Maybe<Array<ModuleCategoryScalarWhereInput>>;
+  NOT?: Maybe<Array<ModuleCategoryScalarWhereInput>>;
+  OR?: Maybe<Array<ModuleCategoryScalarWhereInput>>;
+  categoryId?: Maybe<IntFilter>;
+  id?: Maybe<IntFilter>;
+  moduleId?: Maybe<IntFilter>;
+};
+
+export type ModuleCategoryUpdateManyMutationInput = {
+  _?: Maybe<Scalars['Int']>;
+};
+
+export type ModuleCategoryUpdateManyWithWhereWithoutModuleInput = {
+  data: ModuleCategoryUpdateManyMutationInput;
+  where: ModuleCategoryScalarWhereInput;
+};
+
+export type ModuleCategoryUpdateManyWithoutModuleInput = {
+  connect?: Maybe<Array<ModuleCategoryWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ModuleCategoryCreateOrConnectWithoutModuleInput>>;
+  create?: Maybe<Array<ModuleCategoryCreateWithoutModuleInput>>;
+  createMany?: Maybe<ModuleCategoryCreateManyModuleInputEnvelope>;
+  delete?: Maybe<Array<ModuleCategoryWhereUniqueInput>>;
+  deleteMany?: Maybe<Array<ModuleCategoryScalarWhereInput>>;
+  disconnect?: Maybe<Array<ModuleCategoryWhereUniqueInput>>;
+  set?: Maybe<Array<ModuleCategoryWhereUniqueInput>>;
+  update?: Maybe<Array<ModuleCategoryUpdateWithWhereUniqueWithoutModuleInput>>;
+  updateMany?: Maybe<Array<ModuleCategoryUpdateManyWithWhereWithoutModuleInput>>;
+  upsert?: Maybe<Array<ModuleCategoryUpsertWithWhereUniqueWithoutModuleInput>>;
+};
+
+export type ModuleCategoryUpdateWithWhereUniqueWithoutModuleInput = {
+  data: ModuleCategoryUpdateWithoutModuleInput;
+  where: ModuleCategoryWhereUniqueInput;
+};
+
+export type ModuleCategoryUpdateWithoutModuleInput = {
+  category?: Maybe<CategoryUpdateOneRequiredWithoutModuleCategoriesInput>;
+};
+
+export type ModuleCategoryUpsertWithWhereUniqueWithoutModuleInput = {
+  create: ModuleCategoryCreateWithoutModuleInput;
+  update: ModuleCategoryUpdateWithoutModuleInput;
+  where: ModuleCategoryWhereUniqueInput;
+};
+
+export type ModuleCategoryWhereInput = {
+  AND?: Maybe<Array<ModuleCategoryWhereInput>>;
+  NOT?: Maybe<Array<ModuleCategoryWhereInput>>;
+  OR?: Maybe<Array<ModuleCategoryWhereInput>>;
+  category?: Maybe<CategoryWhereInput>;
+  categoryId?: Maybe<IntFilter>;
+  id?: Maybe<IntFilter>;
+  module?: Maybe<ModuleWhereInput>;
+  moduleId?: Maybe<IntFilter>;
+};
+
+export type ModuleCategoryWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type ModuleCreateManyCollectionInput = {
@@ -1027,6 +1208,7 @@ export type ModuleCreateWithoutCollectionInput = {
   isImprintExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1041,6 +1223,7 @@ export type ModuleCreateWithoutFinishInput = {
   isImprintExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1056,6 +1239,7 @@ export type ModuleCreateWithoutProjectModulesInput = {
   isImprintExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
@@ -1176,6 +1360,7 @@ export type ModuleUpdateWithoutCollectionInput = {
   isImprintExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1190,6 +1375,7 @@ export type ModuleUpdateWithoutFinishInput = {
   isImprintExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1205,6 +1391,7 @@ export type ModuleUpdateWithoutProjectModulesInput = {
   isImprintExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   rules?: Maybe<Scalars['Json']>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
@@ -1242,6 +1429,7 @@ export type ModuleWhereInput = {
   isImprintExtension?: Maybe<BoolFilter>;
   isMat?: Maybe<BoolFilter>;
   isSubmodule?: Maybe<BoolFilter>;
+  moduleCategories?: Maybe<ModuleCategoryListRelationFilter>;
   partNumber?: Maybe<StringFilter>;
   projectModules?: Maybe<ProjectModuleListRelationFilter>;
   rules?: Maybe<JsonNullableFilter>;
@@ -2194,12 +2382,16 @@ export type ProjectWhereUniqueInput = {
 
 export type Query = {
   __typename?: 'Query';
+  categories: Array<Category>;
+  category?: Maybe<Category>;
   collection?: Maybe<Collection>;
   collectionFinishes: Array<CollectionFinishes>;
   collections: Array<Collection>;
   finish?: Maybe<Finish>;
   finishes: Array<Finish>;
   module?: Maybe<Module>;
+  moduleCategories: Array<ModuleCategory>;
+  moduleCategory?: Maybe<ModuleCategory>;
   modules: Array<Module>;
   project?: Maybe<Project>;
   projectModule?: Maybe<ProjectModule>;
@@ -2213,6 +2405,18 @@ export type Query = {
   slides: Array<Slide>;
   type?: Maybe<Type>;
   types: Array<Type>;
+};
+
+export type QueryCategoriesArgs = {
+  cursor?: Maybe<CategoryWhereUniqueInput>;
+  orderBy?: Maybe<Array<CategoryOrderByInput>>;
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
+  where?: Maybe<CategoryWhereInput>;
+};
+
+export type QueryCategoryArgs = {
+  where: CategoryWhereUniqueInput;
 };
 
 export type QueryCollectionArgs = {
@@ -2249,6 +2453,18 @@ export type QueryFinishesArgs = {
 
 export type QueryModuleArgs = {
   where: ModuleWhereUniqueInput;
+};
+
+export type QueryModuleCategoriesArgs = {
+  cursor?: Maybe<ModuleCategoryWhereUniqueInput>;
+  orderBy?: Maybe<Array<ModuleCategoryOrderByInput>>;
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
+  where?: Maybe<ModuleCategoryWhereInput>;
+};
+
+export type QueryModuleCategoryArgs = {
+  where: ModuleCategoryWhereUniqueInput;
 };
 
 export type QueryModulesArgs = {
@@ -3086,6 +3302,7 @@ export type ModuleDataFragment = {
   partNumber: string;
   rules?: any | null | undefined;
   thumbnailUrl?: string | null | undefined;
+  categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
 };
 
 export type PlannerQueryVariables = Exact<{
@@ -3098,6 +3315,7 @@ export type PlannerQuery = {
     | {
         __typename?: 'Project';
         id: number;
+        title: string;
         modules: Array<{
           __typename?: 'Module';
           id: number;
@@ -3109,6 +3327,7 @@ export type PlannerQuery = {
           partNumber: string;
           rules?: any | null | undefined;
           thumbnailUrl?: string | null | undefined;
+          categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
         }>;
       }
     | null
@@ -3161,6 +3380,11 @@ export const ModuleDataFragmentDoc = gql`
     partNumber
     rules
     thumbnailUrl
+    categories {
+      id
+      slug
+      name
+    }
   }
 `;
 export const GetCollectionsDocument = gql`
@@ -3251,6 +3475,7 @@ export const PlannerDocument = gql`
   query Planner($slug: String!) {
     project(where: { slug: $slug }) {
       id
+      title
       modules {
         ...ModuleData
       }

@@ -3,7 +3,8 @@
   "title": "Space Planner",
   "description": "Marathon space planner",
   "common": {
-    "tryAgain": "Try again"
+    "tryAgain": "Try again",
+    "close": "Close"
   },
   "serverErrors": {
     "unknownError": "An error has occurred. Please try again later.",

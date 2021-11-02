@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
-
 import Script from 'next/script';
 import env from '../../../env';
 import { useUnityPlayerContext } from '../../Providers/UnityPlayerProvider';
@@ -146,7 +145,7 @@ const UnityPlayer = forwardRef<UnityPlayerRef, UnityPlayerProps>(function UnityP
 
   return (
     <div className={classNames('w-full h-full', className)}>
-      <canvas ref={unityCanvas} width={960} height={600} />
+      <canvas ref={unityCanvas} width={960} height={600} />{' '}
       <Script src={loaderUrl} strategy="afterInteractive" onLoad={() => setIsScriptLoaded(true)} />
     </div>
   );

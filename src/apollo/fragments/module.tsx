@@ -12,5 +12,10 @@ export const MODULE_DATA = gql`
     rules
     thumbnailUrl
     # description
+    categories {
+      id
+      slug
+      name
+    }
   }
 `;
