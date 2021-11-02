@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Image from 'next/image';
-import classnames from 'classnames';
+import classNames from 'classnames';
 import { CenterContent } from './styles';
 import UnityPlayer from '../../../Elements/UnityPlayer';
 import { useUnityPlayerContext, UnityPlayerProvider } from '../../../Providers/UnityPlayerProvider';
@@ -19,13 +19,13 @@ const LoadingState: React.FC = () => {
 
   return (
     <CenterContent
-      className={classnames({
+      className={classNames({
         'opacity-0 animate-fade-in': loadingProgress < 1, // Animate in when progress starts
         'animate-fade-out': loadingProgress >= 1 // Fade out when loading is finished
       })}
     >
       <div
-        className={classnames('h-28 w-28 relative translate-y-2 opacity-0', {
+        className={classNames('h-28 w-28 relative translate-y-2 opacity-0', {
           'animate-fade-into': imageLoaded // Animate up when image gets loaded
         })}
       >
@@ -108,7 +108,7 @@ const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTry
       <div className="relative flex-grow">
         {!error && (
           <UnityPlayer
-            className={classnames('opacity-0', { 'animate-fade-in': state === 'complete' && loadingProgress >= 1 })}
+            className={classNames('opacity-0', { 'animate-fade-in': state === 'complete' && loadingProgress >= 1 })}
           />
         )}
         {/* Content on top of unity player */}

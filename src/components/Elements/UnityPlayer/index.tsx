@@ -1,7 +1,7 @@
 // Explicitly disable because we're dealing with unity objects and we don't have their type
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 import Script from 'next/script';
 import env from '../../../env';
@@ -145,7 +145,7 @@ const UnityPlayer = forwardRef<UnityPlayerRef, UnityPlayerProps>(function UnityP
   );
 
   return (
-    <div className={classnames('w-full h-full', className)}>
+    <div className={classNames('w-full h-full', className)}>
       <canvas ref={unityCanvas} width={960} height={600} />
       <Script src={loaderUrl} strategy="afterInteractive" onLoad={() => setIsScriptLoaded(true)} />
     </div>

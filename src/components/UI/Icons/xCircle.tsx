@@ -1,5 +1,5 @@
 import React from 'react';
-import classnames from 'classnames';
+import classNames from 'classnames';
 
 /**
  * XCircle icon to use with JSX
@@ -13,7 +13,7 @@ export const XCircle: React.FC<React.SVGProps<SVGSVGElement>> = ({ className, ..
     viewBox="0 0 24 24"
     stroke="currentColor"
     {...props}
-    className={classnames('h-6 w-6 stroke-current', className)}
+    className={classNames('h-6 w-6 stroke-current', className)}
   >
     <path
       strokeLinecap="round"
@@ -31,7 +31,7 @@ export const XCircle: React.FC<React.SVGProps<SVGSVGElement>> = ({ className, ..
  * @param props.className the icon classname value
  */
 export const XCircleSolid: React.FC<React.SVGProps<SVGSVGElement>> = ({ className, ...props }) => (
-  <svg viewBox="0 0 20 20" fill="currentColor" {...props} className={classnames('h-6 w-6 fill-current', className)}>
+  <svg viewBox="0 0 20 20" fill="currentColor" {...props} className={classNames('h-6 w-6 fill-current', className)}>
     <path
       fillRule="evenodd"
       clipRule="evenodd"
