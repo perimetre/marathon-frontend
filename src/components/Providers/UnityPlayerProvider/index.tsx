@@ -36,22 +36,20 @@ export const UnityPlayerProvider: React.FC = ({ children }) => {
   const unityInstance = useRef<any>();
 
   return (
-    <div id="unity-player-provider">
-      <UnityPlayerContext.Provider
-        value={{
-          hasProvider: true,
-          state,
-          setState,
-          loadingProgress,
-          setLoadingProgress,
-          errorMessage,
-          setErrorMessage,
-          unityInstance
-        }}
-      >
-        {children}
-      </UnityPlayerContext.Provider>
-    </div>
+    <UnityPlayerContext.Provider
+      value={{
+        hasProvider: true,
+        state,
+        setState,
+        loadingProgress,
+        setLoadingProgress,
+        errorMessage,
+        setErrorMessage,
+        unityInstance
+      }}
+    >
+      {children}
+    </UnityPlayerContext.Provider>
   );
 };
 

@@ -9,7 +9,7 @@ module.exports = {
         'mui-primary': 'var(--mui-primary, #DA291C)',
         'mui-dark': 'var(--mui-dark, #2D2926)',
         'mui-gray-50': 'var(--mui-gray-50, #eeeeee)',
-        'mui-gray-300': 'var(--mui-gray-50, #C4C4C4)',
+        'mui-gray-300': 'var(--mui-gray-300, #C4C4C4)',
         // --------------- Colors under this are not theme related, and only are here so tailwind can generate helpers for them
         // Add a reset color
         'mui-initial': 'initial',

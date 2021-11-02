@@ -13,7 +13,7 @@ const Navbar: React.FC<NavbarProps> = ({ prependLeft, appendRight }) => {
     <nav className="relative flex items-stretch justify-between bg-white h-14">
       {/* Left */}
       <div className="flex items-center justify-center">
-        {prependLeft}
+        {prependLeft && prependLeft()}
         <p className="px-4 uppercase font-xs">
           <FormattedMessage id="title" />
         </p>
@@ -35,7 +35,7 @@ const Navbar: React.FC<NavbarProps> = ({ prependLeft, appendRight }) => {
         </Link>
       </div>
       {/* Right */}
-      <div className="flex items-center justify-center">{appendRight}</div>
+      <div className="flex items-center justify-center">{appendRight && appendRight()}</div>
     </nav>
   );
 };

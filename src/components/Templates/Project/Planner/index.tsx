@@ -13,6 +13,9 @@ import Spinner from '../../../UI/Spinner';
 import { PlannerQuery } from '../../../../apollo/generated/graphql';
 import { Button } from '../../../UI/Button';
 import AppLayout from '../../../Layouts/AppLayout';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping, faBarsStaggered, faBars } from '@fortawesome/free-solid-svg-icons';
+import NavbarButton from '../../../UI/NavbarButton';
 
 const LoadingState: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -102,7 +105,7 @@ const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTry
   const { loadingProgress, state } = useUnityPlayerContext();
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex max-h-screen">
       {/* Left sidebar, fixed width */}
       <BuilderSidebar project={data?.project} />
       {/* Right section, takes remaining space(flex-grow) */}
@@ -111,11 +114,13 @@ const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTry
         {/* In this case it's valid because if graphql has an error, we shouldn't display the player anyway */}
         {!error && (
           <UnityPlayer
-            className={classNames('opacity-0', { 'animate-fade-in': state === 'complete' && loadingProgress >= 1 })}
+            className={classNames('opacity-0 absolute inset-0', {
+              'animate-fade-in': state === 'complete' && loadingProgress >= 1
+            })}
           />
         )}
         {/* Content on top of unity player */}
-        <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute inset-0 z-10 pointer-events-none">
           {(state === 'loading' || loading) && <LoadingState />}
           {(state === 'error' || error) && <ErrorState slug={slug} handleTryAgain={handleTryAgain} error={error} />}
         </div>
@@ -136,7 +141,31 @@ const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ slug, data, loading, 
   const intl = useIntl();
 
   return (
-    <AppLayout>
+    <AppLayout
+      prependLeft={() => (
+        <>
+          <NavbarButton iconPosition="left" icon={() => <FontAwesomeIcon icon={faBars} className="text-2xl" />} />
+        </>
+      )}
+      appendRight={() => (
+        <>
+          <NavbarButton
+            iconPosition="left"
+            icon={() => <FontAwesomeIcon icon={faCartShopping} className="text-2xl" />}
+          />
+
+          <Link href="/projects">
+            <a className="flex items-center justify-center">
+              <NavbarButton
+                iconPosition="right"
+                content={<FormattedMessage id="build.projectsPageNav" />}
+                icon={() => <FontAwesomeIcon icon={faBarsStaggered} className="text-2xl text-mui-primary" />}
+              />
+            </a>
+          </Link>
+        </>
+      )}
+    >
       <Head>
         {/*TODO: display project name*/}
         <title>
