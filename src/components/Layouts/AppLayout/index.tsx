@@ -1,11 +1,12 @@
-import Navbar from '../../Elements/Navbar';
+import Navbar, { NavbarProps } from '../../Elements/Navbar';
+import { Main } from './styles';
 
-type AppLayoutProps = Record<string, unknown>;
+type AppLayoutProps = NavbarProps;
 
-const AppLayout: React.FC<AppLayoutProps> = ({ children }) => (
-  <div id="app-layout">
-    <Navbar />
-    <main>{children}</main>
+const AppLayout: React.FC<AppLayoutProps> = ({ children, prependLeft, appendRight }) => (
+  <div id="app-layout" className="flex flex-col min-h-screen">
+    <Navbar prependLeft={prependLeft} appendRight={appendRight} />
+    <Main>{children}</Main>
     {/* <Footer /> */}
   </div>
 );

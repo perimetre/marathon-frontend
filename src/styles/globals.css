@@ -7,9 +7,11 @@
 @import '../components/UI';
 
 html,
-body {
+body,
+#__next {
   padding: 0;
   margin: 0;
   font-family: 'Helvetica Neue', 'Open Sans', sans-serif;
   background-color: var(--mui-gray-50, #eeeeee);
+  min-height: 100vh;
 }

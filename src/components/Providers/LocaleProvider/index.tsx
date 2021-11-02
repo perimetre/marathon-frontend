@@ -70,19 +70,17 @@ export const LocaleProvider: React.FC = ({ children }) => {
   const messages = useMemo(() => locales[locale], [locale]);
 
   return (
-    <div id="locale-provider">
-      <IntlProvider locale={locale} messages={messages}>
-        <LocaleContext.Provider
-          value={{
-            hasProvider: true,
-            locale,
-            dayjsLocale
-          }}
-        >
-          {children}
-        </LocaleContext.Provider>
-      </IntlProvider>
-    </div>
+    <IntlProvider locale={locale} messages={messages}>
+      <LocaleContext.Provider
+        value={{
+          hasProvider: true,
+          locale,
+          dayjsLocale
+        }}
+      >
+        {children}
+      </LocaleContext.Provider>
+    </IntlProvider>
   );
 };
 
