@@ -1,11 +1,16 @@
-type NavbarButtonProps = {
+import React, { ButtonHTMLAttributes, DetailedHTMLProps } from 'react';
+
+type NavbarButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
   icon?: (className: string) => React.ReactNode;
   iconPosition?: 'left' | 'right';
   content?: string | React.ReactNode;
 };
 
-const NavbarButton: React.FC<NavbarButtonProps> = ({ icon, iconPosition, content }) => (
-  <button className="flex items-center justify-center p-4 hover:bg-mui-gray-50 transition-colors duration-75 group gap-2">
+const NavbarButton: React.FC<NavbarButtonProps> = ({ icon, iconPosition, content, ...buttonProps }) => (
+  <button
+    className="flex items-center justify-center p-4 hover:bg-mui-gray-50 transition-colors duration-75 group gap-2"
+    {...buttonProps}
+  >
     {iconPosition === 'left' &&
       icon &&
       icon(

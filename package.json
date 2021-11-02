@@ -13,7 +13,7 @@
     "lint": "next lint --fix",
     "prepare": "husky install",
     "graphql:codegen": "cross-env DOTENV_CONFIG_PATH=./.env.development graphql-codegen -r dotenv/config --config codegen.yml",
-    "graphql:codegen-watch": "npm run graphql:codegen -- --watch src/**/*"
+    "graphql:codegen-watch": "npm run graphql:codegen -- --watch src/apollo/**/*"
   },
   "dependencies": {
     "@apollo/client": "^3.4.16",

@@ -13,6 +13,7 @@ type PlannerSidebarProps = {
     title?: string | null;
     modules?: ModuleDataFragment[];
   } | null;
+  isSidebarOpen?: boolean;
 };
 
 type PlannerSidebarCategories = NonNullable<
@@ -106,8 +107,7 @@ const animationVariants = {
   closed: { width: '0%', opacity: 0 }
 };
 
-const PlannerSidebar: React.FC<PlannerSidebarProps> = ({ project }) => {
-  const [isOpen] = useState(true);
+const PlannerSidebar: React.FC<PlannerSidebarProps> = ({ project, isSidebarOpen }) => {
   const [state, setState] = useState<PlannerSidebarState>('categories');
   const [category, setCategory] = useState<PlannerSidebarCategories | undefined>();
 
@@ -124,12 +124,12 @@ const PlannerSidebar: React.FC<PlannerSidebarProps> = ({ project }) => {
     <motion.div
       variants={animationVariants}
       initial={state}
-      animate={!isOpen ? 'closed' : state}
+      animate={!isSidebarOpen ? 'closed' : state}
       className="z-10 flex-none shadow-lg"
       transition={{ type: 'spring', stiffness: 350, damping: 40 }}
     >
       <AnimatePresence>
-        {isOpen && (
+        {isSidebarOpen && (
           <>
             {state === 'categories' && (
               <SidebarCategories key="categories" project={project} onCategoryClick={onCategoryClick} />
