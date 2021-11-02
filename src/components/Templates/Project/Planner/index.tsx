@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import { CenterContent } from './styles';
 import UnityPlayer from '../../../Elements/UnityPlayer';
 import { useUnityPlayerContext, UnityPlayerProvider } from '../../../Providers/UnityPlayerProvider';
-import BuilderSidebar from '../../../UI/BuilderSidebar';
+import PlannerSidebar from '../../../UI/PlannerSidebar';
 import ProgressBar from '../../../UI/ProgressBar';
 import Spinner from '../../../UI/Spinner';
 import { PlannerQuery } from '../../../../apollo/generated/graphql';
@@ -107,7 +107,7 @@ const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTry
   return (
     <div className="flex max-h-screen">
       {/* Left sidebar, fixed width */}
-      <BuilderSidebar project={data?.project} />
+      <PlannerSidebar project={data?.project} />
       {/* Right section, takes remaining space(flex-grow) */}
       <div className="relative flex-grow bg-mui-gray-300">
         {/* Try avoiding wrapping unity player with more conditions, or else it won't load on init */}
