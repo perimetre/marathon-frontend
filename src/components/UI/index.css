@@ -3,9 +3,9 @@
 @import './Button';
 @import './Card';
 @import './Select';
-@import './BorderRadius';
 @import './Scrollbar';
 @import './Modal';
 @import './Tooltip';
 @import './Dropdown';
 @import './Badge';
+@import './Skeleton';

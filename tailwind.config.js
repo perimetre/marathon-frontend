@@ -26,7 +26,8 @@ module.exports = {
       animation: {
         'fade-in': 'fade-in 0.5s ease-out 0s both',
         'fade-out': 'fade-out 0.5s ease-out 0s both',
-        'fade-into': 'fade-into 0.5s ease-out 0s both'
+        'fade-into': 'fade-into 0.5s ease-out 0s both',
+        skeleton: 'skeleton-background 2s ease infinite, pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite'
       },
       keyframes: {
         'fade-into': {
@@ -43,6 +44,14 @@ module.exports = {
         'fade-out': {
           '100%': {
             opacity: '0'
+          }
+        },
+        skeletonBackground: {
+          '0%': {
+            backgroundPosition: '100%'
+          },
+          '100%': {
+            backgroundPosition: '0%'
           }
         }
       },
