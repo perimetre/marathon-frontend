@@ -1,6 +1,6 @@
 import type { GetStaticProps, NextPage } from 'next';
 import { addApolloState, initializeApollo } from '../lib/apollo';
-import { HomeTemplate } from '../components/Templates';
+import HomeTemplate from '../components/Templates/Home';
 import { DefaultLayout } from '../components/Layouts/Default';
 
 const Home: NextPage = () => {

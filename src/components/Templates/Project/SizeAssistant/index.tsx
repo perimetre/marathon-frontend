@@ -6,7 +6,7 @@ export type SizeAssistantTemplateProps = {
   unit: Unit;
 };
 
-export const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({ unit }) => {
+const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({ unit }) => {
   return (
     <div className="flex flex-col items-center flex-1 mt-16">
       <div className="w-5/6 grid grid-cols-1 md:grid-cols-2 gap-16">
@@ -20,7 +20,7 @@ export const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({ un
             </p>
           </div>
           <div className="flex items-center px-10 py-8 mt-4 bg-white rounded-sm shadow-lg">
-            <TextInput name="weight" type="number" placeholder={unit === 'mm' ? 'eg. 1000' : 'eg. 39 1/2'} />
+            <TextInput name="width" type="number" placeholder={unit === 'mm' ? 'eg. 1000' : 'eg. 39 1/2'} />
             <p className="ml-8 text-lg font-bold">{unit}</p>
           </div>
         </div>
@@ -34,7 +34,7 @@ export const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({ un
             </p>
           </div>
           <div className="flex items-center px-10 py-8 mt-4 bg-white rounded-sm shadow-lg">
-            <TextInput name="thickness" type="number" placeholder={unit === 'mm' ? 'eg. 10' : 'eg. 0 1/4'} />
+            <TextInput name="gable" type="number" placeholder={unit === 'mm' ? 'eg. 10' : 'eg. 0 1/4'} />
             <p className="ml-8 text-lg font-bold">{unit}</p>
           </div>
         </div>
@@ -42,3 +42,5 @@ export const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({ un
     </div>
   );
 };
+
+export default SizeAssistantTemplate;

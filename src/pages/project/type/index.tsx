@@ -10,18 +10,22 @@ import {
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { TYPE_QUERY } from '../../../apollo/type';
 import { useGetTypeQuery } from '../../../apollo/generated/graphql';
-import { ProjectCreationTemplate, TypeTemplate } from '../../../components/Templates';
+import ProjectCreationTemplate from '../../../components/Templates/ProjectCreation';
+import TypeTemplate from '../../../components/Templates/Project/Type';
 import { Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
+import { useIntl } from 'react-intl';
 
 type TypeContainerGetServerProps = ProjectCreationProviderProps;
 
 type TypeContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const TypeContainer: NextPage<TypeContainerProps> = ({ drawerType }) => {
-  const context = useProjectCreationContext();
+  const { setDrawerType } = useProjectCreationContext();
   const router = useRouter();
+
+  const intl = useIntl();
 
   const { data } = useGetTypeQuery();
 
@@ -35,10 +39,10 @@ const TypeContainer: NextPage<TypeContainerProps> = ({ drawerType }) => {
 
   const handleSubmit = useCallback(
     (data: { type: number }) => {
-      context.setDrawerType(data.type);
+      setDrawerType(data.type);
       router.push('/project/collection', '/project/collection');
     },
-    [router, context]
+    [router, setDrawerType]
   );
 
   return (
@@ -52,7 +56,7 @@ const TypeContainer: NextPage<TypeContainerProps> = ({ drawerType }) => {
         {({ submitForm, isValid }) => (
           <ProjectCreationTemplate
             step={1}
-            title="What kind of drawer will you be designing?"
+            title={intl.formatMessage({ id: 'project.typeTitle' })}
             disablePrev
             disableNext={!isValid}
             handleNext={submitForm}

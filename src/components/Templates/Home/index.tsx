@@ -6,7 +6,7 @@ import { Expander } from '../../UI/Expander';
 import { ChevronDownIcon } from '../../UI/Icons';
 import classNames from 'classnames';
 
-export const HomeTemplate: React.FC = () => {
+const HomeTemplate: React.FC = () => {
   const [expanded, setExpanded] = useState('1');
   return (
     <div className="min-h-full grid grid-cols-1 lg:grid-cols-2">
@@ -79,3 +79,5 @@ export const HomeTemplate: React.FC = () => {
     </div>
   );
 };
+
+export default HomeTemplate;

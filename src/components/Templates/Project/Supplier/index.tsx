@@ -1,17 +1,17 @@
 import { useField, useFormikContext } from 'formik';
 import { useMemo } from 'react';
-import { GetSupplierByCollectionQuery } from '../../../../apollo/generated/graphql';
+import { GetSlideSupplierByCollectionQuery } from '../../../../apollo/generated/graphql';
 import Card from '../../../UI/Card';
 import { Select } from '../../../UI/Form/Select';
 
 export type SupplierTemplateProps = {
-  data?: GetSupplierByCollectionQuery;
+  data?: GetSlideSupplierByCollectionQuery;
 };
 
-export const SupplierTemplate: React.FC<SupplierTemplateProps> = ({ data }) => {
-  const [supField, , supHelpers] = useField({ name: 'supplier' });
+const SupplierTemplate: React.FC<SupplierTemplateProps> = ({ data }) => {
+  const [supField, , supHelpers] = useField({ name: 'slide' });
 
-  const { values, setFieldValue } = useFormikContext<{ supplier: number; model: number; depth: number }>();
+  const { values, setFieldValue } = useFormikContext<{ slide: number; model: number; depth: number }>();
 
   const models = useMemo(() => {
     if (data && supField.value) {
@@ -22,8 +22,8 @@ export const SupplierTemplate: React.FC<SupplierTemplateProps> = ({ data }) => {
   }, [data, supField.value]);
 
   const depths = useMemo(() => {
-    if (data && values?.supplier && values?.model) {
-      const supplier = data.slideSuppliers.find((f) => f.id === Number(values.supplier));
+    if (data && values?.slide && values?.model) {
+      const supplier = data.slideSuppliers.find((f) => f.id === Number(values.slide));
       const slide = supplier?.slides.find((f) => f.id === Number(values.model));
       return slide?.depths;
     }
@@ -73,3 +73,5 @@ export const SupplierTemplate: React.FC<SupplierTemplateProps> = ({ data }) => {
     </div>
   );
 };
+
+export default SupplierTemplate;

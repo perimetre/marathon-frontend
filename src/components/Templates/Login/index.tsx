@@ -9,7 +9,7 @@ export type LoginTemplateProps = {
   onSubmit: (form: { email: string; password: string }) => void;
 };
 
-export const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
+const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
   const intl = useIntl();
 
   const signupSchema = useMemo(
@@ -60,7 +60,7 @@ export const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
           <div className="flex justify-between mb-8">
             <Link href="/projects" passHref>
               <Button variant="default">
-                <FormattedMessage id="login.singinButton" />
+                <FormattedMessage id="login.signinButton" />
               </Button>
             </Link>
             <Button variant="text" className="px-0 text-gray-300">
@@ -86,3 +86,5 @@ export const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
     </div>
   );
 };
+
+export default LoginTemplate;

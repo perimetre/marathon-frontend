@@ -10,18 +10,22 @@ import {
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { SUPPLIER_QUERY } from '../../../apollo/supplier';
 import { useGetSlideSupplierByCollectionQuery } from '../../../apollo/generated/graphql';
-import { ProjectCreationTemplate, SupplierTemplate } from '../../../components/Templates';
+import ProjectCreationTemplate from '../../../components/Templates/ProjectCreation';
+import SupplierTemplate from '../../../components/Templates/Project/Supplier';
 import { Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
+import { useIntl } from 'react-intl';
 
 type SupplierContainerGetServerProps = ProjectCreationProviderProps;
 
 type SupplierContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const SupplierContainer: NextPage<SupplierContainerProps> = ({ drawerCollection, drawerSlide }) => {
-  const context = useProjectCreationContext();
+  const { setDrawerSlide } = useProjectCreationContext();
   const router = useRouter();
+
+  const intl = useIntl();
 
   const { data } = useGetSlideSupplierByCollectionQuery({
     variables: {
@@ -32,7 +36,7 @@ const SupplierContainer: NextPage<SupplierContainerProps> = ({ drawerCollection,
   const schema = useMemo(
     () =>
       yup.object().shape({
-        supplier: yup.number().label('Supplier').required(),
+        slide: yup.number().label('Supplier').required(),
         model: yup.string().label('Model').required(),
         depth: yup.string().label('Depth').required()
       }),
@@ -40,18 +44,18 @@ const SupplierContainer: NextPage<SupplierContainerProps> = ({ drawerCollection,
   );
 
   const handleSubmit = useCallback(
-    (data: { supplier: number; model: number; depth: number }) => {
-      context.setDrawerSlide(data);
+    (data: { slide: number; model: number; depth: number }) => {
+      setDrawerSlide(data);
       router.push('/project/size-assistant', '/project/size-assistant');
     },
-    [router, context]
+    [router, setDrawerSlide]
   );
 
   return (
     <DefaultLayout>
       <Formik
         initialValues={{
-          supplier: drawerSlide?.supplier || 0,
+          slide: drawerSlide?.slide || 0,
           depth: drawerSlide?.depth || 0,
           model: drawerSlide?.model || 0
         }}
@@ -62,7 +66,7 @@ const SupplierContainer: NextPage<SupplierContainerProps> = ({ drawerCollection,
         {({ submitForm, isValid }) => (
           <ProjectCreationTemplate
             step={4}
-            title="What slides will be used?"
+            title={intl.formatMessage({ id: 'project.supplierTitle' })}
             disableNext={!isValid}
             handleNext={submitForm}
             handlePrev={() => router.push('/project/finish', '/project/finish')}

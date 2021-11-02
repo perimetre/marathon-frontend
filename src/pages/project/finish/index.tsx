@@ -10,18 +10,22 @@ import {
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { FINISH_QUERY } from '../../../apollo/finish';
 import { useGetFinishQuery } from '../../../apollo/generated/graphql';
-import { ProjectCreationTemplate, FinishTemplate } from '../../../components/Templates';
+import ProjectCreationTemplate from '../../../components/Templates/ProjectCreation';
+import FinishTemplate from '../../../components/Templates/Project/Finish';
 import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
 import { Formik } from 'formik';
+import { useIntl } from 'react-intl';
 
 type FinishContainerGetServerProps = ProjectCreationProviderProps;
 
 type FinishContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const FinishContainer: NextPage<FinishContainerProps> = ({ drawerFinish }) => {
-  const context = useProjectCreationContext();
+  const { setDrawerFinish } = useProjectCreationContext();
   const router = useRouter();
+
+  const intl = useIntl();
 
   const { data } = useGetFinishQuery();
 
@@ -35,10 +39,10 @@ const FinishContainer: NextPage<FinishContainerProps> = ({ drawerFinish }) => {
 
   const handleSubmit = useCallback(
     (data: { finish: number }) => {
-      context.setDrawerFinish(data.finish);
+      setDrawerFinish(data.finish);
       router.push('/project/supplier', '/project/supplier');
     },
-    [router, context]
+    [router, setDrawerFinish]
   );
 
   return (
@@ -52,7 +56,7 @@ const FinishContainer: NextPage<FinishContainerProps> = ({ drawerFinish }) => {
         {({ submitForm, isValid }) => (
           <ProjectCreationTemplate
             step={3}
-            title="What type of finish would look the best?"
+            title={intl.formatMessage({ id: 'project.finishTitle' })}
             disableNext={!isValid}
             handleNext={submitForm}
             handlePrev={() => router.push('/project/collection', '/project/collection')}

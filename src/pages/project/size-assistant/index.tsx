@@ -8,41 +8,107 @@ import {
   useProjectCreationContext
 } from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
-import { ProjectCreationTemplate, SizeAssistantTemplate } from '../../../components/Templates';
+import ProjectCreationTemplate from '../../../components/Templates/ProjectCreation';
+import SizeAssistantTemplate from '../../../components/Templates/Project/SizeAssistant';
 import { Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
 import * as yup from 'yup';
+import { useCreateProjectMutation } from '../../../apollo/generated/graphql';
+import { slugify } from '../../../utils/string';
+import { useIntl } from 'react-intl';
 
 type SizeAssistantContainerGetServerProps = ProjectCreationProviderProps;
 
 type SizeAssistantContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({ drawerSize }) => {
-  const context = useProjectCreationContext();
+const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
+  drawerSize,
+  drawerType,
+  drawerFinish,
+  drawerSlide,
+  drawerTitle,
+  drawerCollection
+}) => {
+  const { clear, unit, setDrawerSize } = useProjectCreationContext();
   const router = useRouter();
+
+  const intl = useIntl();
+
+  const [doCreateProject, { loading }] = useCreateProjectMutation();
 
   const schema = useMemo(
     () =>
       yup.object().shape({
-        thickness: yup.number().min(1).label('Thickness').required(),
-        weight: yup.number().min(1).label('Weight').required()
+        gable: yup.number().min(1).label('Thickness').required(),
+        width: yup.number().min(1).label('Weight').required()
       }),
     []
   );
 
   const handleSubmit = useCallback(
-    (data: { thickness: number; weight: number }) => {
-      context.setDrawerSize(data);
+    async (data: { gable: number; width: number }) => {
+      setDrawerSize(data);
+
+      await doCreateProject({
+        variables: {
+          data: {
+            slug: slugify(drawerTitle),
+            title: drawerTitle as string,
+            gable: data.gable,
+            width: data.width,
+            type: {
+              connect: {
+                id: Number(drawerType)
+              }
+            },
+            finish: {
+              connect: {
+                id: Number(drawerFinish)
+              }
+            },
+            collection: {
+              connect: {
+                id: Number(drawerCollection)
+              }
+            },
+            slideDepth: {
+              connect: {
+                id: Number(drawerSlide?.depth)
+              }
+            },
+            slide: {
+              connect: {
+                id: Number(drawerSlide?.slide)
+              }
+            }
+          }
+        }
+      });
+
+      clear();
+
+      router.push('/projects', '/projects');
     },
-    [context]
+    [
+      clear,
+      doCreateProject,
+      drawerCollection,
+      drawerFinish,
+      drawerSlide?.depth,
+      drawerSlide?.slide,
+      drawerTitle,
+      drawerType,
+      router,
+      setDrawerSize
+    ]
   );
 
   return (
     <DefaultLayout>
       <Formik
         initialValues={{
-          thickness: drawerSize?.thickness || 0,
-          weight: drawerSize?.weight || 0
+          gable: drawerSize?.gable || 0,
+          width: drawerSize?.width || 0
         }}
         onSubmit={handleSubmit}
         validationSchema={schema}
@@ -51,12 +117,13 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({ drawerS
         {({ submitForm, isValid }) => (
           <ProjectCreationTemplate
             step={5}
-            title="Starting measurement for this drawer"
+            title={intl.formatMessage({ id: 'project.sizeAssistantTitle' })}
             disableNext={!isValid}
+            loading={loading}
             handlePrev={() => router.push('/project/supplier', '/project/supplier')}
             handleNext={submitForm}
           >
-            <SizeAssistantTemplate unit={context.unit} />
+            <SizeAssistantTemplate unit={unit} />
           </ProjectCreationTemplate>
         )}
       </Formik>

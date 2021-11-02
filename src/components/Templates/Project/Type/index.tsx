@@ -6,7 +6,7 @@ export type TypeTemplateProps = {
   data?: GetTypeQuery;
 };
 
-export const TypeTemplate: React.FC<TypeTemplateProps> = ({ data }) => {
+const TypeTemplate: React.FC<TypeTemplateProps> = ({ data }) => {
   const [field, , helpers] = useField({ name: 'type' });
   return (
     <div className="container flex flex-wrap justify-center mx-auto my-16 gap-16">
@@ -23,3 +23,5 @@ export const TypeTemplate: React.FC<TypeTemplateProps> = ({ data }) => {
     </div>
   );
 };
+
+export default TypeTemplate;

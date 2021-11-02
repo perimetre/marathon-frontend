@@ -6,7 +6,7 @@ export type FinishTemplateProps = {
   data?: GetFinishQuery;
 };
 
-export const FinishTemplate: React.FC<FinishTemplateProps> = ({ data }) => {
+const FinishTemplate: React.FC<FinishTemplateProps> = ({ data }) => {
   const [field, , helpers] = useField({ name: 'finish' });
   return (
     <div className="container flex flex-wrap justify-center mx-auto my-16 gap-16">
@@ -23,3 +23,5 @@ export const FinishTemplate: React.FC<FinishTemplateProps> = ({ data }) => {
     </div>
   );
 };
+
+export default FinishTemplate;

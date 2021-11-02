@@ -10,18 +10,22 @@ import {
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { COLLECTION_QUERY } from '../../../apollo/collection';
 import { useGetCollectionsQuery } from '../../../apollo/generated/graphql';
-import { ProjectCreationTemplate, CollectionTemplate } from '../../../components/Templates';
+import ProjectCreationTemplate from '../../../components/Templates/ProjectCreation';
+import CollectionTemplate from '../../../components/Templates/Project/Collection';
 import { useCallback, useMemo } from 'react';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import { useIntl } from 'react-intl';
 
 type CollectionContainerGetServerProps = ProjectCreationProviderProps;
 
 type CollectionContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollection }) => {
-  const context = useProjectCreationContext();
+  const { setDrawerCollection } = useProjectCreationContext();
   const router = useRouter();
+
+  const intl = useIntl();
 
   const { data } = useGetCollectionsQuery();
 
@@ -35,10 +39,10 @@ const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollect
 
   const handleSubmit = useCallback(
     (data: { collection: number }) => {
-      context.setDrawerCollection(data.collection);
+      setDrawerCollection(data.collection);
       router.push('/project/finish', '/project/finish');
     },
-    [router, context]
+    [setDrawerCollection, router]
   );
 
   return (
@@ -52,7 +56,7 @@ const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollect
         {({ submitForm, isValid }) => (
           <ProjectCreationTemplate
             step={2}
-            title="Which collection would you like?"
+            title={intl.formatMessage({ id: 'project.collectionTitle' })}
             disableNext={!isValid}
             handleNext={submitForm}
             handlePrev={() => router.push('/project/type', '/project/type')}

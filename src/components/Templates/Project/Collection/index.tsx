@@ -7,7 +7,7 @@ export type CollectionTemplateProps = {
   data?: GetCollectionsQuery;
 };
 
-export const CollectionTemplate: React.FC<CollectionTemplateProps> = ({ data }) => {
+const CollectionTemplate: React.FC<CollectionTemplateProps> = ({ data }) => {
   const [field, , helpers] = useField({ name: 'collection' });
   return (
     <div className="container flex flex-wrap justify-center mx-auto my-16 gap-16">
@@ -31,3 +31,5 @@ export const CollectionTemplate: React.FC<CollectionTemplateProps> = ({ data }) 
     </div>
   );
 };
+
+export default CollectionTemplate;

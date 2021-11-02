@@ -8,15 +8,17 @@ export type ProjectCreationTemplateProps = {
   title: string;
   description?: string;
   step: number;
+  loading?: boolean;
   disableNext?: boolean;
   disablePrev?: boolean;
   handleNext?: () => void;
   handlePrev?: () => void;
 };
 
-export const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = ({
+const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = ({
   step,
   title,
+  loading,
   description,
   disableNext,
   disablePrev,
@@ -30,7 +32,7 @@ export const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = (
         <div className="bg-gray-400 h-28" />
         <div className="container relative mx-auto">
           <Button
-            disabled={disablePrev}
+            disabled={disablePrev || loading}
             onClick={handlePrev}
             className="absolute left-0 flex items-center btn-default -bottom-5"
           >
@@ -38,12 +40,12 @@ export const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = (
             Back
           </Button>
           <Button
-            disabled={disableNext}
+            disabled={disableNext || loading}
             onClick={handleNext}
             className="absolute right-0 flex items-center btn-default -bottom-5"
           >
             Next
-            <ArrowLeft />
+            {loading ? <span className="ml-2 mui-spinner" /> : <ArrowLeft />}
           </Button>
         </div>
       </div>
@@ -74,3 +76,5 @@ export const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = (
     </div>
   );
 };
+
+export default ProjectCreationTemplate;
