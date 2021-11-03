@@ -1,12 +1,12 @@
 import Head from 'next/head';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Image from 'next/image';
 import classNames from 'classnames';
 import { CenterContent } from './styles';
 import UnityPlayer from '../../../Elements/UnityPlayer';
-import { useUnityPlayerContext, UnityPlayerProvider } from '../../../Providers/UnityPlayerProvider';
+import { UnityPlayerProvider, useUnityPlayerContext } from '../../../Providers/UnityPlayerProvider';
 import PlannerSidebar from '../../../UI/PlannerSidebar';
 import ProgressBar from '../../../UI/ProgressBar';
 import Spinner from '../../../UI/Spinner';
@@ -14,13 +14,22 @@ import { PlannerQuery } from '../../../../apollo/generated/graphql';
 import { Button } from '../../../UI/Button';
 import AppLayout from '../../../Layouts/AppLayout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping, faBarsStaggered, faBars } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBarsStaggered, faCartShopping } from '@fortawesome/free-solid-svg-icons';
 import NavbarButton from '../../../UI/NavbarButton';
 import { Badge } from '../../../UI/Badge';
 
 const LoadingState: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const { loadingProgress } = useUnityPlayerContext();
+  const mountRef = useRef<boolean | null>(null);
+
+  useEffect(() => {
+    mountRef.current = true;
+
+    return () => {
+      mountRef.current = false;
+    };
+  }, []);
 
   return (
     <CenterContent
@@ -40,7 +49,9 @@ const LoadingState: React.FC = () => {
           alt={'marathon'}
           sizes="50vw"
           objectFit="cover"
-          onLoadingComplete={() => setImageLoaded(true)}
+          onLoadingComplete={() => {
+            if (mountRef.current) setImageLoaded(true);
+          }}
         />
       </div>
       <div className="flex items-center justify-center my-6 gap-4">
