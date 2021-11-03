@@ -26,12 +26,8 @@ const animationVariants = {
 };
 
 const PlannerSidebar: React.FC<PlannerSidebarProps> = ({ project, isSidebarOpen, loading }) => {
-  const [state, setState] = useState<PlannerSidebarState>('modules');
-  const [category, setCategory] = useState<PlannerSidebarCategories | undefined>(
-    project?.modules && project.modules[0] && project.modules[0].categories[0]
-      ? project.modules[0].categories[0]
-      : undefined
-  );
+  const [state, setState] = useState<PlannerSidebarState>('categories');
+  const [category, setCategory] = useState<PlannerSidebarCategories | undefined>();
 
   const onCategoryClick = useCallback((category) => {
     setCategory(category);

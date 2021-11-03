@@ -1,6 +1,6 @@
 @layer components {
   .btn-default {
-    @apply flex px-6 py-2 font-semibold text-white bg-mui-primary rounded-sm gap-2 hover:bg-red-700 hover:shadow-sm transition-all;
+    @apply flex px-6 py-2 font-semibold text-white bg-mui-primary mui-border-radius gap-2 hover:bg-mui-dark transition-all duration-75;
 
     &:disabled {
       @apply cursor-default bg-gray-300;

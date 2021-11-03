@@ -47,7 +47,7 @@ const LoadingState: React.FC = () => {
           layout="fill"
           src="/images/logo.webp"
           alt={'marathon'}
-          sizes="50vw"
+          sizes="25vw"
           objectFit="cover"
           onLoadingComplete={() => {
             if (mountRef.current) setImageLoaded(true);

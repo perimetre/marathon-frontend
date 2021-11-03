@@ -73,4 +73,8 @@
       }
     }
   }
+
+  .mui-animate-group-hover {
+    @apply group-hover:scale-125 transition-transform duration-75 group-active:scale-100 group-active:transition-none;
+  }
 }

@@ -9,7 +9,11 @@ export const MODULE_DATA = gql`
     isMat
     isSubmodule
     partNumber
-    rules
+    rules {
+      rules {
+        options
+      }
+    }
     thumbnailUrl
     description
     categories {

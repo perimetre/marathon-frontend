@@ -1002,7 +1002,7 @@ export type Module = {
   isSubmodule: Scalars['Boolean'];
   partNumber: Scalars['String'];
   projectModules: Array<ProjectModule>;
-  rules?: Maybe<Scalars['Json']>;
+  rules?: Maybe<ModuleRules>;
   thumbnailUrl?: Maybe<Scalars['String']>;
 };
 
@@ -1245,10 +1245,30 @@ export type ModuleCreateWithoutProjectModulesInput = {
   thumbnailUrl?: Maybe<Scalars['String']>;
 };
 
+export type ModuleDimension = {
+  __typename?: 'ModuleDimension';
+  depth?: Maybe<ModuleMinMax>;
+  height?: Maybe<ModuleUnit>;
+  width?: Maybe<ModuleMinMax>;
+};
+
+export type ModuleExtensionsMetadata = {
+  __typename?: 'ModuleExtensionsMetadata';
+  left?: Maybe<Scalars['String']>;
+  options?: Maybe<Array<Scalars['String']>>;
+  right?: Maybe<Scalars['String']>;
+};
+
 export type ModuleListRelationFilter = {
   every?: Maybe<ModuleWhereInput>;
   none?: Maybe<ModuleWhereInput>;
   some?: Maybe<ModuleWhereInput>;
+};
+
+export type ModuleMinMax = {
+  __typename?: 'ModuleMinMax';
+  max?: Maybe<ModuleUnit>;
+  min?: Maybe<ModuleUnit>;
 };
 
 export type ModuleOrderByInput = {
@@ -1264,6 +1284,34 @@ export type ModuleOrderByInput = {
   partNumber?: Maybe<SortOrder>;
   rules?: Maybe<SortOrder>;
   thumbnailUrl?: Maybe<SortOrder>;
+};
+
+export type ModuleRules = {
+  __typename?: 'ModuleRules';
+  dimensions?: Maybe<ModuleDimension>;
+  /** Extensions are sub pieces that MUST BE CONNECTED to the main product or other extension. */
+  extensions?: Maybe<ModuleExtensionsMetadata>;
+  /** Modules that are basically this module but in a different finish(color), to allow the ui to easily switch between them */
+  finishes?: Maybe<Array<Scalars['String']>>;
+  /** The module part number, probably equivalent to the module id */
+  partNumber: Scalars['String'];
+  rules?: Maybe<ModuleRulesMetadata>;
+  /** Different types of edges a module might have */
+  trims?: Maybe<Array<Scalars['String']>>;
+};
+
+export type ModuleRulesMetadata = {
+  __typename?: 'ModuleRulesMetadata';
+  /** Whether or not this module is only valid if it's taking the drawer full depth */
+  fullDepth?: Maybe<Scalars['Boolean']>;
+  /** Options are which other modules can be put IN modules */
+  options?: Maybe<Array<Scalars['String']>>;
+  /** The product can only be put inside the drawer, if the current net interior of the drawer belongs to the range of the piece */
+  requiredNetInterior?: Maybe<ModuleMinMax>;
+  /** The amount (in degrees) that the product can be rotated */
+  rotation?: Maybe<Scalars['Float']>;
+  /** Where a module can be cut if there's excess beyond the drawer */
+  trimmable?: Maybe<Array<Scalars['String']>>;
 };
 
 export type ModuleScalarWhereInput = {
@@ -1282,6 +1330,12 @@ export type ModuleScalarWhereInput = {
   partNumber?: Maybe<StringFilter>;
   rules?: Maybe<JsonNullableFilter>;
   thumbnailUrl?: Maybe<StringNullableFilter>;
+};
+
+export type ModuleUnit = {
+  __typename?: 'ModuleUnit';
+  inches?: Maybe<Scalars['String']>;
+  millimeters: Scalars['Float'];
 };
 
 export type ModuleUpdateManyMutationInput = {
@@ -1444,16 +1498,37 @@ export type ModuleWhereUniqueInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   createOneProject: Project;
+  createOneProjectModule: ProjectModule;
+  deleteOneProject?: Maybe<Project>;
+  deleteOneProjectModule?: Maybe<ProjectModule>;
   updateOneProject?: Maybe<Project>;
+  updateOneProjectModule?: Maybe<ProjectModule>;
 };
 
 export type MutationCreateOneProjectArgs = {
   data: ProjectCreateInput;
 };
 
+export type MutationCreateOneProjectModuleArgs = {
+  data: ProjectModuleCreateInput;
+};
+
+export type MutationDeleteOneProjectArgs = {
+  where: ProjectWhereUniqueInput;
+};
+
+export type MutationDeleteOneProjectModuleArgs = {
+  where: ProjectModuleWhereUniqueInput;
+};
+
 export type MutationUpdateOneProjectArgs = {
   data: ProjectUpdateInput;
   where: ProjectWhereUniqueInput;
+};
+
+export type MutationUpdateOneProjectModuleArgs = {
+  data: ProjectModuleUpdateInput;
+  where: ProjectModuleWhereUniqueInput;
 };
 
 export type NestedBoolFilter = {
@@ -1787,6 +1862,16 @@ export type ProjectModuleChildrenArgs = {
   take?: Maybe<Scalars['Int']>;
 };
 
+export type ProjectModuleCreateInput = {
+  children?: Maybe<ProjectModuleCreateNestedManyWithoutParentInput>;
+  module: ModuleCreateNestedOneWithoutProjectModulesInput;
+  parent?: Maybe<ProjectModuleCreateNestedOneWithoutChildrenInput>;
+  posX: Scalars['Float'];
+  posZ: Scalars['Float'];
+  project?: Maybe<ProjectCreateNestedOneWithoutProjectModulesInput>;
+  rotZ: Scalars['Float'];
+};
+
 export type ProjectModuleCreateManyModuleInput = {
   id?: Maybe<Scalars['Int']>;
   parentId?: Maybe<Scalars['Int']>;
@@ -1939,6 +2024,16 @@ export type ProjectModuleScalarWhereInput = {
   posZ?: Maybe<FloatFilter>;
   projectId?: Maybe<IntNullableFilter>;
   rotZ?: Maybe<FloatFilter>;
+};
+
+export type ProjectModuleUpdateInput = {
+  children?: Maybe<ProjectModuleUpdateManyWithoutParentInput>;
+  module?: Maybe<ModuleUpdateOneRequiredWithoutProjectModulesInput>;
+  parent?: Maybe<ProjectModuleUpdateOneWithoutChildrenInput>;
+  posX?: Maybe<FloatFieldUpdateOperationsInput>;
+  posZ?: Maybe<FloatFieldUpdateOperationsInput>;
+  project?: Maybe<ProjectUpdateOneWithoutProjectModulesInput>;
+  rotZ?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectModuleUpdateManyMutationInput = {
@@ -3300,10 +3395,44 @@ export type ModuleDataFragment = {
   isMat: boolean;
   isSubmodule: boolean;
   partNumber: string;
-  rules?: any | null | undefined;
   thumbnailUrl?: string | null | undefined;
   description?: string | null | undefined;
+  rules?:
+    | {
+        __typename?: 'ModuleRules';
+        rules?: { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined } | null | undefined;
+      }
+    | null
+    | undefined;
   categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+};
+
+export type ModuleOptionsQueryVariables = Exact<{
+  options?: Maybe<Array<Scalars['String']> | Scalars['String']>;
+}>;
+
+export type ModuleOptionsQuery = {
+  __typename?: 'Query';
+  modules: Array<{
+    __typename?: 'Module';
+    id: number;
+    bundleUrl?: string | null | undefined;
+    hasPegs: boolean;
+    isImprintExtension: boolean;
+    isMat: boolean;
+    isSubmodule: boolean;
+    partNumber: string;
+    thumbnailUrl?: string | null | undefined;
+    description?: string | null | undefined;
+    rules?:
+      | {
+          __typename?: 'ModuleRules';
+          rules?: { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined } | null | undefined;
+        }
+      | null
+      | undefined;
+    categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+  }>;
 };
 
 export type PlannerQueryVariables = Exact<{
@@ -3326,9 +3455,18 @@ export type PlannerQuery = {
           isMat: boolean;
           isSubmodule: boolean;
           partNumber: string;
-          rules?: any | null | undefined;
           thumbnailUrl?: string | null | undefined;
           description?: string | null | undefined;
+          rules?:
+            | {
+                __typename?: 'ModuleRules';
+                rules?:
+                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
           categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
         }>;
       }
@@ -3448,7 +3586,11 @@ export const ModuleDataFragmentDoc = gql`
     isMat
     isSubmodule
     partNumber
-    rules
+    rules {
+      rules {
+        options
+      }
+    }
     thumbnailUrl
     description
     categories {
@@ -3559,6 +3701,46 @@ export function useGetFinishLazyQuery(
 export type GetFinishQueryHookResult = ReturnType<typeof useGetFinishQuery>;
 export type GetFinishLazyQueryHookResult = ReturnType<typeof useGetFinishLazyQuery>;
 export type GetFinishQueryResult = Apollo.QueryResult<GetFinishQuery, GetFinishQueryVariables>;
+export const ModuleOptionsDocument = gql`
+  query ModuleOptions($options: [String!]) {
+    modules(where: { partNumber: { in: $options } }) {
+      ...ModuleData
+    }
+  }
+  ${ModuleDataFragmentDoc}
+`;
+
+/**
+ * __useModuleOptionsQuery__
+ *
+ * To run a query within a React component, call `useModuleOptionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useModuleOptionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useModuleOptionsQuery({
+ *   variables: {
+ *      options: // value for 'options'
+ *   },
+ * });
+ */
+export function useModuleOptionsQuery(
+  baseOptions?: Apollo.QueryHookOptions<ModuleOptionsQuery, ModuleOptionsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ModuleOptionsQuery, ModuleOptionsQueryVariables>(ModuleOptionsDocument, options);
+}
+export function useModuleOptionsLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ModuleOptionsQuery, ModuleOptionsQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ModuleOptionsQuery, ModuleOptionsQueryVariables>(ModuleOptionsDocument, options);
+}
+export type ModuleOptionsQueryHookResult = ReturnType<typeof useModuleOptionsQuery>;
+export type ModuleOptionsLazyQueryHookResult = ReturnType<typeof useModuleOptionsLazyQuery>;
+export type ModuleOptionsQueryResult = Apollo.QueryResult<ModuleOptionsQuery, ModuleOptionsQueryVariables>;
 export const PlannerDocument = gql`
   query Planner($slug: String!) {
     project(where: { slug: $slug }) {

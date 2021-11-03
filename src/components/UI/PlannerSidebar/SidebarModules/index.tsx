@@ -6,7 +6,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames';
 import SkeletonImage from '../../SkeletonImage';
 import { PlannerSidebarCategories, PlannerSidebarProps } from '../index';
-import SidebarModuleDetail from './SidebarModuleDetail';
+import SidebarModuleDetail from '../../../Elements/SidebarModuleDetail';
 
 const container = {
   hidden: { opacity: 0 },
@@ -56,10 +56,7 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
               <span>
                 <FormattedMessage id="common.close" />
               </span>
-              <FontAwesomeIcon
-                icon={faXmark}
-                className="text-2xl mt-0.5 group-hover:scale-125 transition-transform duration-75 group-active:scale-100 group-active:transition-none"
-              />
+              <FontAwesomeIcon icon={faXmark} className="text-2xl mt-0.5 mui-animate-group-hover" />
             </button>
           </div>
           {/* Bottom Section */}

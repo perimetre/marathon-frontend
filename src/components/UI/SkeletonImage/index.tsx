@@ -25,7 +25,7 @@ const SkeletonImage: React.FC<SkeletonImageProps> = ({ className, ...props }) =>
       onLoadingComplete={() => {
         if (mountRef.current) setImageLoaded(true);
       }}
-      className={classNames({ 'mui-skeleton': !imageLoaded, 'opacity-0 animate-fade-in': imageLoaded }, className)}
+      className={classNames({ 'mui-skeleton': !imageLoaded }, className)}
     />
   );
 };
