@@ -121,7 +121,7 @@ const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTry
   return (
     <div className="flex max-h-screen">
       {/* Left sidebar, fixed width */}
-      <PlannerSidebar project={data?.project} isSidebarOpen={isSidebarOpen} />
+      <PlannerSidebar project={data?.project} isSidebarOpen={isSidebarOpen} loading={loading} />
       {/* Right section, takes remaining space(flex-grow) */}
       <div className="relative flex-grow bg-mui-gray-300">
         {/* Try avoiding wrapping unity player with more conditions, or else it won't load on init */}

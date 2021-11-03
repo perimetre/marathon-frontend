@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Image, { ImageProps } from 'next/image';
 import classNames from 'classnames';
 
@@ -8,12 +8,23 @@ type SkeletonImageProps = ImageProps & {
 
 const SkeletonImage: React.FC<SkeletonImageProps> = ({ className, ...props }) => {
   const [imageLoaded, setImageLoaded] = useState(false);
+  const mountRef = useRef<boolean | null>(null);
+
+  useEffect(() => {
+    mountRef.current = true;
+
+    return () => {
+      mountRef.current = false;
+    };
+  }, []);
 
   return (
     // eslint-disable-next-line jsx-a11y/alt-text
     <Image
       {...props}
-      onLoadingComplete={() => setImageLoaded(true)}
+      onLoadingComplete={() => {
+        if (mountRef.current) setImageLoaded(true);
+      }}
       className={classNames({ 'mui-skeleton': !imageLoaded, 'opacity-0 animate-fade-in': imageLoaded }, className)}
     />
   );

@@ -11,7 +11,7 @@ export const MODULE_DATA = gql`
     partNumber
     rules
     thumbnailUrl
-    # description
+    description
     categories {
       id
       slug
