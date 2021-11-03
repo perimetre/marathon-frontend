@@ -8,9 +8,10 @@ import {
 } from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { COLLECTION_QUERY } from '../../../apollo/collection';
-import { useGetCollectionsQuery } from '../../../apollo/generated/graphql';
+import { useGetCollectionsLazyQuery } from '../../../apollo/generated/graphql';
 import CollectionTemplate from '../../../components/Templates/Project/Collection';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
+import { getLocaleIdFromGraphqlError } from '../../../lib/apollo/exceptions';
 
 type CollectionContainerGetServerProps = ProjectCreationProviderProps;
 
@@ -21,7 +22,18 @@ const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollect
 
   const router = useRouter();
 
-  const { data } = useGetCollectionsQuery();
+  const [getCollection, { data, loading, error: queryError, refetch }] = useGetCollectionsLazyQuery({
+    notifyOnNetworkStatusChange: true
+  });
+
+  useEffect(() => getCollection(), [getCollection]);
+
+  const handleTryAgain = useCallback(() => refetch && refetch(), [refetch]);
+
+  const error = useMemo(
+    () => (queryError ? getLocaleIdFromGraphqlError(queryError.graphQLErrors, queryError.networkError) : undefined),
+    [queryError]
+  );
 
   const handleSubmit = useCallback(
     (data: { collection: number }) => {
@@ -31,7 +43,16 @@ const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollect
     [setDrawerCollection, router]
   );
 
-  return <CollectionTemplate data={data} onSubmit={handleSubmit} initialValue={{ collection: drawerCollection }} />;
+  return (
+    <CollectionTemplate
+      data={data}
+      loading={loading}
+      error={error}
+      handleTryAgain={handleTryAgain}
+      onSubmit={handleSubmit}
+      initialValue={{ collection: drawerCollection }}
+    />
+  );
 };
 
 export const getServerSideProps: GetServerSideProps<CollectionContainerGetServerProps> = async (ctx) => {

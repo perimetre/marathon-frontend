@@ -1,7 +1,7 @@
 import { Formik } from 'formik';
 import { useCallback, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Project } from '../../../apollo/generated/graphql';
+import { Project, useUpdateProjectMutation } from '../../../apollo/generated/graphql';
 import { Button } from '../../UI/Button';
 import { TextInput } from '../../UI/Form/TextInput';
 import { Modal } from '../../UI/Modal';
@@ -15,11 +15,22 @@ export type ModalRenameProjectProps = {
 };
 
 const ModalRenameProject: React.FC<ModalRenameProjectProps> = ({ open, onClose, project }) => {
-  const handleSubmit = useCallback(async () => {
-    console.log('submit');
-  }, []);
+  const [doUpdate, { loading }] = useUpdateProjectMutation();
 
-  const loading = false;
+  const handleSubmit = useCallback(
+    async (form: { title: string }) => {
+      await doUpdate({
+        variables: {
+          projectId: Number(project?.id),
+          data: {
+            title: { set: form.title as string }
+          }
+        }
+      });
+      onClose();
+    },
+    [doUpdate, onClose, project?.id]
+  );
 
   const schema = useMemo(
     () =>
@@ -41,7 +52,7 @@ const ModalRenameProject: React.FC<ModalRenameProjectProps> = ({ open, onClose, 
           isOpen={open}
           onToggle={onClose}
           actions={() => (
-            <Button onClick={submitForm} disabled={!isValid}>
+            <Button onClick={submitForm} disabled={!isValid || loading}>
               <FormattedMessage id="projects.rename" />
               {loading && <Spinner className="w-6 h-6" />}
             </Button>

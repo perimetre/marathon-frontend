@@ -5,14 +5,22 @@ import React, { useMemo } from 'react';
 type TextInputProps = React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> & {
   name: string;
   label?: string;
+  classNameContainer?: HTMLSelectElement['className'];
 };
 
-export const Select: React.FC<TextInputProps> = ({ name, label, className, children, ...props }) => {
+export const Select: React.FC<TextInputProps> = ({
+  name,
+  label,
+  classNameContainer,
+  className,
+  children,
+  ...props
+}) => {
   const [field, meta] = useField(name);
   const error = useMemo(() => (meta.touched ? meta.error : undefined), [meta]);
 
   return (
-    <div>
+    <div className={classNames(classNameContainer)}>
       <label className="text-gray-700 uppercase" htmlFor={props.id}>
         {label}
       </label>
@@ -25,7 +33,10 @@ export const Select: React.FC<TextInputProps> = ({ name, label, className, child
             field.onChange(e);
           }}
           id={`Select-${name}`}
-          className={classNames('font-bold uppercase select form-select', className)}
+          className={classNames(
+            'font-bold uppercase select form-select focus:ring-0 focus:ring-transparent',
+            className
+          )}
         >
           {children}
         </select>

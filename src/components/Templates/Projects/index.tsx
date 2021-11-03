@@ -12,6 +12,7 @@ import AppLayout from '../../Layouts/AppLayout';
 import { ChevronDownIcon } from '../../UI/Icons/chevronDown';
 import { PlusCircleSolid } from '../../UI/Icons/plusCircle';
 import { CogIcon } from '../../UI/Icons/Gog';
+import ErrorMessage from '../../UI/ErrorMessage';
 
 export type ProjectsTemplateProps = {
   data?: ProjectsQuery;
@@ -40,11 +41,8 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
     <AppLayout>
       <div className="min-h-full grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
         <div className="flex flex-col items-end bg-mui-dark">
-          <div className="w-full h-64 bg-white" />
+          <div className="w-full h-64" />
           <div className="max-w-3xl px-10 py-16 lg:px-16">
-            <h2 className="text-base uppercase">
-              <FormattedMessage id="title" />
-            </h2>
             <h1 className="my-12 text-6xl font-bold text-white">
               <FormattedMessage id="projects.title" />
             </h1>
@@ -53,16 +51,9 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
             </p>
           </div>
         </div>
-        <div className="bg-gray-100">
+        <div>
           <div className="max-w-3xl px-10 py-16 lg:px-16">
-            {error && (
-              <div className="p-4 mb-8 text-white bg-red-400 rounded-md">
-                <FormattedMessage id={`serverErrors.${error}`} />
-                <Button className="mt-4 text-white" onClick={handleTryAgain}>
-                  Try again
-                </Button>
-              </div>
-            )}
+            {error && <ErrorMessage error={`serverErrors.${error}`} handleTryAgain={handleTryAgain} />}
             <div className="w-full h-11 grid grid-cols-2 gap-4">
               {loading ? (
                 <div className="w-full h-full mui-skeleton grid" />

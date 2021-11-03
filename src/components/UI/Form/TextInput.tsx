@@ -21,7 +21,10 @@ export const TextInput: React.FC<TextInputProps> = ({ name, className, children,
             field.onChange(e);
           }}
           id={`TextInput-${name}`}
-          className={classNames('flex-1 w-full px-3 py-2 bg-gray-200 rounded-sm h-14 form-input', className)}
+          className={classNames(
+            'flex-1 w-full px-3 py-2 bg-gray-200 rounded-sm h-14 form-input mui-input-base',
+            className
+          )}
         />
         {children}
       </span>

@@ -31,6 +31,10 @@
       "leftDescription": "Already started a project ? {message} to continue editing it."
     }
   },
+  "unit": {
+    "millimeter": "mm",
+    "inches": "in"
+  },
   "login": {
     "title": "Sign in and start designing",
     "emailPlaceholder": "Email",

@@ -8,9 +8,10 @@ import {
 } from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { SUPPLIER_QUERY } from '../../../apollo/supplier';
-import { useGetSlideSupplierByCollectionQuery } from '../../../apollo/generated/graphql';
+import { useGetSlideSupplierByCollectionLazyQuery } from '../../../apollo/generated/graphql';
 import SupplierTemplate from '../../../components/Templates/Project/Supplier';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
+import { getLocaleIdFromGraphqlError } from '../../../lib/apollo/exceptions';
 
 type SupplierContainerGetServerProps = ProjectCreationProviderProps;
 
@@ -21,14 +22,24 @@ const SupplierContainer: NextPage<SupplierContainerProps> = ({ drawerCollection,
 
   const router = useRouter();
 
-  const { data } = useGetSlideSupplierByCollectionQuery({
+  const [getSupplier, { data, loading, error: queryError, refetch }] = useGetSlideSupplierByCollectionLazyQuery({
+    notifyOnNetworkStatusChange: true,
     variables: {
       collectionId: Number(drawerCollection)
     }
   });
 
+  useEffect(() => getSupplier(), [getSupplier]);
+
+  const handleTryAgain = useCallback(() => refetch && refetch(), [refetch]);
+
+  const error = useMemo(
+    () => (queryError ? getLocaleIdFromGraphqlError(queryError.graphQLErrors, queryError.networkError) : undefined),
+    [queryError]
+  );
+
   const handleSubmit = useCallback(
-    (data: { slide: number; model: number; depth: number }) => {
+    (data: { slide: number; model: string; depth: string }) => {
       setDrawerSlide(data);
       router.push('/project/size-assistant', '/project/size-assistant');
     },
@@ -38,8 +49,11 @@ const SupplierContainer: NextPage<SupplierContainerProps> = ({ drawerCollection,
   return (
     <SupplierTemplate
       data={data}
+      loading={loading}
+      error={error}
+      handleTryAgain={handleTryAgain}
       onSubmit={handleSubmit}
-      initialValue={{ slide: drawerSlide?.slide, model: drawerSlide?.model, depth: drawerSlide?.model }}
+      initialValue={{ slide: drawerSlide?.slide, model: drawerSlide?.model, depth: drawerSlide?.depth }}
     />
   );
 };

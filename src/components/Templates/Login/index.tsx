@@ -62,7 +62,7 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
             <div className="flex justify-between mb-8">
               <Link href="/projects" passHref>
                 <Button variant="default">
-                  <FormattedMessage id="login.singinButton" />
+                  <FormattedMessage id="login.signinButton" />
                 </Button>
               </Link>
               <Button variant="text" className="px-0 text-gray-300">

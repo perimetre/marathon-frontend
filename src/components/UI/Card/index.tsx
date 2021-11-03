@@ -1,10 +1,9 @@
 import classNames from 'classnames';
-import Image from 'next/image';
+import SkeletonImage from '../SkeletonImage';
 
 export type CardProps = {
   onClick?: () => void;
   active?: boolean;
-  horizontal?: boolean;
   image?: string | null;
   title?: string;
   category?: string | null;
@@ -12,16 +11,12 @@ export type CardProps = {
   footer?: React.ReactNode;
 };
 
-const Card: React.FC<CardProps> = ({ title, image, description, active, horizontal, category, footer, onClick }) => {
+const Card: React.FC<CardProps> = ({ title, image, description, active, category, footer, onClick }) => {
   return (
-    <div
-      onClick={onClick}
-      aria-hidden="true"
-      className={classNames('card', active && 'active', horizontal && 'flex w-full h-24')}
-    >
+    <div onClick={onClick} aria-hidden="true" className={classNames('card', active && 'active')}>
       {image && (
-        <div className={classNames('relative h-52', horizontal && 'w-44')}>
-          <Image layout="fill" className="object-cover" src={image} alt={title} />
+        <div className="relative h-52">
+          <SkeletonImage layout="fill" className="object-contain" src={image} alt={title || ''} />
         </div>
       )}
       {category && (
@@ -29,7 +24,7 @@ const Card: React.FC<CardProps> = ({ title, image, description, active, horizont
           <h3 className="p-3 px-6 text-lg text-white uppercase">{category}</h3>
         </div>
       )}
-      <div className={classNames('p-6', horizontal && 'flex items-center')}>
+      <div className="p-6">
         {title && <h3 className="text-xl font-bold">{title}</h3>}
         {description && <p className="my-4">{description}</p>}
         {footer}

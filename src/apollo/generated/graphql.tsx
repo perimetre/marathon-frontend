@@ -3277,9 +3277,11 @@ export type GetCollectionsQuery = {
   }>;
 };
 
-export type GetFinishQueryVariables = Exact<{ [key: string]: never }>;
+export type GetFinishByCollectionQueryVariables = Exact<{
+  collectionId: Scalars['Int'];
+}>;
 
-export type GetFinishQuery = {
+export type GetFinishByCollectionQuery = {
   __typename?: 'Query';
   finishes: Array<{
     __typename?: 'Finish';
@@ -3303,6 +3305,17 @@ export type ModuleDataFragment = {
   rules?: any | null | undefined;
   thumbnailUrl?: string | null | undefined;
   categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+};
+
+export type ProjectDataFragment = {
+  __typename?: 'Project';
+  id: number;
+  title: string;
+  slug: string;
+  width: number;
+  gable: number;
+  type: { __typename?: 'Type'; id: number; slug: string };
+  collection: { __typename?: 'Collection'; id: number; slug: string };
 };
 
 export type PlannerQueryVariables = Exact<{
@@ -3329,6 +3342,62 @@ export type PlannerQuery = {
           thumbnailUrl?: string | null | undefined;
           categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
         }>;
+      }
+    | null
+    | undefined;
+};
+
+export type ProjectsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type ProjectsQuery = {
+  __typename?: 'Query';
+  projects: Array<{
+    __typename?: 'Project';
+    id: number;
+    title: string;
+    slug: string;
+    width: number;
+    gable: number;
+    type: { __typename?: 'Type'; id: number; slug: string };
+    collection: { __typename?: 'Collection'; id: number; slug: string };
+  }>;
+};
+
+export type CreateProjectMutationVariables = Exact<{
+  data: ProjectCreateInput;
+}>;
+
+export type CreateProjectMutation = {
+  __typename?: 'Mutation';
+  createOneProject: {
+    __typename?: 'Project';
+    id: number;
+    title: string;
+    slug: string;
+    width: number;
+    gable: number;
+    type: { __typename?: 'Type'; id: number; slug: string };
+    collection: { __typename?: 'Collection'; id: number; slug: string };
+  };
+};
+
+export type UpdateProjectMutationVariables = Exact<{
+  projectId: Scalars['Int'];
+  data: ProjectUpdateInput;
+}>;
+
+export type UpdateProjectMutation = {
+  __typename?: 'Mutation';
+  updateOneProject?:
+    | {
+        __typename?: 'Project';
+        id: number;
+        title: string;
+        slug: string;
+        width: number;
+        gable: number;
+        type: { __typename?: 'Type'; id: number; slug: string };
+        collection: { __typename?: 'Collection'; id: number; slug: string };
       }
     | null
     | undefined;
@@ -3368,33 +3437,6 @@ export type GetTypeQuery = {
     slug: string;
     thumbnailUrl?: string | null | undefined;
   }>;
-};
-
-export type ProjectsQueryVariables = Exact<{ [key: string]: never }>;
-
-export type ProjectsQuery = {
-  __typename?: 'Query';
-  projects: Array<{ __typename?: 'Project'; id: number; title: string; slug: string }>;
-};
-
-export type CreateProjectMutationVariables = Exact<{
-  data: ProjectCreateInput;
-}>;
-
-export type CreateProjectMutation = {
-  __typename?: 'Mutation';
-  createOneProject: { __typename?: 'Project'; id: number; slug: string; title: string };
-};
-
-export type ProjectDataFragment = {
-  __typename?: 'Project';
-  id: number;
-  title: string;
-  slug: string;
-  width: number;
-  gable: number;
-  type: { __typename?: 'Type'; id: number; slug: string };
-  collection: { __typename?: 'Collection'; id: number; slug: string };
 };
 
 export const ModuleDataFragmentDoc = gql`
@@ -3476,9 +3518,9 @@ export function useGetCollectionsLazyQuery(
 export type GetCollectionsQueryHookResult = ReturnType<typeof useGetCollectionsQuery>;
 export type GetCollectionsLazyQueryHookResult = ReturnType<typeof useGetCollectionsLazyQuery>;
 export type GetCollectionsQueryResult = Apollo.QueryResult<GetCollectionsQuery, GetCollectionsQueryVariables>;
-export const GetFinishDocument = gql`
-  query GetFinish {
-    finishes {
+export const GetFinishByCollectionDocument = gql`
+  query GetFinishByCollection($collectionId: Int!) {
+    finishes(where: { collectionFinishes: { some: { collectionId: { equals: $collectionId } } } }) {
       id
       description
       name
@@ -3489,33 +3531,45 @@ export const GetFinishDocument = gql`
 `;
 
 /**
- * __useGetFinishQuery__
+ * __useGetFinishByCollectionQuery__
  *
- * To run a query within a React component, call `useGetFinishQuery` and pass it any options that fit your needs.
- * When your component renders, `useGetFinishQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * To run a query within a React component, call `useGetFinishByCollectionQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetFinishByCollectionQuery` returns an object from Apollo Client that contains loading, error, and data properties
  * you can use to render your UI.
  *
  * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
  *
  * @example
- * const { data, loading, error } = useGetFinishQuery({
+ * const { data, loading, error } = useGetFinishByCollectionQuery({
  *   variables: {
+ *      collectionId: // value for 'collectionId'
  *   },
  * });
  */
-export function useGetFinishQuery(baseOptions?: Apollo.QueryHookOptions<GetFinishQuery, GetFinishQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<GetFinishQuery, GetFinishQueryVariables>(GetFinishDocument, options);
-}
-export function useGetFinishLazyQuery(
-  baseOptions?: Apollo.LazyQueryHookOptions<GetFinishQuery, GetFinishQueryVariables>
+export function useGetFinishByCollectionQuery(
+  baseOptions: Apollo.QueryHookOptions<GetFinishByCollectionQuery, GetFinishByCollectionQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<GetFinishQuery, GetFinishQueryVariables>(GetFinishDocument, options);
+  return Apollo.useQuery<GetFinishByCollectionQuery, GetFinishByCollectionQueryVariables>(
+    GetFinishByCollectionDocument,
+    options
+  );
 }
-export type GetFinishQueryHookResult = ReturnType<typeof useGetFinishQuery>;
-export type GetFinishLazyQueryHookResult = ReturnType<typeof useGetFinishLazyQuery>;
-export type GetFinishQueryResult = Apollo.QueryResult<GetFinishQuery, GetFinishQueryVariables>;
+export function useGetFinishByCollectionLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetFinishByCollectionQuery, GetFinishByCollectionQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetFinishByCollectionQuery, GetFinishByCollectionQueryVariables>(
+    GetFinishByCollectionDocument,
+    options
+  );
+}
+export type GetFinishByCollectionQueryHookResult = ReturnType<typeof useGetFinishByCollectionQuery>;
+export type GetFinishByCollectionLazyQueryHookResult = ReturnType<typeof useGetFinishByCollectionLazyQuery>;
+export type GetFinishByCollectionQueryResult = Apollo.QueryResult<
+  GetFinishByCollectionQuery,
+  GetFinishByCollectionQueryVariables
+>;
 export const PlannerDocument = gql`
   query Planner($slug: String!) {
     project(where: { slug: $slug }) {
@@ -3556,6 +3610,120 @@ export function usePlannerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pl
 export type PlannerQueryHookResult = ReturnType<typeof usePlannerQuery>;
 export type PlannerLazyQueryHookResult = ReturnType<typeof usePlannerLazyQuery>;
 export type PlannerQueryResult = Apollo.QueryResult<PlannerQuery, PlannerQueryVariables>;
+export const ProjectsDocument = gql`
+  query Projects {
+    projects {
+      ...ProjectData
+    }
+  }
+  ${ProjectDataFragmentDoc}
+`;
+
+/**
+ * __useProjectsQuery__
+ *
+ * To run a query within a React component, call `useProjectsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProjectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProjectsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useProjectsQuery(baseOptions?: Apollo.QueryHookOptions<ProjectsQuery, ProjectsQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ProjectsQuery, ProjectsQueryVariables>(ProjectsDocument, options);
+}
+export function useProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProjectsQuery, ProjectsQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ProjectsQuery, ProjectsQueryVariables>(ProjectsDocument, options);
+}
+export type ProjectsQueryHookResult = ReturnType<typeof useProjectsQuery>;
+export type ProjectsLazyQueryHookResult = ReturnType<typeof useProjectsLazyQuery>;
+export type ProjectsQueryResult = Apollo.QueryResult<ProjectsQuery, ProjectsQueryVariables>;
+export const CreateProjectDocument = gql`
+  mutation CreateProject($data: ProjectCreateInput!) {
+    createOneProject(data: $data) {
+      ...ProjectData
+    }
+  }
+  ${ProjectDataFragmentDoc}
+`;
+export type CreateProjectMutationFn = Apollo.MutationFunction<CreateProjectMutation, CreateProjectMutationVariables>;
+
+/**
+ * __useCreateProjectMutation__
+ *
+ * To run a mutation, you first call `useCreateProjectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateProjectMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createProjectMutation, { data, loading, error }] = useCreateProjectMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateProjectMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateProjectMutation, CreateProjectMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateProjectMutation, CreateProjectMutationVariables>(CreateProjectDocument, options);
+}
+export type CreateProjectMutationHookResult = ReturnType<typeof useCreateProjectMutation>;
+export type CreateProjectMutationResult = Apollo.MutationResult<CreateProjectMutation>;
+export type CreateProjectMutationOptions = Apollo.BaseMutationOptions<
+  CreateProjectMutation,
+  CreateProjectMutationVariables
+>;
+export const UpdateProjectDocument = gql`
+  mutation UpdateProject($projectId: Int!, $data: ProjectUpdateInput!) {
+    updateOneProject(data: $data, where: { id: $projectId }) {
+      ...ProjectData
+    }
+  }
+  ${ProjectDataFragmentDoc}
+`;
+export type UpdateProjectMutationFn = Apollo.MutationFunction<UpdateProjectMutation, UpdateProjectMutationVariables>;
+
+/**
+ * __useUpdateProjectMutation__
+ *
+ * To run a mutation, you first call `useUpdateProjectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProjectMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProjectMutation, { data, loading, error }] = useUpdateProjectMutation({
+ *   variables: {
+ *      projectId: // value for 'projectId'
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useUpdateProjectMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdateProjectMutation, UpdateProjectMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateProjectMutation, UpdateProjectMutationVariables>(UpdateProjectDocument, options);
+}
+export type UpdateProjectMutationHookResult = ReturnType<typeof useUpdateProjectMutation>;
+export type UpdateProjectMutationResult = Apollo.MutationResult<UpdateProjectMutation>;
+export type UpdateProjectMutationOptions = Apollo.BaseMutationOptions<
+  UpdateProjectMutation,
+  UpdateProjectMutationVariables
+>;
 export const GetSlideSupplierByCollectionDocument = gql`
   query GetSlideSupplierByCollection($collectionId: Int!) {
     slideSuppliers {
@@ -3660,79 +3828,3 @@ export function useGetTypeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Ge
 export type GetTypeQueryHookResult = ReturnType<typeof useGetTypeQuery>;
 export type GetTypeLazyQueryHookResult = ReturnType<typeof useGetTypeLazyQuery>;
 export type GetTypeQueryResult = Apollo.QueryResult<GetTypeQuery, GetTypeQueryVariables>;
-export const ProjectsDocument = gql`
-  query Projects {
-    projects {
-      id
-      title
-      slug
-    }
-  }
-`;
-
-/**
- * __useProjectsQuery__
- *
- * To run a query within a React component, call `useProjectsQuery` and pass it any options that fit your needs.
- * When your component renders, `useProjectsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useProjectsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useProjectsQuery(baseOptions?: Apollo.QueryHookOptions<ProjectsQuery, ProjectsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useQuery<ProjectsQuery, ProjectsQueryVariables>(ProjectsDocument, options);
-}
-export function useProjectsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<ProjectsQuery, ProjectsQueryVariables>) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useLazyQuery<ProjectsQuery, ProjectsQueryVariables>(ProjectsDocument, options);
-}
-export type ProjectsQueryHookResult = ReturnType<typeof useProjectsQuery>;
-export type ProjectsLazyQueryHookResult = ReturnType<typeof useProjectsLazyQuery>;
-export type ProjectsQueryResult = Apollo.QueryResult<ProjectsQuery, ProjectsQueryVariables>;
-export const CreateProjectDocument = gql`
-  mutation CreateProject($data: ProjectCreateInput!) {
-    createOneProject(data: $data) {
-      id
-      slug
-      title
-    }
-  }
-`;
-export type CreateProjectMutationFn = Apollo.MutationFunction<CreateProjectMutation, CreateProjectMutationVariables>;
-
-/**
- * __useCreateProjectMutation__
- *
- * To run a mutation, you first call `useCreateProjectMutation` within a React component and pass it any options that fit your needs.
- * When your component renders, `useCreateProjectMutation` returns a tuple that includes:
- * - A mutate function that you can call at any time to execute the mutation
- * - An object with fields that represent the current status of the mutation's execution
- *
- * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
- *
- * @example
- * const [createProjectMutation, { data, loading, error }] = useCreateProjectMutation({
- *   variables: {
- *      data: // value for 'data'
- *   },
- * });
- */
-export function useCreateProjectMutation(
-  baseOptions?: Apollo.MutationHookOptions<CreateProjectMutation, CreateProjectMutationVariables>
-) {
-  const options = { ...defaultOptions, ...baseOptions };
-  return Apollo.useMutation<CreateProjectMutation, CreateProjectMutationVariables>(CreateProjectDocument, options);
-}
-export type CreateProjectMutationHookResult = ReturnType<typeof useCreateProjectMutation>;
-export type CreateProjectMutationResult = Apollo.MutationResult<CreateProjectMutation>;
-export type CreateProjectMutationOptions = Apollo.BaseMutationOptions<
-  CreateProjectMutation,
-  CreateProjectMutationVariables
->;

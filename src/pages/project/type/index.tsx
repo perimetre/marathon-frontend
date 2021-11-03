@@ -8,9 +8,10 @@ import {
 } from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { TYPE_QUERY } from '../../../apollo/type';
-import { useGetTypeQuery } from '../../../apollo/generated/graphql';
+import { useGetTypeLazyQuery } from '../../../apollo/generated/graphql';
 import TypeTemplate from '../../../components/Templates/Project/Type';
-import { useCallback } from 'react';
+import { useCallback, useMemo, useEffect } from 'react';
+import { getLocaleIdFromGraphqlError } from '../../../lib/apollo/exceptions';
 
 type TypeContainerGetServerProps = ProjectCreationProviderProps;
 
@@ -21,7 +22,18 @@ const TypeContainer: NextPage<TypeContainerProps> = ({ drawerType }) => {
 
   const router = useRouter();
 
-  const { data } = useGetTypeQuery();
+  const [getType, { data, loading, error: queryError, refetch }] = useGetTypeLazyQuery({
+    notifyOnNetworkStatusChange: true
+  });
+
+  useEffect(() => getType(), [getType]);
+
+  const handleTryAgain = useCallback(() => refetch && refetch(), [refetch]);
+
+  const error = useMemo(
+    () => (queryError ? getLocaleIdFromGraphqlError(queryError.graphQLErrors, queryError.networkError) : undefined),
+    [queryError]
+  );
 
   const handleSubmit = useCallback(
     (data: { type: number }) => {
@@ -31,13 +43,32 @@ const TypeContainer: NextPage<TypeContainerProps> = ({ drawerType }) => {
     [router, setDrawerType]
   );
 
-  return <TypeTemplate data={data} onSubmit={handleSubmit} initialValue={{ type: drawerType }} />;
+  return (
+    <TypeTemplate
+      data={data}
+      loading={loading}
+      error={error}
+      handleTryAgain={handleTryAgain}
+      onSubmit={handleSubmit}
+      initialValue={{ type: drawerType }}
+    />
+  );
 };
 
 export const getServerSideProps: GetServerSideProps<TypeContainerGetServerProps> = async (ctx) => {
   const apolloClient = initializeApollo();
 
   const projectData = requiredProjectData(ctx);
+
+  if (!projectData.drawerTitle) {
+    // return {
+    //   props: {},
+    //   redirect: {
+    //     destination: '/projects',
+    //     permanent: true
+    //   }
+    // };
+  }
 
   const props: TypeContainerGetServerProps = {
     ...ctx?.query,
