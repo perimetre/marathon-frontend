@@ -1,12 +1,12 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Unit } from '../../../../types/unit';
-import { TextInput } from '../../../UI/Form/TextInput';
 import * as yup from 'yup';
-import { Form, Formik } from 'formik';
+import { Form, Formik, useField } from 'formik';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import ProjectCreationTemplate from '../../ProjectCreation';
 import { Select } from '../../../UI/Form/Select';
+import classNames from 'classnames';
 
 export type SizeAssistantTemplateProps = {
   unit: Unit;
@@ -14,6 +14,42 @@ export type SizeAssistantTemplateProps = {
   loading?: boolean;
   onSubmit: (form: { gable: number | null; width: number | null }) => void;
   initialValue: { gable?: number; width?: number };
+};
+
+const FakerTextInput: React.FC<
+  React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
+    name: string;
+    unit: Unit;
+  }
+> = ({ name, className, children, ...props }) => {
+  const [field, meta] = useField(name);
+  const error = useMemo(() => (meta.touched ? meta.error : undefined), [meta]);
+
+  // useEffect(() => {
+  //   helper.setValue(unit === 'mm' ? convertInToMm('', '', '') : convertMmToIn(field.value));
+  // }, [unit, helper]);
+
+  return (
+    <div className="w-full">
+      <span>
+        <input
+          {...props}
+          {...field}
+          onChange={(e) => {
+            if (props.onChange) props.onChange(e);
+            field.onChange(e);
+          }}
+          id={`TextInput-${name}`}
+          className={classNames(
+            'flex-1 w-full px-3 py-2 bg-gray-200 rounded-sm h-14 form-input mui-input-base',
+            className
+          )}
+        />
+        {children}
+      </span>
+      {error && <p className="mui-animate-fade-down text-mui-error">{error}</p>}
+    </div>
+  );
 };
 
 const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
@@ -67,7 +103,12 @@ const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
                     </p>
                   </div>
                   <div className="flex items-center px-10 py-8 mt-4 bg-white rounded-sm shadow-lg">
-                    <TextInput name="width" type="number" placeholder={unit === 'mm' ? 'eg. 1000' : 'eg. 39 1/2'} />
+                    <FakerTextInput
+                      unit={unit}
+                      name="width"
+                      type="number"
+                      placeholder={unit === 'mm' ? 'eg. 1000' : 'eg. 39 1/2'}
+                    />
                     <p className="ml-8 text-lg font-bold">{unit}</p>
                   </div>
                 </div>

@@ -1,24 +1,23 @@
-import classNames from 'classnames';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Button } from '../Button';
 
-export type ErrorMessageProps = {
-  className?: string;
-  error?: string;
-  handleTryAgain: () => void;
+type ErrorMessageProps = {
+  error?: string | React.ReactNode;
+  handleTryAgain?: () => void;
 };
 
-const ErrorMessage: React.FC<ErrorMessageProps> = ({ error, className, handleTryAgain }) => {
-  return (
-    <div className={classNames('inline-block py-4 px-8 text-white bg-red-400 rounded-md', className)}>
-      {error && <FormattedMessage id={error} />}
-      {handleTryAgain && (
-        <Button className="mt-4 text-white bg-red-500" onClick={handleTryAgain}>
-          Try again
-        </Button>
-      )}
-    </div>
-  );
-};
+const ErrorMessage: React.FC<ErrorMessageProps> = ({ error, handleTryAgain }) => (
+  <div className="flex flex-col items-center justify-center h-full p-8 border border-red-200 rounded-md">
+    <p className="text-xl font-bold text-center text-red-500">
+      {typeof error === 'string' ? <FormattedMessage id={error} /> : error}
+    </p>
+    {handleTryAgain && (
+      <Button className="mt-4" onClick={handleTryAgain}>
+        <FormattedMessage id="common.tryAgain" />
+      </Button>
+    )}
+  </div>
+);
 
 export default ErrorMessage;

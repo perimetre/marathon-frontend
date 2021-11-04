@@ -4,7 +4,8 @@
   "description": "Marathon space planner",
   "common": {
     "tryAgain": "Try again",
-    "close": "Close"
+    "close": "Close",
+    "add": "Add"
   },
   "serverErrors": {
     "unknownError": "An error has occurred. Please try again later.",
@@ -17,7 +18,8 @@
   "build": {
     "title": "Build",
     "error": "Unable to load the {appTitle} app: \r\n <error>{errorMessage}</error>",
-    "projectsPageNav": "Projects"
+    "projectsPageNav": "Projects",
+    "addOns": "Available Add-ons"
   },
   "home": {
     "title": "Drawers that fit your lifestyle",

@@ -37,6 +37,10 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
         width: Number(data.width)
       });
 
+      console.log({ data });
+
+      return;
+
       await doCreateProject({
         variables: {
           data: {
