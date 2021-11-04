@@ -70,7 +70,7 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
                     className={classNames(
                       'flex flex-col items-center justify-center w-full h-full px-2 py-4 bg-white shadow-md mui-border-radius hover:scale-105 transition-all duration-75 active:scale-100 active:transition-none border-2 border-solid border-white',
                       {
-                        'border-mui-primary': module.id === selectedModuleId
+                        '!border-mui-primary': module.id === selectedModuleId
                       }
                     )}
                     onClick={module.id !== selectedModuleId ? () => setSelectedModuleId(module.id) : undefined}

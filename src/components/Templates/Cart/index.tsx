@@ -11,6 +11,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faFile } from '@fortawesome/free-solid-svg-icons';
 import NavbarButton from '../../UI/NavbarButton';
 import Link from 'next/link';
+import ErrorMessage from '../../UI/ErrorMessage';
+import Skeleton from '../../UI/Skeleton';
 
 type CartProjectModulesProps = {
   projectModules: (CartDataFragment & { children?: CartDataFragment[] })[];
@@ -65,9 +67,9 @@ type CartTemplateProps = {
   handleTryAgain: () => void;
 };
 
-const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug }) => {
+const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading, handleTryAgain }) => {
   const intl = useIntl();
-  // TODO: Create quantity if duplicate. Loading + handle try again too. Add back button, add Print button
+  // TODO: Create quantity if duplicate
 
   return (
     <AppLayout
@@ -102,35 +104,70 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug }) => {
       </Head>
       <div>
         <div className="no-print:mx-auto no-print:container no-print:my-12 no-print:bg-white no-print:shadow-md no-print:p-8">
-          <div className="flex">
-            <div className="w-full">
-              <h2 className="mb-4 text-3xl text-black print:hidden">
-                <FormattedMessage id="cart.review" />
-              </h2>
-              <h3 className="text-xl print:text-black no-print:text-gray-500">{data?.project?.title}</h3>
-            </div>
-            <div className="print:hidden">
-              <Button className="group" onClick={() => window?.print()}>
-                <span>
-                  <FormattedMessage id="cart.print" />
-                </span>
-                <FontAwesomeIcon icon={faFile} className="text-2xl mui-animate-group-hover" />
-              </Button>
-            </div>
-          </div>
-          <hr className="my-4" />
-          {data?.project?.projectModules && (
-            <div className="grid grid-cols-12 gap-4">
-              <div className="py-2 col-span-12 bg-mui-gray-300 grid grid-cols-12 gap-4">
-                <p className="font-bold col-span-9 col-start-3">
-                  <FormattedMessage id="cart.headers.product" />
-                </p>
-                <p className="font-bold text-center col-span-1">
-                  <FormattedMessage id="cart.headers.quantity" />
-                </p>
-              </div>
-              <CartProjectModules projectModules={data.project.projectModules} />
-            </div>
+          {!error ? (
+            !loading ? (
+              <>
+                <div className="flex">
+                  <div className="w-full">
+                    <h2 className="mb-4 text-3xl text-black print:hidden">
+                      <FormattedMessage id="cart.review" />
+                    </h2>
+                    <h3 className="text-xl print:text-black no-print:text-gray-500">{data?.project?.title}</h3>
+                  </div>
+                  <div className="print:hidden">
+                    <Button className="group" onClick={() => window?.print()}>
+                      <span>
+                        <FormattedMessage id="cart.print" />
+                      </span>
+                      <FontAwesomeIcon icon={faFile} className="text-2xl mui-animate-group-hover" />
+                    </Button>
+                  </div>
+                </div>
+                <hr className="my-4" />
+                {data?.project?.projectModules && (
+                  <div className="grid grid-cols-12 gap-4">
+                    <div className="py-2 col-span-12 bg-mui-gray-300 grid grid-cols-12 gap-4">
+                      <p className="font-bold col-span-9 col-start-3">
+                        <FormattedMessage id="cart.headers.product" />
+                      </p>
+                      <p className="font-bold text-center col-span-1">
+                        <FormattedMessage id="cart.headers.quantity" />
+                      </p>
+                    </div>
+                    <CartProjectModules projectModules={data.project.projectModules} />
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                <Skeleton className="w-1/4 h-10 mui-border-radius" />
+                <Skeleton className="w-1/5 h-4 mt-2 mui-border-radius" />
+                <Skeleton className="w-full h-6 mt-4 mui-border-radius" />
+                <div className="grid grid-cols-12 gap-2 mt-2">
+                  {Array(2)
+                    .fill(null)
+                    .map((_, i) => (
+                      <React.Fragment key={i}>
+                        <Skeleton className="w-full h-44 col-span-2 mui-border-radius" />
+                        <Skeleton className="w-full h-44 col-span-9 mui-border-radius" />
+                        <Skeleton className="w-full h-44 col-span-1 mui-border-radius" />
+                        {i === 0 &&
+                          Array(2)
+                            .fill(null)
+                            .map((_, i2) => (
+                              <React.Fragment key={i2 + i}>
+                                <Skeleton className="w-full h-40 col-span-2 col-start-2 mui-border-radius" />
+                                <Skeleton className="w-full h-40 col-span-8 mui-border-radius" />
+                                <Skeleton className="w-full h-40 col-span-1 mui-border-radius" />
+                              </React.Fragment>
+                            ))}
+                      </React.Fragment>
+                    ))}
+                </div>
+              </>
+            )
+          ) : (
+            <ErrorMessage error={error} handleTryAgain={handleTryAgain} />
           )}
         </div>
       </div>
