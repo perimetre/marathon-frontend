@@ -94,7 +94,7 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
   drawerSize: size
 }) => {
   const [unit, setUnit] = useState<ProjectCreationType['unit']>(initUnit || 'mm');
-  const [drawerType, setDrawerType] = useState<ProjectCreationType['drawerType']>(Number(type || 0));
+  const [drawerType, setDrawerType] = useState<ProjectCreationType['drawerType']>(type);
   const [drawerTitle, setDrawerTitle] = useState<ProjectCreationType['drawerTitle']>(description);
   const [drawerCollection, setDrawerCollection] = useState<ProjectCreationType['drawerCollection']>(collection);
   const [drawerFinish, setDrawerFinish] = useState<ProjectCreationType['drawerFinish']>(finish);

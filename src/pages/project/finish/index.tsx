@@ -39,8 +39,8 @@ const FinishContainer: NextPage<FinishContainerProps> = ({ drawerFinish, drawerC
   );
 
   const handleSubmit = useCallback(
-    (data: { finish: number }) => {
-      setDrawerFinish(data.finish);
+    (data: { finish: number | null }) => {
+      setDrawerFinish(Number(data.finish));
       router.push('/project/supplier', '/project/supplier');
     },
     [router, setDrawerFinish]

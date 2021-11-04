@@ -12,7 +12,7 @@ import Skeleton from '../../../UI/Skeleton';
 
 export type CollectionTemplateProps = {
   data?: GetCollectionsQuery;
-  onSubmit: (form: { collection: number }) => void;
+  onSubmit: (form: { collection: number | null }) => void;
   initialValue: { collection?: number };
 
   loading?: boolean;
@@ -42,7 +42,7 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
 
   return (
     <Formik
-      initialValues={{ collection: initialValue.collection || 0 }}
+      initialValues={{ collection: initialValue.collection || null }}
       onSubmit={onSubmit}
       validationSchema={schema}
       validateOnMount

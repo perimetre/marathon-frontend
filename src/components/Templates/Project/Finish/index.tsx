@@ -11,7 +11,7 @@ import ErrorMessage from '../../../UI/ErrorMessage';
 
 export type FinishTemplateProps = {
   data?: GetFinishByCollectionQuery;
-  onSubmit: (form: { finish: number }) => void;
+  onSubmit: (form: { finish: number | null }) => void;
   initialValue: { finish?: number };
 
   loading?: boolean;
@@ -34,14 +34,14 @@ const FinishTemplate: React.FC<FinishTemplateProps> = ({
   const schema = useMemo(
     () =>
       yup.object().shape({
-        finish: yup.string().label('Finish').required()
+        finish: yup.number().label('Finish').required()
       }),
     []
   );
 
   return (
     <Formik
-      initialValues={{ finish: initialValue.finish || 0 }}
+      initialValues={{ finish: initialValue.finish || null }}
       onSubmit={onSubmit}
       validationSchema={schema}
       validateOnMount
@@ -71,6 +71,7 @@ const FinishTemplate: React.FC<FinishTemplateProps> = ({
                   <Card
                     key={`finish-card-${finish.id}`}
                     active={values.finish === finish.id}
+                    imageClassName="object-cover object-center"
                     onClick={() => setFieldValue('finish', finish.id)}
                     image={finish.thumbnailUrl}
                     title={finish.name}

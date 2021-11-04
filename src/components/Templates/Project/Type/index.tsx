@@ -11,7 +11,7 @@ import Skeleton from '../../../UI/Skeleton';
 export type TypeTemplateProps = {
   data?: GetTypeQuery;
   initialValue?: { type?: number };
-  onSubmit: (form: { type: number }) => void;
+  onSubmit: (form: { type: number | null }) => void;
 
   loading?: boolean;
   error?: string;
@@ -31,14 +31,14 @@ const TypeTemplate: React.FC<TypeTemplateProps> = ({
   const schema = useMemo(
     () =>
       yup.object().shape({
-        type: yup.number().label('Type').required()
+        type: yup.number().min(0).label('Type').required()
       }),
     []
   );
 
   return (
     <Formik
-      initialValues={{ type: initialValue?.type || 0 }}
+      initialValues={{ type: initialValue?.type || null }}
       onSubmit={onSubmit}
       validationSchema={schema}
       validateOnMount
@@ -68,6 +68,7 @@ const TypeTemplate: React.FC<TypeTemplateProps> = ({
                   <Card
                     key={`type-card-${type.id}`}
                     active={values.type === type.id}
+                    imageClassName="object-cover object-center"
                     onClick={() => setFieldValue('type', type.id)}
                     image={type.thumbnailUrl || ''}
                     title={type.name}

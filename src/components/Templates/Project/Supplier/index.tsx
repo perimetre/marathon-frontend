@@ -13,7 +13,7 @@ import classNames from 'classnames';
 
 export type SupplierTemplateProps = {
   data?: GetSlideSupplierByCollectionQuery;
-  onSubmit: (form: { slide: number; depth: string; model: string }) => void;
+  onSubmit: (form: { slide: number | null; depth: string; model: string }) => void;
   initialValue: { slide?: number; depth?: string; model?: string };
 
   loading?: boolean;
@@ -56,7 +56,7 @@ const SupplierTemplate: React.FC<SupplierTemplateProps> = ({
   const schema = useMemo(
     () =>
       yup.object().shape({
-        slide: yup.number().min(1).label('Supplier').required(),
+        slide: yup.number().label('Supplier').required(),
         model: yup.string().label('Model').required(),
         depth: yup.string().label('Depth').required()
       }),
@@ -73,7 +73,7 @@ const SupplierTemplate: React.FC<SupplierTemplateProps> = ({
   return (
     <Formik
       initialValues={{
-        slide: initialValue?.slide || 0,
+        slide: initialValue?.slide || null,
         depth: initialValue?.depth || '',
         model: initialValue?.model || ''
       }}
@@ -139,20 +139,6 @@ const SupplierTemplate: React.FC<SupplierTemplateProps> = ({
                       </div>
                     );
                   })}
-                  {/* {data?.slideSuppliers.map((slide) => (
-                    <Card
-                      key={`type-card-${slide.id}`}
-                      active={values.slide === slide.id}
-                      onClick={() => {
-                        setFieldValue('model', '');
-                        setFieldValue('depth', '');
-                        setFieldValue('slide', slide.id);
-                        setSlide(slide.id);
-                      }}
-                      image={slide.thumbnailUrl}
-                      title={slide.name}
-                    />
-                  ))} */}
                 </div>
               )}
               {loading ? (

@@ -39,8 +39,12 @@ const SupplierContainer: NextPage<SupplierContainerProps> = ({ drawerCollection,
   );
 
   const handleSubmit = useCallback(
-    (data: { slide: number; model: string; depth: string }) => {
-      setDrawerSlide(data);
+    (data: { slide: number | null; model: string; depth: string }) => {
+      setDrawerSlide({
+        slide: Number(data.slide),
+        depth: data.depth,
+        model: data.model
+      });
       router.push('/project/size-assistant', '/project/size-assistant');
     },
     [router, setDrawerSlide]

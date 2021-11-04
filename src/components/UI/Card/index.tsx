@@ -8,15 +8,30 @@ export type CardProps = {
   title?: string;
   category?: string | null;
   description?: string | null;
+  imageClassName?: HTMLElement['className'];
   footer?: React.ReactNode;
 };
 
-const Card: React.FC<CardProps> = ({ title, image, description, active, category, footer, onClick }) => {
+const Card: React.FC<CardProps> = ({
+  title,
+  image,
+  description,
+  imageClassName,
+  active,
+  category,
+  footer,
+  onClick
+}) => {
   return (
     <div onClick={onClick} aria-hidden="true" className={classNames('card', active && 'active')}>
       {image && (
         <div className="relative h-52">
-          <SkeletonImage layout="fill" className="object-contain" src={image} alt={title || ''} />
+          <SkeletonImage
+            layout="fill"
+            className={classNames('object-contain', imageClassName)}
+            src={image}
+            alt={title || ''}
+          />
         </div>
       )}
       {category && (

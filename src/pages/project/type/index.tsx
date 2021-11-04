@@ -36,8 +36,8 @@ const TypeContainer: NextPage<TypeContainerProps> = ({ drawerType }) => {
   );
 
   const handleSubmit = useCallback(
-    (data: { type: number }) => {
-      setDrawerType(data.type);
+    (data: { type: number | null }) => {
+      setDrawerType(Number(data.type));
       router.push('/project/collection', '/project/collection');
     },
     [router, setDrawerType]

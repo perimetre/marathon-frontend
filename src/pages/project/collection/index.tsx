@@ -36,8 +36,8 @@ const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollect
   );
 
   const handleSubmit = useCallback(
-    (data: { collection: number }) => {
-      setDrawerCollection(data.collection);
+    (data: { collection: number | null }) => {
+      setDrawerCollection(Number(data.collection));
       router.push('/project/finish', '/project/finish');
     },
     [setDrawerCollection, router]
