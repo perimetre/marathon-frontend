@@ -44,3 +44,11 @@ export const UPDATE_PROJECT_MUTATION = gql`
   }
   ${PROJECT_DATA}
 `;
+
+export const DELETE_PROJECT_MUTATION = gql`
+  mutation DeleteProject($projectId: Int!) {
+    deleteOneProject(where: { id: $projectId }) {
+      id
+    }
+  }
+`;

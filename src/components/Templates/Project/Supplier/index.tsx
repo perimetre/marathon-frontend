@@ -157,7 +157,7 @@ const SupplierTemplate: React.FC<SupplierTemplateProps> = ({
                         setModel(Number(e.target.value));
                       }}
                     >
-                      <option key="-1">Select Option</option>
+                      <option key="">Select Option</option>
                       {models?.map((model) => (
                         <option key={model.id} value={model.id}>
                           {model.product}
@@ -167,7 +167,7 @@ const SupplierTemplate: React.FC<SupplierTemplateProps> = ({
                   </label>
                   <label className="block w-full max-w-xl text-left">
                     <Select name="depth" label="Depth">
-                      <option key="-1">Select Option</option>
+                      <option key="">Select Option</option>
                       {depths?.map((depth) => (
                         <option key={depth.id} value={depth.id}>
                           {depth.display}

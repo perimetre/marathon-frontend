@@ -11,7 +11,7 @@ import SizeAssistantTemplate from '../../../components/Templates/Project/SizeAss
 import { useCallback } from 'react';
 import { useCreateProjectMutation } from '../../../apollo/generated/graphql';
 import { slugify } from '../../../utils/string';
-import { convertInToMm } from '../../../utils/unit/conversion';
+import { convertInToMm, convertInToMmFormatted } from '../../../utils/unit/conversion';
 
 type SizeAssistantContainerGetServerProps = ProjectCreationProviderProps;
 
@@ -25,21 +25,19 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
   drawerTitle,
   drawerCollection
 }) => {
+  console.log({ drawerSize });
+
   const { clear, unit, setDrawerSize } = useProjectCreationContext();
   const router = useRouter();
 
   const [doCreateProject, { loading }] = useCreateProjectMutation();
 
   const handleSubmit = useCallback(
-    async (data: { gable: number | null; width: number | null }) => {
+    async (data: { gable?: string; width?: string }) => {
       setDrawerSize({
-        gable: Number(data.gable),
-        width: Number(data.width)
+        gable: data.gable,
+        width: data.width
       });
-
-      console.log({ data });
-
-      return;
 
       await doCreateProject({
         variables: {
@@ -47,7 +45,7 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
             slug: slugify(drawerTitle),
             title: drawerTitle as string,
             gable: Number(data.gable),
-            width: Number(data.width),
+            width: unit === 'mm' ? Number(data.width) : Number(convertInToMmFormatted(data.width as string)),
             type: {
               connect: {
                 id: Number(drawerType)
@@ -82,6 +80,7 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
       router.push('/projects', '/projects');
     },
     [
+      unit,
       clear,
       doCreateProject,
       drawerCollection,

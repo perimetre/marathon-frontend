@@ -6,11 +6,23 @@ import { Expander } from '../../UI/Expander';
 import classNames from 'classnames';
 import { ChevronDownIcon } from '../../UI/Icons/chevronDown';
 import AppLayout from '../../Layouts/AppLayout';
+import { UserIcon } from '../../UI/Icons/user';
+import { useRouter } from 'next/router';
 
 const HomeTemplate: React.FC = () => {
-  const [expanded, setExpanded] = useState('1');
+  const [expanded, setExpanded] = useState('ac-portfolio');
+
+  const router = useRouter();
+
   return (
-    <AppLayout>
+    <AppLayout
+      appendRight={() => (
+        <button className="flex pr-4 font-semibold gap-2" onClick={() => router.push('/login', '/login')}>
+          <UserIcon className="text-mui-primary" />
+          <FormattedMessage id="login.signinButton" />
+        </button>
+      )}
+    >
       <div className="min-h-full grid grid-cols-1 lg:grid-cols-2">
         <div className="flex justify-end">
           <div className="max-w-3xl p-10 lg:p-16 ">

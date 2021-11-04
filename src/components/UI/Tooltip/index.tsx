@@ -18,7 +18,7 @@ export type TooltipProps = TippyProps & {
 };
 
 /**
- * Displays a toltip
+ * Displays a tooltip
  *
  * @param props The component props
  * @param props.arrow Determines if the tooltip has an arrow.

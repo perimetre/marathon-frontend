@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Project } from '../../../apollo/generated/graphql';
+import { Project, useDeleteProjectMutation } from '../../../apollo/generated/graphql';
 import { Button } from '../../UI/Button';
 import { Modal } from '../../UI/Modal';
 import Spinner from '../../UI/Spinner';
@@ -12,11 +12,19 @@ export type ModalDeleteProjectProps = {
 };
 
 const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({ open, onClose, project }) => {
-  const handleDelete = useCallback(async () => {
-    console.log('delete');
-  }, []);
+  const [deleteProject, { loading }] = useDeleteProjectMutation();
 
-  const loading = false;
+  const handleDelete = useCallback(async () => {
+    if (project) {
+      await deleteProject({
+        refetchQueries: ['Projects'],
+        variables: {
+          projectId: project.id
+        }
+      });
+      onClose();
+    }
+  }, [deleteProject, onClose, project]);
 
   return (
     <Modal

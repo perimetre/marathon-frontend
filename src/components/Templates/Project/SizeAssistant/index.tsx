@@ -1,55 +1,19 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Unit } from '../../../../types/unit';
 import * as yup from 'yup';
-import { Form, Formik, useField } from 'formik';
+import { Form, Formik } from 'formik';
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import ProjectCreationTemplate from '../../ProjectCreation';
 import { Select } from '../../../UI/Form/Select';
-import classNames from 'classnames';
+import UnitTextInput from '../../../UI/UnitTextInput';
 
 export type SizeAssistantTemplateProps = {
   unit: Unit;
   gable: { display: string; value: string | number | null }[];
   loading?: boolean;
-  onSubmit: (form: { gable: number | null; width: number | null }) => void;
-  initialValue: { gable?: number; width?: number };
-};
-
-const FakerTextInput: React.FC<
-  React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
-    name: string;
-    unit: Unit;
-  }
-> = ({ name, className, children, ...props }) => {
-  const [field, meta] = useField(name);
-  const error = useMemo(() => (meta.touched ? meta.error : undefined), [meta]);
-
-  // useEffect(() => {
-  //   helper.setValue(unit === 'mm' ? convertInToMm('', '', '') : convertMmToIn(field.value));
-  // }, [unit, helper]);
-
-  return (
-    <div className="w-full">
-      <span>
-        <input
-          {...props}
-          {...field}
-          onChange={(e) => {
-            if (props.onChange) props.onChange(e);
-            field.onChange(e);
-          }}
-          id={`TextInput-${name}`}
-          className={classNames(
-            'flex-1 w-full px-3 py-2 bg-gray-200 rounded-sm h-14 form-input mui-input-base',
-            className
-          )}
-        />
-        {children}
-      </span>
-      {error && <p className="mui-animate-fade-down text-mui-error">{error}</p>}
-    </div>
-  );
+  onSubmit: (form: { gable: string; width?: string }) => void;
+  initialValue: { gable?: string; width?: string };
 };
 
 const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
@@ -66,8 +30,8 @@ const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
   const schema = useMemo(
     () =>
       yup.object().shape({
-        gable: yup.number().nullable().label('Thickness').required(),
-        width: yup.number().nullable().label('Weight').required()
+        gable: yup.string().label('Gable').required(),
+        width: yup.string().label('Width').required()
       }),
     []
   );
@@ -75,8 +39,8 @@ const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
   return (
     <Formik
       initialValues={{
-        gable: initialValue?.gable || null,
-        width: initialValue?.width || null
+        gable: initialValue?.gable || '',
+        width: initialValue?.width || undefined
       }}
       onSubmit={onSubmit}
       validationSchema={schema}
@@ -102,13 +66,8 @@ const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
                       <FormattedMessage id="sizeAssistant.cabinetWidthDescription" />
                     </p>
                   </div>
-                  <div className="flex items-center px-10 py-8 mt-4 bg-white rounded-sm shadow-lg">
-                    <FakerTextInput
-                      unit={unit}
-                      name="width"
-                      type="number"
-                      placeholder={unit === 'mm' ? 'eg. 1000' : 'eg. 39 1/2'}
-                    />
+                  <div className="flex items-center px-10 py-8 mt-4 bg-white shadow-lg rounded-md">
+                    <UnitTextInput unit={unit} name="width" placeholder={unit === 'mm' ? 'eg. 1000' : 'eg. 39 1/2'} />
                     <p className="ml-8 text-lg font-bold">{unit}</p>
                   </div>
                 </div>
@@ -121,12 +80,13 @@ const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
                       <FormattedMessage id="sizeAssistant.boardThicknessDescription" />s
                     </p>
                   </div>
-                  <div className="flex items-center px-10 py-8 mt-4 bg-white rounded-sm shadow-lg">
+                  <div className="flex items-center px-10 py-8 mt-4 bg-white shadow-lg rounded-md">
                     <Select
                       name="gable"
                       classNameContainer="w-full"
-                      className="w-full px-3 py-2 bg-gray-200 border rounded-sm h-14 focus:border-2 focus:border-mui-primary"
+                      className="w-full px-3 py-2 font-normal bg-gray-100 border-0 rounded-sm h-14 focus:ring-1 focus:ring-mui-primary"
                     >
+                      <option value="">Select...</option>
                       {gable.map((gab) => (
                         <option key={`gable-${gab.value}`} value={gab.value as string}>
                           {gab.display}

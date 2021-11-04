@@ -14,13 +14,9 @@ const ProjectsContainer: NextPage<ProjectsContainerProps> = () => {
     notifyOnNetworkStatusChange: true
   });
 
-  const fetchData = useCallback(() => {
-    getProjects();
-  }, [getProjects]);
+  useEffect(() => getProjects(), [getProjects]);
 
   const handleTryAgain = useCallback(() => refetch && refetch(), [refetch]);
-
-  useEffect(() => fetchData(), [fetchData]);
 
   const error = useMemo(
     () => (queryError ? getLocaleIdFromGraphqlError(queryError.graphQLErrors, queryError.networkError) : undefined),

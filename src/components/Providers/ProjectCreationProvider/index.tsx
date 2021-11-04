@@ -34,8 +34,8 @@ type ProjectCreationType = {
   drawerSlide: { slide?: number; model?: string; depth?: string } | null;
   setDrawerSlide: (slide: { slide?: number; model?: string; depth?: string }) => void;
 
-  drawerSize: { width?: number; gable?: number } | null;
-  setDrawerSize: (size: { width?: number; gable?: number }) => void;
+  drawerSize: { width?: string; gable?: string } | null;
+  setDrawerSize: (size: { width?: string; gable?: string }) => void;
 };
 
 const initialState: ProjectCreationType = {

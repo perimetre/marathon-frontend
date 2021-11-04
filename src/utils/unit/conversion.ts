@@ -22,7 +22,7 @@ export const convertInToMm = (in_ent: string, in_num: string, in_den: string) =>
 
 const fractionItems = (value: number) => {
   const precisionPo = 32;
-  const entier = value;
+  const entier = parseInt(value.toString());
   const reste = value - entier;
   if (reste == 0) {
     return [entier, 0, 0];
@@ -81,4 +81,22 @@ export const convertMmToIn = (mm_o: string) => {
     in_den = null;
   }
   return [in_ent, in_numb, in_den];
+};
+
+export const convertMmToInFormatted = (value: string) => {
+  const conversion = convertMmToIn(value);
+  console.log({ conversion });
+
+  if (conversion[1] || conversion[2]) {
+    return `${conversion[0]}" ${conversion[1]}/${conversion[2]}`;
+  } else {
+    return `${conversion[0]}"`;
+  }
+};
+
+export const convertInToMmFormatted = (value: string) => {
+  const formattedValue = value.trim().replace(' ', '/').replace('" ', '"').replace('"', '/');
+  const valueSplit = formattedValue.split('/');
+  const list = valueSplit.filter((f: string) => f !== '');
+  return convertInToMm(list[0], list[1] || '', list[2] || '');
 };

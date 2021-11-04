@@ -35,23 +35,47 @@ const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = ({
       <div className="flex flex-col">
         <div className="flex overflow-hidden h-28 gap-4">
           <div className="relative w-full h-full min-w-96">
-            <SkeletonImage src="/images/IMG_DrawerOne.jpg" layout="fill" alt="drawer_one" className="object-cover" />
+            <SkeletonImage
+              src="/images/IMG_DrawerOne.jpg"
+              priority
+              layout="fill"
+              alt="drawer_one"
+              className="object-cover"
+            />
           </div>
           <div className="relative w-full h-full min-w-96">
-            <SkeletonImage src="/images/IMG_DrawerTwo.jpg" layout="fill" alt="drawer_one" className="object-cover" />
+            <SkeletonImage
+              src="/images/IMG_DrawerTwo.jpg"
+              priority
+              layout="fill"
+              alt="drawer_one"
+              className="object-cover"
+            />
           </div>
           <div className="relative w-full h-full min-w-96">
-            <SkeletonImage src="/images/IMG_DrawerThree.jpg" layout="fill" alt="drawer_one" className="object-cover" />
+            <SkeletonImage
+              src="/images/IMG_DrawerThree.jpg"
+              priority
+              layout="fill"
+              alt="drawer_one"
+              className="object-cover"
+            />
           </div>
           <div className="relative w-full h-full min-w-96">
-            <SkeletonImage src="/images/IMG_DrawerFour.jpg" layout="fill" alt="drawer_one" className="object-cover" />
+            <SkeletonImage
+              src="/images/IMG_DrawerFour.jpg"
+              priority
+              layout="fill"
+              alt="drawer_one"
+              className="object-cover"
+            />
           </div>
         </div>
         <div className="flex justify-center mx-4 mt-16 gap-6">
           {Array.from({ length: 5 }).map((_item, i) => (
             <div
               key={`step-${i}`}
-              className={classNames('w-20 h-2 rounded-sm', step > i ? 'bg-red-500' : 'bg-gray-500')}
+              className={classNames('w-20 h-2 rounded-sm', step > i ? 'bg-red-500' : 'bg-gray-300')}
             />
           ))}
         </div>
