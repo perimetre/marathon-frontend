@@ -13,6 +13,7 @@ import { ChevronDownIcon } from '../../UI/Icons/chevronDown';
 import { PlusCircleSolid } from '../../UI/Icons/plusCircle';
 import { CogIcon } from '../../UI/Icons/Gog';
 import ErrorMessage from '../../UI/ErrorMessage';
+import Link from 'next/link';
 
 export type ProjectsTemplateProps = {
   data?: ProjectsQuery;
@@ -28,7 +29,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
     openRename?: boolean;
     project: Project;
   } | null>(null);
-  const [expanded, setExpanded] = useState<string[]>([]);
+  const [expanded, setExpanded] = useState<string[]>(['ac-projects']);
 
   const handleAccordion = useCallback(
     (key: string) => {
@@ -85,8 +86,17 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                 )}
                 <Expander isExpanded={expanded.includes('ac-projects')}>
                   {data?.projects.map((project) => (
-                    <div key={project.id} className="flex items-center mt-5 gap-6">
-                      <h3 className="flex items-center flex-1 text-lg font-semibold gap-2">{project.title}</h3>
+                    <div key={project.id} className="flex items-center gap-6">
+                      <Link
+                        href={{
+                          pathname: '/project/[slug]/planner',
+                          query: { slug: project.slug }
+                        }}
+                      >
+                        <a className="hover:underline w-full py-3">
+                          <h3 className="pl-4 flex items-center flex-1 text-lg font-semibold gap-2">{project.title}</h3>
+                        </a>
+                      </Link>
                       <Dropdown
                         content={[
                           {
@@ -117,9 +127,6 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                       >
                         <CogIcon className="text-gray-400 hover:text-mui-primary" />
                       </Dropdown>
-                      <Button>
-                        <FormattedMessage id="projects.editButton" />
-                      </Button>
                     </div>
                   ))}
                   <Button onClick={() => setModalOpen(true)} variant="text" className="p-0 mt-8 text-mui-primary">
@@ -144,22 +151,10 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                     />
                   </button>
                 )}
-                <Expander isExpanded={expanded.includes('ac-kits')}>
-                  <Button onClick={() => setModalOpen(true)} variant="text" className="p-0 mt-8 text-mui-primary">
-                    <PlusCircleSolid />
-                    <FormattedMessage id="projects.addDrawer" />
-                  </Button>
-                </Expander>
+                <Expander isExpanded={expanded.includes('ac-kits')}>{/*TODO: load kits*/}</Expander>
               </div>
             </div>
-            {loading ? (
-              <div className="h-10 w-44 mui-skeleton grid" />
-            ) : (
-              <Button onClick={() => setModalOpen(true)}>
-                <PlusCircleSolid />
-                <FormattedMessage id="projects.addProject" />
-              </Button>
-            )}
+            {loading && <div className="h-10 w-44 mui-skeleton grid" />}
           </div>
         </div>
         <ModalCreateProject open={modalOpen} onClose={() => setModalOpen(false)} />

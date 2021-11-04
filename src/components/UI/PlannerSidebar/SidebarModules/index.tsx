@@ -1,8 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FormattedMessage } from 'react-intl';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames';
 import SkeletonImage from '../../SkeletonImage';
 import { PlannerSidebarCategories, PlannerSidebarProps } from '../index';
@@ -51,12 +50,9 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
         <>
           {/* Top section(title and close button) */}
           <div className="flex items-center justify-between flex-grow-0">
-            <p className="px-4 text-lg font-bold">{category.name}</p>
-            <button className="flex items-center justify-center p-4 text-red-600 gap-4 group" onClick={onCloseClick}>
-              <span>
-                <FormattedMessage id="common.close" />
-              </span>
-              <FontAwesomeIcon icon={faXmark} className="text-2xl mt-0.5 mui-animate-group-hover" />
+            <button className="flex items-center justify-center font-bold p-4 gap-4 group" onClick={onCloseClick}>
+              <FontAwesomeIcon icon={faAngleLeft} className="text-2xl mt-0.5 mui-animate-group-hover" />
+              <span>{category.name}</span>
             </button>
           </div>
           {/* Bottom Section */}
