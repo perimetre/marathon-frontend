@@ -57,7 +57,7 @@ export const Dropdown: React.FC<DropdownProps> = forwardRef<Element, DropdownPro
     return (
       <Tooltip
         placement="bottom-start"
-        arrow={false}
+        arrow
         trigger="click"
         contentClassName="p-0"
         offset={[0, 0]}
@@ -81,23 +81,23 @@ export const Dropdown: React.FC<DropdownProps> = forwardRef<Element, DropdownPro
         interactive
         ref={ref}
         content={
-          <>
+          <div>
             {header && (
-              <div className="mui-dropdown-menu-header">
+              <div className="mx-4 mui-dropdown-menu-header">
                 {Array.isArray(header) ? getLinkList(header as DropdownItem[]) : header(getLinkList)}
               </div>
             )}
             {content && (
-              <div className="mui-dropdown-menu-content">
+              <div className="mx-4 mui-dropdown-menu-content">
                 {Array.isArray(content) ? getLinkList(content as DropdownItem[]) : content(getLinkList)}
               </div>
             )}
             {footer && (
-              <div className="mui-dropdown-menu-footer">
+              <div className="mx-4 mui-dropdown-menu-footer">
                 {Array.isArray(footer) ? getLinkList(footer as DropdownItem[]) : footer(getLinkList)}
               </div>
             )}
-          </>
+          </div>
         }
       >
         <>{children}</>

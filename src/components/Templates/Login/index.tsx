@@ -5,6 +5,9 @@ import { Button } from '../../UI/Button';
 import * as yup from 'yup';
 import { FormattedMessage, useIntl } from 'react-intl';
 import AppLayout from '../../Layouts/AppLayout';
+import { TextInput } from '../../UI/Form/TextInput';
+import { XCircleSolid } from '../../UI/Icons/xCircle';
+import { useRouter } from 'next/router';
 
 export type LoginTemplateProps = {
   onSubmit: (form: { email: string; password: string }) => void;
@@ -12,6 +15,8 @@ export type LoginTemplateProps = {
 
 const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
   const intl = useIntl();
+
+  const router = useRouter();
 
   const signupSchema = useMemo(
     () =>
@@ -31,7 +36,13 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
   );
 
   return (
-    <AppLayout>
+    <AppLayout
+      appendRight={() => (
+        <button className="pr-4" onClick={() => router.push('/', '/')}>
+          <XCircleSolid className="text-mui-primary h-9 w-9" />
+        </button>
+      )}
+    >
       <div className="flex flex-1 bg-mui-dark">
         <div className="container flex justify-center mx-auto">
           <div className="max-w-2xl mx-auto mt-36">
@@ -47,15 +58,15 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
               validationSchema={signupSchema}
             >
               <Form className="flex flex-col py-12 gap-8" autoComplete="off">
-                <input
-                  type="email"
+                <TextInput
+                  name="email"
+                  className="mui-login-input"
                   placeholder={intl.formatMessage({ id: 'login.emailPlaceholder' })}
-                  className="w-full p-0 py-4 text-xl text-white placeholder-white bg-transparent border-0 border-b border-white outline-none h-14 form-input"
                 />
-                <input
-                  type="password"
+                <TextInput
+                  name="password"
+                  className="mui-login-input"
                   placeholder={intl.formatMessage({ id: 'login.passwordPlaceholder' })}
-                  className="w-full p-0 py-4 text-xl text-white placeholder-white bg-transparent border-0 border-b border-white outline-none h-14 form-input"
                 />
               </Form>
             </Formik>

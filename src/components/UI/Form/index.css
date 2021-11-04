@@ -8,4 +8,10 @@
       @apply border-mui-primary outline-none ring-mui-primary;
     }
   }
+  .mui-basic-input {
+    @apply flex-1 w-full px-3 py-2 bg-gray-100 border-0 rounded-sm h-14 form-input;
+  }
+  .mui-login-input {
+    @apply w-full p-0 py-4 text-xl text-white placeholder-white bg-transparent border-0 border-b border-white outline-none focus:ring-0 focus:border-mui-primary h-14 form-input;
+  }
 }

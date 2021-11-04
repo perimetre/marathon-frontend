@@ -125,7 +125,9 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                           }
                         ]}
                       >
-                        <CogIcon className="text-gray-400 hover:text-mui-primary" />
+                        <button className="px-2 py-3">
+                          <CogIcon className="text-gray-400 hover:text-mui-primary" />
+                        </button>
                       </Dropdown>
                     </div>
                   ))}

@@ -3594,6 +3594,15 @@ export type UpdateProjectMutation = {
     | undefined;
 };
 
+export type DeleteProjectMutationVariables = Exact<{
+  projectId: Scalars['Int'];
+}>;
+
+export type DeleteProjectMutation = {
+  __typename?: 'Mutation';
+  deleteOneProject?: { __typename?: 'Project'; id: number } | null | undefined;
+};
+
 export type GetSlideSupplierByCollectionQueryVariables = Exact<{
   collectionId: Scalars['Int'];
 }>;
@@ -4014,6 +4023,44 @@ export type UpdateProjectMutationResult = Apollo.MutationResult<UpdateProjectMut
 export type UpdateProjectMutationOptions = Apollo.BaseMutationOptions<
   UpdateProjectMutation,
   UpdateProjectMutationVariables
+>;
+export const DeleteProjectDocument = gql`
+  mutation DeleteProject($projectId: Int!) {
+    deleteOneProject(where: { id: $projectId }) {
+      id
+    }
+  }
+`;
+export type DeleteProjectMutationFn = Apollo.MutationFunction<DeleteProjectMutation, DeleteProjectMutationVariables>;
+
+/**
+ * __useDeleteProjectMutation__
+ *
+ * To run a mutation, you first call `useDeleteProjectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteProjectMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteProjectMutation, { data, loading, error }] = useDeleteProjectMutation({
+ *   variables: {
+ *      projectId: // value for 'projectId'
+ *   },
+ * });
+ */
+export function useDeleteProjectMutation(
+  baseOptions?: Apollo.MutationHookOptions<DeleteProjectMutation, DeleteProjectMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteProjectMutation, DeleteProjectMutationVariables>(DeleteProjectDocument, options);
+}
+export type DeleteProjectMutationHookResult = ReturnType<typeof useDeleteProjectMutation>;
+export type DeleteProjectMutationResult = Apollo.MutationResult<DeleteProjectMutation>;
+export type DeleteProjectMutationOptions = Apollo.BaseMutationOptions<
+  DeleteProjectMutation,
+  DeleteProjectMutationVariables
 >;
 export const GetSlideSupplierByCollectionDocument = gql`
   query GetSlideSupplierByCollection($collectionId: Int!) {

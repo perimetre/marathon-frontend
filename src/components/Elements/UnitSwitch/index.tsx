@@ -15,7 +15,7 @@ const UnitSwitch: React.FC = () => {
       >
         <FormattedMessage id="unit.millimeter" />
       </div>
-      <button className="relative mx-4" onClick={() => setUnit(unit === 'mm' ? 'in' : 'mm')}>
+      <div aria-hidden="true" className="relative mx-4" onClick={() => setUnit(unit === 'mm' ? 'in' : 'mm')}>
         <div className="block h-8 bg-gray-200 rounded-full w-14" />
         <div
           className={classNames(
@@ -23,7 +23,7 @@ const UnitSwitch: React.FC = () => {
             unit === 'in' && 'translate-x-full'
           )}
         />
-      </button>
+      </div>
       <div
         className={classNames(
           'font-semibold uppercase transition-colors',
