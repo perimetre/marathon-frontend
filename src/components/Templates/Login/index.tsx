@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Form, Formik } from 'formik';
 import Button from '../../UI/Button';
 import * as yup from 'yup';
@@ -9,6 +9,7 @@ import Image from 'next/image';
 import NavbarButton from '../../UI/NavbarButton';
 import Link from 'next/link';
 import { XCircle } from 'react-feather';
+import Head from 'next/head';
 
 export type LoginTemplateProps = {
   onSubmit: (form: { email: string; password: string }) => void;
@@ -47,6 +48,13 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
         </Link>
       )}
     >
+      <Head>
+        <title>
+          {`${intl.formatMessage({ id: 'projects.title' })} | ${intl.formatMessage({
+            id: 'title'
+          })}`}
+        </title>
+      </Head>
       <div className="fixed min-h-screen overflow-hidden min-w-screen">
         <Image
           alt="Mountains"
@@ -78,7 +86,7 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
               />
               <div className="flex justify-between mb-8">
                 <Button type="submit" variant="default">
-                  <FormattedMessage id="login.signinButton" />
+                  <FormattedMessage id="login.signInButton" />
                 </Button>
                 <Button variant="text" className="px-0 text-gray-300">
                   <FormattedMessage id="login.forgotPass" />

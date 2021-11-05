@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import React, { useCallback, useState } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Button from '../../UI/Button';
 import Expander from '../../UI/Expander';
 import classNames from 'classnames';
@@ -10,8 +10,9 @@ import ModalRenameProject from '../../Elements/ModalRenameProject';
 import ModalDeleteProject from '../../Elements/ModalDeleteProject';
 import AppLayout from '../../Layouts/AppLayout';
 import ErrorMessage from '../../UI/ErrorMessage';
-import { Settings, ChevronDown, PlusCircle } from 'react-feather';
+import { ChevronDown, PlusCircle, Settings } from 'react-feather';
 import Link from 'next/link';
+import Head from 'next/head';
 
 export type ProjectsTemplateProps = {
   data?: ProjectsQuery;
@@ -21,6 +22,7 @@ export type ProjectsTemplateProps = {
 };
 
 const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, error, handleTryAgain }) => {
+  const intl = useIntl();
   const [modalOpen, setModalOpen] = useState(false);
   const [modalProject, setModalProject] = useState<{
     openDelete?: boolean;
@@ -38,6 +40,13 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
 
   return (
     <AppLayout hideLeft>
+      <Head>
+        <title>
+          {`${intl.formatMessage({ id: 'login.title' })} | ${intl.formatMessage({
+            id: 'title'
+          })}`}
+        </title>
+      </Head>
       <div className="min-h-full grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
         <div className="flex flex-col items-end bg-mui-dark">
           <div className="w-full h-64" />
