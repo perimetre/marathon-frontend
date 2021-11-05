@@ -150,7 +150,7 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading,
                 {projectModules && (
                   <>
                     <div className="py-2 grid grid-cols-12 gap-y-4 bg-mui-gray-300">
-                      <p className="font-bold col-span-9 col-start-3  ml-4">
+                      <p className="ml-4 font-bold col-span-9 col-start-3">
                         <FormattedMessage id="cart.headers.product" />
                       </p>
                       <p className="font-bold text-center col-span-1">
