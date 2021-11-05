@@ -29,33 +29,37 @@ const CartProjectModules: React.FC<CartProjectModulesProps> = ({ projectModules,
     <>
       {projectModules.map((projectModule, i) => (
         <React.Fragment key={projectModule.id}>
-          {(isChildren || i !== 0) && <hr className={classNames('col-span-12', { 'col-start-2': isChildren })} />}
-          <div className={classNames('relative h-44 mui-border-radius col-span-2', { 'col-start-2': isChildren })}>
-            {projectModule.module.thumbnailUrl && (
-              <SkeletonImage
-                src={projectModule.module.thumbnailUrl}
-                alt={projectModule.module.partNumber}
-                layout="fill"
-                objectFit="contain"
-              />
-            )}
+          <div className="grid grid-cols-12 gap-y-4 page-break-inside-avoid">
+            {(isChildren || i !== 0) && <hr className={classNames('col-span-12', { 'col-start-2': isChildren })} />}
+            <div className={classNames('relative h-44 mui-border-radius col-span-2', { 'col-start-2': isChildren })}>
+              {projectModule.module.thumbnailUrl && (
+                <SkeletonImage
+                  src={projectModule.module.thumbnailUrl}
+                  alt={projectModule.module.partNumber}
+                  layout="fill"
+                  objectFit="contain"
+                />
+              )}
+            </div>
+            <div
+              className={classNames(
+                'flex flex-col items-stretch justify-center ml-4',
+                isChildren ? 'col-span-8' : 'col-span-9'
+              )}
+            >
+              <h4 className="text-lg font-bold">{projectModule.module.partNumber}</h4>
+              {/*<p className="h-full">*/}
+              {/*  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et*/}
+              {/*  dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex*/}
+              {/*  ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu*/}
+              {/*  fugiat nulla pariatur.*/}
+              {/*</p>*/}
+              {projectModule.module.description && <p className="h-full">{projectModule.module.description}</p>}
+            </div>
+            <p className="flex items-center justify-center font-bold text-center col-span-1">
+              {projectModule.quantity || 1}
+            </p>
           </div>
-          <div
-            className={classNames(
-              'flex flex-col items-stretch justify-center',
-              isChildren ? 'col-span-8' : 'col-span-9'
-            )}
-          >
-            <h4 className="text-lg font-bold">{projectModule.module.partNumber}</h4>
-            {/*<p className="h-full">*/}
-            {/*  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et*/}
-            {/*  dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex*/}
-            {/*  ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu*/}
-            {/*  fugiat nulla pariatur.*/}
-            {/*</p>*/}
-            {projectModule.module.description && <p className="h-full">{projectModule.module.description}</p>}
-          </div>
-          <p className="font-bold text-center col-span-1">{projectModule.quantity || 1}</p>
 
           {projectModule.children && <CartProjectModules projectModules={projectModule.children} isChildren />}
         </React.Fragment>
@@ -144,9 +148,9 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading,
                 </div>
                 <hr className="my-4" />
                 {projectModules && (
-                  <div className="grid grid-cols-12 gap-4">
-                    <div className="py-2 col-span-12 bg-mui-gray-300 grid grid-cols-12 gap-4">
-                      <p className="font-bold col-span-9 col-start-3">
+                  <>
+                    <div className="py-2 grid grid-cols-12 gap-y-4 bg-mui-gray-300">
+                      <p className="font-bold col-span-9 col-start-3  ml-4">
                         <FormattedMessage id="cart.headers.product" />
                       </p>
                       <p className="font-bold text-center col-span-1">
@@ -154,7 +158,7 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading,
                       </p>
                     </div>
                     <CartProjectModules projectModules={projectModules} />
-                  </div>
+                  </>
                 )}
               </>
             ) : (
