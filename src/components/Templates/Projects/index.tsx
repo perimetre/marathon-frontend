@@ -42,7 +42,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
     <AppLayout hideLeft>
       <Head>
         <title>
-          {`${intl.formatMessage({ id: 'login.title' })} | ${intl.formatMessage({
+          {`${intl.formatMessage({ id: 'projects.title' })} | ${intl.formatMessage({
             id: 'title'
           })}`}
         </title>

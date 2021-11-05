@@ -26,7 +26,7 @@ const HomeTemplate: React.FC = () => {
         <Link href="/login">
           <a className="h-full">
             <NavbarButton icon={<UserIcon className="text-mui-primary" />}>
-              <FormattedMessage id="login.signinButton" />
+              <FormattedMessage id="login.signInButton" />
             </NavbarButton>
           </a>
         </Link>

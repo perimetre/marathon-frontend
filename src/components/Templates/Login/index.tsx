@@ -50,7 +50,7 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
     >
       <Head>
         <title>
-          {`${intl.formatMessage({ id: 'projects.title' })} | ${intl.formatMessage({
+          {`${intl.formatMessage({ id: 'login.title' })} | ${intl.formatMessage({
             id: 'title'
           })}`}
         </title>
@@ -69,7 +69,7 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
           <Formik initialValues={{ email: '', password: '' }} onSubmit={onSubmit} validationSchema={signupSchema}>
             <Form className="flex flex-col py-12 gap-8" autoComplete="off">
               <h1 className="text-4xl font-semibold text-white">
-                <FormattedMessage id="login.title" />
+                <FormattedMessage id="login.header" />
               </h1>
               <TextInput
                 name="email"
