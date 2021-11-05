@@ -8,7 +8,8 @@ import {
   PROJECT_DRAWER_SIZE,
   PROJECT_DRAWER_SLIDE,
   PROJECT_DRAWER_TYPE,
-  PROJECT_UNIT
+  PROJECT_UNIT,
+  PROJECT_DRAWER_PEGS
 } from '../../../constraints';
 import { getCookie, setCookieOrRemoveIfUndefined } from '../../../lib/cookie';
 import { Unit } from '../../../types/unit';
@@ -27,6 +28,9 @@ type ProjectCreationType = {
 
   drawerCollection?: number;
   setDrawerCollection: (collection: number) => void;
+
+  drawerPegs?: boolean;
+  setDrawerPegs: (hasPegs?: boolean) => void;
 
   drawerFinish?: number;
   setDrawerFinish: (finish: number) => void;
@@ -58,6 +62,10 @@ const initialState: ProjectCreationType = {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setDrawerCollection: () => {},
 
+  drawerPegs: undefined,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  setDrawerPegs: () => {},
+
   drawerFinish: undefined,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   setDrawerFinish: () => {},
@@ -78,6 +86,7 @@ export type ProjectCreationProviderProps = {
   drawerType?: ProjectCreationType['drawerType'];
   drawerTitle?: ProjectCreationType['drawerTitle'];
   drawerCollection?: ProjectCreationType['drawerCollection'];
+  drawerPegs?: ProjectCreationType['drawerPegs'];
   drawerFinish?: ProjectCreationType['drawerFinish'];
   drawerSlide?: ProjectCreationType['drawerSlide'];
   drawerSize?: ProjectCreationType['drawerSize'];
@@ -89,6 +98,7 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
   drawerType: type,
   drawerTitle: description,
   drawerCollection: collection,
+  drawerPegs: pegs,
   drawerFinish: finish,
   drawerSlide: slide,
   drawerSize: size
@@ -97,6 +107,7 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
   const [drawerType, setDrawerType] = useState<ProjectCreationType['drawerType']>(type);
   const [drawerTitle, setDrawerTitle] = useState<ProjectCreationType['drawerTitle']>(description);
   const [drawerCollection, setDrawerCollection] = useState<ProjectCreationType['drawerCollection']>(collection);
+  const [drawerPegs, setDrawerPegs] = useState<ProjectCreationType['drawerPegs']>(pegs);
   const [drawerFinish, setDrawerFinish] = useState<ProjectCreationType['drawerFinish']>(finish);
   const [drawerSlide, setDrawerSlide] = useState<ProjectCreationType['drawerSlide']>(slide || null);
   const [drawerSize, setDrawerSize] = useState<ProjectCreationType['drawerSize']>(size || null);
@@ -106,6 +117,7 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
     setDrawerType(undefined);
     setDrawerTitle(undefined);
     setDrawerCollection(undefined);
+    setDrawerPegs(undefined);
     setDrawerFinish(undefined);
     setDrawerSlide(null);
     setDrawerSize(null);
@@ -116,10 +128,11 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
     setCookieOrRemoveIfUndefined(PROJECT_DRAWER_TYPE, drawerType?.toString());
     setCookieOrRemoveIfUndefined(PROJECT_DRAWER_TITLE, drawerTitle);
     setCookieOrRemoveIfUndefined(PROJECT_DRAWER_COLLECTION, drawerCollection?.toString());
+    setCookieOrRemoveIfUndefined(PROJECT_DRAWER_PEGS, drawerPegs ? 'true' : undefined);
     setCookieOrRemoveIfUndefined(PROJECT_DRAWER_FINISH, drawerFinish?.toString());
     setCookieOrRemoveIfUndefined(PROJECT_DRAWER_SLIDE, JSON.stringify(drawerSlide));
     setCookieOrRemoveIfUndefined(PROJECT_DRAWER_SIZE, JSON.stringify(drawerSize));
-  }, [unit, drawerType, drawerTitle, drawerCollection, drawerFinish, drawerSlide, drawerSize]);
+  }, [unit, drawerType, drawerTitle, drawerPegs, drawerCollection, drawerFinish, drawerSlide, drawerSize]);
 
   return (
     <div id="project-provider">
@@ -134,6 +147,8 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
           setDrawerTitle,
           drawerCollection,
           setDrawerCollection,
+          drawerPegs,
+          setDrawerPegs,
           drawerFinish,
           setDrawerFinish,
           drawerSlide,
@@ -177,6 +192,7 @@ export const requiredProjectData = <T extends ParsedUrlQuery>(ctx: NextPageConte
   const drawerType = getCookie(PROJECT_DRAWER_TYPE, ctx) as ProjectCreationType['drawerType'];
   const drawerTitle = getCookie(PROJECT_DRAWER_TITLE, ctx) as ProjectCreationType['drawerTitle'];
   const drawerCollection = getCookie(PROJECT_DRAWER_COLLECTION, ctx) as ProjectCreationType['drawerCollection'];
+  const drawerPegs = getCookie(PROJECT_DRAWER_PEGS, ctx);
   const drawerFinish = getCookie(PROJECT_DRAWER_FINISH, ctx) as ProjectCreationType['drawerFinish'];
   const slide = getCookie(PROJECT_DRAWER_SLIDE, ctx);
   const size = getCookie(PROJECT_DRAWER_SIZE, ctx);
@@ -189,6 +205,7 @@ export const requiredProjectData = <T extends ParsedUrlQuery>(ctx: NextPageConte
     drawerType: Number(drawerType),
     drawerTitle,
     drawerCollection: Number(drawerCollection),
+    drawerPegs: drawerPegs === 'true',
     drawerFinish: Number(drawerFinish),
     drawerSlide,
     drawerSize

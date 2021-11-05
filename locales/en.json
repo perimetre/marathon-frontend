@@ -58,7 +58,8 @@
     "supplierTitle": "Supplier",
     "supplierHeader": "What slides will be used?",
     "typeTitle": "Type",
-    "typeHeader": "What kind of drawer will you be designing?"
+    "typeHeader": "What kind of drawer will you be designing?",
+    "usePegboard": "Use Pegboard"
   },
   "projects": {
     "title": "My projects",

@@ -18,7 +18,7 @@ type TypeContainerGetServerProps = ProjectCreationProviderProps;
 type TypeContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const TypeContainer: NextPage<TypeContainerProps> = ({ drawerType }) => {
-  const { setDrawerType } = useProjectCreationContext();
+  const { setDrawerType, setDrawerPegs } = useProjectCreationContext();
 
   const router = useRouter();
 
@@ -38,9 +38,10 @@ const TypeContainer: NextPage<TypeContainerProps> = ({ drawerType }) => {
   const handleSubmit = useCallback(
     (data: { type: number | null }) => {
       setDrawerType(Number(data.type));
+      setDrawerPegs(undefined);
       router.push('/project/collection', '/project/collection');
     },
-    [router, setDrawerType]
+    [router, setDrawerType, setDrawerPegs]
   );
 
   return (

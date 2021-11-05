@@ -21,7 +21,7 @@ export const TextInput: React.FC<TextInputProps> = ({ name, className, children,
             field.onChange(e);
           }}
           id={`TextInput-${name}`}
-          className={classNames('mui-input-base mui-basic-input', className)}
+          className={classNames('mui-input-base mui-basic-input ring-mui-primary', className)}
         />
         {children}
       </span>

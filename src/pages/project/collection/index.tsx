@@ -17,13 +17,18 @@ type CollectionContainerGetServerProps = ProjectCreationProviderProps;
 
 type CollectionContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollection }) => {
-  const { setDrawerCollection } = useProjectCreationContext();
+const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollection, drawerType, drawerPegs }) => {
+  console.log({ drawerPegs });
+
+  const { setDrawerCollection, setDrawerPegs } = useProjectCreationContext();
 
   const router = useRouter();
 
   const [getCollection, { data, loading, error: queryError, refetch }] = useGetCollectionsLazyQuery({
-    notifyOnNetworkStatusChange: true
+    notifyOnNetworkStatusChange: true,
+    variables: {
+      typeId: Number(drawerType)
+    }
   });
 
   useEffect(() => getCollection(), [getCollection]);
@@ -36,11 +41,14 @@ const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollect
   );
 
   const handleSubmit = useCallback(
-    (data: { collection: number | null }) => {
+    (data: { collection: number | null; hasPegs?: boolean }) => {
+      console.log({ data });
+
       setDrawerCollection(Number(data.collection));
+      setDrawerPegs(data.hasPegs);
       router.push('/project/finish', '/project/finish');
     },
-    [setDrawerCollection, router]
+    [setDrawerCollection, setDrawerPegs, router]
   );
 
   return (
@@ -50,7 +58,8 @@ const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollect
       error={error}
       handleTryAgain={handleTryAgain}
       onSubmit={handleSubmit}
-      initialValue={{ collection: drawerCollection }}
+      displayPegs={data?.type?.hasPegs}
+      initialValue={{ collection: drawerCollection, hasPegs: drawerPegs }}
     />
   );
 };
@@ -76,7 +85,12 @@ export const getServerSideProps: GetServerSideProps<CollectionContainerGetServer
     ...projectData
   };
 
-  await apolloClient.query({ query: COLLECTION_QUERY });
+  await apolloClient.query({
+    query: COLLECTION_QUERY,
+    variables: {
+      typeId: projectData.drawerType
+    }
+  });
 
   return addApolloState(apolloClient, {
     props

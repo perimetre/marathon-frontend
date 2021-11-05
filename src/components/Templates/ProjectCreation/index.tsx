@@ -97,7 +97,16 @@ const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = ({
         </motion.div>
         <div className="container flex justify-end p-6 mx-auto mt-12 border-t border-gray-300 gap-8">
           {step !== 1 && (
-            <Button disabled={disablePrev || loading} className="px-6 py-2" onClick={handlePrev}>
+            <Button
+              disabled={disablePrev || loading}
+              className="px-6 py-2"
+              onClick={(e) => {
+                // Using stopPropagation and preventDefault because this is triggering onsubmit on form for a unknown reason
+                e.preventDefault();
+                e.stopPropagation();
+                handlePrev && handlePrev();
+              }}
+            >
               <ArrowRight />
               Back
             </Button>
