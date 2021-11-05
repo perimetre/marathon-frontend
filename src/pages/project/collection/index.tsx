@@ -18,8 +18,6 @@ type CollectionContainerGetServerProps = ProjectCreationProviderProps;
 type CollectionContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollection, drawerType, drawerPegs }) => {
-  console.log({ drawerPegs });
-
   const { setDrawerCollection, setDrawerPegs } = useProjectCreationContext();
 
   const router = useRouter();
@@ -42,8 +40,6 @@ const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollect
 
   const handleSubmit = useCallback(
     (data: { collection: number | null; hasPegs?: boolean }) => {
-      console.log({ data });
-
       setDrawerCollection(Number(data.collection));
       setDrawerPegs(data.hasPegs);
       router.push('/project/finish', '/project/finish');
