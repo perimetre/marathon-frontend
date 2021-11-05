@@ -11,12 +11,11 @@ import PlannerSidebar from '../../../UI/PlannerSidebar';
 import ProgressBar from '../../../UI/ProgressBar';
 import Spinner from '../../../UI/Spinner';
 import { PlannerQuery } from '../../../../apollo/generated/graphql';
-import { Button } from '../../../UI/Button';
+import Button from '../../../UI/Button';
 import AppLayout from '../../../Layouts/AppLayout';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import Badge from '../../../UI/Badge';
+import { ShoppingCart } from 'react-feather';
 import NavbarButton from '../../../UI/NavbarButton';
-import { Badge } from '../../../UI/Badge';
 
 const LoadingState: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -154,30 +153,25 @@ type PlannerTemplateProps = {
 const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ slug, data, loading, error, handleTryAgain }) => {
   const intl = useIntl();
 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
   return (
     <AppLayout
       appendRight={() => (
-        <>
-          <Link
-            href={{
-              pathname: '/project/[slug]/cart',
-              query: { slug }
-            }}
-          >
-            <a className="flex items-center justify-center h-full">
-              <NavbarButton
-                iconPosition="left"
-                icon={(className) => (
-                  <Badge content="0">
-                    <FontAwesomeIcon icon={faCartShopping} className={classNames('text-2xl', className)} />
-                  </Badge>
-                )}
-              />
-            </a>
-          </Link>
-        </>
+        <Link
+          href={{
+            pathname: '/project/[slug]/cart',
+            query: { slug }
+          }}
+        >
+          <a className="h-full">
+            <NavbarButton
+              icon={
+                <Badge content="0">
+                  <ShoppingCart />
+                </Badge>
+              }
+            />
+          </a>
+        </Link>
       )}
     >
       <Head>
@@ -194,7 +188,7 @@ const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ slug, data, loading, 
           loading={loading}
           error={error}
           handleTryAgain={handleTryAgain}
-          isSidebarOpen={isSidebarOpen}
+          isSidebarOpen
         />
       </UnityPlayerProvider>
     </AppLayout>

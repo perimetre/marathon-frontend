@@ -54,7 +54,7 @@ export type BadgeProps = {
  * @param props.placement The bagge placement
  * @param props.children the provided children
  */
-export const Badge: React.FC<BadgeProps> = ({
+const Badge: React.FC<BadgeProps> = ({
   content: propsContent,
   maxValue = 9,
   pulse,
@@ -79,3 +79,5 @@ export const Badge: React.FC<BadgeProps> = ({
     </div>
   );
 };
+
+export default Badge;

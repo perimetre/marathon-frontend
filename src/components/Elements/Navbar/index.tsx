@@ -12,7 +12,7 @@ export type NavbarProps = {
 
 const Navbar: React.FC<NavbarProps> = ({ prependLeft, appendRight, hideLeft }) => {
   return (
-    <nav className="relative flex items-stretch justify-between h-20 bg-white print:hidden">
+    <nav className="relative flex items-stretch justify-between h-20 bg-white border print:hidden">
       {/* Left */}
       <div className="flex items-center justify-center">
         {prependLeft && prependLeft()}

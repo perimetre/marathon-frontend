@@ -17,7 +17,7 @@ export type ExpanderProps = {
  * @param props.isExpanded Whether or not it should be expanded
  * @param props.children The provided children
  */
-export const Expander: React.FC<ExpanderProps> = ({ children, isExpanded }) => {
+const Expander: React.FC<ExpanderProps> = ({ children, isExpanded }) => {
   // Creates the animation variants
   const variants = useMemo(
     () => ({
@@ -42,3 +42,5 @@ export const Expander: React.FC<ExpanderProps> = ({ children, isExpanded }) => {
     </motion.div>
   );
 };
+
+export default Expander;

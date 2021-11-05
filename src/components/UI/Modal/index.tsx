@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import classNames from 'classnames';
-import { ReactPortal } from '../ReactPortal';
+import ReactPortal from '../ReactPortal';
 import { X } from '../Icons/X';
 
 export type ModalProps = {
@@ -40,14 +40,7 @@ export type ModalProps = {
  * @param props.actions A component that if provided will add a "actions" footer
  * @param props.children The provided children content
  */
-export const Modal: React.FC<ModalProps> = ({
-  onToggle,
-  isOpen: isOpenProps,
-  isHeaderAbsolute,
-  title,
-  actions,
-  children
-}) => {
+const Modal: React.FC<ModalProps> = ({ onToggle, isOpen: isOpenProps, isHeaderAbsolute, title, actions, children }) => {
   const [isOpen, setIsOpen] = useState(!!isOpenProps);
 
   useEffect(() => {
@@ -101,3 +94,5 @@ export const Modal: React.FC<ModalProps> = ({
     </ReactPortal>
   );
 };
+
+export default Modal;

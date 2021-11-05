@@ -1,6 +1,6 @@
 import React from 'react';
 import classNames from 'classnames';
-import { Button } from '../../UI/Button';
+import Button from '../../UI/Button';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from '../../UI/Icons/arrowLeft';
 import { ArrowRight } from '../../UI/Icons/arrowRight';

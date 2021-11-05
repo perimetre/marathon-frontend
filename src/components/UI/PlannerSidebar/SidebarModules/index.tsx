@@ -1,11 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames';
 import SkeletonImage from '../../SkeletonImage';
 import { PlannerSidebarCategories, PlannerSidebarProps } from '../index';
 import SidebarModuleDetail from '../../../Elements/SidebarModuleDetail';
+import { ArrowLeft } from 'react-feather';
 
 const container = {
   hidden: { opacity: 0 },
@@ -50,8 +49,8 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
         <>
           {/* Top section(title and close button) */}
           <div className="flex items-center justify-between flex-grow-0">
-            <button className="flex items-center justify-center font-bold p-4 gap-4 group" onClick={onCloseClick}>
-              <FontAwesomeIcon icon={faAngleLeft} className="text-2xl mt-0.5 mui-animate-group-hover" />
+            <button className="flex items-center justify-center p-4 font-bold gap-4 group" onClick={onCloseClick}>
+              <ArrowLeft className="text-2xl mt-0.5" />
               <span>{category.name}</span>
             </button>
           </div>

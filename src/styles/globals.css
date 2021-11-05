@@ -6,6 +6,8 @@
 @import '../components/UI/base';
 @import '../components/UI';
 
+@import '../components/Templates';
+
 html,
 body,
 #__next {

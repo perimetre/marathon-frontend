@@ -5,13 +5,13 @@ import Head from 'next/head';
 import { FormattedMessage, useIntl } from 'react-intl';
 import SkeletonImage from '../../UI/SkeletonImage';
 import classNames from 'classnames';
-import { Button } from '../../UI/Button';
+import Button from '../../UI/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faFile } from '@fortawesome/free-solid-svg-icons';
-import NavbarButton from '../../UI/NavbarButton';
+import { faFile } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import ErrorMessage from '../../UI/ErrorMessage';
 import Skeleton from '../../UI/Skeleton';
+import { ChevronLeft } from 'react-feather';
 import { groupBy, values } from 'lodash';
 
 type ProjectModules = (CartDataFragment & {
@@ -57,7 +57,7 @@ const CartProjectModules: React.FC<CartProjectModulesProps> = ({ projectModules,
           </div>
           <p className="font-bold text-center col-span-1">{projectModule.quantity || 1}</p>
 
-          {projectModule.children && <CartProjectModules projectModules={projectModule.children} isChildren={true} />}
+          {projectModule.children && <CartProjectModules projectModules={projectModule.children} isChildren />}
         </React.Fragment>
       ))}
     </>
@@ -106,14 +106,9 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading,
               query: { slug }
             }}
           >
-            <a className="flex items-center justify-center h-full">
-              <NavbarButton
-                iconPosition="left"
-                content="Back"
-                icon={(className) => (
-                  <FontAwesomeIcon icon={faAngleLeft} className={classNames('text-2xl', className)} />
-                )}
-              />
+            <a className="flex items-center justify-center h-full px-4 hover:bg-mui-gray-50">
+              <ChevronLeft />
+              <FormattedMessage id="common.back" />
             </a>
           </Link>
         </>
@@ -148,7 +143,7 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading,
                   </div>
                 </div>
                 <hr className="my-4" />
-                {projectModules && projectModules.length > 0 && (
+                {projectModules && (
                   <div className="grid grid-cols-12 gap-4">
                     <div className="py-2 col-span-12 bg-mui-gray-300 grid grid-cols-12 gap-4">
                       <p className="font-bold col-span-9 col-start-3">

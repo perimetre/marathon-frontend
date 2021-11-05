@@ -1,18 +1,16 @@
 import { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Button } from '../../UI/Button';
-import { Expander } from '../../UI/Expander';
+import Button from '../../UI/Button';
+import Expander from '../../UI/Expander';
 import classNames from 'classnames';
 import { Project, ProjectsQuery } from '../../../apollo/generated/graphql';
-import { Dropdown } from '../../UI/Dropdown';
+import Dropdown from '../../UI/Dropdown';
 import ModalCreateProject from '../../Elements/ModalCreateProject';
 import ModalRenameProject from '../../Elements/ModalRenameProject';
 import ModalDeleteProject from '../../Elements/ModalDeleteProject';
 import AppLayout from '../../Layouts/AppLayout';
-import { ChevronDownIcon } from '../../UI/Icons/chevronDown';
-import { PlusCircleSolid } from '../../UI/Icons/plusCircle';
-import { CogIcon } from '../../UI/Icons/Gog';
 import ErrorMessage from '../../UI/ErrorMessage';
+import { Settings, ChevronDown, PlusCircle } from 'react-feather';
 import Link from 'next/link';
 
 export type ProjectsTemplateProps = {
@@ -39,7 +37,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
   );
 
   return (
-    <AppLayout>
+    <AppLayout hideLeft>
       <div className="min-h-full grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
         <div className="flex flex-col items-end bg-mui-dark">
           <div className="w-full h-64" />
@@ -60,7 +58,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                 <div className="w-full h-full mui-skeleton grid" />
               ) : (
                 <div className="text-center border-b-8 grid border-mui-primary">
-                  <h2 className="text-lg font-medium">
+                  <h2 className="text-lg font-semibold">
                     <FormattedMessage id="projects.activeProjects" />
                   </h2>
                 </div>
@@ -76,7 +74,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                     <h3 className="flex items-center flex-1 text-xl font-bold uppercase gap-2">
                       <FormattedMessage id="projects.myProjects" />
                     </h3>
-                    <ChevronDownIcon
+                    <ChevronDown
                       className={classNames(
                         'text-mui-primary transition-all',
                         expanded.includes('ac-projects') && 'rotate-180'
@@ -93,8 +91,8 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                           query: { slug: project.slug }
                         }}
                       >
-                        <a className="hover:underline w-full py-3">
-                          <h3 className="pl-4 flex items-center flex-1 text-lg font-semibold gap-2">{project.title}</h3>
+                        <a className="w-full py-3 hover:underline">
+                          <h3 className="flex items-center flex-1 pl-4 text-lg font-semibold gap-2">{project.title}</h3>
                         </a>
                       </Link>
                       <Dropdown
@@ -125,14 +123,14 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                           }
                         ]}
                       >
-                        <button className="px-2 py-3">
-                          <CogIcon className="text-gray-400 hover:text-mui-primary" />
-                        </button>
+                        <div className="py-3">
+                          <Settings className="text-gray-400 hover:text-mui-primary" />
+                        </div>
                       </Dropdown>
                     </div>
                   ))}
                   <Button onClick={() => setModalOpen(true)} variant="text" className="p-0 mt-8 text-mui-primary">
-                    <PlusCircleSolid />
+                    <PlusCircle />
                     <FormattedMessage id="projects.addDrawer" />
                   </Button>
                 </Expander>
@@ -145,7 +143,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                     <h3 className="flex items-center flex-1 text-xl font-bold uppercase gap-2">
                       <FormattedMessage id="projects.kitPortfolio" />
                     </h3>
-                    <ChevronDownIcon
+                    <ChevronDown
                       className={classNames(
                         'text-mui-primary transition-all',
                         expanded.includes('ac-kits') && 'rotate-180'

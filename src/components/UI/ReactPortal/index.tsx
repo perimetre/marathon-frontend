@@ -10,7 +10,7 @@ export type ReactPortalProps = { selector: string };
  * @param props.selector the selector in which the portal should attach to
  * @param props.children the content of the portal
  */
-export const ReactPortal: React.FC<ReactPortalProps> = ({ selector, children }) => {
+const ReactPortal: React.FC<ReactPortalProps> = ({ selector, children }) => {
   const ref = useRef<Element | null>(null);
   const [mounted, setMounted] = useState(false);
 
@@ -27,3 +27,5 @@ export const ReactPortal: React.FC<ReactPortalProps> = ({ selector, children }) 
 
   return mounted ? createPortal(children, ref.current as Element) : null;
 };
+
+export default ReactPortal;

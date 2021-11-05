@@ -19,7 +19,11 @@
           /* It should have a block display */
           /* Add a padding */
           /* Remove the outline */
-          @apply w-full block outline-none font-semibold h-11 text-black;
+          @apply w-full block outline-none font-semibold h-11 text-black px-4;
+
+          &:hover {
+            @apply bg-gray-100;
+          }
 
           /* If disabled */
           &:disabled {

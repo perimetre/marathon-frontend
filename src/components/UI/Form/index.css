@@ -1,6 +1,6 @@
 @layer components {
   .mui-input-base {
-    @apply outline-none;
+    @apply outline-none transition-all duration-75;
     &:focus,
     &.focus {
       /* The disabled should use the 300 shading */

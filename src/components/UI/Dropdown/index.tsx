@@ -1,5 +1,5 @@
 import React, { forwardRef, useCallback } from 'react';
-import { Tooltip, TooltipProps } from '../Tooltip';
+import Tooltip, { TooltipProps } from '../Tooltip';
 
 export type DropdownItem = {
   /**
@@ -40,7 +40,7 @@ export type DropdownProps = Omit<TooltipProps, 'content'> & {
  * @param props.content A list of items or a function that returns a react component with what should be displayed in the dropdown's content
  * @param props.footer A list of items or a function that returns a react component with what should be displayed in the dropdown's footer
  */
-export const Dropdown: React.FC<DropdownProps> = forwardRef<Element, DropdownProps>(
+const Dropdown: React.FC<DropdownProps> = forwardRef<Element, DropdownProps>(
   ({ children, content, header, footer, ...props }, ref) => {
     // A function that returns the link list JSX from a list of items
     const getLinkList = useCallback(
@@ -83,17 +83,17 @@ export const Dropdown: React.FC<DropdownProps> = forwardRef<Element, DropdownPro
         content={
           <div>
             {header && (
-              <div className="mx-4 mui-dropdown-menu-header">
+              <div className="mui-dropdown-menu-header">
                 {Array.isArray(header) ? getLinkList(header as DropdownItem[]) : header(getLinkList)}
               </div>
             )}
             {content && (
-              <div className="mx-4 mui-dropdown-menu-content">
+              <div className="mui-dropdown-menu-content">
                 {Array.isArray(content) ? getLinkList(content as DropdownItem[]) : content(getLinkList)}
               </div>
             )}
             {footer && (
-              <div className="mx-4 mui-dropdown-menu-footer">
+              <div className="mui-dropdown-menu-footer">
                 {Array.isArray(footer) ? getLinkList(footer as DropdownItem[]) : footer(getLinkList)}
               </div>
             )}
@@ -107,3 +107,5 @@ export const Dropdown: React.FC<DropdownProps> = forwardRef<Element, DropdownPro
 );
 
 Dropdown.displayName = 'Dropdown';
+
+export default Dropdown;
