@@ -1,0 +1,13 @@
+@layer components {
+  .mui-skeleton {
+    @apply mui-border-radius animate-skeleton;
+
+    background: linear-gradient(
+      to right,
+      rgba(230, 230, 230, 1) 40%,
+      rgba(212, 212, 212, 1) 50%,
+      rgba(230, 230, 230, 1) 60%
+    );
+    background-size: 400% 400%;
+  }
+}

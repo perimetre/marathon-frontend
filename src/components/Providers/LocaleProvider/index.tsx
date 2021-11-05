@@ -2,27 +2,9 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { IntlProvider } from 'react-intl';
-import locales, { defaultLocale, LocaleEnum, dayjsLocaleMap } from '../../../lib/locale';
+import locales, { defaultLocale, LocaleEnum, dayjsLocaleMap, localePolyfill } from '../../../lib/locale';
 import { LOCALE_NAME } from '../../../constraints';
 import { setCookie } from '../../../lib/cookie';
-import { shouldPolyfill } from '@formatjs/intl-pluralrules/should-polyfill';
-
-const polyfill = async (locale: LocaleEnum) => {
-  if (!shouldPolyfill(locale)) {
-    return;
-  }
-  // Load the polyfill 1st BEFORE loading data
-  await import('@formatjs/intl-pluralrules/polyfill');
-
-  switch (locale) {
-    default:
-      await import('@formatjs/intl-pluralrules/locale-data/en');
-      break;
-    case 'fr':
-      await import('@formatjs/intl-pluralrules/locale-data/fr');
-      break;
-  }
-};
 
 type LocaleContext = {
   /**
@@ -82,25 +64,23 @@ export const LocaleProvider: React.FC = ({ children }) => {
   }, [dayjsLocale, locale]);
 
   useEffect(() => {
-    polyfill(locale);
+    localePolyfill(locale);
   }, [locale]);
 
   const messages = useMemo(() => locales[locale], [locale]);
 
   return (
-    <div id="locale-provider">
-      <IntlProvider locale={locale} messages={messages}>
-        <LocaleContext.Provider
-          value={{
-            hasProvider: true,
-            locale,
-            dayjsLocale
-          }}
-        >
-          {children}
-        </LocaleContext.Provider>
-      </IntlProvider>
-    </div>
+    <IntlProvider locale={locale} messages={messages}>
+      <LocaleContext.Provider
+        value={{
+          hasProvider: true,
+          locale,
+          dayjsLocale
+        }}
+      >
+        {children}
+      </LocaleContext.Provider>
+    </IntlProvider>
   );
 };
 

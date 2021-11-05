@@ -2,7 +2,6 @@ import { NextPage } from 'next';
 import NextError, { ErrorProps } from 'next/error';
 import React from 'react';
 import logging from '../lib/logging';
-import { redirectServerOrClient } from '../lib/next';
 
 type CustomErrorGetInitialProps = ErrorProps & {
   // Workaround for https://github.com/vercel/next.js/issues/8592, mark when getInitialProps has run
@@ -31,7 +30,12 @@ const CustomError: NextPage<CustomErrorProps, CustomErrorGetInitialProps> = ({
 };
 
 CustomError.getInitialProps = async (ctx) => {
-  const errorInitialProps = await NextError.getInitialProps(ctx);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const errorInitialProps: any = await NextError.getInitialProps(ctx);
+
+  // Workaround for https://github.com/vercel/next.js/issues/8592, mark when
+  // getInitialProps has run
+  errorInitialProps.hasGetInitialPropsRun = true;
 
   // Running on the server, the response object (`res`) is available.
   //
@@ -46,23 +50,18 @@ CustomError.getInitialProps = async (ctx) => {
   //    Boundary. Read more about what types of exceptions are caught by Error
   //    Boundaries: https://reactjs.org/docs/error-boundaries.html
 
-  if (ctx.res?.statusCode === 404) {
-    redirectServerOrClient('/404', '/404', ctx.req, ctx.res);
-    return { err: ctx.err, ...errorInitialProps, statusCode: 404, hasGetInitialPropsRun: true };
-  } else if (ctx.err) {
+  if (ctx.err) {
     logging.error(ctx.err, undefined, { ctx: { ...ctx } });
-  } else {
-    // No 404 and no error
+  }
 
+  if (ctx.res?.statusCode !== 404) {
     // If this point is reached, getInitialProps was called without any
     // information about what the error might be. This is unexpected and may
     // indicate a bug introduced in Next.js, so record it in Sentry
-    logging.error(new Error(`_error.tsx getInitialProps missing data at path: ${ctx.asPath}`), undefined, {
-      ctx: { ...ctx }
-    });
+    logging.error(new Error(`_error.js getInitialProps missing data at path: ${ctx.asPath}`));
   }
 
-  return { err: ctx.err, ...errorInitialProps, hasGetInitialPropsRun: true };
+  return errorInitialProps;
 };
 
 export default CustomError;

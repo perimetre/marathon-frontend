@@ -1,5 +1,5 @@
 import React from 'react';
-import Document, { DocumentContext } from 'next/document';
+import Document, { DocumentContext, Head, Html, Main, NextScript } from 'next/document';
 import { ServerStyleSheet } from 'styled-components';
 
 // Ref: https://nextjs.org/docs/advanced-features/custom-document
@@ -43,6 +43,23 @@ class MyDocument extends Document {
     } finally {
       sheet.seal();
     }
+  }
+  render() {
+    return (
+      <Html>
+        <Head>
+          <link
+            href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400;1,600;1,700&display=optional"
+            rel="stylesheet"
+          />
+        </Head>
+        <body>
+          <div id="modal-root"></div>
+          <Main />
+          <NextScript />
+        </body>
+      </Html>
+    );
   }
 }
 

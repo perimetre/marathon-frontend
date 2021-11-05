@@ -1,0 +1,80 @@
+/* Ref: https://github.com/perimetre/ui/blob/master/src/components/Animate/index.css */
+@layer components {
+  /* Keyframes for these animations are added in the default preset */
+
+  .mui-animate-fade-in {
+    animation: fade-in 0.5s ease-out 0s both;
+    opacity: 0;
+  }
+
+  .mui-animate-fade-up {
+    animation: fade-into 0.5s ease-out 0s both;
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+
+  .mui-animate-fade-down {
+    animation: fade-into 0.5s ease-out 0s both;
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+
+  .mui-animate-fade-right {
+    animation: fade-into 0.5s ease-out 0s both;
+    opacity: 0;
+    transform: translateX(-1rem);
+  }
+
+  .mui-animate-fade-left {
+    animation: fade-into 0.5s ease-out 0s both;
+    opacity: 0;
+    transform: translateX(1rem);
+  }
+
+  .mui-animate-scaleHover-target-base {
+    transition: transform 100ms ease-out;
+  }
+
+  .mui-animate-scaleHover-target-base-hover {
+    transform: scale(1.2);
+  }
+
+  .mui-animate-scaleHover-target-base-active {
+    transition: transform 20ms ease-in;
+    transform: scale(1);
+  }
+
+  .mui-animate-scaleHover-single {
+    @apply mui-animate-scaleHover-target-base;
+
+    &:hover {
+      @apply mui-animate-scaleHover-target-base-hover;
+    }
+
+    &:active {
+      @apply mui-animate-scaleHover-target-base-active;
+    }
+  }
+
+  .mui-animate-scaleHover {
+    .mui-animate-scaleHover-target {
+      @apply mui-animate-scaleHover-target-base;
+    }
+
+    &:hover {
+      .mui-animate-scaleHover-target {
+        @apply mui-animate-scaleHover-target-base-hover;
+      }
+    }
+
+    &:active {
+      .mui-animate-scaleHover-target {
+        @apply mui-animate-scaleHover-target-base-active;
+      }
+    }
+  }
+
+  .mui-animate-group-hover {
+    @apply group-hover:scale-100 transition-transform duration-75 group-active:scale-100 group-active:transition-none;
+  }
+}
