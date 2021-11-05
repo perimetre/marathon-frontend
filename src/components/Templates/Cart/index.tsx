@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { CartDataFragment, CartQuery } from '../../../apollo/generated/graphql';
 import AppLayout from '../../Layouts/AppLayout';
 import Head from 'next/head';
 import { FormattedMessage, useIntl } from 'react-intl';
 import SkeletonImage from '../../UI/SkeletonImage';
 import classNames from 'classnames';
-import classnames from 'classnames';
 import { Button } from '../../UI/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faFile } from '@fortawesome/free-solid-svg-icons';
@@ -13,9 +12,15 @@ import NavbarButton from '../../UI/NavbarButton';
 import Link from 'next/link';
 import ErrorMessage from '../../UI/ErrorMessage';
 import Skeleton from '../../UI/Skeleton';
+import { groupBy, values } from 'lodash';
+
+type ProjectModules = (CartDataFragment & {
+  children?: (CartDataFragment & { quantity?: number })[];
+  quantity?: number;
+})[];
 
 type CartProjectModulesProps = {
-  projectModules: (CartDataFragment & { children?: CartDataFragment[] })[];
+  projectModules: ProjectModules;
   isChildren?: boolean;
 };
 
@@ -50,7 +55,7 @@ const CartProjectModules: React.FC<CartProjectModulesProps> = ({ projectModules,
             {/*</p>*/}
             {projectModule.module.description && <p className="h-full">{projectModule.module.description}</p>}
           </div>
-          <p className="font-bold text-center col-span-1">1</p>
+          <p className="font-bold text-center col-span-1">{projectModule.quantity || 1}</p>
 
           {projectModule.children && <CartProjectModules projectModules={projectModule.children} isChildren={true} />}
         </React.Fragment>
@@ -69,7 +74,26 @@ type CartTemplateProps = {
 
 const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading, handleTryAgain }) => {
   const intl = useIntl();
-  // TODO: Create quantity if duplicate
+
+  const projectModules = useMemo(() => {
+    if (data.project?.projectModules && data.project.projectModules.length > 0) {
+      // This method groups similar modules and returns the amount as quantity, then does the same for the children.
+      // So if the user has two of the same modules. We show "quantity:2" instead of showing the module twice
+      return values(groupBy(data.project.projectModules, 'moduleId')).map((group) => ({
+        ...group[0],
+        quantity: group.length,
+        children: values(
+          groupBy(
+            data.project?.projectModules.filter((x) => x.moduleId === group[0].moduleId).flatMap((x) => x.children) ||
+              [],
+            'moduleId'
+          )
+        ).map((childGroup) => ({ ...childGroup[0], quantity: childGroup.length }))
+      }));
+    }
+
+    return undefined;
+  }, [data]);
 
   return (
     <AppLayout
@@ -87,7 +111,7 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading,
                 iconPosition="left"
                 content="Back"
                 icon={(className) => (
-                  <FontAwesomeIcon icon={faAngleLeft} className={classnames('text-2xl', className)} />
+                  <FontAwesomeIcon icon={faAngleLeft} className={classNames('text-2xl', className)} />
                 )}
               />
             </a>
@@ -124,7 +148,7 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading,
                   </div>
                 </div>
                 <hr className="my-4" />
-                {data?.project?.projectModules && (
+                {projectModules && projectModules.length > 0 && (
                   <div className="grid grid-cols-12 gap-4">
                     <div className="py-2 col-span-12 bg-mui-gray-300 grid grid-cols-12 gap-4">
                       <p className="font-bold col-span-9 col-start-3">
@@ -134,7 +158,7 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading,
                         <FormattedMessage id="cart.headers.quantity" />
                       </p>
                     </div>
-                    <CartProjectModules projectModules={data.project.projectModules} />
+                    <CartProjectModules projectModules={projectModules} />
                   </div>
                 )}
               </>
@@ -143,7 +167,7 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading,
                 <Skeleton className="w-1/4 h-10 mui-border-radius" />
                 <Skeleton className="w-1/5 h-4 mt-2 mui-border-radius" />
                 <Skeleton className="w-full h-6 mt-4 mui-border-radius" />
-                <div className="grid grid-cols-12 gap-2 mt-2">
+                <div className="mt-2 grid grid-cols-12 gap-2">
                   {Array(2)
                     .fill(null)
                     .map((_, i) => (

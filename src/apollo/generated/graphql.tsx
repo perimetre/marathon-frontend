@@ -3371,9 +3371,11 @@ export type CartQuery = {
         projectModules: Array<{
           __typename?: 'ProjectModule';
           id: number;
+          moduleId: number;
           children: Array<{
             __typename?: 'ProjectModule';
             id: number;
+            moduleId: number;
             module: {
               __typename?: 'Module';
               id: number;
@@ -3430,6 +3432,7 @@ export type GetFinishByCollectionQuery = {
 export type CartDataFragment = {
   __typename?: 'ProjectModule';
   id: number;
+  moduleId: number;
   module: {
     __typename?: 'Module';
     id: number;
@@ -3642,6 +3645,7 @@ export type GetTypeQuery = {
 export const CartDataFragmentDoc = gql`
   fragment CartData on ProjectModule {
     id
+    moduleId
     module {
       id
       partNumber
