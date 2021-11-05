@@ -3,8 +3,6 @@ import { ModuleDataFragment } from '../../../apollo/generated/graphql';
 import { AnimatePresence, motion } from 'framer-motion';
 import SidebarModules from './SidebarModules';
 import SidebarCategories from './SidebarCategories';
-import { TextInput } from '../Form/TextInput';
-import { Formik } from 'formik';
 
 type PlannerSidebarState = 'closed' | 'categories' | 'modules';
 
@@ -49,9 +47,6 @@ const PlannerSidebar: React.FC<PlannerSidebarProps> = ({ project, isSidebarOpen,
       transition={{ type: 'spring', stiffness: 350, damping: 40 }}
     >
       <AnimatePresence>
-        <Formik onSubmit={console.log} initialValues={{ teste: '' }}>
-          <TextInput name="teste" />
-        </Formik>
         {isSidebarOpen &&
           (!loading ? (
             <>
