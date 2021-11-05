@@ -3463,17 +3463,6 @@ export type ModuleDataFragment = {
   categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
 };
 
-export type ProjectDataFragment = {
-  __typename?: 'Project';
-  id: number;
-  title: string;
-  slug: string;
-  width: number;
-  gable: number;
-  type: { __typename?: 'Type'; id: number; slug: string };
-  collection: { __typename?: 'Collection'; id: number; slug: string };
-};
-
 export type ModuleOptionsQueryVariables = Exact<{
   options?: Maybe<Array<Scalars['String']> | Scalars['String']>;
 }>;
@@ -3539,6 +3528,17 @@ export type PlannerQuery = {
       }
     | null
     | undefined;
+};
+
+export type ProjectDataFragment = {
+  __typename?: 'Project';
+  id: number;
+  title: string;
+  slug: string;
+  width: number;
+  gable: number;
+  type: { __typename?: 'Type'; id: number; slug: string };
+  collection: { __typename?: 'Collection'; id: number; slug: string };
 };
 
 export type ProjectsQueryVariables = Exact<{ [key: string]: never }>;
