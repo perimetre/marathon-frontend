@@ -1,18 +1,17 @@
 import { useCallback, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Button } from '../../UI/Button';
-import { Expander } from '../../UI/Expander';
+import Button from '../../UI/Button';
+import Expander from '../../UI/Expander';
 import classNames from 'classnames';
 import { Project, ProjectsQuery } from '../../../apollo/generated/graphql';
-import { Dropdown } from '../../UI/Dropdown';
+import Dropdown from '../../UI/Dropdown';
 import ModalCreateProject from '../../Elements/ModalCreateProject';
 import ModalRenameProject from '../../Elements/ModalRenameProject';
 import ModalDeleteProject from '../../Elements/ModalDeleteProject';
 import AppLayout from '../../Layouts/AppLayout';
-import { ChevronDownIcon } from '../../UI/Icons/chevronDown';
-import { PlusCircleSolid } from '../../UI/Icons/plusCircle';
-import { CogIcon } from '../../UI/Icons/Gog';
 import ErrorMessage from '../../UI/ErrorMessage';
+import Badge from '../../UI/Badge';
+import { Menu, ShoppingCart, User, Settings, ChevronDown, PlusCircle } from 'react-feather';
 
 export type ProjectsTemplateProps = {
   data?: ProjectsQuery;
@@ -28,7 +27,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
     openRename?: boolean;
     project: Project;
   } | null>(null);
-  const [expanded, setExpanded] = useState<string[]>([]);
+  const [expanded, setExpanded] = useState<string[]>(['ac-projects']);
 
   const handleAccordion = useCallback(
     (key: string) => {
@@ -38,7 +37,23 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
   );
 
   return (
-    <AppLayout>
+    <AppLayout
+      appendRight={() => (
+        <div className="flex h-full mr-4">
+          <button className="flex items-center justify-center h-full px-4 hover:bg-mui-gray-50 hover:text-mui-primary">
+            <Menu />
+          </button>
+          <button className="flex items-center justify-center h-full px-4 hover:bg-mui-gray-50 hover:text-mui-primary">
+            <User />
+          </button>
+          <button className="flex items-center justify-center h-full px-4 hover:bg-mui-gray-50 hover:text-mui-primary">
+            <Badge content="0">
+              <ShoppingCart />
+            </Badge>
+          </button>
+        </div>
+      )}
+    >
       <div className="min-h-full grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2">
         <div className="flex flex-col items-end bg-mui-dark">
           <div className="w-full h-64" />
@@ -59,7 +74,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                 <div className="w-full h-full mui-skeleton grid" />
               ) : (
                 <div className="text-center border-b-8 grid border-mui-primary">
-                  <h2 className="text-lg font-medium">
+                  <h2 className="text-lg font-semibold">
                     <FormattedMessage id="projects.activeProjects" />
                   </h2>
                 </div>
@@ -75,7 +90,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                     <h3 className="flex items-center flex-1 text-xl font-bold uppercase gap-2">
                       <FormattedMessage id="projects.myProjects" />
                     </h3>
-                    <ChevronDownIcon
+                    <ChevronDown
                       className={classNames(
                         'text-mui-primary transition-all',
                         expanded.includes('ac-projects') && 'rotate-180'
@@ -115,9 +130,9 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                           }
                         ]}
                       >
-                        <button className="px-2 py-3">
-                          <CogIcon className="text-gray-400 hover:text-mui-primary" />
-                        </button>
+                        <div className="px-2 py-3">
+                          <Settings className="text-gray-400 hover:text-mui-primary" />
+                        </div>
                       </Dropdown>
                       <Button>
                         <FormattedMessage id="projects.editButton" />
@@ -125,7 +140,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                     </div>
                   ))}
                   <Button onClick={() => setModalOpen(true)} variant="text" className="p-0 mt-8 text-mui-primary">
-                    <PlusCircleSolid />
+                    <PlusCircle />
                     <FormattedMessage id="projects.addDrawer" />
                   </Button>
                 </Expander>
@@ -138,7 +153,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                     <h3 className="flex items-center flex-1 text-xl font-bold uppercase gap-2">
                       <FormattedMessage id="projects.kitPortfolio" />
                     </h3>
-                    <ChevronDownIcon
+                    <ChevronDown
                       className={classNames(
                         'text-mui-primary transition-all',
                         expanded.includes('ac-kits') && 'rotate-180'
@@ -148,7 +163,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                 )}
                 <Expander isExpanded={expanded.includes('ac-kits')}>
                   <Button onClick={() => setModalOpen(true)} variant="text" className="p-0 mt-8 text-mui-primary">
-                    <PlusCircleSolid />
+                    <PlusCircle className="text-white" />
                     <FormattedMessage id="projects.addDrawer" />
                   </Button>
                 </Expander>
@@ -158,7 +173,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
               <div className="h-10 w-44 mui-skeleton grid" />
             ) : (
               <Button onClick={() => setModalOpen(true)}>
-                <PlusCircleSolid />
+                <PlusCircle className="text-white" />
                 <FormattedMessage id="projects.addProject" />
               </Button>
             )}

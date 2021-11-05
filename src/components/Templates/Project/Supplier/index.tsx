@@ -110,8 +110,8 @@ const SupplierTemplate: React.FC<SupplierTemplateProps> = ({
                       <div
                         key={`type-card-${slide.id}`}
                         className={classNames(
-                          'flex bg-white rounded-md shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg',
-                          active && 'border-2 border-mui-primary'
+                          'flex bg-white rounded-md shadow-sm border-2 transition-all hover:-translate-y-1 hover:shadow-lg duration-75',
+                          active && 'border-mui-primary'
                         )}
                         role="button"
                         aria-hidden="true"

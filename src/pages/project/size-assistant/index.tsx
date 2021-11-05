@@ -25,8 +25,6 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
   drawerTitle,
   drawerCollection
 }) => {
-  console.log({ drawerSize });
-
   const { clear, unit, setDrawerSize } = useProjectCreationContext();
   const router = useRouter();
 
@@ -39,10 +37,12 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
         width: data.width
       });
 
+      const slug = slugify(drawerTitle);
+
       await doCreateProject({
         variables: {
           data: {
-            slug: slugify(drawerTitle),
+            slug,
             title: drawerTitle as string,
             gable: Number(data.gable),
             width: unit === 'mm' ? Number(data.width) : Number(convertInToMmFormatted(data.width as string)),
@@ -77,7 +77,7 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
 
       clear();
 
-      router.push('/projects', '/projects');
+      router.push('/project/[slug]/planner', `/project/${slug}/planner`);
     },
     [
       unit,

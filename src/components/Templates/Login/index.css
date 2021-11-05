@@ -1,0 +1,6 @@
+@layer components {
+  .gradient-to-dark {
+    --tw-bg-opacity: 0.7;
+    --tw-gradient-to: var(--mui-dark, rgba(45, 41, 38, var(--tw-bg-opacity)));
+  }
+}

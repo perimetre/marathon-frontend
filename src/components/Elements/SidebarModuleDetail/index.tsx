@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { ModuleDataFragment, useModuleOptionsQuery } from '../../../apollo/generated/graphql';
-import { Button } from '../../UI/Button';
+import Button from '../../UI/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FormattedMessage } from 'react-intl';

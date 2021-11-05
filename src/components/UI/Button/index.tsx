@@ -23,10 +23,10 @@ export type ButtonProps = React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTM
  * @param props.variant The button type variant
  * @param props.children The component children
  */
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = 'default', className, children, ...props }, ref) => {
     return (
-      <button type="button" {...props} ref={ref} className={classNames(variantClassnameMap[variant], className)}>
+      <button {...props} ref={ref} className={classNames(variantClassnameMap[variant], className)}>
         {children}
       </button>
     );
@@ -34,3 +34,5 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 );
 
 Button.displayName = 'Button';
+
+export default Button;

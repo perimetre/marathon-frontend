@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Project, useDeleteProjectMutation } from '../../../apollo/generated/graphql';
-import { Button } from '../../UI/Button';
-import { Modal } from '../../UI/Modal';
+import Button from '../../UI/Button';
+import Modal from '../../UI/Modal';
 import Spinner from '../../UI/Spinner';
 
 export type ModalDeleteProjectProps = {
