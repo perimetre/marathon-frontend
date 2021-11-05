@@ -1,13 +1,12 @@
 import React, { useMemo } from 'react';
 import { ModuleDataFragment, useModuleOptionsQuery } from '../../../apollo/generated/graphql';
 import Button from '../../UI/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCirclePlus } from '@fortawesome/free-solid-svg-icons';
 import { FormattedMessage } from 'react-intl';
 import { getLocaleIdFromGraphqlError } from '../../../lib/apollo/exceptions';
 import ErrorMessage from '../../UI/ErrorMessage';
 import Skeleton from '../../UI/Skeleton';
 import SkeletonImage from '../../UI/SkeletonImage';
+import { PlusCircle } from 'react-feather';
 
 type ModuleButtonImageProps = { module: ModuleDataFragment };
 
@@ -30,7 +29,7 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module }) => (
             <span>
               <FormattedMessage id="common.add" />
             </span>
-            <FontAwesomeIcon icon={faCirclePlus} className="text-2xl mui-animate-group-hover" />
+            <PlusCircle className="text-2xl" />
           </Button>
         </div>
       </div>

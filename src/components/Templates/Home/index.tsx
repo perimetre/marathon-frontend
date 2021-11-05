@@ -7,12 +7,10 @@ import classNames from 'classnames';
 import { ChevronDownIcon } from '../../UI/Icons/chevronDown';
 import AppLayout from '../../Layouts/AppLayout';
 import { UserIcon } from '../../UI/Icons/user';
-import { useRouter } from 'next/router';
+import NavbarButton from '../../UI/NavbarButton';
 
 const HomeTemplate: React.FC = () => {
   const [expanded, setExpanded] = useState<string[]>(['ac-portfolio']);
-
-  const router = useRouter();
 
   const handleAccordion = useCallback(
     (name: string) => {
@@ -23,11 +21,15 @@ const HomeTemplate: React.FC = () => {
 
   return (
     <AppLayout
+      hideLeft
       appendRight={() => (
-        <button className="flex pr-4 font-semibold gap-2" onClick={() => router.push('/login', '/login')}>
-          <UserIcon className="text-mui-primary" />
-          <FormattedMessage id="login.signinButton" />
-        </button>
+        <Link href="/login">
+          <a className="h-full">
+            <NavbarButton icon={<UserIcon className="text-mui-primary" />}>
+              <FormattedMessage id="login.signinButton" />
+            </NavbarButton>
+          </a>
+        </Link>
       )}
     >
       <div className="min-h-full grid grid-cols-1 lg:grid-cols-2">

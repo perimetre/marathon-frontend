@@ -1,12 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
-import { FormattedMessage } from 'react-intl';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import classNames from 'classnames';
 import SkeletonImage from '../../SkeletonImage';
 import { PlannerSidebarCategories, PlannerSidebarProps } from '../index';
 import SidebarModuleDetail from '../../../Elements/SidebarModuleDetail';
+import { ArrowLeft } from 'react-feather';
 
 const container = {
   hidden: { opacity: 0 },
@@ -51,12 +49,9 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
         <>
           {/* Top section(title and close button) */}
           <div className="flex items-center justify-between flex-grow-0">
-            <p className="px-4 text-lg font-bold">{category.name}</p>
-            <button className="flex items-center justify-center p-4 text-red-600 gap-4 group" onClick={onCloseClick}>
-              <span>
-                <FormattedMessage id="common.close" />
-              </span>
-              <FontAwesomeIcon icon={faXmark} className="text-2xl mt-0.5 mui-animate-group-hover" />
+            <button className="flex items-center justify-center p-4 font-bold gap-4 group" onClick={onCloseClick}>
+              <ArrowLeft className="text-2xl mt-0.5" />
+              <span>{category.name}</span>
             </button>
           </div>
           {/* Bottom Section */}
@@ -74,7 +69,7 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
                     className={classNames(
                       'flex flex-col items-center justify-center w-full h-full px-2 py-4 bg-white shadow-md mui-border-radius hover:scale-105 transition-all duration-75 active:scale-100 active:transition-none border-2 border-solid border-white',
                       {
-                        'border-mui-primary': module.id === selectedModuleId
+                        '!border-mui-primary': module.id === selectedModuleId
                       }
                     )}
                     onClick={module.id !== selectedModuleId ? () => setSelectedModuleId(module.id) : undefined}

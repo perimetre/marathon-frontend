@@ -107,7 +107,11 @@ module.exports = {
       minHeight: (theme) => ({
         auto: 'auto',
         ...theme('spacing')
-      })
+      }),
+      screens: {
+        print: { raw: 'print' },
+        'no-print': { raw: 'not print' }
+      }
     }
   },
   variants: {

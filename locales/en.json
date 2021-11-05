@@ -5,7 +5,8 @@
   "common": {
     "tryAgain": "Try again",
     "close": "Close",
-    "add": "Add"
+    "add": "Add",
+    "back": "Back"
   },
   "serverErrors": {
     "unknownError": "An error has occurred. Please try again later.",
@@ -16,7 +17,7 @@
     "unauthorized": "You are not permitted to do this action"
   },
   "build": {
-    "title": "Build",
+    "title": "Planner",
     "error": "Unable to load the {appTitle} app: \r\n <error>{errorMessage}</error>",
     "projectsPageNav": "Projects",
     "addOns": "Available Add-ons"
@@ -77,5 +78,14 @@
     "cabinetWidthDescription": "Enter the size of your cabinet",
     "boardThickness": "Board thickness",
     "boardThicknessDescription": "Gable thickness"
+  },
+  "cart": {
+    "title": "Cart",
+    "review": "Review your items",
+    "print": "Print",
+    "headers": {
+      "product": "Product",
+      "quantity": "Qty"
+    }
   }
 }

@@ -5,9 +5,10 @@ import * as yup from 'yup';
 import { FormattedMessage, useIntl } from 'react-intl';
 import AppLayout from '../../Layouts/AppLayout';
 import { TextInput } from '../../UI/Form/TextInput';
-import { XCircleSolid } from '../../UI/Icons/xCircle';
-import { useRouter } from 'next/router';
 import Image from 'next/image';
+import NavbarButton from '../../UI/NavbarButton';
+import Link from 'next/link';
+import { XCircle } from 'react-feather';
 
 export type LoginTemplateProps = {
   onSubmit: (form: { email: string; password: string }) => void;
@@ -15,8 +16,6 @@ export type LoginTemplateProps = {
 
 const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
   const intl = useIntl();
-
-  const router = useRouter();
 
   const signupSchema = useMemo(
     () =>
@@ -37,10 +36,15 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
 
   return (
     <AppLayout
+      hideLeft
       appendRight={() => (
-        <button className="pr-4" onClick={() => router.push('/', '/')}>
-          <XCircleSolid className="text-mui-primary h-9 w-9" />
-        </button>
+        <Link href="/">
+          <a className="h-full">
+            <NavbarButton>
+              <XCircle className="text-mui-primary h-7 w-7" />
+            </NavbarButton>
+          </a>
+        </Link>
       )}
     >
       <div className="fixed min-h-screen overflow-hidden min-w-screen">
@@ -66,6 +70,7 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
               />
               <TextInput
                 name="password"
+                type="password"
                 className="mui-login-input"
                 placeholder={intl.formatMessage({
                   id: 'login.passwordPlaceholder'

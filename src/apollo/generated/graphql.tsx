@@ -3356,6 +3356,45 @@ export type User = {
   id: Scalars['Int'];
 };
 
+export type CartQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+export type CartQuery = {
+  __typename?: 'Query';
+  project?:
+    | {
+        __typename?: 'Project';
+        id: number;
+        slug: string;
+        title: string;
+        projectModules: Array<{
+          __typename?: 'ProjectModule';
+          id: number;
+          children: Array<{
+            __typename?: 'ProjectModule';
+            id: number;
+            module: {
+              __typename?: 'Module';
+              id: number;
+              partNumber: string;
+              description?: string | null | undefined;
+              thumbnailUrl?: string | null | undefined;
+            };
+          }>;
+          module: {
+            __typename?: 'Module';
+            id: number;
+            partNumber: string;
+            description?: string | null | undefined;
+            thumbnailUrl?: string | null | undefined;
+          };
+        }>;
+      }
+    | null
+    | undefined;
+};
+
 export type GetCollectionsQueryVariables = Exact<{ [key: string]: never }>;
 
 export type GetCollectionsQuery = {
@@ -3386,6 +3425,18 @@ export type GetFinishByCollectionQuery = {
     slug: string;
     thumbnailUrl?: string | null | undefined;
   }>;
+};
+
+export type CartDataFragment = {
+  __typename?: 'ProjectModule';
+  id: number;
+  module: {
+    __typename?: 'Module';
+    id: number;
+    partNumber: string;
+    description?: string | null | undefined;
+    thumbnailUrl?: string | null | undefined;
+  };
 };
 
 export type ModuleDataFragment = {
@@ -3588,6 +3639,17 @@ export type GetTypeQuery = {
   }>;
 };
 
+export const CartDataFragmentDoc = gql`
+  fragment CartData on ProjectModule {
+    id
+    module {
+      id
+      partNumber
+      description
+      thumbnailUrl
+    }
+  }
+`;
 export const ModuleDataFragmentDoc = gql`
   fragment ModuleData on Module {
     id
@@ -3628,6 +3690,50 @@ export const ProjectDataFragmentDoc = gql`
     }
   }
 `;
+export const CartDocument = gql`
+  query Cart($slug: String!) {
+    project(where: { slug: $slug }) {
+      id
+      slug
+      title
+      projectModules {
+        ...CartData
+        children {
+          ...CartData
+        }
+      }
+    }
+  }
+  ${CartDataFragmentDoc}
+`;
+
+/**
+ * __useCartQuery__
+ *
+ * To run a query within a React component, call `useCartQuery` and pass it any options that fit your needs.
+ * When your component renders, `useCartQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useCartQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useCartQuery(baseOptions: Apollo.QueryHookOptions<CartQuery, CartQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<CartQuery, CartQueryVariables>(CartDocument, options);
+}
+export function useCartLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CartQuery, CartQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<CartQuery, CartQueryVariables>(CartDocument, options);
+}
+export type CartQueryHookResult = ReturnType<typeof useCartQuery>;
+export type CartLazyQueryHookResult = ReturnType<typeof useCartLazyQuery>;
+export type CartQueryResult = Apollo.QueryResult<CartQuery, CartQueryVariables>;
 export const GetCollectionsDocument = gql`
   query GetCollections {
     collections {
