@@ -2,20 +2,13 @@ import classNames from 'classnames';
 import { useField } from 'formik';
 import React, { useMemo } from 'react';
 
-type TextInputProps = React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> & {
+type SelectProps = React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> & {
   name: string;
   label?: string;
   classNameContainer?: HTMLSelectElement['className'];
 };
 
-export const Select: React.FC<TextInputProps> = ({
-  name,
-  label,
-  classNameContainer,
-  className,
-  children,
-  ...props
-}) => {
+export const Select: React.FC<SelectProps> = ({ name, label, classNameContainer, className, children, ...props }) => {
   const [field, meta] = useField(name);
   const error = useMemo(() => (meta.touched ? meta.error : undefined), [meta]);
 

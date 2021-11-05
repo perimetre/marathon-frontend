@@ -96,6 +96,7 @@ export type Collection = {
   collectionFinishes: Array<CollectionFinishes>;
   description?: Maybe<Scalars['String']>;
   footer?: Maybe<Scalars['String']>;
+  hasPegs: Scalars['Boolean'];
   id: Scalars['Int'];
   modules: Array<Module>;
   name: Scalars['String'];
@@ -183,6 +184,7 @@ export type CollectionCreateOrConnectWithoutSlidesInput = {
 };
 
 export type CollectionCreateWithoutCollectionFinishesInput = {
+  hasPegs?: Maybe<Scalars['Boolean']>;
   modules?: Maybe<ModuleCreateNestedManyWithoutCollectionInput>;
   projects?: Maybe<ProjectCreateNestedManyWithoutCollectionInput>;
   slides?: Maybe<SlideCreateNestedManyWithoutCollectionInput>;
@@ -193,6 +195,7 @@ export type CollectionCreateWithoutCollectionFinishesInput = {
 
 export type CollectionCreateWithoutModulesInput = {
   collectionFinishes?: Maybe<CollectionFinishesCreateNestedManyWithoutCollectionInput>;
+  hasPegs?: Maybe<Scalars['Boolean']>;
   projects?: Maybe<ProjectCreateNestedManyWithoutCollectionInput>;
   slides?: Maybe<SlideCreateNestedManyWithoutCollectionInput>;
   slug: Scalars['String'];
@@ -202,6 +205,7 @@ export type CollectionCreateWithoutModulesInput = {
 
 export type CollectionCreateWithoutProjectsInput = {
   collectionFinishes?: Maybe<CollectionFinishesCreateNestedManyWithoutCollectionInput>;
+  hasPegs?: Maybe<Scalars['Boolean']>;
   modules?: Maybe<ModuleCreateNestedManyWithoutCollectionInput>;
   slides?: Maybe<SlideCreateNestedManyWithoutCollectionInput>;
   slug: Scalars['String'];
@@ -211,6 +215,7 @@ export type CollectionCreateWithoutProjectsInput = {
 
 export type CollectionCreateWithoutSlidesInput = {
   collectionFinishes?: Maybe<CollectionFinishesCreateNestedManyWithoutCollectionInput>;
+  hasPegs?: Maybe<Scalars['Boolean']>;
   modules?: Maybe<ModuleCreateNestedManyWithoutCollectionInput>;
   projects?: Maybe<ProjectCreateNestedManyWithoutCollectionInput>;
   slug: Scalars['String'];
@@ -388,6 +393,7 @@ export type CollectionFinishesWhereUniqueInput = {
 };
 
 export type CollectionOrderByInput = {
+  hasPegs?: Maybe<SortOrder>;
   id?: Maybe<SortOrder>;
   slug?: Maybe<SortOrder>;
   thumbnailUrl?: Maybe<SortOrder>;
@@ -555,6 +561,7 @@ export type CollectionUpdateOneRequiredWithoutSlidesInput = {
 };
 
 export type CollectionUpdateWithoutCollectionFinishesInput = {
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   modules?: Maybe<ModuleUpdateManyWithoutCollectionInput>;
   projects?: Maybe<ProjectUpdateManyWithoutCollectionInput>;
   slides?: Maybe<SlideUpdateManyWithoutCollectionInput>;
@@ -565,6 +572,7 @@ export type CollectionUpdateWithoutCollectionFinishesInput = {
 
 export type CollectionUpdateWithoutModulesInput = {
   collectionFinishes?: Maybe<CollectionFinishesUpdateManyWithoutCollectionInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   projects?: Maybe<ProjectUpdateManyWithoutCollectionInput>;
   slides?: Maybe<SlideUpdateManyWithoutCollectionInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -574,6 +582,7 @@ export type CollectionUpdateWithoutModulesInput = {
 
 export type CollectionUpdateWithoutProjectsInput = {
   collectionFinishes?: Maybe<CollectionFinishesUpdateManyWithoutCollectionInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   modules?: Maybe<ModuleUpdateManyWithoutCollectionInput>;
   slides?: Maybe<SlideUpdateManyWithoutCollectionInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -583,6 +592,7 @@ export type CollectionUpdateWithoutProjectsInput = {
 
 export type CollectionUpdateWithoutSlidesInput = {
   collectionFinishes?: Maybe<CollectionFinishesUpdateManyWithoutCollectionInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   modules?: Maybe<ModuleUpdateManyWithoutCollectionInput>;
   projects?: Maybe<ProjectUpdateManyWithoutCollectionInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -615,6 +625,7 @@ export type CollectionWhereInput = {
   NOT?: Maybe<Array<CollectionWhereInput>>;
   OR?: Maybe<Array<CollectionWhereInput>>;
   collectionFinishes?: Maybe<CollectionFinishesListRelationFilter>;
+  hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
   modules?: Maybe<ModuleListRelationFilter>;
   projects?: Maybe<ProjectListRelationFilter>;
@@ -1615,6 +1626,7 @@ export type Project = {
   finish: Finish;
   finishId: Scalars['Int'];
   gable: Scalars['Float'];
+  hasPegs: Scalars['Boolean'];
   id: Scalars['Int'];
   modules: Array<Module>;
   projectModules: Array<ProjectModule>;
@@ -1639,6 +1651,7 @@ export type ProjectCreateInput = {
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
@@ -1651,6 +1664,7 @@ export type ProjectCreateInput = {
 export type ProjectCreateManyCollectionInput = {
   finishId: Scalars['Int'];
   gable: Scalars['Float'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
   slideDepthId: Scalars['Int'];
   slideId: Scalars['Int'];
@@ -1668,6 +1682,7 @@ export type ProjectCreateManyCollectionInputEnvelope = {
 export type ProjectCreateManyFinishInput = {
   collectionId: Scalars['Int'];
   gable: Scalars['Float'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
   slideDepthId: Scalars['Int'];
   slideId: Scalars['Int'];
@@ -1686,6 +1701,7 @@ export type ProjectCreateManySlideDepthInput = {
   collectionId: Scalars['Int'];
   finishId: Scalars['Int'];
   gable: Scalars['Float'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
   slideId: Scalars['Int'];
   slug: Scalars['String'];
@@ -1703,6 +1719,7 @@ export type ProjectCreateManySlideInput = {
   collectionId: Scalars['Int'];
   finishId: Scalars['Int'];
   gable: Scalars['Float'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
   slideDepthId: Scalars['Int'];
   slug: Scalars['String'];
@@ -1778,6 +1795,7 @@ export type ProjectCreateOrConnectWithoutSlideInput = {
 export type ProjectCreateWithoutCollectionInput = {
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
@@ -1790,6 +1808,7 @@ export type ProjectCreateWithoutCollectionInput = {
 export type ProjectCreateWithoutFinishInput = {
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
@@ -1803,6 +1822,7 @@ export type ProjectCreateWithoutProjectModulesInput = {
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
   slug: Scalars['String'];
@@ -1815,6 +1835,7 @@ export type ProjectCreateWithoutSlideDepthInput = {
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slug: Scalars['String'];
@@ -1827,6 +1848,7 @@ export type ProjectCreateWithoutSlideInput = {
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
   slug: Scalars['String'];
@@ -2208,6 +2230,7 @@ export type ProjectOrderByInput = {
   collectionId?: Maybe<SortOrder>;
   finishId?: Maybe<SortOrder>;
   gable?: Maybe<SortOrder>;
+  hasPegs?: Maybe<SortOrder>;
   id?: Maybe<SortOrder>;
   slideDepthId?: Maybe<SortOrder>;
   slideId?: Maybe<SortOrder>;
@@ -2224,6 +2247,7 @@ export type ProjectScalarWhereInput = {
   collectionId?: Maybe<IntFilter>;
   finishId?: Maybe<IntFilter>;
   gable?: Maybe<FloatFilter>;
+  hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
   slideDepthId?: Maybe<IntFilter>;
   slideId?: Maybe<IntFilter>;
@@ -2237,6 +2261,7 @@ export type ProjectUpdateInput = {
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
@@ -2248,6 +2273,7 @@ export type ProjectUpdateInput = {
 
 export type ProjectUpdateManyMutationInput = {
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
   title?: Maybe<StringFieldUpdateOperationsInput>;
   width?: Maybe<FloatFieldUpdateOperationsInput>;
@@ -2362,6 +2388,7 @@ export type ProjectUpdateWithWhereUniqueWithoutSlideInput = {
 export type ProjectUpdateWithoutCollectionInput = {
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
@@ -2374,6 +2401,7 @@ export type ProjectUpdateWithoutCollectionInput = {
 export type ProjectUpdateWithoutFinishInput = {
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
@@ -2387,6 +2415,7 @@ export type ProjectUpdateWithoutProjectModulesInput = {
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -2399,6 +2428,7 @@ export type ProjectUpdateWithoutSlideDepthInput = {
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -2411,6 +2441,7 @@ export type ProjectUpdateWithoutSlideInput = {
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -2457,6 +2488,7 @@ export type ProjectWhereInput = {
   finish?: Maybe<FinishWhereInput>;
   finishId?: Maybe<IntFilter>;
   gable?: Maybe<FloatFilter>;
+  hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
   projectModules?: Maybe<ProjectModuleListRelationFilter>;
   slide?: Maybe<SlideWhereInput>;
@@ -3162,6 +3194,7 @@ export type StringNullableFilter = {
 export type Type = {
   __typename?: 'Type';
   description?: Maybe<Scalars['String']>;
+  hasPegs: Scalars['Boolean'];
   id: Scalars['Int'];
   name: Scalars['String'];
   projects: Array<Project>;
@@ -3189,12 +3222,14 @@ export type TypeCreateOrConnectWithoutProjectsInput = {
 };
 
 export type TypeCreateWithoutProjectsInput = {
+  hasPegs?: Maybe<Scalars['Boolean']>;
   slug: Scalars['String'];
   thumbnailUrl?: Maybe<Scalars['String']>;
   translations?: Maybe<TypeTranslationsCreateNestedManyWithoutTypeInput>;
 };
 
 export type TypeOrderByInput = {
+  hasPegs?: Maybe<SortOrder>;
   id?: Maybe<SortOrder>;
   slug?: Maybe<SortOrder>;
   thumbnailUrl?: Maybe<SortOrder>;
@@ -3324,6 +3359,7 @@ export type TypeUpdateOneRequiredWithoutProjectsInput = {
 };
 
 export type TypeUpdateWithoutProjectsInput = {
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   translations?: Maybe<TypeTranslationsUpdateManyWithoutTypeInput>;
@@ -3338,6 +3374,7 @@ export type TypeWhereInput = {
   AND?: Maybe<Array<TypeWhereInput>>;
   NOT?: Maybe<Array<TypeWhereInput>>;
   OR?: Maybe<Array<TypeWhereInput>>;
+  hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
   projects?: Maybe<ProjectListRelationFilter>;
   slug?: Maybe<StringFilter>;
@@ -3397,15 +3434,19 @@ export type CartQuery = {
     | undefined;
 };
 
-export type GetCollectionsQueryVariables = Exact<{ [key: string]: never }>;
+export type GetCollectionsQueryVariables = Exact<{
+  typeId: Scalars['Int'];
+}>;
 
 export type GetCollectionsQuery = {
   __typename?: 'Query';
+  type?: { __typename?: 'Type'; id: number; hasPegs: boolean } | null | undefined;
   collections: Array<{
     __typename?: 'Collection';
     id: number;
     name: string;
     slug: string;
+    hasPegs: boolean;
     subtitle?: string | null | undefined;
     description?: string | null | undefined;
     footer?: string | null | undefined;
@@ -3461,6 +3502,17 @@ export type ModuleDataFragment = {
     | null
     | undefined;
   categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+};
+
+export type ProjectDataFragment = {
+  __typename?: 'Project';
+  id: number;
+  title: string;
+  slug: string;
+  width: number;
+  gable: number;
+  type: { __typename?: 'Type'; id: number; slug: string };
+  collection: { __typename?: 'Collection'; id: number; slug: string };
 };
 
 export type ModuleOptionsQueryVariables = Exact<{
@@ -3528,17 +3580,6 @@ export type PlannerQuery = {
       }
     | null
     | undefined;
-};
-
-export type ProjectDataFragment = {
-  __typename?: 'Project';
-  id: number;
-  title: string;
-  slug: string;
-  width: number;
-  gable: number;
-  type: { __typename?: 'Type'; id: number; slug: string };
-  collection: { __typename?: 'Collection'; id: number; slug: string };
 };
 
 export type ProjectsQueryVariables = Exact<{ [key: string]: never }>;
@@ -3739,11 +3780,16 @@ export type CartQueryHookResult = ReturnType<typeof useCartQuery>;
 export type CartLazyQueryHookResult = ReturnType<typeof useCartLazyQuery>;
 export type CartQueryResult = Apollo.QueryResult<CartQuery, CartQueryVariables>;
 export const GetCollectionsDocument = gql`
-  query GetCollections {
+  query GetCollections($typeId: Int!) {
+    type(where: { id: $typeId }) {
+      id
+      hasPegs
+    }
     collections {
       id
       name
       slug
+      hasPegs
       subtitle
       description
       footer
@@ -3764,11 +3810,12 @@ export const GetCollectionsDocument = gql`
  * @example
  * const { data, loading, error } = useGetCollectionsQuery({
  *   variables: {
+ *      typeId: // value for 'typeId'
  *   },
  * });
  */
 export function useGetCollectionsQuery(
-  baseOptions?: Apollo.QueryHookOptions<GetCollectionsQuery, GetCollectionsQueryVariables>
+  baseOptions: Apollo.QueryHookOptions<GetCollectionsQuery, GetCollectionsQueryVariables>
 ) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<GetCollectionsQuery, GetCollectionsQueryVariables>(GetCollectionsDocument, options);
