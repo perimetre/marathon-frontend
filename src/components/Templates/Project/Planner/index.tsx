@@ -14,8 +14,63 @@ import { PlannerQuery } from '../../../../apollo/generated/graphql';
 import Button from '../../../UI/Button';
 import AppLayout from '../../../Layouts/AppLayout';
 import Badge from '../../../UI/Badge';
-import { ShoppingCart } from 'react-feather';
+import { Check, CornerLeftDown, CornerRightDown, Move, ShoppingCart, Trash2 } from 'react-feather';
 import NavbarButton from '../../../UI/NavbarButton';
+import { motion } from 'framer-motion';
+import TrayButton from '../../../UI/TrayButton';
+import VerticalDivider from '../../../UI/VerticalDivider';
+
+const trayVariants = {
+  open: { translateY: '0%', transition: { type: 'spring', stiffness: 350, damping: 40 } },
+  closed: { translateY: '100%', transition: { type: 'spring', stiffness: 350, damping: 40 } }
+};
+
+type ModuleTrayProps = {
+  isOpen?: boolean;
+};
+
+const ModuleTray: React.FC<ModuleTrayProps> = ({ isOpen }) => {
+  return (
+    <motion.div
+      variants={trayVariants}
+      initial="closed"
+      animate={isOpen ? 'open' : 'closed'}
+      className="absolute bottom-0 left-0 right-0 flex items-stretch justify-between bg-white shadow-md pointer-events-auto"
+    >
+      {/*Left*/}
+      <div className="flex items-stretch justify-center gap-2">
+        <TrayButton className="text-mui-error" iconPosition="left" icon={() => <Trash2 />}>
+          <FormattedMessage id="build.tray.delete" />
+        </TrayButton>
+
+        <VerticalDivider />
+
+        <TrayButton iconPosition="left" icon={() => <Move />}>
+          <FormattedMessage id="build.tray.move" />
+        </TrayButton>
+
+        <VerticalDivider />
+
+        <TrayButton iconPosition="left" icon={() => <CornerLeftDown />}>
+          <FormattedMessage id="build.tray.rotateLeft" />
+        </TrayButton>
+
+        <VerticalDivider />
+
+        <TrayButton iconPosition="left" icon={() => <CornerRightDown />}>
+          <FormattedMessage id="build.tray.rotateRight" />
+        </TrayButton>
+      </div>
+      {/*Right*/}
+      <div>
+        <Button className="m-2 bg-mui-success">
+          <FormattedMessage id="build.tray.done" />
+          <Check />
+        </Button>
+      </div>
+    </motion.div>
+  );
+};
 
 const LoadingState: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -117,6 +172,8 @@ type PlannerProps = PlannerTemplateProps & {
 const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTryAgain, isSidebarOpen }) => {
   const { loadingProgress, state } = useUnityPlayerContext();
 
+  const [isOpen] = useState(false);
+
   return (
     <div className="flex max-h-screen">
       {/* Left sidebar, fixed width */}
@@ -133,9 +190,10 @@ const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTry
           />
         )}
         {/* Content on top of unity player */}
-        <div className="absolute inset-0 z-10 pointer-events-none">
+        <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none">
           {(state === 'loading' || loading) && <LoadingState />}
           {(state === 'error' || error) && <ErrorState slug={slug} handleTryAgain={handleTryAgain} error={error} />}
+          <ModuleTray isOpen={isOpen} />
         </div>
       </div>
     </div>
