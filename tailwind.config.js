@@ -17,8 +17,7 @@ module.exports = {
         'mui-placeholder-color': 'var(--mui-placeholder-color, var(--mui-primary, #DA291C))',
         // #EF4444 = Tailwind's red-500
         'mui-error': 'var(--mui-error-color, #EF4444)',
-        // #34D399 = Tailwind's green-400
-        'mui-success': 'var(--mui-success-color, #34D399)'
+        'mui-success': 'var(--mui-success-color, #43a439)'
       },
       fontFamily: {
         'mui-text': ['"Helvetica Neue"', '"Open Sans"']

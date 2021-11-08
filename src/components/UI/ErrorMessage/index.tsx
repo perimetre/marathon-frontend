@@ -9,7 +9,7 @@ type ErrorMessageProps = {
 
 const ErrorMessage: React.FC<ErrorMessageProps> = ({ error, handleTryAgain }) => (
   <div className="flex flex-col items-center justify-center h-full p-8 border border-red-200 rounded-md">
-    <p className="text-xl font-bold text-center text-red-500">
+    <p className="text-xl font-bold text-center text-mui-error">
       {typeof error === 'string' ? <FormattedMessage id={error} /> : error}
     </p>
     {handleTryAgain && (
