@@ -10,12 +10,16 @@ import NavbarButton from '../../UI/NavbarButton';
 import Link from 'next/link';
 import { XCircle } from 'react-feather';
 import Head from 'next/head';
+import Spinner from '../../UI/Spinner';
+import ErrorMessage from '../../UI/ErrorMessage';
 
 export type LoginTemplateProps = {
+  loading?: boolean;
+  error?: string;
   onSubmit: (form: { email: string; password: string }) => void;
 };
 
-const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
+const LoginTemplate: React.FC<LoginTemplateProps> = ({ loading, error, onSubmit }) => {
   const intl = useIntl();
 
   const signupSchema = useMemo(
@@ -55,7 +59,7 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
           })}`}
         </title>
       </Head>
-      <div className="fixed min-h-screen overflow-hidden min-w-screen">
+      <div className="fixed min-h-screen overflow-hidden bg-mui-dark min-w-screen">
         <Image
           alt="Mountains"
           src="/images/Background/7px.Kemsley Color Palette 3 Angle.png"
@@ -84,9 +88,9 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
                   id: 'login.passwordPlaceholder'
                 })}
               />
-              <div className="flex justify-between mb-8">
-                <Button type="submit" variant="default">
-                  <FormattedMessage id="login.signInButton" />
+              <div className="flex justify-between mb-4">
+                <Button disabled={loading} type="submit" variant="default">
+                  {loading ? <Spinner /> : <FormattedMessage id="login.signInButton" />}
                 </Button>
                 <Button variant="text" className="px-0 text-gray-300">
                   <FormattedMessage id="login.forgotPass" />
@@ -106,6 +110,7 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ onSubmit }) => {
                   />
                 </Button>
               </div>
+              {error && <ErrorMessage error={error} />}
             </Form>
           </Formik>
         </div>

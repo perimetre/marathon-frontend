@@ -2,17 +2,18 @@ import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from '
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { CartQuery, CartQueryVariables, useCartLazyQuery } from '../../../apollo/generated/graphql';
 import { addApolloState, initializeApollo, WithApolloProps } from '../../../lib/apollo';
-import { getLocaleIdFromGraphqlError } from '../../../lib/apollo/exceptions';
+import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
 import { CART_QUERY } from '../../../apollo/cart';
 import CartTemplate from '../../../components/Templates/Cart';
+import { requiredAuthWithRedirectProp } from '../../../utils/authUtils';
 
 type CartParams = {
-  slug: string;
+  slug?: string;
 };
 
 type CartServerSideProps = CartParams & {
   // Graphql data
-  data: CartQuery;
+  data?: CartQuery;
 };
 
 type CartContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
@@ -28,7 +29,7 @@ const CartContainer: NextPage<CartContainerProps> = ({ slug, data: ssrData }) =>
     // if we don't do this, it'll run in background and state will only be updated if the query finishes
     notifyOnNetworkStatusChange: true,
     variables: {
-      slug
+      slug: slug as string
     }
   });
 
@@ -57,13 +58,33 @@ const CartContainer: NextPage<CartContainerProps> = ({ slug, data: ssrData }) =>
   }, [refetch]);
 
   return (
-    <CartTemplate slug={slug} data={data || ssrData} loading={loading} error={error} handleTryAgain={handleTryAgain} />
+    <CartTemplate
+      slug={slug as string}
+      data={(data || ssrData) as CartQuery}
+      loading={loading}
+      error={error}
+      handleTryAgain={handleTryAgain}
+    />
   );
 };
 
-export const getServerSideProps: GetServerSideProps<WithApolloProps<CartServerSideProps>, CartParams> = async ({
-  params
-}) => {
+export const getServerSideProps: GetServerSideProps<WithApolloProps<CartServerSideProps>, CartParams> = async (ctx) => {
+  const { res, params, query } = ctx;
+
+  const apolloClient = initializeApollo(undefined, ctx);
+
+  const props: CartServerSideProps = {
+    ...(params || {}),
+    ...(query || {})
+  };
+
+  const { redirect } = await requiredAuthWithRedirectProp(ctx);
+  if (redirect) {
+    return {
+      redirect
+    };
+  }
+
   if (!params || !params.slug) {
     return {
       redirect: {
@@ -73,30 +94,36 @@ export const getServerSideProps: GetServerSideProps<WithApolloProps<CartServerSi
     };
   }
 
-  const { slug } = params;
-
-  const apolloClient = initializeApollo();
-  const { data } = await apolloClient.query<CartQuery, CartQueryVariables>({
-    query: CART_QUERY,
-    variables: {
-      slug
-    }
-  });
-
-  if (!data.project?.id) {
-    return {
-      redirect: {
-        destination: '/404',
-        permanent: false
+  try {
+    const { data } = await apolloClient.query<CartQuery, CartQueryVariables>({
+      query: CART_QUERY,
+      variables: {
+        slug: params.slug
       }
-    };
+    });
+    if (!data.project?.id) {
+      return {
+        redirect: {
+          destination: '/404',
+          permanent: false
+        }
+      };
+    }
+    props.data = data;
+  } catch (err) {
+    if (hasGraphqlUnauthorizedError(err)) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: true
+        }
+      };
+    }
+    res.statusCode = 404;
   }
 
   return addApolloState(apolloClient, {
-    props: {
-      slug,
-      data
-    }
+    props
   });
 };
 
