@@ -1,21 +1,17 @@
 // Explicitly disable because we're dealing with unity objects and we don't have their type
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import classNames from 'classnames';
 import Script from 'next/script';
 import env from '../../../env';
 import { useUnityPlayerContext } from '../../Providers/UnityPlayerProvider';
 import logging from '../../../lib/logging';
 
-export type UnityPlayerRef = {
-  sendMessage: (gameObjectName: string, methodName: string, value: number | string) => void;
-};
-
 export type UnityPlayerProps = {
   className?: string;
 };
 
-const UnityPlayer = forwardRef<UnityPlayerRef, UnityPlayerProps>(function UnityPlayer({ className }, ref) {
+const UnityPlayer: React.FC<UnityPlayerProps> = ({ className }) => {
   const { hasProvider, setErrorMessage, setLoadingProgress, state, setState, unityInstance } = useUnityPlayerContext();
 
   if (!hasProvider) {
@@ -131,24 +127,12 @@ const UnityPlayer = forwardRef<UnityPlayerRef, UnityPlayerProps>(function UnityP
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isScriptLoaded]);
 
-  /*
-   * External ref
-   * */
-  useImperativeHandle(
-    ref,
-    () => ({
-      sendMessage: (gameObjectName, methodName, value) =>
-        unityInstance.current?.SendMessage(gameObjectName, methodName, value)
-    }),
-    [unityInstance]
-  );
-
   return (
     <div className={classNames('w-full h-full', className)}>
       <canvas ref={unityCanvas} width={960} height={600} />{' '}
       <Script src={loaderUrl} strategy="afterInteractive" onLoad={() => setIsScriptLoaded(true)} />
     </div>
   );
-});
+};
 
 export default UnityPlayer;

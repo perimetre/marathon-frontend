@@ -6,7 +6,7 @@ import Image from 'next/image';
 import classNames from 'classnames';
 import { CenterContent } from './styles';
 import UnityPlayer from '../../../Elements/UnityPlayer';
-import { UnityPlayerProvider, useUnityPlayerContext } from '../../../Providers/UnityPlayerProvider';
+import { useUnityPlayerContext } from '../../../Providers/UnityPlayerProvider';
 import PlannerSidebar from '../../../UI/PlannerSidebar';
 import ProgressBar from '../../../UI/ProgressBar';
 import Spinner from '../../../UI/Spinner';
@@ -19,6 +19,7 @@ import NavbarButton from '../../../UI/NavbarButton';
 import { motion } from 'framer-motion';
 import TrayButton from '../../../UI/TrayButton';
 import VerticalDivider from '../../../UI/VerticalDivider';
+import { PlannerProvider } from '../../../Providers/PlannerProvider';
 
 const trayVariants = {
   open: { translateY: '0%', transition: { type: 'spring', stiffness: 350, damping: 40 } },
@@ -239,7 +240,7 @@ const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ slug, data, loading, 
           })}`}
         </title>
       </Head>
-      <UnityPlayerProvider>
+      <PlannerProvider>
         <Planner
           slug={slug}
           data={data}
@@ -248,7 +249,7 @@ const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ slug, data, loading, 
           handleTryAgain={handleTryAgain}
           isSidebarOpen
         />
-      </UnityPlayerProvider>
+      </PlannerProvider>
     </AppLayout>
   );
 };
