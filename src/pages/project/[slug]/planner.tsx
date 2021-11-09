@@ -4,15 +4,16 @@ import { PlannerQuery, PlannerQueryVariables, usePlannerLazyQuery } from '../../
 import { PLANNER_QUERY } from '../../../apollo/planner';
 import PlannerTemplate from '../../../components/Templates/Project/Planner';
 import { addApolloState, initializeApollo, WithApolloProps } from '../../../lib/apollo';
-import { getLocaleIdFromGraphqlError } from '../../../lib/apollo/exceptions';
+import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
+import { requiredAuthWithRedirectProp } from '../../../utils/authUtils';
 
 type PlannerParams = {
-  slug: string;
+  slug?: string;
 };
 
 type PlannerServerSideProps = PlannerParams & {
   // Graphql data
-  data: PlannerQuery;
+  data?: PlannerQuery;
 };
 
 type PlannerContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
@@ -28,7 +29,7 @@ const PlannerContainer: NextPage<PlannerContainerProps> = ({ slug, data: ssrData
     // if we don't do this, it'll run in background and state will only be updated if the query finishes
     notifyOnNetworkStatusChange: true,
     variables: {
-      slug
+      slug: slug as string
     }
   });
 
@@ -58,7 +59,7 @@ const PlannerContainer: NextPage<PlannerContainerProps> = ({ slug, data: ssrData
 
   return (
     <PlannerTemplate
-      slug={slug}
+      slug={slug as string}
       data={data || ssrData}
       loading={loading}
       error={error}
@@ -67,9 +68,25 @@ const PlannerContainer: NextPage<PlannerContainerProps> = ({ slug, data: ssrData
   );
 };
 
-export const getServerSideProps: GetServerSideProps<WithApolloProps<PlannerServerSideProps>, PlannerParams> = async ({
-  params
-}) => {
+export const getServerSideProps: GetServerSideProps<WithApolloProps<PlannerServerSideProps>, PlannerParams> = async (
+  ctx
+) => {
+  const { res, params, query } = ctx;
+
+  const apolloClient = initializeApollo(undefined, ctx);
+
+  const props: PlannerServerSideProps = {
+    ...(params || {}),
+    ...(query || {})
+  };
+
+  const { redirect } = await requiredAuthWithRedirectProp(ctx);
+  if (redirect) {
+    return {
+      redirect
+    };
+  }
+
   if (!params || !params.slug) {
     return {
       redirect: {
@@ -79,30 +96,36 @@ export const getServerSideProps: GetServerSideProps<WithApolloProps<PlannerServe
     };
   }
 
-  const { slug } = params;
-
-  const apolloClient = initializeApollo();
-  const { data } = await apolloClient.query<PlannerQuery, PlannerQueryVariables>({
-    query: PLANNER_QUERY,
-    variables: {
-      slug
-    }
-  });
-
-  if (!data.project?.id) {
-    return {
-      redirect: {
-        destination: '/404',
-        permanent: false
+  try {
+    const { data } = await apolloClient.query<PlannerQuery, PlannerQueryVariables>({
+      query: PLANNER_QUERY,
+      variables: {
+        slug: params.slug
       }
-    };
+    });
+    if (!data.project?.id) {
+      return {
+        redirect: {
+          destination: '/404',
+          permanent: false
+        }
+      };
+    }
+    props.data = data;
+  } catch (err) {
+    if (hasGraphqlUnauthorizedError(err)) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: true
+        }
+      };
+    }
+    res.statusCode = 404;
   }
 
   return addApolloState(apolloClient, {
-    props: {
-      slug,
-      data
-    }
+    props
   });
 };
 

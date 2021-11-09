@@ -8,9 +8,11 @@ import ProjectCreationTemplate from '../../ProjectCreation';
 import { Select } from '../../../UI/Form/Select';
 import UnitTextInput from '../../../UI/UnitTextInput';
 import Head from 'next/head';
+import ErrorMessage from '../../../UI/ErrorMessage';
 
 export type SizeAssistantTemplateProps = {
   unit: Unit;
+  error?: string;
   gable: { display: string; value: string | number | null }[];
   loading?: boolean;
   onSubmit: (form: { gable: string; width?: string }) => void;
@@ -19,6 +21,7 @@ export type SizeAssistantTemplateProps = {
 
 const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
   unit,
+  error,
   loading,
   gable,
   onSubmit,
@@ -75,7 +78,7 @@ const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
                         <FormattedMessage id="sizeAssistant.cabinetWidthDescription" />
                       </p>
                     </div>
-                    <div className="flex items-center px-10 py-8 mt-4 bg-white shadow-lg rounded-md">
+                    <div className="flex items-center px-10 py-8 mt-4 bg-white shadow-lg min-h-36 rounded-md">
                       <UnitTextInput unit={unit} name="width" placeholder={unit === 'mm' ? 'eg. 1000' : 'eg. 39 1/2'} />
                       <p className="ml-8 text-lg font-bold">{unit}</p>
                     </div>
@@ -89,7 +92,7 @@ const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
                         <FormattedMessage id="sizeAssistant.boardThicknessDescription" />s
                       </p>
                     </div>
-                    <div className="flex items-center px-10 py-8 mt-4 bg-white shadow-lg rounded-md">
+                    <div className="flex items-center px-10 py-8 mt-4 bg-white shadow-lg min-h-36 rounded-md">
                       <Select
                         name="gable"
                         classNameContainer="w-full"
@@ -105,6 +108,11 @@ const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
                     </div>
                   </div>
                 </div>
+                {error && (
+                  <div className="mt-8">
+                    <ErrorMessage error={`serverError.${error}`} />
+                  </div>
+                )}
               </div>
             </ProjectCreationTemplate>
           </Form>

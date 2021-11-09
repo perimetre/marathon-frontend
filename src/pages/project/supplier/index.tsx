@@ -11,7 +11,8 @@ import { SUPPLIER_QUERY } from '../../../apollo/supplier';
 import { useGetSlideSupplierByCollectionLazyQuery } from '../../../apollo/generated/graphql';
 import SupplierTemplate from '../../../components/Templates/Project/Supplier';
 import { useCallback, useEffect, useMemo } from 'react';
-import { getLocaleIdFromGraphqlError } from '../../../lib/apollo/exceptions';
+import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
+import { requiredAuthWithRedirectProp } from '../../../utils/authUtils';
 
 type SupplierContainerGetServerProps = ProjectCreationProviderProps;
 
@@ -63,10 +64,23 @@ const SupplierContainer: NextPage<SupplierContainerProps> = ({ drawerCollection,
 };
 
 export const getServerSideProps: GetServerSideProps<SupplierContainerGetServerProps> = async (ctx) => {
-  const apolloClient = initializeApollo();
+  const { res, params, query } = ctx;
+
+  const apolloClient = initializeApollo(undefined, ctx);
+
+  let props: SupplierContainerGetServerProps = {
+    ...(params || {}),
+    ...(query || {})
+  };
+
+  const { redirect } = await requiredAuthWithRedirectProp(ctx);
+  if (redirect) {
+    return {
+      redirect
+    };
+  }
 
   const projectData = requiredProjectData(ctx);
-
   if (!projectData.drawerFinish) {
     return {
       props: {},
@@ -76,14 +90,24 @@ export const getServerSideProps: GetServerSideProps<SupplierContainerGetServerPr
       }
     };
   }
-
-  const props: SupplierContainerGetServerProps = {
-    ...ctx?.query,
-    ...ctx?.params,
+  props = {
+    ...props,
     ...projectData
   };
 
-  await apolloClient.query({ query: SUPPLIER_QUERY, variables: { collectionId: projectData.drawerCollection } });
+  try {
+    await apolloClient.query({ query: SUPPLIER_QUERY, variables: { collectionId: projectData.drawerCollection } });
+  } catch (err) {
+    if (hasGraphqlUnauthorizedError(err)) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: true
+        }
+      };
+    }
+    res.statusCode = 404;
+  }
 
   return addApolloState(apolloClient, {
     props

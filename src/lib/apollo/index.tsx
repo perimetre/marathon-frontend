@@ -4,6 +4,7 @@ import merge from 'deepmerge';
 import isEqual from 'lodash/isEqual';
 import env from '../../env';
 import { authLink } from './links/authLink';
+import { GetServerSidePropsContext } from 'next';
 
 // Ref: https://github.com/vercel/next.js/blob/0d924ca0252450089a2627993166c5131618b874/examples/with-apollo/lib/apolloClient.js#L1
 
@@ -16,11 +17,11 @@ export type WithApolloProps<T> = T & {
 
 let apolloClient: ApolloClient<NormalizedCacheObject> | undefined;
 
-const createApolloClient = () => {
+const createApolloClient = (ctx?: GetServerSidePropsContext) => {
   return new ApolloClient({
     ssrMode: typeof window === 'undefined',
     link: from([
-      authLink,
+      authLink(ctx),
       new HttpLink({
         uri: env().NEXT_PUBLIC_GRAPHQL_URI, // Server URL (must be absolute)
         credentials: 'same-origin' // Additional fetch() options like `credentials` or `headers`
@@ -30,8 +31,11 @@ const createApolloClient = () => {
   });
 };
 
-export const initializeApollo = (initialState: NormalizedCacheObject | null = null) => {
-  const _apolloClient = apolloClient ?? createApolloClient();
+export const initializeApollo = (
+  initialState: NormalizedCacheObject | null = null,
+  ctx?: GetServerSidePropsContext
+) => {
+  const _apolloClient = apolloClient ?? createApolloClient(ctx);
 
   // If your page has Next.js data fetching methods that use Apollo Client, the initial state
   // gets hydrated here

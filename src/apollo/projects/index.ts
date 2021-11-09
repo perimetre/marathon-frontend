@@ -19,8 +19,8 @@ export const PROJECT_DATA = gql`
 `;
 
 export const PROJECTS_QUERY = gql`
-  query Projects {
-    projects {
+  query Projects($userId: Int!) {
+    projects(where: { userId: { equals: $userId } }) {
       ...ProjectData
     }
   }

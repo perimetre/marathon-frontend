@@ -2,16 +2,26 @@ import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from '
 import { useCallback, useEffect, useMemo } from 'react';
 import { useProjectsLazyQuery } from '../../apollo/generated/graphql';
 import { PROJECTS_QUERY } from '../../apollo/projects';
-import { projectCreationDataHoc } from '../../components/Providers/ProjectCreationProvider';
+import {
+  projectCreationDataHoc,
+  ProjectCreationProviderProps,
+  requiredProjectData
+} from '../../components/Providers/ProjectCreationProvider';
 import ProjectsTemplate from '../../components/Templates/Projects';
 import { addApolloState, initializeApollo } from '../../lib/apollo';
-import { getLocaleIdFromGraphqlError } from '../../lib/apollo/exceptions';
+import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../lib/apollo/exceptions';
+import { requiredAuthWithRedirectProp } from '../../utils/authUtils';
+
+type ProjectsContainerGetServerProps = ProjectCreationProviderProps & { userId?: number };
 
 type ProjectsContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const ProjectsContainer: NextPage<ProjectsContainerProps> = () => {
+const ProjectsContainer: NextPage<ProjectsContainerProps> = ({ userId }) => {
   const [getProjects, { data, error: queryError, refetch, loading }] = useProjectsLazyQuery({
-    notifyOnNetworkStatusChange: true
+    notifyOnNetworkStatusChange: true,
+    variables: {
+      userId: Number(userId)
+    }
   });
 
   useEffect(() => getProjects(), [getProjects]);
@@ -26,14 +36,48 @@ const ProjectsContainer: NextPage<ProjectsContainerProps> = () => {
   return <ProjectsTemplate data={data} loading={loading} error={error} handleTryAgain={handleTryAgain} />;
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const apolloClient = initializeApollo();
+export const getServerSideProps: GetServerSideProps<ProjectsContainerGetServerProps> = async (ctx) => {
+  const { res, params, query } = ctx;
 
-  await apolloClient.query({ query: PROJECTS_QUERY });
+  const apolloClient = initializeApollo(undefined, ctx);
 
-  const props = {
-    ...ctx?.query,
-    ...ctx?.params
+  let props: ProjectsContainerGetServerProps = {
+    ...(params || {}),
+    ...(query || {})
+  };
+
+  const { auth, redirect } = await requiredAuthWithRedirectProp(ctx);
+  if (redirect) {
+    return {
+      redirect
+    };
+  }
+
+  props.userId = auth?.userId;
+
+  try {
+    await apolloClient.query({
+      query: PROJECTS_QUERY,
+      variables: {
+        userId: auth?.userId
+      }
+    });
+  } catch (err) {
+    if (hasGraphqlUnauthorizedError(err)) {
+      return {
+        redirect: {
+          destination: '/login',
+          permanent: true
+        }
+      };
+    }
+    res.statusCode = 404;
+  }
+
+  const projectData = requiredProjectData(ctx);
+  props = {
+    ...props,
+    ...projectData
   };
 
   return addApolloState(apolloClient, {

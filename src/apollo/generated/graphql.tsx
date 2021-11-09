@@ -965,6 +965,14 @@ export type FloatFilter = {
   notIn?: Maybe<Array<Scalars['Float']>>;
 };
 
+export type IntFieldUpdateOperationsInput = {
+  decrement?: Maybe<Scalars['Int']>;
+  divide?: Maybe<Scalars['Int']>;
+  increment?: Maybe<Scalars['Int']>;
+  multiply?: Maybe<Scalars['Int']>;
+  set?: Maybe<Scalars['Int']>;
+};
+
 export type IntFilter = {
   equals?: Maybe<Scalars['Int']>;
   gt?: Maybe<Scalars['Int']>;
@@ -1512,6 +1520,7 @@ export type Mutation = {
   createOneProjectModule: ProjectModule;
   deleteOneProject?: Maybe<Project>;
   deleteOneProjectModule?: Maybe<ProjectModule>;
+  login?: Maybe<Session>;
   updateOneProject?: Maybe<Project>;
   updateOneProjectModule?: Maybe<ProjectModule>;
 };
@@ -1530,6 +1539,10 @@ export type MutationDeleteOneProjectArgs = {
 
 export type MutationDeleteOneProjectModuleArgs = {
   where: ProjectModuleWhereUniqueInput;
+};
+
+export type MutationLoginArgs = {
+  user: UserSingIn;
 };
 
 export type MutationUpdateOneProjectArgs = {
@@ -1638,6 +1651,8 @@ export type Project = {
   title: Scalars['String'];
   type: Type;
   typeId: Scalars['Int'];
+  user?: Maybe<User>;
+  userId?: Maybe<Scalars['Int']>;
   width: Scalars['Float'];
 };
 
@@ -1658,6 +1673,7 @@ export type ProjectCreateInput = {
   slug: Scalars['String'];
   title: Scalars['String'];
   type: TypeCreateNestedOneWithoutProjectsInput;
+  user?: Maybe<UserCreateNestedOneWithoutProjectInput>;
   width: Scalars['Float'];
 };
 
@@ -1671,6 +1687,7 @@ export type ProjectCreateManyCollectionInput = {
   slug: Scalars['String'];
   title: Scalars['String'];
   typeId: Scalars['Int'];
+  userId?: Maybe<Scalars['Int']>;
   width: Scalars['Float'];
 };
 
@@ -1689,6 +1706,7 @@ export type ProjectCreateManyFinishInput = {
   slug: Scalars['String'];
   title: Scalars['String'];
   typeId: Scalars['Int'];
+  userId?: Maybe<Scalars['Int']>;
   width: Scalars['Float'];
 };
 
@@ -1707,6 +1725,7 @@ export type ProjectCreateManySlideDepthInput = {
   slug: Scalars['String'];
   title: Scalars['String'];
   typeId: Scalars['Int'];
+  userId?: Maybe<Scalars['Int']>;
   width: Scalars['Float'];
 };
 
@@ -1725,6 +1744,7 @@ export type ProjectCreateManySlideInput = {
   slug: Scalars['String'];
   title: Scalars['String'];
   typeId: Scalars['Int'];
+  userId?: Maybe<Scalars['Int']>;
   width: Scalars['Float'];
 };
 
@@ -1802,6 +1822,7 @@ export type ProjectCreateWithoutCollectionInput = {
   slug: Scalars['String'];
   title: Scalars['String'];
   type: TypeCreateNestedOneWithoutProjectsInput;
+  user?: Maybe<UserCreateNestedOneWithoutProjectInput>;
   width: Scalars['Float'];
 };
 
@@ -1815,6 +1836,7 @@ export type ProjectCreateWithoutFinishInput = {
   slug: Scalars['String'];
   title: Scalars['String'];
   type: TypeCreateNestedOneWithoutProjectsInput;
+  user?: Maybe<UserCreateNestedOneWithoutProjectInput>;
   width: Scalars['Float'];
 };
 
@@ -1828,6 +1850,7 @@ export type ProjectCreateWithoutProjectModulesInput = {
   slug: Scalars['String'];
   title: Scalars['String'];
   type: TypeCreateNestedOneWithoutProjectsInput;
+  user?: Maybe<UserCreateNestedOneWithoutProjectInput>;
   width: Scalars['Float'];
 };
 
@@ -1841,6 +1864,7 @@ export type ProjectCreateWithoutSlideDepthInput = {
   slug: Scalars['String'];
   title: Scalars['String'];
   type: TypeCreateNestedOneWithoutProjectsInput;
+  user?: Maybe<UserCreateNestedOneWithoutProjectInput>;
   width: Scalars['Float'];
 };
 
@@ -1854,6 +1878,7 @@ export type ProjectCreateWithoutSlideInput = {
   slug: Scalars['String'];
   title: Scalars['String'];
   type: TypeCreateNestedOneWithoutProjectsInput;
+  user?: Maybe<UserCreateNestedOneWithoutProjectInput>;
   width: Scalars['Float'];
 };
 
@@ -2237,6 +2262,7 @@ export type ProjectOrderByInput = {
   slug?: Maybe<SortOrder>;
   title?: Maybe<SortOrder>;
   typeId?: Maybe<SortOrder>;
+  userId?: Maybe<SortOrder>;
   width?: Maybe<SortOrder>;
 };
 
@@ -2254,6 +2280,7 @@ export type ProjectScalarWhereInput = {
   slug?: Maybe<StringFilter>;
   title?: Maybe<StringFilter>;
   typeId?: Maybe<IntFilter>;
+  userId?: Maybe<IntNullableFilter>;
   width?: Maybe<FloatFilter>;
 };
 
@@ -2268,6 +2295,7 @@ export type ProjectUpdateInput = {
   slug?: Maybe<StringFieldUpdateOperationsInput>;
   title?: Maybe<StringFieldUpdateOperationsInput>;
   type?: Maybe<TypeUpdateOneRequiredWithoutProjectsInput>;
+  user?: Maybe<UserUpdateOneWithoutProjectInput>;
   width?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
@@ -2395,6 +2423,7 @@ export type ProjectUpdateWithoutCollectionInput = {
   slug?: Maybe<StringFieldUpdateOperationsInput>;
   title?: Maybe<StringFieldUpdateOperationsInput>;
   type?: Maybe<TypeUpdateOneRequiredWithoutProjectsInput>;
+  user?: Maybe<UserUpdateOneWithoutProjectInput>;
   width?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
@@ -2408,6 +2437,7 @@ export type ProjectUpdateWithoutFinishInput = {
   slug?: Maybe<StringFieldUpdateOperationsInput>;
   title?: Maybe<StringFieldUpdateOperationsInput>;
   type?: Maybe<TypeUpdateOneRequiredWithoutProjectsInput>;
+  user?: Maybe<UserUpdateOneWithoutProjectInput>;
   width?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
@@ -2421,6 +2451,7 @@ export type ProjectUpdateWithoutProjectModulesInput = {
   slug?: Maybe<StringFieldUpdateOperationsInput>;
   title?: Maybe<StringFieldUpdateOperationsInput>;
   type?: Maybe<TypeUpdateOneRequiredWithoutProjectsInput>;
+  user?: Maybe<UserUpdateOneWithoutProjectInput>;
   width?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
@@ -2434,6 +2465,7 @@ export type ProjectUpdateWithoutSlideDepthInput = {
   slug?: Maybe<StringFieldUpdateOperationsInput>;
   title?: Maybe<StringFieldUpdateOperationsInput>;
   type?: Maybe<TypeUpdateOneRequiredWithoutProjectsInput>;
+  user?: Maybe<UserUpdateOneWithoutProjectInput>;
   width?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
@@ -2447,6 +2479,7 @@ export type ProjectUpdateWithoutSlideInput = {
   slug?: Maybe<StringFieldUpdateOperationsInput>;
   title?: Maybe<StringFieldUpdateOperationsInput>;
   type?: Maybe<TypeUpdateOneRequiredWithoutProjectsInput>;
+  user?: Maybe<UserUpdateOneWithoutProjectInput>;
   width?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
@@ -2499,6 +2532,8 @@ export type ProjectWhereInput = {
   title?: Maybe<StringFilter>;
   type?: Maybe<TypeWhereInput>;
   typeId?: Maybe<IntFilter>;
+  user?: Maybe<UserWhereInput>;
+  userId?: Maybe<IntNullableFilter>;
   width?: Maybe<FloatFilter>;
 };
 
@@ -2672,6 +2707,107 @@ export type QueryTypesArgs = {
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
   where?: Maybe<TypeWhereInput>;
+};
+
+export type Session = {
+  __typename?: 'Session';
+  id: Scalars['Int'];
+  token: Scalars['String'];
+  user: User;
+  userId: Scalars['Int'];
+};
+
+export type SessionCreateManyUserInput = {
+  id?: Maybe<Scalars['Int']>;
+  token: Scalars['String'];
+};
+
+export type SessionCreateManyUserInputEnvelope = {
+  data?: Maybe<Array<SessionCreateManyUserInput>>;
+  skipDuplicates?: Maybe<Scalars['Boolean']>;
+};
+
+export type SessionCreateNestedManyWithoutUserInput = {
+  connect?: Maybe<Array<SessionWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<SessionCreateOrConnectWithoutUserInput>>;
+  create?: Maybe<Array<SessionCreateWithoutUserInput>>;
+  createMany?: Maybe<SessionCreateManyUserInputEnvelope>;
+};
+
+export type SessionCreateOrConnectWithoutUserInput = {
+  create: SessionCreateWithoutUserInput;
+  where: SessionWhereUniqueInput;
+};
+
+export type SessionCreateWithoutUserInput = {
+  token: Scalars['String'];
+};
+
+export type SessionListRelationFilter = {
+  every?: Maybe<SessionWhereInput>;
+  none?: Maybe<SessionWhereInput>;
+  some?: Maybe<SessionWhereInput>;
+};
+
+export type SessionScalarWhereInput = {
+  AND?: Maybe<Array<SessionScalarWhereInput>>;
+  NOT?: Maybe<Array<SessionScalarWhereInput>>;
+  OR?: Maybe<Array<SessionScalarWhereInput>>;
+  id?: Maybe<IntFilter>;
+  token?: Maybe<StringFilter>;
+  userId?: Maybe<IntFilter>;
+};
+
+export type SessionUpdateManyMutationInput = {
+  token?: Maybe<StringFieldUpdateOperationsInput>;
+};
+
+export type SessionUpdateManyWithWhereWithoutUserInput = {
+  data: SessionUpdateManyMutationInput;
+  where: SessionScalarWhereInput;
+};
+
+export type SessionUpdateManyWithoutUserInput = {
+  connect?: Maybe<Array<SessionWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<SessionCreateOrConnectWithoutUserInput>>;
+  create?: Maybe<Array<SessionCreateWithoutUserInput>>;
+  createMany?: Maybe<SessionCreateManyUserInputEnvelope>;
+  delete?: Maybe<Array<SessionWhereUniqueInput>>;
+  deleteMany?: Maybe<Array<SessionScalarWhereInput>>;
+  disconnect?: Maybe<Array<SessionWhereUniqueInput>>;
+  set?: Maybe<Array<SessionWhereUniqueInput>>;
+  update?: Maybe<Array<SessionUpdateWithWhereUniqueWithoutUserInput>>;
+  updateMany?: Maybe<Array<SessionUpdateManyWithWhereWithoutUserInput>>;
+  upsert?: Maybe<Array<SessionUpsertWithWhereUniqueWithoutUserInput>>;
+};
+
+export type SessionUpdateWithWhereUniqueWithoutUserInput = {
+  data: SessionUpdateWithoutUserInput;
+  where: SessionWhereUniqueInput;
+};
+
+export type SessionUpdateWithoutUserInput = {
+  token?: Maybe<StringFieldUpdateOperationsInput>;
+};
+
+export type SessionUpsertWithWhereUniqueWithoutUserInput = {
+  create: SessionCreateWithoutUserInput;
+  update: SessionUpdateWithoutUserInput;
+  where: SessionWhereUniqueInput;
+};
+
+export type SessionWhereInput = {
+  AND?: Maybe<Array<SessionWhereInput>>;
+  NOT?: Maybe<Array<SessionWhereInput>>;
+  OR?: Maybe<Array<SessionWhereInput>>;
+  id?: Maybe<IntFilter>;
+  token?: Maybe<StringFilter>;
+  user?: Maybe<UserWhereInput>;
+  userId?: Maybe<IntFilter>;
+};
+
+export type SessionWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type Slide = {
@@ -3391,6 +3527,80 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String'];
   id: Scalars['Int'];
+  marathonUserId: Scalars['Int'];
+  project: Array<Project>;
+  session: Array<Session>;
+};
+
+export type UserProjectArgs = {
+  cursor?: Maybe<ProjectWhereUniqueInput>;
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
+};
+
+export type UserSessionArgs = {
+  cursor?: Maybe<SessionWhereUniqueInput>;
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
+};
+
+export type UserCreateNestedOneWithoutProjectInput = {
+  connect?: Maybe<UserWhereUniqueInput>;
+  connectOrCreate?: Maybe<UserCreateOrConnectWithoutProjectInput>;
+  create?: Maybe<UserCreateWithoutProjectInput>;
+};
+
+export type UserCreateOrConnectWithoutProjectInput = {
+  create: UserCreateWithoutProjectInput;
+  where: UserWhereUniqueInput;
+};
+
+export type UserCreateWithoutProjectInput = {
+  email: Scalars['String'];
+  marathonUserId: Scalars['Int'];
+  session?: Maybe<SessionCreateNestedManyWithoutUserInput>;
+};
+
+export type UserSingIn = {
+  email?: Maybe<Scalars['String']>;
+  password?: Maybe<Scalars['String']>;
+};
+
+export type UserUpdateOneWithoutProjectInput = {
+  connect?: Maybe<UserWhereUniqueInput>;
+  connectOrCreate?: Maybe<UserCreateOrConnectWithoutProjectInput>;
+  create?: Maybe<UserCreateWithoutProjectInput>;
+  delete?: Maybe<Scalars['Boolean']>;
+  disconnect?: Maybe<Scalars['Boolean']>;
+  update?: Maybe<UserUpdateWithoutProjectInput>;
+  upsert?: Maybe<UserUpsertWithoutProjectInput>;
+};
+
+export type UserUpdateWithoutProjectInput = {
+  email?: Maybe<StringFieldUpdateOperationsInput>;
+  marathonUserId?: Maybe<IntFieldUpdateOperationsInput>;
+  session?: Maybe<SessionUpdateManyWithoutUserInput>;
+};
+
+export type UserUpsertWithoutProjectInput = {
+  create: UserCreateWithoutProjectInput;
+  update: UserUpdateWithoutProjectInput;
+};
+
+export type UserWhereInput = {
+  AND?: Maybe<Array<UserWhereInput>>;
+  NOT?: Maybe<Array<UserWhereInput>>;
+  OR?: Maybe<Array<UserWhereInput>>;
+  email?: Maybe<StringFilter>;
+  id?: Maybe<IntFilter>;
+  marathonUserId?: Maybe<IntFilter>;
+  project?: Maybe<ProjectListRelationFilter>;
+  session?: Maybe<SessionListRelationFilter>;
+};
+
+export type UserWhereUniqueInput = {
+  email?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type CartQueryVariables = Exact<{
@@ -3504,6 +3714,15 @@ export type ModuleDataFragment = {
   categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
 };
 
+export type LoginMutationVariables = Exact<{
+  user: UserSingIn;
+}>;
+
+export type LoginMutation = {
+  __typename?: 'Mutation';
+  login?: { __typename?: 'Session'; id: number; userId: number; token: string } | null | undefined;
+};
+
 export type ModuleOptionsQueryVariables = Exact<{
   options?: Maybe<Array<Scalars['String']> | Scalars['String']>;
 }>;
@@ -3582,7 +3801,9 @@ export type ProjectDataFragment = {
   collection: { __typename?: 'Collection'; id: number; slug: string };
 };
 
-export type ProjectsQueryVariables = Exact<{ [key: string]: never }>;
+export type ProjectsQueryVariables = Exact<{
+  userId: Scalars['Int'];
+}>;
 
 export type ProjectsQuery = {
   __typename?: 'Query';
@@ -3881,6 +4102,41 @@ export type GetFinishByCollectionQueryResult = Apollo.QueryResult<
   GetFinishByCollectionQuery,
   GetFinishByCollectionQueryVariables
 >;
+export const LoginDocument = gql`
+  mutation Login($user: UserSingIn!) {
+    login(user: $user) {
+      id
+      userId
+      token
+    }
+  }
+`;
+export type LoginMutationFn = Apollo.MutationFunction<LoginMutation, LoginMutationVariables>;
+
+/**
+ * __useLoginMutation__
+ *
+ * To run a mutation, you first call `useLoginMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useLoginMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [loginMutation, { data, loading, error }] = useLoginMutation({
+ *   variables: {
+ *      user: // value for 'user'
+ *   },
+ * });
+ */
+export function useLoginMutation(baseOptions?: Apollo.MutationHookOptions<LoginMutation, LoginMutationVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<LoginMutation, LoginMutationVariables>(LoginDocument, options);
+}
+export type LoginMutationHookResult = ReturnType<typeof useLoginMutation>;
+export type LoginMutationResult = Apollo.MutationResult<LoginMutation>;
+export type LoginMutationOptions = Apollo.BaseMutationOptions<LoginMutation, LoginMutationVariables>;
 export const ModuleOptionsDocument = gql`
   query ModuleOptions($options: [String!]) {
     modules(where: { partNumber: { in: $options } }) {
@@ -3962,8 +4218,8 @@ export type PlannerQueryHookResult = ReturnType<typeof usePlannerQuery>;
 export type PlannerLazyQueryHookResult = ReturnType<typeof usePlannerLazyQuery>;
 export type PlannerQueryResult = Apollo.QueryResult<PlannerQuery, PlannerQueryVariables>;
 export const ProjectsDocument = gql`
-  query Projects {
-    projects {
+  query Projects($userId: Int!) {
+    projects(where: { userId: { equals: $userId } }) {
       ...ProjectData
     }
   }
@@ -3982,10 +4238,11 @@ export const ProjectsDocument = gql`
  * @example
  * const { data, loading, error } = useProjectsQuery({
  *   variables: {
+ *      userId: // value for 'userId'
  *   },
  * });
  */
-export function useProjectsQuery(baseOptions?: Apollo.QueryHookOptions<ProjectsQuery, ProjectsQueryVariables>) {
+export function useProjectsQuery(baseOptions: Apollo.QueryHookOptions<ProjectsQuery, ProjectsQueryVariables>) {
   const options = { ...defaultOptions, ...baseOptions };
   return Apollo.useQuery<ProjectsQuery, ProjectsQueryVariables>(ProjectsDocument, options);
 }
