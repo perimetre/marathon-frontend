@@ -92,56 +92,70 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                   </button>
                 )}
                 <Expander isExpanded={expanded.includes('ac-projects')}>
-                  {data?.projects.map((project) => (
-                    <div key={project.id} className="flex items-center gap-6">
-                      <Link
-                        href={{
-                          pathname: '/project/[slug]/planner',
-                          query: { slug: project.slug }
-                        }}
-                      >
-                        <a className="w-full py-3 hover:underline">
-                          <h3 className="flex items-center flex-1 pl-4 text-lg font-semibold gap-2">{project.title}</h3>
-                        </a>
-                      </Link>
-                      <Dropdown
-                        content={[
-                          {
-                            id: 'key-rename',
-                            content: (
-                              <button
-                                className="text-left"
-                                onClick={() => setModalProject({ openRename: true, project: project as Project })}
-                              >
-                                Rename
-                              </button>
-                            )
-                          }
-                        ]}
-                        footer={[
-                          {
-                            id: 'key-delete',
-                            content: (
-                              <button
-                                className="text-left"
-                                onClick={() => setModalProject({ openDelete: true, project: project as Project })}
-                              >
-                                Delete
-                              </button>
-                            )
-                          }
-                        ]}
-                      >
-                        <div className="py-3">
-                          <Settings className="text-gray-400 hover:text-mui-primary" />
-                        </div>
-                      </Dropdown>
+                  {loading ? (
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-full h-10 mui-skeleton grid" />
+                      <div className="w-full h-10 mui-skeleton grid" />
+                      <div className="w-full h-10 mui-skeleton grid" />
                     </div>
-                  ))}
-                  <Button onClick={() => setModalOpen(true)} variant="text" className="p-0 mt-8 text-mui-primary">
-                    <PlusCircle />
-                    <FormattedMessage id="projects.addDrawer" />
-                  </Button>
+                  ) : (
+                    data?.projects.map((project) => (
+                      <div key={project.id} className="flex items-center gap-6">
+                        <Link
+                          href={{
+                            pathname: '/project/[slug]/planner',
+                            query: { slug: project.slug }
+                          }}
+                        >
+                          <a className="w-full py-3 hover:underline">
+                            <h3 className="flex items-center flex-1 pl-4 text-lg font-semibold gap-2">
+                              {project.title}
+                            </h3>
+                          </a>
+                        </Link>
+                        <Dropdown
+                          content={[
+                            {
+                              id: 'key-rename',
+                              content: (
+                                <button
+                                  className="text-left"
+                                  onClick={() => setModalProject({ openRename: true, project: project as Project })}
+                                >
+                                  Rename
+                                </button>
+                              )
+                            }
+                          ]}
+                          footer={[
+                            {
+                              id: 'key-delete',
+                              content: (
+                                <button
+                                  className="text-left"
+                                  onClick={() => setModalProject({ openDelete: true, project: project as Project })}
+                                >
+                                  Delete
+                                </button>
+                              )
+                            }
+                          ]}
+                        >
+                          <div className="py-3">
+                            <Settings className="text-gray-400 hover:text-mui-primary" />
+                          </div>
+                        </Dropdown>
+                      </div>
+                    ))
+                  )}
+                  {loading ? (
+                    <div className="h-10 mt-8 w-52 mui-skeleton grid" />
+                  ) : (
+                    <Button onClick={() => setModalOpen(true)} variant="text" className="p-0 mt-8 text-mui-primary">
+                      <PlusCircle />
+                      <FormattedMessage id="projects.addDrawer" />
+                    </Button>
+                  )}
                 </Expander>
               </div>
               <div>

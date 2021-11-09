@@ -8,16 +8,19 @@ import {
 } from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import SizeAssistantTemplate from '../../../components/Templates/Project/SizeAssistant';
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useCreateProjectMutation } from '../../../apollo/generated/graphql';
 import { slugify } from '../../../utils/string';
 import { convertInToMm, convertInToMmFormatted } from '../../../utils/unit/conversion';
+import { requiredAuthWithRedirectProp } from '../../../utils/authUtils';
+import { getLocaleIdFromGraphqlError } from '../../../lib/apollo/exceptions';
 
-type SizeAssistantContainerGetServerProps = ProjectCreationProviderProps;
+type SizeAssistantContainerGetServerProps = ProjectCreationProviderProps & { userId?: number };
 
 type SizeAssistantContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
+  userId,
   drawerSize,
   drawerType,
   drawerFinish,
@@ -28,7 +31,7 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
   const { clear, unit, setDrawerSize } = useProjectCreationContext();
   const router = useRouter();
 
-  const [doCreateProject, { loading }] = useCreateProjectMutation();
+  const [doCreateProject, { loading, error: mutationError }] = useCreateProjectMutation();
 
   const handleSubmit = useCallback(
     async (data: { gable?: string; width?: string }) => {
@@ -43,6 +46,11 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
         variables: {
           data: {
             slug,
+            user: {
+              connect: {
+                id: userId
+              }
+            },
             title: drawerTitle as string,
             gable: Number(data.gable),
             width: unit === 'mm' ? Number(data.width) : Number(convertInToMmFormatted(data.width as string)),
@@ -82,6 +90,7 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
     [
       unit,
       clear,
+      userId,
       doCreateProject,
       drawerCollection,
       drawerFinish,
@@ -113,9 +122,16 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
     }
   ];
 
+  const error = useMemo(
+    () =>
+      mutationError ? getLocaleIdFromGraphqlError(mutationError.graphQLErrors, mutationError.networkError) : undefined,
+    [mutationError]
+  );
+
   return (
     <SizeAssistantTemplate
       unit={unit}
+      error={error}
       gable={GABLE_DATA}
       loading={loading}
       onSubmit={handleSubmit}
@@ -125,10 +141,23 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
 };
 
 export const getServerSideProps: GetServerSideProps<SizeAssistantContainerGetServerProps> = async (ctx) => {
-  const apolloClient = initializeApollo();
+  const { params, query } = ctx;
+
+  const apolloClient = initializeApollo(undefined, ctx);
+
+  let props: SizeAssistantContainerGetServerProps = {
+    ...(params || {}),
+    ...(query || {})
+  };
+
+  const { auth, redirect } = await requiredAuthWithRedirectProp(ctx);
+  if (redirect) {
+    return {
+      redirect
+    };
+  }
 
   const projectData = requiredProjectData(ctx);
-
   if (!projectData.drawerSlide) {
     return {
       props: {},
@@ -138,11 +167,10 @@ export const getServerSideProps: GetServerSideProps<SizeAssistantContainerGetSer
       }
     };
   }
-
-  const props: SizeAssistantContainerGetServerProps = {
-    ...ctx?.query,
-    ...ctx?.params,
-    ...projectData
+  props = {
+    ...props,
+    ...projectData,
+    userId: auth?.userId
   };
 
   return addApolloState(apolloClient, {
