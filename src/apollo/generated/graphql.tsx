@@ -3714,17 +3714,6 @@ export type ModuleDataFragment = {
   categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
 };
 
-export type ProjectDataFragment = {
-  __typename?: 'Project';
-  id: number;
-  title: string;
-  slug: string;
-  width: number;
-  gable: number;
-  type: { __typename?: 'Type'; id: number; slug: string };
-  collection: { __typename?: 'Collection'; id: number; slug: string };
-};
-
 export type LoginMutationVariables = Exact<{
   user: UserSingIn;
 }>;
@@ -3799,6 +3788,17 @@ export type PlannerQuery = {
       }
     | null
     | undefined;
+};
+
+export type ProjectDataFragment = {
+  __typename?: 'Project';
+  id: number;
+  title: string;
+  slug: string;
+  width: number;
+  gable: number;
+  type: { __typename?: 'Type'; id: number; slug: string };
+  collection: { __typename?: 'Collection'; id: number; slug: string };
 };
 
 export type ProjectsQueryVariables = Exact<{

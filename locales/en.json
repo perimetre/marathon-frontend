@@ -20,7 +20,14 @@
     "title": "Planner",
     "error": "Unable to load the {appTitle} app: \r\n <error>{errorMessage}</error>",
     "projectsPageNav": "Projects",
-    "addOns": "Available Add-ons"
+    "addOns": "Available Add-ons",
+    "tray": {
+      "delete": "Delete",
+      "move": "Move",
+      "rotateLeft": "Rotate Left",
+      "rotateRight": "Rotate Right",
+      "done": "Done"
+    }
   },
   "home": {
     "title": "Drawers that fit your lifestyle",
