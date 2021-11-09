@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React, { forwardRef, useContext, useImperativeHandle, useRef, useState } from 'react';
-import { ProjectModule, usePlannerContext } from '../PlannerProvider';
-import { UNITY_GAME_OBJECT } from '../../../constraints';
+import React, { useContext, useRef, useState } from 'react';
+import { PlannerProvider } from '../PlannerProvider';
 
 export type UnityPlayerState = 'initializing' | 'loading' | 'complete' | 'error';
 
@@ -36,73 +35,33 @@ const UnityPlayerContext = React.createContext<UnityPlayerContextType>(initialSt
  * Component
  * */
 
-export type UnityPlayerProviderRef = {
-  trayDone: () => void;
-  setupDrawer: (
-    width: number,
-    depth: number,
-    gable: number,
-    finishSlug: string,
-    initialModules?: ProjectModule[]
-  ) => void;
-};
-
 export type UnityPlayerProviderProps = Record<string, unknown>;
 
-export const UnityPlayerProvider = forwardRef<UnityPlayerProviderRef, UnityPlayerProviderProps>(
-  function UnityPlayerProvider({ children }, ref) {
-    const { hasProvider } = usePlannerContext();
+export const UnityPlayerProvider: React.FC<UnityPlayerProviderProps> = ({ children }) => {
+  const [state, setState] = useState<UnityPlayerContextType['state']>(initialState.state);
+  const [loadingProgress, setLoadingProgress] = useState(initialState.loadingProgress);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
 
-    if (!hasProvider) {
-      throw 'Called UnityPlayerProvider. But no PlannerProvider was found. Wrap your UnityPlayerProvider with the PlannerProvider component';
-    }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const unityInstance = useRef<any>();
 
-    const [state, setState] = useState<UnityPlayerContextType['state']>(initialState.state);
-    const [loadingProgress, setLoadingProgress] = useState(initialState.loadingProgress);
-    const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const unityInstance = useRef<any>();
-
-    /*
-     * External ref
-     * */
-    useImperativeHandle(
-      ref,
-      () => ({
-        trayDone: () => unityInstance.current?.SendMessage(UNITY_GAME_OBJECT, 'TrayDone'),
-        setupDrawer: (width, depth, gable, finishSlug, initialModules) =>
-          unityInstance.current?.SendMessage(
-            UNITY_GAME_OBJECT,
-            'SetupDrawer',
-            width,
-            depth,
-            gable,
-            finishSlug,
-            JSON.stringify(initialModules)
-          )
-      }),
-      []
-    );
-
-    return (
-      <UnityPlayerContext.Provider
-        value={{
-          hasProvider: true,
-          state,
-          setState,
-          loadingProgress,
-          setLoadingProgress,
-          errorMessage,
-          setErrorMessage,
-          unityInstance
-        }}
-      >
-        {children}
-      </UnityPlayerContext.Provider>
-    );
-  }
-);
+  return (
+    <UnityPlayerContext.Provider
+      value={{
+        hasProvider: true,
+        state,
+        setState,
+        loadingProgress,
+        setLoadingProgress,
+        errorMessage,
+        setErrorMessage,
+        unityInstance
+      }}
+    >
+      <PlannerProvider>{children}</PlannerProvider>
+    </UnityPlayerContext.Provider>
+  );
+};
 
 /*
  * Hooks
