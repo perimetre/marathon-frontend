@@ -3708,6 +3708,10 @@ export type ModuleDataFragment = {
     | {
         __typename?: 'ModuleRules';
         rules?: { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined } | null | undefined;
+        extensions?:
+          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+          | null
+          | undefined;
       }
     | null
     | undefined;
@@ -3755,6 +3759,10 @@ export type ModuleOptionsQuery = {
       | {
           __typename?: 'ModuleRules';
           rules?: { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined } | null | undefined;
+          extensions?:
+            | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+            | null
+            | undefined;
         }
       | null
       | undefined;
@@ -3789,6 +3797,10 @@ export type PlannerQuery = {
                 __typename?: 'ModuleRules';
                 rules?:
                   | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+                extensions?:
+                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
                   | null
                   | undefined;
               }
@@ -3927,6 +3939,9 @@ export const ModuleDataFragmentDoc = gql`
     partNumber
     rules {
       rules {
+        options
+      }
+      extensions {
         options
       }
     }

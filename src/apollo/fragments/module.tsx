@@ -13,6 +13,9 @@ export const MODULE_DATA = gql`
       rules {
         options
       }
+      extensions {
+        options
+      }
     }
     thumbnailUrl
     description
