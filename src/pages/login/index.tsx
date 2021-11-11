@@ -4,8 +4,9 @@ import { useCallback, useMemo } from 'react';
 import { useLoginMutation } from '../../apollo/generated/graphql';
 import LoginTemplate from '../../components/Templates/Login';
 import { getLocaleIdFromGraphqlError } from '../../lib/apollo/exceptions';
-import { requiredAuthWithRedirectProp } from '../../utils/authUtils';
 import { setCookie } from '../../lib/cookie';
+import logging from '../../lib/logging';
+import { requiredAuthWithRedirectProp } from '../../utils/authUtils';
 
 const LoginContainer: NextPage = () => {
   const router = useRouter();
@@ -18,8 +19,9 @@ const LoginContainer: NextPage = () => {
         const { data } = await doLogin({ variables: { user: { email: form.email, password: form.password } } });
         setCookie('auth', JSON.stringify(data?.login));
         router.push('/projects', '/projects');
-      } catch (err) {
-        console.log({ err });
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        logging.error(err, 'Error on authentication:', { form });
       }
     },
     [doLogin, router]
@@ -39,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     return {
       redirect: {
         destination: '/projects',
-        permanent: true
+        permanent: false
       }
     };
   }

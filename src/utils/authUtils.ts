@@ -2,6 +2,7 @@ import { GetServerSidePropsContext, NextPageContext } from 'next';
 import { ParsedUrlQuery } from 'querystring';
 import { Session } from '../apollo/generated/graphql';
 import { getCookie } from '../lib/cookie';
+import logging from '../lib/logging';
 
 export const optionalAuth = async <T extends ParsedUrlQuery>(ctx?: NextPageContext | GetServerSidePropsContext<T>) => {
   if (typeof window === 'undefined') {
@@ -9,9 +10,9 @@ export const optionalAuth = async <T extends ParsedUrlQuery>(ctx?: NextPageConte
       const payload = getCookie('auth', ctx);
       const user = payload ? ((typeof payload === 'string' ? JSON.parse(payload) : payload) as Session) : null;
       return user;
-    } catch (error) {
-      // If errored just log
-      console.log(error, undefined, { ctx: { ...ctx } });
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
+      logging.error(error, undefined, { ctx: { ...ctx } });
     }
   }
   return undefined;
@@ -30,7 +31,7 @@ export const requiredAuthWithRedirectProp = async <T extends ParsedUrlQuery>(
     return {
       redirect: {
         destination: '/login',
-        permanent: true
+        permanent: false
       }
     };
   }

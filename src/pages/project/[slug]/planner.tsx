@@ -117,7 +117,7 @@ export const getServerSideProps: GetServerSideProps<WithApolloProps<PlannerServe
       return {
         redirect: {
           destination: '/login',
-          permanent: true
+          permanent: false
         }
       };
     }

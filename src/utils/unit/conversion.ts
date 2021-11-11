@@ -85,8 +85,6 @@ export const convertMmToIn = (mm_o: string) => {
 
 export const convertMmToInFormatted = (value: string) => {
   const conversion = convertMmToIn(value);
-  console.log({ conversion });
-
   if (conversion[1] || conversion[2]) {
     return `${conversion[0]}" ${conversion[1]}/${conversion[2]}`;
   } else {

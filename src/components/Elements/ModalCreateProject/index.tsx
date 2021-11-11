@@ -15,7 +15,7 @@ export type ModalCreateProjectProps = {
 };
 
 const ModalCreateProject: React.FC<ModalCreateProjectProps> = ({ open, onClose }) => {
-  const { setDrawerTitle } = useProjectCreationContext();
+  const { setDrawerTitle, clear } = useProjectCreationContext();
 
   const intl = useIntl();
 
@@ -23,10 +23,11 @@ const ModalCreateProject: React.FC<ModalCreateProjectProps> = ({ open, onClose }
 
   const handleSubmit = useCallback(
     async (data: { title: string }) => {
+      clear();
       setDrawerTitle(data.title);
       router.push('/project/type', '/project/type');
     },
-    [router, setDrawerTitle]
+    [router, clear, setDrawerTitle]
   );
 
   const schema = useMemo(
