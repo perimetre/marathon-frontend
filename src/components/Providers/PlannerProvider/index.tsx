@@ -1,21 +1,28 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useUnityPlayerContext } from '../UnityPlayerProvider';
 import logging from '../../../lib/logging';
 import { UNITY_GAME_OBJECT } from '../../../constraints';
+import {
+  PlannerQuery,
+  useCreateProjectModuleMutation,
+  useDeleteProjectModuleMutation
+} from '../../../apollo/generated/graphql';
 
-type PieceBuilderState = 'None' | 'Selected' | 'Editing' | 'Placed' | 'AddingSubModule';
+type PieceBuilderState = 'None' | 'Selected' | 'Editing' | 'Placed' | 'AddingSubModule' | 'Deleted';
 
 export type ProjectModule = {
-  id: number;
+  id: string;
+  moduleId: number;
   partNumber: string;
   bundleUrl?: string;
 
   posX: number;
   posY: number;
-  rotZ: number;
+  posZ: number;
+  rotY: number;
 
-  parentId: number; // The parent if this is a submodule
+  parentId: string; // The parent if this is a submodule
   children: ProjectModule[]; // The list of submodules if this is a parent
 };
 
@@ -25,22 +32,43 @@ export type ProjectModule = {
 
 type PlannerContextType = {
   hasProvider: boolean;
+  // State variables
   state: PieceBuilderState;
   isPending: boolean;
-  setIsPending: (isPending: boolean) => void;
+  projectModule?: ProjectModule;
   error?: string;
+  cartAmount: number;
+  // Methods
+  // State Methods
+  setIsPending: (isPending: boolean) => void;
+
+  // Interaction Methods
   trayDone: () => void;
   trayDelete: () => void;
   trayEdit: () => void;
   trayRotateLeft: () => void;
   trayRotateRight: () => void;
-  placeModule: (partNumber: string, projectModuleId: number) => void;
-  placeChildrenModule: (partNumber: string, projectModuleId: number) => void;
+  createModule: (
+    partNumber: string,
+    moduleId: number,
+    projectModuleId: string,
+    rules: string,
+    bundleUrl: string
+  ) => void;
+  createChildrenModule: (
+    partNumber: string,
+    moduleId: number,
+    projectModuleId: string,
+    rules: string,
+    bundleUrl: string
+  ) => void;
   setupDrawer: (
     width: number,
     depth: number,
     gable: number,
     finishSlug: string,
+    isPegboard: boolean,
+    drawerTypeSlug: string,
     initialModules?: ProjectModule[]
   ) => void;
 };
@@ -49,15 +77,34 @@ const initialState: PlannerContextType = {
   hasProvider: false,
   state: 'None',
   isPending: false,
-  setIsPending: () => {},
-  trayDone: () => {},
-  trayDelete: () => {},
-  trayEdit: () => {},
-  trayRotateLeft: () => {},
-  trayRotateRight: () => {},
-  placeModule: () => {},
-  placeChildrenModule: () => {},
-  setupDrawer: () => {}
+  cartAmount: 0,
+  setIsPending: () => {
+    throw new Error('setIsPending is not implemented');
+  },
+  trayDone: () => {
+    throw new Error('trayDone is not implemented');
+  },
+  trayDelete: () => {
+    throw new Error('trayDelete is not implemented');
+  },
+  trayEdit: () => {
+    throw new Error('trayEdit is not implemented');
+  },
+  trayRotateLeft: () => {
+    throw new Error('trayRotateLeft is not implemented');
+  },
+  trayRotateRight: () => {
+    throw new Error('trayRotateRight is not implemented');
+  },
+  createModule: () => {
+    throw new Error('createModule is not implemented');
+  },
+  createChildrenModule: () => {
+    throw new Error('createChildrenModule is not implemented');
+  },
+  setupDrawer: () => {
+    throw new Error('setupDrawer is not implemented');
+  }
 };
 
 /*
@@ -66,25 +113,135 @@ const initialState: PlannerContextType = {
 
 const PlannerContext = React.createContext<PlannerContextType>(initialState);
 
-export const PlannerProvider: React.FC = ({ children }) => {
+export type PlannerProviderProps = { project: NonNullable<PlannerQuery['project']> };
+
+export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, project }) => {
   // ***********
   // ** Misc
   // ***********
-  const { hasProvider, unityInstance } = useUnityPlayerContext();
+  const { hasProvider, unityInstance, state: unityPlayerState } = useUnityPlayerContext();
+  const { id: projectId } = project;
 
   if (!hasProvider) {
     throw 'Called PlannerProvider. But no PlannerProvider was found. Wrap your PlannerProvider with the UnityPlayerProvider component';
   }
 
   // ***********
+  // ** Grapqhl declarations
+  // ***********
+
+  // ** Mutations
+  const [doCreateProjectModule] = useCreateProjectModuleMutation();
+  // const [doUpdateProjectModule] = useUpdateProjectModuleMutation();
+  const [doDeleteProjectModule] = useDeleteProjectModuleMutation();
+
+  // ***********
   // ** Business logic
   // ***********
 
+  // ** States
+  const [didSetup, setDidSetup] = useState(false);
+  const [projectModule, setProjectModule] = useState<ProjectModule | undefined>(undefined);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [prevState, setPrevState] = useState(initialState.state);
   const [state, setState] = useState(initialState.state);
   const [isPending, setIsPending] = useState(initialState.isPending);
-
   const [error, setError] = useState<string | undefined>(initialState.error);
+  const [idMap, setIdMap] = useState<Record<string, number>>({});
+  const cartAmount = useMemo(() => Object.keys(idMap).length, [idMap]);
+
   // TODO: Check if error change on effect, and display tooltip for X seconds, then clear error when the tooltip closes
+
+  // ** Effects
+
+  // Create project
+  useEffect(() => {
+    const createProjectModuleEffect = async () => {
+      // If there's a project module
+      // If the project module hasn't already been created (if it's not on idMap)
+      // And the state is placed or selected
+      if (projectModule && !idMap[projectModule.id] && (state === 'Placed' || state === 'Selected')) {
+        const { id, posX, posY, posZ, rotY, parentId, moduleId, children } = projectModule;
+
+        try {
+          const { data } = await doCreateProjectModule({
+            variables: {
+              data: {
+                posX,
+                posY,
+                posZ,
+                rotY,
+                module: { connect: { id: moduleId } },
+                project: { connect: { id: projectId } },
+                parent: parentId ? { connect: { id: idMap[parentId] } } : undefined,
+                children:
+                  children && children.length > 0
+                    ? {
+                        createMany: {
+                          data: children.map(({ posX, posY, posZ, rotY, moduleId }) => ({
+                            posX,
+                            posY,
+                            posZ,
+                            rotY,
+                            moduleId,
+                            projectId
+                          }))
+                        }
+                      }
+                    : undefined
+              }
+            }
+          });
+
+          if (data) {
+            setIdMap({ ...idMap, [id]: data.createOneProjectModule.id });
+          } else {
+            logging.warn(`Created project module but it did not return any data`, { state, projectModule });
+          }
+        } catch (err) {
+          logging.error(err as Error, `Failed creating project module`, { state, projectModule });
+        }
+      }
+    };
+
+    createProjectModuleEffect();
+  }, [doCreateProjectModule, idMap, projectId, projectModule, state]);
+
+  // Delete project
+  useEffect(() => {
+    const deleteProjectModuleEffect = async () => {
+      // If there's a project module
+      // If the project module has already been created (if it's on idMap)
+      // And the state is deleted or editing
+      if (projectModule && idMap[projectModule.id] && (state === 'Editing' || state === 'Deleted')) {
+        const { id, children } = projectModule;
+
+        const idsToDelete = [id, ...children.map((x) => x.id)].map((x) => idMap[x]);
+
+        try {
+          const { data } = await doDeleteProjectModule({
+            variables: {
+              ids: idsToDelete
+            }
+          });
+
+          if (data && data.deleteManyProjectModule.count > 0) {
+            setIdMap(
+              Object.entries(idMap)
+                .filter((x) => !idsToDelete.includes(x[1]))
+                .reduce((obj, entry) => ({ ...obj, [entry[0]]: entry[1] }), {} as typeof idMap)
+            );
+          } else {
+            logging.warn(`Deleted project modules but no data was returned`, { state, projectModule });
+          }
+        } catch (err) {
+          logging.error(err as Error, `Failed deleting project modules`, { state, projectModule });
+        }
+      }
+    };
+
+    deleteProjectModuleEffect();
+  }, [doDeleteProjectModule, idMap, projectModule, state]);
 
   // ***********
   // ** Unity <-> React logic
@@ -95,21 +252,33 @@ export const PlannerProvider: React.FC = ({ children }) => {
      * Unity -> React
      * */
     const planner = {
-      moduleStateChange: (state: PieceBuilderState, projectModule: ProjectModule) => {
-        setState(state);
-
-        // TODO: Update api accordingly
-        console.log(state, projectModule);
+      moduleStateChange: (builderState: PieceBuilderState, projectModuleJson: string) => {
+        if (projectModuleJson) {
+          try {
+            const projectModule = JSON.parse(projectModuleJson) as ProjectModule;
+            setProjectModule(projectModule);
+          } catch (error) {
+            logging.error(error as Error);
+            setProjectModule(undefined);
+          }
+        } else {
+          setProjectModule(undefined);
+        }
+        setState((state) => {
+          setPrevState(state);
+          return builderState;
+        });
       },
       setupFinished: (error?: string) => {
         setIsPending(false);
+        setDidSetup(true);
 
         if (error) {
           setError(error);
           logging.error(new Error(error));
         }
       },
-      placeFinished: (error?: string) => {
+      createFinished: (error?: string) => {
         setIsPending(false);
 
         if (error) {
@@ -147,31 +316,68 @@ export const PlannerProvider: React.FC = ({ children }) => {
     unityInstance.current?.SendMessage(UNITY_GAME_OBJECT, 'TrayRotateRight');
   }, [unityInstance]);
 
-  const placeModule = useCallback(
-    (partNumber: string, projectModuleId: number) =>
-      unityInstance.current?.SendMessage(UNITY_GAME_OBJECT, 'PlaceModule', partNumber, projectModuleId),
+  const createModule = useCallback(
+    (partNumber: string, moduleId: number, projectModuleId: string, rules: string, bundleUrl: string) =>
+      unityInstance.current?.SendMessage(
+        UNITY_GAME_OBJECT,
+        'CreateModule',
+        JSON.stringify({
+          partNumber,
+          moduleId,
+          projectModuleId,
+          rules,
+          bundleUrl
+        })
+      ),
     [unityInstance]
   );
 
-  const placeChildrenModule = useCallback(
-    (partNumber: string, projectModuleId: number) =>
-      unityInstance.current?.SendMessage(UNITY_GAME_OBJECT, 'PlaceChildrenModule', partNumber, projectModuleId),
+  const createChildrenModule = useCallback(
+    (partNumber: string, moduleId: number, projectModuleId: string, rules: string, bundleUrl: string) =>
+      unityInstance.current?.SendMessage(
+        UNITY_GAME_OBJECT,
+        'CreateChildrenModule',
+        JSON.stringify({
+          partNumber,
+          moduleId,
+          projectModuleId,
+          rules,
+          bundleUrl
+        })
+      ),
     [unityInstance]
   );
 
   const setupDrawer = useCallback(
-    (width: number, depth: number, gable: number, finishSlug: string, initialModules?: ProjectModule[]) =>
+    (
+      width: number,
+      depth: number,
+      gable: number,
+      finishSlug: string,
+      isPegboard: boolean,
+      drawerTypeSlug: string,
+      initialModules?: ProjectModule[]
+    ) =>
       unityInstance.current?.SendMessage(
         UNITY_GAME_OBJECT,
         'SetupDrawer',
-        width,
-        depth,
-        gable,
-        finishSlug,
-        JSON.stringify(initialModules)
+        JSON.stringify({
+          width,
+          depth,
+          gable,
+          finishSlug,
+          initialModules
+        })
       ),
     [unityInstance]
   );
+
+  useEffect(() => {
+    if (unityPlayerState === 'complete' && !didSetup) {
+      // TODO: Use real values fetched from project
+      setupDrawer(0, 0, 0, '', false, '');
+    }
+  }, [didSetup, setupDrawer, unityPlayerState]);
 
   return (
     <PlannerContext.Provider
@@ -180,14 +386,16 @@ export const PlannerProvider: React.FC = ({ children }) => {
         state,
         isPending,
         setIsPending,
+        projectModule,
         error,
+        cartAmount,
         trayDone,
         trayDelete,
         trayEdit,
         trayRotateLeft,
         trayRotateRight,
-        placeModule,
-        placeChildrenModule,
+        createModule,
+        createChildrenModule,
         setupDrawer
       }}
     >

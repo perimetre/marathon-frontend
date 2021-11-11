@@ -15,6 +15,11 @@ export type Scalars = {
   Json: any;
 };
 
+export type AffectedRowsOutput = {
+  __typename?: 'AffectedRowsOutput';
+  count: Scalars['Int'];
+};
+
 export type BoolFieldUpdateOperationsInput = {
   set?: Maybe<Scalars['Boolean']>;
 };
@@ -1518,9 +1523,11 @@ export type Mutation = {
   __typename?: 'Mutation';
   createOneProject: Project;
   createOneProjectModule: ProjectModule;
+  deleteManyProjectModule: AffectedRowsOutput;
   deleteOneProject?: Maybe<Project>;
   deleteOneProjectModule?: Maybe<ProjectModule>;
   login?: Maybe<Session>;
+  updateManyProjectModule: AffectedRowsOutput;
   updateOneProject?: Maybe<Project>;
   updateOneProjectModule?: Maybe<ProjectModule>;
 };
@@ -1533,6 +1540,10 @@ export type MutationCreateOneProjectModuleArgs = {
   data: ProjectModuleCreateInput;
 };
 
+export type MutationDeleteManyProjectModuleArgs = {
+  where?: Maybe<ProjectModuleWhereInput>;
+};
+
 export type MutationDeleteOneProjectArgs = {
   where: ProjectWhereUniqueInput;
 };
@@ -1543,6 +1554,11 @@ export type MutationDeleteOneProjectModuleArgs = {
 
 export type MutationLoginArgs = {
   user: UserSingIn;
+};
+
+export type MutationUpdateManyProjectModuleArgs = {
+  data: ProjectModuleUpdateManyMutationInput;
+  where?: Maybe<ProjectModuleWhereInput>;
 };
 
 export type MutationUpdateOneProjectArgs = {
@@ -1897,10 +1913,11 @@ export type ProjectModule = {
   parent?: Maybe<ProjectModule>;
   parentId?: Maybe<Scalars['Int']>;
   posX: Scalars['Float'];
+  posY: Scalars['Float'];
   posZ: Scalars['Float'];
   project?: Maybe<Project>;
   projectId?: Maybe<Scalars['Int']>;
-  rotZ: Scalars['Float'];
+  rotY: Scalars['Float'];
 };
 
 export type ProjectModuleChildrenArgs = {
@@ -1913,19 +1930,21 @@ export type ProjectModuleCreateInput = {
   children?: Maybe<ProjectModuleCreateNestedManyWithoutParentInput>;
   module: ModuleCreateNestedOneWithoutProjectModulesInput;
   parent?: Maybe<ProjectModuleCreateNestedOneWithoutChildrenInput>;
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
   project?: Maybe<ProjectCreateNestedOneWithoutProjectModulesInput>;
-  rotZ: Scalars['Float'];
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleCreateManyModuleInput = {
   id?: Maybe<Scalars['Int']>;
   parentId?: Maybe<Scalars['Int']>;
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
   projectId?: Maybe<Scalars['Int']>;
-  rotZ: Scalars['Float'];
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleCreateManyModuleInputEnvelope = {
@@ -1936,10 +1955,11 @@ export type ProjectModuleCreateManyModuleInputEnvelope = {
 export type ProjectModuleCreateManyParentInput = {
   id?: Maybe<Scalars['Int']>;
   moduleId: Scalars['Int'];
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
   projectId?: Maybe<Scalars['Int']>;
-  rotZ: Scalars['Float'];
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleCreateManyParentInputEnvelope = {
@@ -1951,9 +1971,10 @@ export type ProjectModuleCreateManyProjectInput = {
   id?: Maybe<Scalars['Int']>;
   moduleId: Scalars['Int'];
   parentId?: Maybe<Scalars['Int']>;
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
-  rotZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleCreateManyProjectInputEnvelope = {
@@ -2011,37 +2032,41 @@ export type ProjectModuleCreateOrConnectWithoutProjectInput = {
 export type ProjectModuleCreateWithoutChildrenInput = {
   module: ModuleCreateNestedOneWithoutProjectModulesInput;
   parent?: Maybe<ProjectModuleCreateNestedOneWithoutChildrenInput>;
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
   project?: Maybe<ProjectCreateNestedOneWithoutProjectModulesInput>;
-  rotZ: Scalars['Float'];
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleCreateWithoutModuleInput = {
   children?: Maybe<ProjectModuleCreateNestedManyWithoutParentInput>;
   parent?: Maybe<ProjectModuleCreateNestedOneWithoutChildrenInput>;
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
   project?: Maybe<ProjectCreateNestedOneWithoutProjectModulesInput>;
-  rotZ: Scalars['Float'];
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleCreateWithoutParentInput = {
   children?: Maybe<ProjectModuleCreateNestedManyWithoutParentInput>;
   module: ModuleCreateNestedOneWithoutProjectModulesInput;
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
   project?: Maybe<ProjectCreateNestedOneWithoutProjectModulesInput>;
-  rotZ: Scalars['Float'];
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleCreateWithoutProjectInput = {
   children?: Maybe<ProjectModuleCreateNestedManyWithoutParentInput>;
   module: ModuleCreateNestedOneWithoutProjectModulesInput;
   parent?: Maybe<ProjectModuleCreateNestedOneWithoutChildrenInput>;
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
-  rotZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleListRelationFilter = {
@@ -2055,9 +2080,10 @@ export type ProjectModuleOrderByInput = {
   moduleId?: Maybe<SortOrder>;
   parentId?: Maybe<SortOrder>;
   posX?: Maybe<SortOrder>;
+  posY?: Maybe<SortOrder>;
   posZ?: Maybe<SortOrder>;
   projectId?: Maybe<SortOrder>;
-  rotZ?: Maybe<SortOrder>;
+  rotY?: Maybe<SortOrder>;
 };
 
 export type ProjectModuleScalarWhereInput = {
@@ -2068,9 +2094,10 @@ export type ProjectModuleScalarWhereInput = {
   moduleId?: Maybe<IntFilter>;
   parentId?: Maybe<IntNullableFilter>;
   posX?: Maybe<FloatFilter>;
+  posY?: Maybe<FloatFilter>;
   posZ?: Maybe<FloatFilter>;
   projectId?: Maybe<IntNullableFilter>;
-  rotZ?: Maybe<FloatFilter>;
+  rotY?: Maybe<FloatFilter>;
 };
 
 export type ProjectModuleUpdateInput = {
@@ -2078,15 +2105,17 @@ export type ProjectModuleUpdateInput = {
   module?: Maybe<ModuleUpdateOneRequiredWithoutProjectModulesInput>;
   parent?: Maybe<ProjectModuleUpdateOneWithoutChildrenInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
+  posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
   project?: Maybe<ProjectUpdateOneWithoutProjectModulesInput>;
-  rotZ?: Maybe<FloatFieldUpdateOperationsInput>;
+  rotY?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectModuleUpdateManyMutationInput = {
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
+  posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
-  rotZ?: Maybe<FloatFieldUpdateOperationsInput>;
+  rotY?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectModuleUpdateManyWithWhereWithoutModuleInput = {
@@ -2175,27 +2204,30 @@ export type ProjectModuleUpdateWithoutChildrenInput = {
   module?: Maybe<ModuleUpdateOneRequiredWithoutProjectModulesInput>;
   parent?: Maybe<ProjectModuleUpdateOneWithoutChildrenInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
+  posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
   project?: Maybe<ProjectUpdateOneWithoutProjectModulesInput>;
-  rotZ?: Maybe<FloatFieldUpdateOperationsInput>;
+  rotY?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectModuleUpdateWithoutModuleInput = {
   children?: Maybe<ProjectModuleUpdateManyWithoutParentInput>;
   parent?: Maybe<ProjectModuleUpdateOneWithoutChildrenInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
+  posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
   project?: Maybe<ProjectUpdateOneWithoutProjectModulesInput>;
-  rotZ?: Maybe<FloatFieldUpdateOperationsInput>;
+  rotY?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectModuleUpdateWithoutParentInput = {
   children?: Maybe<ProjectModuleUpdateManyWithoutParentInput>;
   module?: Maybe<ModuleUpdateOneRequiredWithoutProjectModulesInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
+  posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
   project?: Maybe<ProjectUpdateOneWithoutProjectModulesInput>;
-  rotZ?: Maybe<FloatFieldUpdateOperationsInput>;
+  rotY?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectModuleUpdateWithoutProjectInput = {
@@ -2203,8 +2235,9 @@ export type ProjectModuleUpdateWithoutProjectInput = {
   module?: Maybe<ModuleUpdateOneRequiredWithoutProjectModulesInput>;
   parent?: Maybe<ProjectModuleUpdateOneWithoutChildrenInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
+  posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
-  rotZ?: Maybe<FloatFieldUpdateOperationsInput>;
+  rotY?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectModuleUpsertWithWhereUniqueWithoutModuleInput = {
@@ -2241,10 +2274,11 @@ export type ProjectModuleWhereInput = {
   parent?: Maybe<ProjectModuleWhereInput>;
   parentId?: Maybe<IntNullableFilter>;
   posX?: Maybe<FloatFilter>;
+  posY?: Maybe<FloatFilter>;
   posZ?: Maybe<FloatFilter>;
   project?: Maybe<ProjectWhereInput>;
   projectId?: Maybe<IntNullableFilter>;
-  rotZ?: Maybe<FloatFilter>;
+  rotY?: Maybe<FloatFilter>;
 };
 
 export type ProjectModuleWhereUniqueInput = {
@@ -3718,17 +3752,6 @@ export type ModuleDataFragment = {
   categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
 };
 
-export type ProjectDataFragment = {
-  __typename?: 'Project';
-  id: number;
-  title: string;
-  slug: string;
-  width: number;
-  gable: number;
-  type: { __typename?: 'Type'; id: number; slug: string };
-  collection: { __typename?: 'Collection'; id: number; slug: string };
-};
-
 export type LoginMutationVariables = Exact<{
   user: UserSingIn;
 }>;
@@ -3811,6 +3834,45 @@ export type PlannerQuery = {
       }
     | null
     | undefined;
+};
+
+export type CreateProjectModuleMutationVariables = Exact<{
+  data: ProjectModuleCreateInput;
+}>;
+
+export type CreateProjectModuleMutation = {
+  __typename?: 'Mutation';
+  createOneProjectModule: { __typename?: 'ProjectModule'; id: number };
+};
+
+export type UpdateProjectModuleMutationVariables = Exact<{
+  data: ProjectModuleUpdateInput;
+  id: Scalars['Int'];
+}>;
+
+export type UpdateProjectModuleMutation = {
+  __typename?: 'Mutation';
+  updateOneProjectModule?: { __typename?: 'ProjectModule'; id: number } | null | undefined;
+};
+
+export type DeleteProjectModuleMutationVariables = Exact<{
+  ids?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
+}>;
+
+export type DeleteProjectModuleMutation = {
+  __typename?: 'Mutation';
+  deleteManyProjectModule: { __typename?: 'AffectedRowsOutput'; count: number };
+};
+
+export type ProjectDataFragment = {
+  __typename?: 'Project';
+  id: number;
+  title: string;
+  slug: string;
+  width: number;
+  gable: number;
+  type: { __typename?: 'Type'; id: number; slug: string };
+  collection: { __typename?: 'Collection'; id: number; slug: string };
 };
 
 export type ProjectsQueryVariables = Exact<{
@@ -4232,6 +4294,139 @@ export function usePlannerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pl
 export type PlannerQueryHookResult = ReturnType<typeof usePlannerQuery>;
 export type PlannerLazyQueryHookResult = ReturnType<typeof usePlannerLazyQuery>;
 export type PlannerQueryResult = Apollo.QueryResult<PlannerQuery, PlannerQueryVariables>;
+export const CreateProjectModuleDocument = gql`
+  mutation CreateProjectModule($data: ProjectModuleCreateInput!) {
+    createOneProjectModule(data: $data) {
+      id
+    }
+  }
+`;
+export type CreateProjectModuleMutationFn = Apollo.MutationFunction<
+  CreateProjectModuleMutation,
+  CreateProjectModuleMutationVariables
+>;
+
+/**
+ * __useCreateProjectModuleMutation__
+ *
+ * To run a mutation, you first call `useCreateProjectModuleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateProjectModuleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createProjectModuleMutation, { data, loading, error }] = useCreateProjectModuleMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateProjectModuleMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateProjectModuleMutation, CreateProjectModuleMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateProjectModuleMutation, CreateProjectModuleMutationVariables>(
+    CreateProjectModuleDocument,
+    options
+  );
+}
+export type CreateProjectModuleMutationHookResult = ReturnType<typeof useCreateProjectModuleMutation>;
+export type CreateProjectModuleMutationResult = Apollo.MutationResult<CreateProjectModuleMutation>;
+export type CreateProjectModuleMutationOptions = Apollo.BaseMutationOptions<
+  CreateProjectModuleMutation,
+  CreateProjectModuleMutationVariables
+>;
+export const UpdateProjectModuleDocument = gql`
+  mutation UpdateProjectModule($data: ProjectModuleUpdateInput!, $id: Int!) {
+    updateOneProjectModule(data: $data, where: { id: $id }) {
+      id
+    }
+  }
+`;
+export type UpdateProjectModuleMutationFn = Apollo.MutationFunction<
+  UpdateProjectModuleMutation,
+  UpdateProjectModuleMutationVariables
+>;
+
+/**
+ * __useUpdateProjectModuleMutation__
+ *
+ * To run a mutation, you first call `useUpdateProjectModuleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProjectModuleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProjectModuleMutation, { data, loading, error }] = useUpdateProjectModuleMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUpdateProjectModuleMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdateProjectModuleMutation, UpdateProjectModuleMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateProjectModuleMutation, UpdateProjectModuleMutationVariables>(
+    UpdateProjectModuleDocument,
+    options
+  );
+}
+export type UpdateProjectModuleMutationHookResult = ReturnType<typeof useUpdateProjectModuleMutation>;
+export type UpdateProjectModuleMutationResult = Apollo.MutationResult<UpdateProjectModuleMutation>;
+export type UpdateProjectModuleMutationOptions = Apollo.BaseMutationOptions<
+  UpdateProjectModuleMutation,
+  UpdateProjectModuleMutationVariables
+>;
+export const DeleteProjectModuleDocument = gql`
+  mutation DeleteProjectModule($ids: [Int!]) {
+    deleteManyProjectModule(where: { id: { in: $ids } }) {
+      count
+    }
+  }
+`;
+export type DeleteProjectModuleMutationFn = Apollo.MutationFunction<
+  DeleteProjectModuleMutation,
+  DeleteProjectModuleMutationVariables
+>;
+
+/**
+ * __useDeleteProjectModuleMutation__
+ *
+ * To run a mutation, you first call `useDeleteProjectModuleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteProjectModuleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteProjectModuleMutation, { data, loading, error }] = useDeleteProjectModuleMutation({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *   },
+ * });
+ */
+export function useDeleteProjectModuleMutation(
+  baseOptions?: Apollo.MutationHookOptions<DeleteProjectModuleMutation, DeleteProjectModuleMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteProjectModuleMutation, DeleteProjectModuleMutationVariables>(
+    DeleteProjectModuleDocument,
+    options
+  );
+}
+export type DeleteProjectModuleMutationHookResult = ReturnType<typeof useDeleteProjectModuleMutation>;
+export type DeleteProjectModuleMutationResult = Apollo.MutationResult<DeleteProjectModuleMutation>;
+export type DeleteProjectModuleMutationOptions = Apollo.BaseMutationOptions<
+  DeleteProjectModuleMutation,
+  DeleteProjectModuleMutationVariables
+>;
 export const ProjectsDocument = gql`
   query Projects($userId: Int!) {
     projects(where: { userId: { equals: $userId } }) {

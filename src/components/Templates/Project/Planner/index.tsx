@@ -42,16 +42,18 @@ const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ slug, data, loading, 
           })}`}
         </title>
       </Head>
-      <UnityPlayerProvider>
-        <Planner
-          slug={slug}
-          data={data}
-          loading={loading}
-          error={error}
-          handleTryAgain={handleTryAgain}
-          isSidebarOpen
-        />
-      </UnityPlayerProvider>
+      {data?.project && (
+        <UnityPlayerProvider project={data.project}>
+          <Planner
+            slug={slug}
+            data={data}
+            loading={loading}
+            error={error}
+            handleTryAgain={handleTryAgain}
+            isSidebarOpen
+          />
+        </UnityPlayerProvider>
+      )}
     </AppLayout>
   );
 };

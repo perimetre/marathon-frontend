@@ -5,6 +5,7 @@ import SkeletonImage from '../../UI/SkeletonImage';
 import Button from '../../UI/Button';
 import { FormattedMessage } from 'react-intl';
 import { PlusCircle } from 'react-feather';
+import { nanoid } from 'nanoid';
 
 type ModuleButtonImageProps = { module: ModuleDataFragment; isChild?: boolean };
 
@@ -12,15 +13,8 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild }
   // ***********
   // ** Misc
   // ***********
-  const { placeModule, placeChildrenModule, setIsPending } = usePlannerContext();
-  const { partNumber } = module;
-
-  // ***********
-  // ** Grapqhl declarations
-  // ***********
-
-  // ** Mutations
-  // TODO: Create add project module mutation
+  const { createModule, createChildrenModule, setIsPending } = usePlannerContext();
+  const { id, partNumber, bundleUrl, rules } = module;
 
   // ***********
   // ** Business logic
@@ -29,12 +23,19 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild }
   const onAddClick = useCallback(() => {
     setIsPending(true);
 
-    if (!isChild) {
-      placeModule(partNumber, 0);
-    } else {
-      placeChildrenModule(partNumber, 0);
+    const projectModuleId = nanoid();
+
+    if (rules && bundleUrl) {
+      // TODO: Bring all rule data
+      if (!isChild) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        createModule(partNumber, id, projectModuleId, rules as any, bundleUrl);
+      } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        createChildrenModule(partNumber, id, projectModuleId, rules as any, bundleUrl);
+      }
     }
-  }, [isChild, partNumber, placeChildrenModule, placeModule, setIsPending]);
+  }, [bundleUrl, createChildrenModule, createModule, id, isChild, partNumber, rules, setIsPending]);
 
   return (
     <div>

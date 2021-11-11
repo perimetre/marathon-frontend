@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useContext, useRef, useState } from 'react';
-import { PlannerProvider } from '../PlannerProvider';
+import { PlannerProvider, PlannerProviderProps } from '../PlannerProvider';
 
 export type UnityPlayerState = 'initializing' | 'loading' | 'complete' | 'error';
 
@@ -35,9 +35,9 @@ const UnityPlayerContext = React.createContext<UnityPlayerContextType>(initialSt
  * Component
  * */
 
-export type UnityPlayerProviderProps = Record<string, unknown>;
+export type UnityPlayerProviderProps = Record<string, unknown> & PlannerProviderProps;
 
-export const UnityPlayerProvider: React.FC<UnityPlayerProviderProps> = ({ children }) => {
+export const UnityPlayerProvider: React.FC<UnityPlayerProviderProps> = ({ children, ...plannerProviderProps }) => {
   const [state, setState] = useState<UnityPlayerContextType['state']>(initialState.state);
   const [loadingProgress, setLoadingProgress] = useState(initialState.loadingProgress);
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
@@ -58,7 +58,7 @@ export const UnityPlayerProvider: React.FC<UnityPlayerProviderProps> = ({ childr
         unityInstance
       }}
     >
-      <PlannerProvider>{children}</PlannerProvider>
+      <PlannerProvider {...plannerProviderProps}>{children}</PlannerProvider>
     </UnityPlayerContext.Provider>
   );
 };
