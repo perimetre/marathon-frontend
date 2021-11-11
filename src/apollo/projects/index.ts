@@ -5,7 +5,7 @@ export const PROJECT_DATA = gql`
     id
     title
     slug
-    width
+    cabinetWidth
     gable
     type {
       id

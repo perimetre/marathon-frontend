@@ -12,7 +12,7 @@ import { useGetSlideSupplierByCollectionLazyQuery } from '../../../apollo/genera
 import SupplierTemplate from '../../../components/Templates/Project/Supplier';
 import { useCallback, useEffect, useMemo } from 'react';
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
-import { requiredAuthWithRedirectProp } from '../../../utils/authUtils';
+import { requiredAuthWithRedirectProp } from '../../../utils/auth';
 
 type SupplierContainerGetServerProps = ProjectCreationProviderProps;
 

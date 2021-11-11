@@ -15,6 +15,11 @@ export type Scalars = {
   Json: any;
 };
 
+export type AffectedRowsOutput = {
+  __typename?: 'AffectedRowsOutput';
+  count: Scalars['Int'];
+};
+
 export type BoolFieldUpdateOperationsInput = {
   set?: Maybe<Scalars['Boolean']>;
 };
@@ -965,6 +970,17 @@ export type FloatFilter = {
   notIn?: Maybe<Array<Scalars['Float']>>;
 };
 
+export type FloatNullableFilter = {
+  equals?: Maybe<Scalars['Float']>;
+  gt?: Maybe<Scalars['Float']>;
+  gte?: Maybe<Scalars['Float']>;
+  in?: Maybe<Array<Scalars['Float']>>;
+  lt?: Maybe<Scalars['Float']>;
+  lte?: Maybe<Scalars['Float']>;
+  not?: Maybe<NestedFloatNullableFilter>;
+  notIn?: Maybe<Array<Scalars['Float']>>;
+};
+
 export type IntFieldUpdateOperationsInput = {
   decrement?: Maybe<Scalars['Int']>;
   divide?: Maybe<Scalars['Int']>;
@@ -1022,6 +1038,7 @@ export type Module = {
   partNumber: Scalars['String'];
   projectModules: Array<ProjectModule>;
   rules?: Maybe<ModuleRules>;
+  rulesJson?: Maybe<Scalars['Json']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
 };
 
@@ -1518,9 +1535,11 @@ export type Mutation = {
   __typename?: 'Mutation';
   createOneProject: Project;
   createOneProjectModule: ProjectModule;
+  deleteManyProjectModule: AffectedRowsOutput;
   deleteOneProject?: Maybe<Project>;
   deleteOneProjectModule?: Maybe<ProjectModule>;
   login?: Maybe<Session>;
+  updateManyProjectModule: AffectedRowsOutput;
   updateOneProject?: Maybe<Project>;
   updateOneProjectModule?: Maybe<ProjectModule>;
 };
@@ -1533,6 +1552,10 @@ export type MutationCreateOneProjectModuleArgs = {
   data: ProjectModuleCreateInput;
 };
 
+export type MutationDeleteManyProjectModuleArgs = {
+  where?: Maybe<ProjectModuleWhereInput>;
+};
+
 export type MutationDeleteOneProjectArgs = {
   where: ProjectWhereUniqueInput;
 };
@@ -1543,6 +1566,11 @@ export type MutationDeleteOneProjectModuleArgs = {
 
 export type MutationLoginArgs = {
   user: UserSingIn;
+};
+
+export type MutationUpdateManyProjectModuleArgs = {
+  data: ProjectModuleUpdateManyMutationInput;
+  where?: Maybe<ProjectModuleWhereInput>;
 };
 
 export type MutationUpdateOneProjectArgs = {
@@ -1575,6 +1603,17 @@ export type NestedFloatFilter = {
   lt?: Maybe<Scalars['Float']>;
   lte?: Maybe<Scalars['Float']>;
   not?: Maybe<NestedFloatFilter>;
+  notIn?: Maybe<Array<Scalars['Float']>>;
+};
+
+export type NestedFloatNullableFilter = {
+  equals?: Maybe<Scalars['Float']>;
+  gt?: Maybe<Scalars['Float']>;
+  gte?: Maybe<Scalars['Float']>;
+  in?: Maybe<Array<Scalars['Float']>>;
+  lt?: Maybe<Scalars['Float']>;
+  lte?: Maybe<Scalars['Float']>;
+  not?: Maybe<NestedFloatNullableFilter>;
   notIn?: Maybe<Array<Scalars['Float']>>;
 };
 
@@ -1628,12 +1667,22 @@ export type NestedStringNullableFilter = {
   startsWith?: Maybe<Scalars['String']>;
 };
 
+export type NullableFloatFieldUpdateOperationsInput = {
+  decrement?: Maybe<Scalars['Float']>;
+  divide?: Maybe<Scalars['Float']>;
+  increment?: Maybe<Scalars['Float']>;
+  multiply?: Maybe<Scalars['Float']>;
+  set?: Maybe<Scalars['Float']>;
+};
+
 export type NullableStringFieldUpdateOperationsInput = {
   set?: Maybe<Scalars['String']>;
 };
 
 export type Project = {
   __typename?: 'Project';
+  cabinetWidth?: Maybe<Scalars['Float']>;
+  calculatedWidth?: Maybe<Scalars['Float']>;
   collection: Collection;
   collectionId: Scalars['Int'];
   finish: Finish;
@@ -1653,7 +1702,6 @@ export type Project = {
   typeId: Scalars['Int'];
   user?: Maybe<User>;
   userId?: Maybe<Scalars['Int']>;
-  width: Scalars['Float'];
 };
 
 export type ProjectProjectModulesArgs = {
@@ -1663,6 +1711,8 @@ export type ProjectProjectModulesArgs = {
 };
 
 export type ProjectCreateInput = {
+  cabinetWidth?: Maybe<Scalars['Float']>;
+  calculatedWidth?: Maybe<Scalars['Float']>;
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
@@ -1674,10 +1724,11 @@ export type ProjectCreateInput = {
   title: Scalars['String'];
   type: TypeCreateNestedOneWithoutProjectsInput;
   user?: Maybe<UserCreateNestedOneWithoutProjectInput>;
-  width: Scalars['Float'];
 };
 
 export type ProjectCreateManyCollectionInput = {
+  cabinetWidth?: Maybe<Scalars['Float']>;
+  calculatedWidth?: Maybe<Scalars['Float']>;
   finishId: Scalars['Int'];
   gable: Scalars['Float'];
   hasPegs?: Maybe<Scalars['Boolean']>;
@@ -1688,7 +1739,6 @@ export type ProjectCreateManyCollectionInput = {
   title: Scalars['String'];
   typeId: Scalars['Int'];
   userId?: Maybe<Scalars['Int']>;
-  width: Scalars['Float'];
 };
 
 export type ProjectCreateManyCollectionInputEnvelope = {
@@ -1697,6 +1747,8 @@ export type ProjectCreateManyCollectionInputEnvelope = {
 };
 
 export type ProjectCreateManyFinishInput = {
+  cabinetWidth?: Maybe<Scalars['Float']>;
+  calculatedWidth?: Maybe<Scalars['Float']>;
   collectionId: Scalars['Int'];
   gable: Scalars['Float'];
   hasPegs?: Maybe<Scalars['Boolean']>;
@@ -1707,7 +1759,6 @@ export type ProjectCreateManyFinishInput = {
   title: Scalars['String'];
   typeId: Scalars['Int'];
   userId?: Maybe<Scalars['Int']>;
-  width: Scalars['Float'];
 };
 
 export type ProjectCreateManyFinishInputEnvelope = {
@@ -1716,6 +1767,8 @@ export type ProjectCreateManyFinishInputEnvelope = {
 };
 
 export type ProjectCreateManySlideDepthInput = {
+  cabinetWidth?: Maybe<Scalars['Float']>;
+  calculatedWidth?: Maybe<Scalars['Float']>;
   collectionId: Scalars['Int'];
   finishId: Scalars['Int'];
   gable: Scalars['Float'];
@@ -1726,7 +1779,6 @@ export type ProjectCreateManySlideDepthInput = {
   title: Scalars['String'];
   typeId: Scalars['Int'];
   userId?: Maybe<Scalars['Int']>;
-  width: Scalars['Float'];
 };
 
 export type ProjectCreateManySlideDepthInputEnvelope = {
@@ -1735,6 +1787,8 @@ export type ProjectCreateManySlideDepthInputEnvelope = {
 };
 
 export type ProjectCreateManySlideInput = {
+  cabinetWidth?: Maybe<Scalars['Float']>;
+  calculatedWidth?: Maybe<Scalars['Float']>;
   collectionId: Scalars['Int'];
   finishId: Scalars['Int'];
   gable: Scalars['Float'];
@@ -1745,7 +1799,6 @@ export type ProjectCreateManySlideInput = {
   title: Scalars['String'];
   typeId: Scalars['Int'];
   userId?: Maybe<Scalars['Int']>;
-  width: Scalars['Float'];
 };
 
 export type ProjectCreateManySlideInputEnvelope = {
@@ -1813,6 +1866,8 @@ export type ProjectCreateOrConnectWithoutSlideInput = {
 };
 
 export type ProjectCreateWithoutCollectionInput = {
+  cabinetWidth?: Maybe<Scalars['Float']>;
+  calculatedWidth?: Maybe<Scalars['Float']>;
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
   hasPegs?: Maybe<Scalars['Boolean']>;
@@ -1823,10 +1878,11 @@ export type ProjectCreateWithoutCollectionInput = {
   title: Scalars['String'];
   type: TypeCreateNestedOneWithoutProjectsInput;
   user?: Maybe<UserCreateNestedOneWithoutProjectInput>;
-  width: Scalars['Float'];
 };
 
 export type ProjectCreateWithoutFinishInput = {
+  cabinetWidth?: Maybe<Scalars['Float']>;
+  calculatedWidth?: Maybe<Scalars['Float']>;
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
   hasPegs?: Maybe<Scalars['Boolean']>;
@@ -1837,10 +1893,11 @@ export type ProjectCreateWithoutFinishInput = {
   title: Scalars['String'];
   type: TypeCreateNestedOneWithoutProjectsInput;
   user?: Maybe<UserCreateNestedOneWithoutProjectInput>;
-  width: Scalars['Float'];
 };
 
 export type ProjectCreateWithoutProjectModulesInput = {
+  cabinetWidth?: Maybe<Scalars['Float']>;
+  calculatedWidth?: Maybe<Scalars['Float']>;
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
@@ -1851,10 +1908,11 @@ export type ProjectCreateWithoutProjectModulesInput = {
   title: Scalars['String'];
   type: TypeCreateNestedOneWithoutProjectsInput;
   user?: Maybe<UserCreateNestedOneWithoutProjectInput>;
-  width: Scalars['Float'];
 };
 
 export type ProjectCreateWithoutSlideDepthInput = {
+  cabinetWidth?: Maybe<Scalars['Float']>;
+  calculatedWidth?: Maybe<Scalars['Float']>;
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
@@ -1865,10 +1923,11 @@ export type ProjectCreateWithoutSlideDepthInput = {
   title: Scalars['String'];
   type: TypeCreateNestedOneWithoutProjectsInput;
   user?: Maybe<UserCreateNestedOneWithoutProjectInput>;
-  width: Scalars['Float'];
 };
 
 export type ProjectCreateWithoutSlideInput = {
+  cabinetWidth?: Maybe<Scalars['Float']>;
+  calculatedWidth?: Maybe<Scalars['Float']>;
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
@@ -1879,7 +1938,6 @@ export type ProjectCreateWithoutSlideInput = {
   title: Scalars['String'];
   type: TypeCreateNestedOneWithoutProjectsInput;
   user?: Maybe<UserCreateNestedOneWithoutProjectInput>;
-  width: Scalars['Float'];
 };
 
 export type ProjectListRelationFilter = {
@@ -1897,10 +1955,11 @@ export type ProjectModule = {
   parent?: Maybe<ProjectModule>;
   parentId?: Maybe<Scalars['Int']>;
   posX: Scalars['Float'];
+  posY: Scalars['Float'];
   posZ: Scalars['Float'];
   project?: Maybe<Project>;
   projectId?: Maybe<Scalars['Int']>;
-  rotZ: Scalars['Float'];
+  rotY: Scalars['Float'];
 };
 
 export type ProjectModuleChildrenArgs = {
@@ -1913,19 +1972,21 @@ export type ProjectModuleCreateInput = {
   children?: Maybe<ProjectModuleCreateNestedManyWithoutParentInput>;
   module: ModuleCreateNestedOneWithoutProjectModulesInput;
   parent?: Maybe<ProjectModuleCreateNestedOneWithoutChildrenInput>;
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
   project?: Maybe<ProjectCreateNestedOneWithoutProjectModulesInput>;
-  rotZ: Scalars['Float'];
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleCreateManyModuleInput = {
   id?: Maybe<Scalars['Int']>;
   parentId?: Maybe<Scalars['Int']>;
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
   projectId?: Maybe<Scalars['Int']>;
-  rotZ: Scalars['Float'];
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleCreateManyModuleInputEnvelope = {
@@ -1936,10 +1997,11 @@ export type ProjectModuleCreateManyModuleInputEnvelope = {
 export type ProjectModuleCreateManyParentInput = {
   id?: Maybe<Scalars['Int']>;
   moduleId: Scalars['Int'];
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
   projectId?: Maybe<Scalars['Int']>;
-  rotZ: Scalars['Float'];
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleCreateManyParentInputEnvelope = {
@@ -1951,9 +2013,10 @@ export type ProjectModuleCreateManyProjectInput = {
   id?: Maybe<Scalars['Int']>;
   moduleId: Scalars['Int'];
   parentId?: Maybe<Scalars['Int']>;
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
-  rotZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleCreateManyProjectInputEnvelope = {
@@ -2011,37 +2074,41 @@ export type ProjectModuleCreateOrConnectWithoutProjectInput = {
 export type ProjectModuleCreateWithoutChildrenInput = {
   module: ModuleCreateNestedOneWithoutProjectModulesInput;
   parent?: Maybe<ProjectModuleCreateNestedOneWithoutChildrenInput>;
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
   project?: Maybe<ProjectCreateNestedOneWithoutProjectModulesInput>;
-  rotZ: Scalars['Float'];
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleCreateWithoutModuleInput = {
   children?: Maybe<ProjectModuleCreateNestedManyWithoutParentInput>;
   parent?: Maybe<ProjectModuleCreateNestedOneWithoutChildrenInput>;
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
   project?: Maybe<ProjectCreateNestedOneWithoutProjectModulesInput>;
-  rotZ: Scalars['Float'];
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleCreateWithoutParentInput = {
   children?: Maybe<ProjectModuleCreateNestedManyWithoutParentInput>;
   module: ModuleCreateNestedOneWithoutProjectModulesInput;
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
   project?: Maybe<ProjectCreateNestedOneWithoutProjectModulesInput>;
-  rotZ: Scalars['Float'];
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleCreateWithoutProjectInput = {
   children?: Maybe<ProjectModuleCreateNestedManyWithoutParentInput>;
   module: ModuleCreateNestedOneWithoutProjectModulesInput;
   parent?: Maybe<ProjectModuleCreateNestedOneWithoutChildrenInput>;
-  posX: Scalars['Float'];
-  posZ: Scalars['Float'];
-  rotZ: Scalars['Float'];
+  posX?: Maybe<Scalars['Float']>;
+  posY?: Maybe<Scalars['Float']>;
+  posZ?: Maybe<Scalars['Float']>;
+  rotY?: Maybe<Scalars['Float']>;
 };
 
 export type ProjectModuleListRelationFilter = {
@@ -2055,9 +2122,10 @@ export type ProjectModuleOrderByInput = {
   moduleId?: Maybe<SortOrder>;
   parentId?: Maybe<SortOrder>;
   posX?: Maybe<SortOrder>;
+  posY?: Maybe<SortOrder>;
   posZ?: Maybe<SortOrder>;
   projectId?: Maybe<SortOrder>;
-  rotZ?: Maybe<SortOrder>;
+  rotY?: Maybe<SortOrder>;
 };
 
 export type ProjectModuleScalarWhereInput = {
@@ -2068,9 +2136,10 @@ export type ProjectModuleScalarWhereInput = {
   moduleId?: Maybe<IntFilter>;
   parentId?: Maybe<IntNullableFilter>;
   posX?: Maybe<FloatFilter>;
+  posY?: Maybe<FloatFilter>;
   posZ?: Maybe<FloatFilter>;
   projectId?: Maybe<IntNullableFilter>;
-  rotZ?: Maybe<FloatFilter>;
+  rotY?: Maybe<FloatFilter>;
 };
 
 export type ProjectModuleUpdateInput = {
@@ -2078,15 +2147,17 @@ export type ProjectModuleUpdateInput = {
   module?: Maybe<ModuleUpdateOneRequiredWithoutProjectModulesInput>;
   parent?: Maybe<ProjectModuleUpdateOneWithoutChildrenInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
+  posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
   project?: Maybe<ProjectUpdateOneWithoutProjectModulesInput>;
-  rotZ?: Maybe<FloatFieldUpdateOperationsInput>;
+  rotY?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectModuleUpdateManyMutationInput = {
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
+  posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
-  rotZ?: Maybe<FloatFieldUpdateOperationsInput>;
+  rotY?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectModuleUpdateManyWithWhereWithoutModuleInput = {
@@ -2175,27 +2246,30 @@ export type ProjectModuleUpdateWithoutChildrenInput = {
   module?: Maybe<ModuleUpdateOneRequiredWithoutProjectModulesInput>;
   parent?: Maybe<ProjectModuleUpdateOneWithoutChildrenInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
+  posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
   project?: Maybe<ProjectUpdateOneWithoutProjectModulesInput>;
-  rotZ?: Maybe<FloatFieldUpdateOperationsInput>;
+  rotY?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectModuleUpdateWithoutModuleInput = {
   children?: Maybe<ProjectModuleUpdateManyWithoutParentInput>;
   parent?: Maybe<ProjectModuleUpdateOneWithoutChildrenInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
+  posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
   project?: Maybe<ProjectUpdateOneWithoutProjectModulesInput>;
-  rotZ?: Maybe<FloatFieldUpdateOperationsInput>;
+  rotY?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectModuleUpdateWithoutParentInput = {
   children?: Maybe<ProjectModuleUpdateManyWithoutParentInput>;
   module?: Maybe<ModuleUpdateOneRequiredWithoutProjectModulesInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
+  posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
   project?: Maybe<ProjectUpdateOneWithoutProjectModulesInput>;
-  rotZ?: Maybe<FloatFieldUpdateOperationsInput>;
+  rotY?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectModuleUpdateWithoutProjectInput = {
@@ -2203,8 +2277,9 @@ export type ProjectModuleUpdateWithoutProjectInput = {
   module?: Maybe<ModuleUpdateOneRequiredWithoutProjectModulesInput>;
   parent?: Maybe<ProjectModuleUpdateOneWithoutChildrenInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
+  posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
-  rotZ?: Maybe<FloatFieldUpdateOperationsInput>;
+  rotY?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectModuleUpsertWithWhereUniqueWithoutModuleInput = {
@@ -2241,10 +2316,11 @@ export type ProjectModuleWhereInput = {
   parent?: Maybe<ProjectModuleWhereInput>;
   parentId?: Maybe<IntNullableFilter>;
   posX?: Maybe<FloatFilter>;
+  posY?: Maybe<FloatFilter>;
   posZ?: Maybe<FloatFilter>;
   project?: Maybe<ProjectWhereInput>;
   projectId?: Maybe<IntNullableFilter>;
-  rotZ?: Maybe<FloatFilter>;
+  rotY?: Maybe<FloatFilter>;
 };
 
 export type ProjectModuleWhereUniqueInput = {
@@ -2252,6 +2328,8 @@ export type ProjectModuleWhereUniqueInput = {
 };
 
 export type ProjectOrderByInput = {
+  cabinetWidth?: Maybe<SortOrder>;
+  calculatedWidth?: Maybe<SortOrder>;
   collectionId?: Maybe<SortOrder>;
   finishId?: Maybe<SortOrder>;
   gable?: Maybe<SortOrder>;
@@ -2263,13 +2341,14 @@ export type ProjectOrderByInput = {
   title?: Maybe<SortOrder>;
   typeId?: Maybe<SortOrder>;
   userId?: Maybe<SortOrder>;
-  width?: Maybe<SortOrder>;
 };
 
 export type ProjectScalarWhereInput = {
   AND?: Maybe<Array<ProjectScalarWhereInput>>;
   NOT?: Maybe<Array<ProjectScalarWhereInput>>;
   OR?: Maybe<Array<ProjectScalarWhereInput>>;
+  cabinetWidth?: Maybe<FloatNullableFilter>;
+  calculatedWidth?: Maybe<FloatNullableFilter>;
   collectionId?: Maybe<IntFilter>;
   finishId?: Maybe<IntFilter>;
   gable?: Maybe<FloatFilter>;
@@ -2281,10 +2360,11 @@ export type ProjectScalarWhereInput = {
   title?: Maybe<StringFilter>;
   typeId?: Maybe<IntFilter>;
   userId?: Maybe<IntNullableFilter>;
-  width?: Maybe<FloatFilter>;
 };
 
 export type ProjectUpdateInput = {
+  cabinetWidth?: Maybe<NullableFloatFieldUpdateOperationsInput>;
+  calculatedWidth?: Maybe<NullableFloatFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
@@ -2296,15 +2376,15 @@ export type ProjectUpdateInput = {
   title?: Maybe<StringFieldUpdateOperationsInput>;
   type?: Maybe<TypeUpdateOneRequiredWithoutProjectsInput>;
   user?: Maybe<UserUpdateOneWithoutProjectInput>;
-  width?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectUpdateManyMutationInput = {
+  cabinetWidth?: Maybe<NullableFloatFieldUpdateOperationsInput>;
+  calculatedWidth?: Maybe<NullableFloatFieldUpdateOperationsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
   title?: Maybe<StringFieldUpdateOperationsInput>;
-  width?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectUpdateManyWithWhereWithoutCollectionInput = {
@@ -2414,6 +2494,8 @@ export type ProjectUpdateWithWhereUniqueWithoutSlideInput = {
 };
 
 export type ProjectUpdateWithoutCollectionInput = {
+  cabinetWidth?: Maybe<NullableFloatFieldUpdateOperationsInput>;
+  calculatedWidth?: Maybe<NullableFloatFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2424,10 +2506,11 @@ export type ProjectUpdateWithoutCollectionInput = {
   title?: Maybe<StringFieldUpdateOperationsInput>;
   type?: Maybe<TypeUpdateOneRequiredWithoutProjectsInput>;
   user?: Maybe<UserUpdateOneWithoutProjectInput>;
-  width?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectUpdateWithoutFinishInput = {
+  cabinetWidth?: Maybe<NullableFloatFieldUpdateOperationsInput>;
+  calculatedWidth?: Maybe<NullableFloatFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2438,10 +2521,11 @@ export type ProjectUpdateWithoutFinishInput = {
   title?: Maybe<StringFieldUpdateOperationsInput>;
   type?: Maybe<TypeUpdateOneRequiredWithoutProjectsInput>;
   user?: Maybe<UserUpdateOneWithoutProjectInput>;
-  width?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectUpdateWithoutProjectModulesInput = {
+  cabinetWidth?: Maybe<NullableFloatFieldUpdateOperationsInput>;
+  calculatedWidth?: Maybe<NullableFloatFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
@@ -2452,10 +2536,11 @@ export type ProjectUpdateWithoutProjectModulesInput = {
   title?: Maybe<StringFieldUpdateOperationsInput>;
   type?: Maybe<TypeUpdateOneRequiredWithoutProjectsInput>;
   user?: Maybe<UserUpdateOneWithoutProjectInput>;
-  width?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectUpdateWithoutSlideDepthInput = {
+  cabinetWidth?: Maybe<NullableFloatFieldUpdateOperationsInput>;
+  calculatedWidth?: Maybe<NullableFloatFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
@@ -2466,10 +2551,11 @@ export type ProjectUpdateWithoutSlideDepthInput = {
   title?: Maybe<StringFieldUpdateOperationsInput>;
   type?: Maybe<TypeUpdateOneRequiredWithoutProjectsInput>;
   user?: Maybe<UserUpdateOneWithoutProjectInput>;
-  width?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectUpdateWithoutSlideInput = {
+  cabinetWidth?: Maybe<NullableFloatFieldUpdateOperationsInput>;
+  calculatedWidth?: Maybe<NullableFloatFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
@@ -2480,7 +2566,6 @@ export type ProjectUpdateWithoutSlideInput = {
   title?: Maybe<StringFieldUpdateOperationsInput>;
   type?: Maybe<TypeUpdateOneRequiredWithoutProjectsInput>;
   user?: Maybe<UserUpdateOneWithoutProjectInput>;
-  width?: Maybe<FloatFieldUpdateOperationsInput>;
 };
 
 export type ProjectUpsertWithWhereUniqueWithoutCollectionInput = {
@@ -2516,6 +2601,8 @@ export type ProjectWhereInput = {
   AND?: Maybe<Array<ProjectWhereInput>>;
   NOT?: Maybe<Array<ProjectWhereInput>>;
   OR?: Maybe<Array<ProjectWhereInput>>;
+  cabinetWidth?: Maybe<FloatNullableFilter>;
+  calculatedWidth?: Maybe<FloatNullableFilter>;
   collection?: Maybe<CollectionWhereInput>;
   collectionId?: Maybe<IntFilter>;
   finish?: Maybe<FinishWhereInput>;
@@ -2534,7 +2621,6 @@ export type ProjectWhereInput = {
   typeId?: Maybe<IntFilter>;
   user?: Maybe<UserWhereInput>;
   userId?: Maybe<IntNullableFilter>;
-  width?: Maybe<FloatFilter>;
 };
 
 export type ProjectWhereUniqueInput = {
@@ -3719,7 +3805,7 @@ export type ProjectDataFragment = {
   id: number;
   title: string;
   slug: string;
-  width: number;
+  cabinetWidth?: number | null | undefined;
   gable: number;
   type: { __typename?: 'Type'; id: number; slug: string };
   collection: { __typename?: 'Collection'; id: number; slug: string };
@@ -3812,7 +3898,7 @@ export type ProjectsQuery = {
     id: number;
     title: string;
     slug: string;
-    width: number;
+    cabinetWidth?: number | null | undefined;
     gable: number;
     type: { __typename?: 'Type'; id: number; slug: string };
     collection: { __typename?: 'Collection'; id: number; slug: string };
@@ -3830,7 +3916,7 @@ export type CreateProjectMutation = {
     id: number;
     title: string;
     slug: string;
-    width: number;
+    cabinetWidth?: number | null | undefined;
     gable: number;
     type: { __typename?: 'Type'; id: number; slug: string };
     collection: { __typename?: 'Collection'; id: number; slug: string };
@@ -3850,7 +3936,7 @@ export type UpdateProjectMutation = {
         id: number;
         title: string;
         slug: string;
-        width: number;
+        cabinetWidth?: number | null | undefined;
         gable: number;
         type: { __typename?: 'Type'; id: number; slug: string };
         collection: { __typename?: 'Collection'; id: number; slug: string };
@@ -3944,7 +4030,7 @@ export const ProjectDataFragmentDoc = gql`
     id
     title
     slug
-    width
+    cabinetWidth
     gable
     type {
       id

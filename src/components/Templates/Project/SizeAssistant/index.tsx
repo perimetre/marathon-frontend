@@ -15,8 +15,8 @@ export type SizeAssistantTemplateProps = {
   error?: string;
   gable: { display: string; value: string | number | null }[];
   loading?: boolean;
-  onSubmit: (form: { gable: string; width?: string }) => void;
-  initialValue: { gable?: string; width?: string };
+  onSubmit: (form: { gable: string; cabinetWidth?: string }) => void;
+  initialValue: { gable?: string; cabinetWidth?: string };
 };
 
 const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
@@ -35,7 +35,7 @@ const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
     () =>
       yup.object().shape({
         gable: yup.string().label('Gable').required(),
-        width: yup.string().label('Width').required()
+        cabinetWidth: yup.string().label('Width').required()
       }),
     []
   );
@@ -52,7 +52,7 @@ const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
       <Formik
         initialValues={{
           gable: initialValue?.gable || '',
-          width: initialValue?.width || undefined
+          cabinetWidth: initialValue?.cabinetWidth || undefined
         }}
         onSubmit={onSubmit}
         validationSchema={schema}
@@ -79,7 +79,11 @@ const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
                       </p>
                     </div>
                     <div className="flex items-center px-10 py-8 mt-4 bg-white shadow-lg min-h-36 rounded-md">
-                      <UnitTextInput unit={unit} name="width" placeholder={unit === 'mm' ? 'eg. 1000' : 'eg. 39 1/2'} />
+                      <UnitTextInput
+                        unit={unit}
+                        name="cabinetWidth"
+                        placeholder={unit === 'mm' ? 'eg. 1000' : 'eg. 39 1/2'}
+                      />
                       <p className="ml-8 text-lg font-bold">{unit}</p>
                     </div>
                   </div>

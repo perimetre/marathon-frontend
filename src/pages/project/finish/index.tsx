@@ -12,7 +12,7 @@ import { useGetFinishByCollectionLazyQuery } from '../../../apollo/generated/gra
 import FinishTemplate from '../../../components/Templates/Project/Finish';
 import { useCallback, useEffect, useMemo } from 'react';
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
-import { requiredAuthWithRedirectProp } from '../../../utils/authUtils';
+import { requiredAuthWithRedirectProp } from '../../../utils/auth';
 
 type FinishContainerGetServerProps = ProjectCreationProviderProps;
 

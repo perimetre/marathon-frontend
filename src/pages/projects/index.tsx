@@ -10,7 +10,7 @@ import {
 import ProjectsTemplate from '../../components/Templates/Projects';
 import { addApolloState, initializeApollo } from '../../lib/apollo';
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../lib/apollo/exceptions';
-import { requiredAuthWithRedirectProp } from '../../utils/authUtils';
+import { requiredAuthWithRedirectProp } from '../../utils/auth';
 
 type ProjectsContainerGetServerProps = ProjectCreationProviderProps & { userId?: number };
 
