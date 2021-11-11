@@ -103,7 +103,7 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
   drawerSlide: slide,
   drawerSize: size
 }) => {
-  const [unit, setUnit] = useState<ProjectCreationType['unit']>(initUnit || 'mm');
+  const [unit, setUnit] = useState<ProjectCreationType['unit']>(initUnit || 'in');
   const [drawerType, setDrawerType] = useState<ProjectCreationType['drawerType']>(type);
   const [drawerTitle, setDrawerTitle] = useState<ProjectCreationType['drawerTitle']>(description);
   const [drawerCollection, setDrawerCollection] = useState<ProjectCreationType['drawerCollection']>(collection);
@@ -113,7 +113,7 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
   const [drawerSize, setDrawerSize] = useState<ProjectCreationType['drawerSize']>(size || null);
 
   const clear = useCallback(() => {
-    setUnit('mm');
+    setUnit('in');
     setDrawerType(undefined);
     setDrawerTitle(undefined);
     setDrawerCollection(undefined);

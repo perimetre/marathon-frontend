@@ -115,7 +115,7 @@ export const getServerSideProps: GetServerSideProps<WithApolloProps<CartServerSi
       return {
         redirect: {
           destination: '/login',
-          permanent: true
+          permanent: false
         }
       };
     }

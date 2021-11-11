@@ -67,7 +67,7 @@ export const getServerSideProps: GetServerSideProps<ProjectsContainerGetServerPr
       return {
         redirect: {
           destination: '/login',
-          permanent: true
+          permanent: false
         }
       };
     }

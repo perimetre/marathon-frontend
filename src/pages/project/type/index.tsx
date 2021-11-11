@@ -79,7 +79,7 @@ export const getServerSideProps: GetServerSideProps<TypeContainerGetServerProps>
     return {
       redirect: {
         destination: '/projects',
-        permanent: true
+        permanent: false
       }
     };
   }
@@ -95,7 +95,7 @@ export const getServerSideProps: GetServerSideProps<TypeContainerGetServerProps>
       return {
         redirect: {
           destination: '/login',
-          permanent: true
+          permanent: false
         }
       };
     }
