@@ -5,7 +5,7 @@ import { addApolloState, initializeApollo, WithApolloProps } from '../../../lib/
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
 import { CART_QUERY } from '../../../apollo/cart';
 import CartTemplate from '../../../components/Templates/Cart';
-import { requiredAuthWithRedirectProp } from '../../../utils/authUtils';
+import { requiredAuthWithRedirectProp } from '../../../utils/auth';
 
 type CartParams = {
   slug?: string;

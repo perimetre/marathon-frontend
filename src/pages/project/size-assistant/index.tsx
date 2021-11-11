@@ -11,8 +11,8 @@ import SizeAssistantTemplate from '../../../components/Templates/Project/SizeAss
 import { useCallback, useMemo } from 'react';
 import { useCreateProjectMutation } from '../../../apollo/generated/graphql';
 import { slugify } from '../../../utils/string';
-import { convertInToMm, convertInToMmFormatted } from '../../../utils/unit/conversion';
-import { requiredAuthWithRedirectProp } from '../../../utils/authUtils';
+import { convertInToMm, convertInToMmFormatted } from '../../../utils/conversion';
+import { requiredAuthWithRedirectProp } from '../../../utils/auth';
 import { getLocaleIdFromGraphqlError } from '../../../lib/apollo/exceptions';
 import logging from '../../../lib/logging';
 
@@ -35,11 +35,11 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
   const [doCreateProject, { loading, error: mutationError }] = useCreateProjectMutation();
 
   const handleSubmit = useCallback(
-    async (data: { gable?: string; width?: string }) => {
+    async (data: { gable?: string; cabinetWidth?: string }) => {
       try {
         setDrawerSize({
           gable: data.gable,
-          width: data.width
+          cabinetWidth: data.cabinetWidth
         });
 
         const slug = slugify(drawerTitle);
@@ -55,7 +55,8 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
               },
               title: drawerTitle as string,
               gable: Number(data.gable),
-              width: unit === 'mm' ? Number(data.width) : Number(convertInToMmFormatted(data.width as string)),
+              cabinetWidth:
+                unit === 'mm' ? Number(data.cabinetWidth) : Number(convertInToMmFormatted(data.cabinetWidth as string)),
               type: {
                 connect: {
                   id: Number(drawerType)
@@ -141,7 +142,7 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
       gable={GABLE_DATA}
       loading={loading}
       onSubmit={handleSubmit}
-      initialValue={{ gable: drawerSize?.gable, width: drawerSize?.width }}
+      initialValue={{ gable: drawerSize?.gable, cabinetWidth: drawerSize?.cabinetWidth }}
     />
   );
 };

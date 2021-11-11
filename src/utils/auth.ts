@@ -8,8 +8,7 @@ export const optionalAuth = async <T extends ParsedUrlQuery>(ctx?: NextPageConte
   if (typeof window === 'undefined') {
     try {
       const payload = getCookie('auth', ctx);
-      const user = payload ? ((typeof payload === 'string' ? JSON.parse(payload) : payload) as Session) : null;
-      return user;
+      return payload ? ((typeof payload === 'string' ? JSON.parse(payload) : payload) as Session) : null;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: any) {
       logging.error(error, undefined, { ctx: { ...ctx } });
