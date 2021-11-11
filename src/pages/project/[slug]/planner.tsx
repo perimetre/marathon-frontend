@@ -5,7 +5,7 @@ import { PLANNER_QUERY } from '../../../apollo/planner';
 import PlannerTemplate from '../../../components/Templates/Project/Planner';
 import { addApolloState, initializeApollo, WithApolloProps } from '../../../lib/apollo';
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
-import { requiredAuthWithRedirectProp } from '../../../utils/authUtils';
+import { requiredAuthWithRedirectProp } from '../../../utils/auth';
 
 type PlannerParams = {
   slug?: string;

@@ -2,7 +2,7 @@ import classNames from 'classnames';
 import { useField } from 'formik';
 import { useEffect, useMemo } from 'react';
 import { Unit } from '../../../types/unit';
-import { convertInToMmFormatted, convertMmToInFormatted } from '../../../utils/unit/conversion';
+import { convertInToMmFormatted, convertMmToInFormatted } from '../../../utils/conversion';
 
 const UnitTextInput: React.FC<
   React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {

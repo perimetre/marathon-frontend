@@ -12,7 +12,7 @@ import { useGetCollectionsLazyQuery } from '../../../apollo/generated/graphql';
 import CollectionTemplate from '../../../components/Templates/Project/Collection';
 import { useCallback, useEffect, useMemo } from 'react';
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
-import { requiredAuthWithRedirectProp } from '../../../utils/authUtils';
+import { requiredAuthWithRedirectProp } from '../../../utils/auth';
 
 type CollectionContainerGetServerProps = ProjectCreationProviderProps;
 

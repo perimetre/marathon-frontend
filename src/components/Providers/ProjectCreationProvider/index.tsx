@@ -3,16 +3,17 @@ import { ParsedUrlQuery } from 'querystring';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import {
   PROJECT_DRAWER_COLLECTION,
-  PROJECT_DRAWER_TITLE,
   PROJECT_DRAWER_FINISH,
+  PROJECT_DRAWER_PEGS,
   PROJECT_DRAWER_SIZE,
   PROJECT_DRAWER_SLIDE,
+  PROJECT_DRAWER_TITLE,
   PROJECT_DRAWER_TYPE,
-  PROJECT_UNIT,
-  PROJECT_DRAWER_PEGS
+  PROJECT_UNIT
 } from '../../../constraints';
 import { getCookie, setCookieOrRemoveIfUndefined } from '../../../lib/cookie';
 import { Unit } from '../../../types/unit';
+import { stripUndefined } from '../../../utils/object';
 
 type ProjectCreationType = {
   hasProvider: boolean;
@@ -38,8 +39,8 @@ type ProjectCreationType = {
   drawerSlide: { slide?: number; model?: string; depth?: string } | null;
   setDrawerSlide: (slide: { slide?: number; model?: string; depth?: string }) => void;
 
-  drawerSize: { width?: string; gable?: string } | null;
-  setDrawerSize: (size: { width?: string; gable?: string }) => void;
+  drawerSize: { cabinetWidth?: string; gable?: string } | null;
+  setDrawerSize: (size: { cabinetWidth?: string; gable?: string }) => void;
 };
 
 const initialState: ProjectCreationType = {
@@ -183,9 +184,6 @@ export const projectCreationDataHoc = (Page: any) => {
 
   return WithProjectCreation;
 };
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const stripUndefined = <T extends Record<string, any>>(obj: T) => JSON.parse(JSON.stringify(obj)) as T;
 
 export const requiredProjectData = <T extends ParsedUrlQuery>(ctx: NextPageContext | GetServerSidePropsContext<T>) => {
   const unit = getCookie(PROJECT_UNIT, ctx) as ProjectCreationType['unit'];
