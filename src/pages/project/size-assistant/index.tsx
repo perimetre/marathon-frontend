@@ -14,6 +14,7 @@ import { slugify } from '../../../utils/string';
 import { convertInToMm, convertInToMmFormatted } from '../../../utils/unit/conversion';
 import { requiredAuthWithRedirectProp } from '../../../utils/authUtils';
 import { getLocaleIdFromGraphqlError } from '../../../lib/apollo/exceptions';
+import logging from '../../../lib/logging';
 
 type SizeAssistantContainerGetServerProps = ProjectCreationProviderProps & { userId?: number };
 
@@ -35,57 +36,62 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
 
   const handleSubmit = useCallback(
     async (data: { gable?: string; width?: string }) => {
-      setDrawerSize({
-        gable: data.gable,
-        width: data.width
-      });
+      try {
+        setDrawerSize({
+          gable: data.gable,
+          width: data.width
+        });
 
-      const slug = slugify(drawerTitle);
+        const slug = slugify(drawerTitle);
 
-      await doCreateProject({
-        variables: {
-          data: {
-            slug,
-            user: {
-              connect: {
-                id: userId
-              }
-            },
-            title: drawerTitle as string,
-            gable: Number(data.gable),
-            width: unit === 'mm' ? Number(data.width) : Number(convertInToMmFormatted(data.width as string)),
-            type: {
-              connect: {
-                id: Number(drawerType)
-              }
-            },
-            finish: {
-              connect: {
-                id: Number(drawerFinish)
-              }
-            },
-            collection: {
-              connect: {
-                id: Number(drawerCollection)
-              }
-            },
-            slideDepth: {
-              connect: {
-                id: Number(drawerSlide?.depth)
-              }
-            },
-            slide: {
-              connect: {
-                id: Number(drawerSlide?.slide)
+        await doCreateProject({
+          variables: {
+            data: {
+              slug,
+              user: {
+                connect: {
+                  id: userId
+                }
+              },
+              title: drawerTitle as string,
+              gable: Number(data.gable),
+              width: unit === 'mm' ? Number(data.width) : Number(convertInToMmFormatted(data.width as string)),
+              type: {
+                connect: {
+                  id: Number(drawerType)
+                }
+              },
+              finish: {
+                connect: {
+                  id: Number(drawerFinish)
+                }
+              },
+              collection: {
+                connect: {
+                  id: Number(drawerCollection)
+                }
+              },
+              slideDepth: {
+                connect: {
+                  id: Number(drawerSlide?.depth)
+                }
+              },
+              slide: {
+                connect: {
+                  id: Number(drawerSlide?.slide)
+                }
               }
             }
           }
-        }
-      });
+        });
 
-      clear();
+        clear();
 
-      router.push('/project/[slug]/planner', `/project/${slug}/planner`);
+        router.push('/project/[slug]/planner', `/project/${slug}/planner`);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        logging.error(err, 'Error creating project:', { data });
+      }
     },
     [
       unit,
@@ -163,7 +169,7 @@ export const getServerSideProps: GetServerSideProps<SizeAssistantContainerGetSer
       props: {},
       redirect: {
         destination: '/project/supplier',
-        permanent: true
+        permanent: false
       }
     };
   }
