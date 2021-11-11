@@ -6,7 +6,7 @@ import LoginTemplate from '../../components/Templates/Login';
 import { getLocaleIdFromGraphqlError } from '../../lib/apollo/exceptions';
 import { setCookie } from '../../lib/cookie';
 import logging from '../../lib/logging';
-import { requiredAuthWithRedirectProp } from '../../utils/authUtils';
+import { requiredAuthWithRedirectProp } from '../../utils/auth';
 
 const LoginContainer: NextPage = () => {
   const router = useRouter();

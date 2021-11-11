@@ -10,9 +10,9 @@ import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { TYPE_QUERY } from '../../../apollo/type';
 import { useGetTypeLazyQuery } from '../../../apollo/generated/graphql';
 import TypeTemplate from '../../../components/Templates/Project/Type';
-import { useCallback, useMemo, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
-import { requiredAuthWithRedirectProp } from '../../../utils/authUtils';
+import { requiredAuthWithRedirectProp } from '../../../utils/auth';
 
 type TypeContainerGetServerProps = ProjectCreationProviderProps;
 
