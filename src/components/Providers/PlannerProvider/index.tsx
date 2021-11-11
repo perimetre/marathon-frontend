@@ -375,6 +375,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   useEffect(() => {
     if (unityPlayerState === 'complete' && !didSetup) {
+      // TODO: Call setup but also passing down list of current modules
       setupDrawer(
         project.calculatedWidth || 0,
         project.slideDepth.depth,

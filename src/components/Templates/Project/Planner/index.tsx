@@ -2,17 +2,18 @@ import Head from 'next/head';
 import Link from 'next/link';
 import React from 'react';
 import { useIntl } from 'react-intl';
-import { UnityPlayerProvider } from '../../../Providers/UnityPlayerProvider';
 import AppLayout from '../../../Layouts/AppLayout';
 import Badge from '../../../UI/Badge';
 import { ShoppingCart } from 'react-feather';
 import NavbarButton from '../../../UI/NavbarButton';
 import Planner, { PlannerProps } from '../../../Elements/Planner';
+import { usePlannerContext } from '../../../Providers/PlannerProvider';
 
 type PlannerTemplateProps = PlannerProps;
 
 const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ slug, data, loading, error, handleTryAgain }) => {
   const intl = useIntl();
+  const { cartAmount } = usePlannerContext();
 
   return (
     <AppLayout
@@ -26,7 +27,7 @@ const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ slug, data, loading, 
           <a className="h-full">
             <NavbarButton
               icon={
-                <Badge content="0">
+                <Badge content={cartAmount}>
                   <ShoppingCart />
                 </Badge>
               }
@@ -42,18 +43,7 @@ const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ slug, data, loading, 
           })}`}
         </title>
       </Head>
-      {data?.project && (
-        <UnityPlayerProvider project={data.project}>
-          <Planner
-            slug={slug}
-            data={data}
-            loading={loading}
-            error={error}
-            handleTryAgain={handleTryAgain}
-            isSidebarOpen
-          />
-        </UnityPlayerProvider>
-      )}
+      <Planner isSidebarOpen slug={slug} data={data} loading={loading} error={error} handleTryAgain={handleTryAgain} />
     </AppLayout>
   );
 };

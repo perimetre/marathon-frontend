@@ -6,6 +6,7 @@ import PlannerTemplate from '../../../components/Templates/Project/Planner';
 import { addApolloState, initializeApollo, WithApolloProps } from '../../../lib/apollo';
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
 import { requiredAuthWithRedirectProp } from '../../../utils/auth';
+import { UnityPlayerProvider } from '../../../components/Providers/UnityPlayerProvider';
 
 type PlannerParams = {
   slug?: string;
@@ -58,13 +59,19 @@ const PlannerContainer: NextPage<PlannerContainerProps> = ({ slug, data: ssrData
   }, [refetch]);
 
   return (
-    <PlannerTemplate
-      slug={slug as string}
-      data={data || ssrData}
-      loading={loading}
-      error={error}
-      handleTryAgain={handleTryAgain}
-    />
+    <>
+      {data?.project && (
+        <UnityPlayerProvider project={data.project}>
+          <PlannerTemplate
+            slug={slug as string}
+            data={data || ssrData}
+            loading={loading}
+            error={error}
+            handleTryAgain={handleTryAgain}
+          />
+        </UnityPlayerProvider>
+      )}
+    </>
   );
 };
 
