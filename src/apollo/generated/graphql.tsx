@@ -3794,6 +3794,10 @@ export type ModuleDataFragment = {
     | {
         __typename?: 'ModuleRules';
         rules?: { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined } | null | undefined;
+        extensions?:
+          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+          | null
+          | undefined;
       }
     | null
     | undefined;
@@ -3841,11 +3845,24 @@ export type ModuleOptionsQuery = {
       | {
           __typename?: 'ModuleRules';
           rules?: { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined } | null | undefined;
+          extensions?:
+            | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+            | null
+            | undefined;
         }
       | null
       | undefined;
     categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
   }>;
+};
+
+export type ModuleRulesQueryVariables = Exact<{
+  partNumber: Scalars['String'];
+}>;
+
+export type ModuleRulesQuery = {
+  __typename?: 'Query';
+  module?: { __typename?: 'Module'; id: number; rulesJson?: any | null | undefined } | null | undefined;
 };
 
 export type PlannerQueryVariables = Exact<{
@@ -3859,6 +3876,12 @@ export type PlannerQuery = {
         __typename?: 'Project';
         id: number;
         title: string;
+        gable: number;
+        calculatedWidth?: number | null | undefined;
+        hasPegs: boolean;
+        type: { __typename?: 'Type'; id: number; slug: string };
+        finish: { __typename?: 'Finish'; id: number; slug: string };
+        slideDepth: { __typename?: 'SlideDepth'; id: number; depth: number };
         modules: Array<{
           __typename?: 'Module';
           id: number;
@@ -3877,6 +3900,10 @@ export type PlannerQuery = {
                   | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
                   | null
                   | undefined;
+                extensions?:
+                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
               }
             | null
             | undefined;
@@ -3885,6 +3912,34 @@ export type PlannerQuery = {
       }
     | null
     | undefined;
+};
+
+export type CreateProjectModuleMutationVariables = Exact<{
+  data: ProjectModuleCreateInput;
+}>;
+
+export type CreateProjectModuleMutation = {
+  __typename?: 'Mutation';
+  createOneProjectModule: { __typename?: 'ProjectModule'; id: number };
+};
+
+export type UpdateProjectModuleMutationVariables = Exact<{
+  data: ProjectModuleUpdateInput;
+  id: Scalars['Int'];
+}>;
+
+export type UpdateProjectModuleMutation = {
+  __typename?: 'Mutation';
+  updateOneProjectModule?: { __typename?: 'ProjectModule'; id: number } | null | undefined;
+};
+
+export type DeleteProjectModuleMutationVariables = Exact<{
+  ids?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
+}>;
+
+export type DeleteProjectModuleMutation = {
+  __typename?: 'Mutation';
+  deleteManyProjectModule: { __typename?: 'AffectedRowsOutput'; count: number };
 };
 
 export type ProjectsQueryVariables = Exact<{
@@ -4013,6 +4068,9 @@ export const ModuleDataFragmentDoc = gql`
     partNumber
     rules {
       rules {
+        options
+      }
+      extensions {
         options
       }
     }
@@ -4263,11 +4321,64 @@ export function useModuleOptionsLazyQuery(
 export type ModuleOptionsQueryHookResult = ReturnType<typeof useModuleOptionsQuery>;
 export type ModuleOptionsLazyQueryHookResult = ReturnType<typeof useModuleOptionsLazyQuery>;
 export type ModuleOptionsQueryResult = Apollo.QueryResult<ModuleOptionsQuery, ModuleOptionsQueryVariables>;
+export const ModuleRulesDocument = gql`
+  query ModuleRules($partNumber: String!) {
+    module(where: { partNumber: $partNumber }) {
+      id
+      rulesJson
+    }
+  }
+`;
+
+/**
+ * __useModuleRulesQuery__
+ *
+ * To run a query within a React component, call `useModuleRulesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useModuleRulesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useModuleRulesQuery({
+ *   variables: {
+ *      partNumber: // value for 'partNumber'
+ *   },
+ * });
+ */
+export function useModuleRulesQuery(baseOptions: Apollo.QueryHookOptions<ModuleRulesQuery, ModuleRulesQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ModuleRulesQuery, ModuleRulesQueryVariables>(ModuleRulesDocument, options);
+}
+export function useModuleRulesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ModuleRulesQuery, ModuleRulesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ModuleRulesQuery, ModuleRulesQueryVariables>(ModuleRulesDocument, options);
+}
+export type ModuleRulesQueryHookResult = ReturnType<typeof useModuleRulesQuery>;
+export type ModuleRulesLazyQueryHookResult = ReturnType<typeof useModuleRulesLazyQuery>;
+export type ModuleRulesQueryResult = Apollo.QueryResult<ModuleRulesQuery, ModuleRulesQueryVariables>;
 export const PlannerDocument = gql`
   query Planner($slug: String!) {
     project(where: { slug: $slug }) {
       id
       title
+      gable
+      calculatedWidth
+      hasPegs
+      type {
+        id
+        slug
+      }
+      finish {
+        id
+        slug
+      }
+      slideDepth {
+        id
+        depth
+      }
       modules {
         ...ModuleData
       }
@@ -4303,6 +4414,139 @@ export function usePlannerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pl
 export type PlannerQueryHookResult = ReturnType<typeof usePlannerQuery>;
 export type PlannerLazyQueryHookResult = ReturnType<typeof usePlannerLazyQuery>;
 export type PlannerQueryResult = Apollo.QueryResult<PlannerQuery, PlannerQueryVariables>;
+export const CreateProjectModuleDocument = gql`
+  mutation CreateProjectModule($data: ProjectModuleCreateInput!) {
+    createOneProjectModule(data: $data) {
+      id
+    }
+  }
+`;
+export type CreateProjectModuleMutationFn = Apollo.MutationFunction<
+  CreateProjectModuleMutation,
+  CreateProjectModuleMutationVariables
+>;
+
+/**
+ * __useCreateProjectModuleMutation__
+ *
+ * To run a mutation, you first call `useCreateProjectModuleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateProjectModuleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createProjectModuleMutation, { data, loading, error }] = useCreateProjectModuleMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *   },
+ * });
+ */
+export function useCreateProjectModuleMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateProjectModuleMutation, CreateProjectModuleMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateProjectModuleMutation, CreateProjectModuleMutationVariables>(
+    CreateProjectModuleDocument,
+    options
+  );
+}
+export type CreateProjectModuleMutationHookResult = ReturnType<typeof useCreateProjectModuleMutation>;
+export type CreateProjectModuleMutationResult = Apollo.MutationResult<CreateProjectModuleMutation>;
+export type CreateProjectModuleMutationOptions = Apollo.BaseMutationOptions<
+  CreateProjectModuleMutation,
+  CreateProjectModuleMutationVariables
+>;
+export const UpdateProjectModuleDocument = gql`
+  mutation UpdateProjectModule($data: ProjectModuleUpdateInput!, $id: Int!) {
+    updateOneProjectModule(data: $data, where: { id: $id }) {
+      id
+    }
+  }
+`;
+export type UpdateProjectModuleMutationFn = Apollo.MutationFunction<
+  UpdateProjectModuleMutation,
+  UpdateProjectModuleMutationVariables
+>;
+
+/**
+ * __useUpdateProjectModuleMutation__
+ *
+ * To run a mutation, you first call `useUpdateProjectModuleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateProjectModuleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateProjectModuleMutation, { data, loading, error }] = useUpdateProjectModuleMutation({
+ *   variables: {
+ *      data: // value for 'data'
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useUpdateProjectModuleMutation(
+  baseOptions?: Apollo.MutationHookOptions<UpdateProjectModuleMutation, UpdateProjectModuleMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<UpdateProjectModuleMutation, UpdateProjectModuleMutationVariables>(
+    UpdateProjectModuleDocument,
+    options
+  );
+}
+export type UpdateProjectModuleMutationHookResult = ReturnType<typeof useUpdateProjectModuleMutation>;
+export type UpdateProjectModuleMutationResult = Apollo.MutationResult<UpdateProjectModuleMutation>;
+export type UpdateProjectModuleMutationOptions = Apollo.BaseMutationOptions<
+  UpdateProjectModuleMutation,
+  UpdateProjectModuleMutationVariables
+>;
+export const DeleteProjectModuleDocument = gql`
+  mutation DeleteProjectModule($ids: [Int!]) {
+    deleteManyProjectModule(where: { id: { in: $ids } }) {
+      count
+    }
+  }
+`;
+export type DeleteProjectModuleMutationFn = Apollo.MutationFunction<
+  DeleteProjectModuleMutation,
+  DeleteProjectModuleMutationVariables
+>;
+
+/**
+ * __useDeleteProjectModuleMutation__
+ *
+ * To run a mutation, you first call `useDeleteProjectModuleMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useDeleteProjectModuleMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [deleteProjectModuleMutation, { data, loading, error }] = useDeleteProjectModuleMutation({
+ *   variables: {
+ *      ids: // value for 'ids'
+ *   },
+ * });
+ */
+export function useDeleteProjectModuleMutation(
+  baseOptions?: Apollo.MutationHookOptions<DeleteProjectModuleMutation, DeleteProjectModuleMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<DeleteProjectModuleMutation, DeleteProjectModuleMutationVariables>(
+    DeleteProjectModuleDocument,
+    options
+  );
+}
+export type DeleteProjectModuleMutationHookResult = ReturnType<typeof useDeleteProjectModuleMutation>;
+export type DeleteProjectModuleMutationResult = Apollo.MutationResult<DeleteProjectModuleMutation>;
+export type DeleteProjectModuleMutationOptions = Apollo.BaseMutationOptions<
+  DeleteProjectModuleMutation,
+  DeleteProjectModuleMutationVariables
+>;
 export const ProjectsDocument = gql`
   query Projects($userId: Int!) {
     projects(where: { userId: { equals: $userId } }) {

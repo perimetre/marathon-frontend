@@ -1,6 +1,12 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { useContext, useRef, useState } from 'react';
+import { PlannerProvider, PlannerProviderProps } from '../PlannerProvider';
 
 export type UnityPlayerState = 'initializing' | 'loading' | 'complete' | 'error';
+
+/*
+ * React Context
+ * */
 
 type UnityPlayerContextType = {
   state: UnityPlayerState;
@@ -16,22 +22,26 @@ type UnityPlayerContextType = {
 
 const initialState: UnityPlayerContextType = {
   state: 'initializing',
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setState: () => {},
   loadingProgress: 0,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setLoadingProgress: () => {},
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   setErrorMessage: () => {},
   hasProvider: false
 };
 
 const UnityPlayerContext = React.createContext<UnityPlayerContextType>(initialState);
 
-export const UnityPlayerProvider: React.FC = ({ children }) => {
+/*
+ * Component
+ * */
+
+export type UnityPlayerProviderProps = Record<string, unknown> & PlannerProviderProps;
+
+export const UnityPlayerProvider: React.FC<UnityPlayerProviderProps> = ({ children, ...plannerProviderProps }) => {
   const [state, setState] = useState<UnityPlayerContextType['state']>(initialState.state);
   const [loadingProgress, setLoadingProgress] = useState(initialState.loadingProgress);
   const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const unityInstance = useRef<any>();
 
@@ -48,9 +58,13 @@ export const UnityPlayerProvider: React.FC = ({ children }) => {
         unityInstance
       }}
     >
-      {children}
+      <PlannerProvider {...plannerProviderProps}>{children}</PlannerProvider>
     </UnityPlayerContext.Provider>
   );
 };
+
+/*
+ * Hooks
+ * */
 
 export const useUnityPlayerContext = () => useContext(UnityPlayerContext);

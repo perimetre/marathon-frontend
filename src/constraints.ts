@@ -8,3 +8,5 @@ export const PROJECT_DRAWER_PEGS = 'drawerPegs';
 export const PROJECT_DRAWER_FINISH = 'drawerFinish';
 export const PROJECT_DRAWER_SLIDE = 'drawerSlide';
 export const PROJECT_DRAWER_SIZE = 'drawerSize';
+
+export const UNITY_GAME_OBJECT = 'WebWrapperManager';
