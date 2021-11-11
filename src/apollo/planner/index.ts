@@ -6,6 +6,21 @@ export const PLANNER_QUERY = gql`
     project(where: { slug: $slug }) {
       id
       title
+      gable
+      calculatedWidth
+      hasPegs
+      type {
+        id
+        slug
+      }
+      finish {
+        id
+        slug
+      }
+      slideDepth {
+        id
+        depth
+      }
       modules {
         ...ModuleData
       }

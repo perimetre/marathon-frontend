@@ -3804,6 +3804,17 @@ export type ModuleDataFragment = {
   categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
 };
 
+export type ProjectDataFragment = {
+  __typename?: 'Project';
+  id: number;
+  title: string;
+  slug: string;
+  cabinetWidth?: number | null | undefined;
+  gable: number;
+  type: { __typename?: 'Type'; id: number; slug: string };
+  collection: { __typename?: 'Collection'; id: number; slug: string };
+};
+
 export type LoginMutationVariables = Exact<{
   user: UserSingIn;
 }>;
@@ -3845,6 +3856,15 @@ export type ModuleOptionsQuery = {
   }>;
 };
 
+export type ModuleRulesQueryVariables = Exact<{
+  partNumber: Scalars['String'];
+}>;
+
+export type ModuleRulesQuery = {
+  __typename?: 'Query';
+  module?: { __typename?: 'Module'; id: number; rulesJson?: any | null | undefined } | null | undefined;
+};
+
 export type PlannerQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
@@ -3856,6 +3876,12 @@ export type PlannerQuery = {
         __typename?: 'Project';
         id: number;
         title: string;
+        gable: number;
+        calculatedWidth?: number | null | undefined;
+        hasPegs: boolean;
+        type: { __typename?: 'Type'; id: number; slug: string };
+        finish: { __typename?: 'Finish'; id: number; slug: string };
+        slideDepth: { __typename?: 'SlideDepth'; id: number; depth: number };
         modules: Array<{
           __typename?: 'Module';
           id: number;
@@ -3914,17 +3940,6 @@ export type DeleteProjectModuleMutationVariables = Exact<{
 export type DeleteProjectModuleMutation = {
   __typename?: 'Mutation';
   deleteManyProjectModule: { __typename?: 'AffectedRowsOutput'; count: number };
-};
-
-export type ProjectDataFragment = {
-  __typename?: 'Project';
-  id: number;
-  title: string;
-  slug: string;
-  cabinetWidth?: number | null | undefined;
-  gable: number;
-  type: { __typename?: 'Type'; id: number; slug: string };
-  collection: { __typename?: 'Collection'; id: number; slug: string };
 };
 
 export type ProjectsQueryVariables = Exact<{
@@ -4306,11 +4321,64 @@ export function useModuleOptionsLazyQuery(
 export type ModuleOptionsQueryHookResult = ReturnType<typeof useModuleOptionsQuery>;
 export type ModuleOptionsLazyQueryHookResult = ReturnType<typeof useModuleOptionsLazyQuery>;
 export type ModuleOptionsQueryResult = Apollo.QueryResult<ModuleOptionsQuery, ModuleOptionsQueryVariables>;
+export const ModuleRulesDocument = gql`
+  query ModuleRules($partNumber: String!) {
+    module(where: { partNumber: $partNumber }) {
+      id
+      rulesJson
+    }
+  }
+`;
+
+/**
+ * __useModuleRulesQuery__
+ *
+ * To run a query within a React component, call `useModuleRulesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useModuleRulesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useModuleRulesQuery({
+ *   variables: {
+ *      partNumber: // value for 'partNumber'
+ *   },
+ * });
+ */
+export function useModuleRulesQuery(baseOptions: Apollo.QueryHookOptions<ModuleRulesQuery, ModuleRulesQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ModuleRulesQuery, ModuleRulesQueryVariables>(ModuleRulesDocument, options);
+}
+export function useModuleRulesLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ModuleRulesQuery, ModuleRulesQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ModuleRulesQuery, ModuleRulesQueryVariables>(ModuleRulesDocument, options);
+}
+export type ModuleRulesQueryHookResult = ReturnType<typeof useModuleRulesQuery>;
+export type ModuleRulesLazyQueryHookResult = ReturnType<typeof useModuleRulesLazyQuery>;
+export type ModuleRulesQueryResult = Apollo.QueryResult<ModuleRulesQuery, ModuleRulesQueryVariables>;
 export const PlannerDocument = gql`
   query Planner($slug: String!) {
     project(where: { slug: $slug }) {
       id
       title
+      gable
+      calculatedWidth
+      hasPegs
+      type {
+        id
+        slug
+      }
+      finish {
+        id
+        slug
+      }
+      slideDepth {
+        id
+        depth
+      }
       modules {
         ...ModuleData
       }

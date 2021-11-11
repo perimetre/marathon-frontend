@@ -271,7 +271,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       },
       setupFinished: (error?: string) => {
         setIsPending(false);
-        setDidSetup(true);
 
         if (error) {
           setError(error);
@@ -366,6 +365,8 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
           depth,
           gable,
           finishSlug,
+          isPegboard,
+          drawerTypeSlug,
           initialModules
         })
       ),
@@ -374,10 +375,17 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   useEffect(() => {
     if (unityPlayerState === 'complete' && !didSetup) {
-      // TODO: Use real values fetched from project
-      setupDrawer(0, 0, 0, '', false, '');
+      setupDrawer(
+        project.calculatedWidth || 0,
+        project.slideDepth.depth,
+        project.gable,
+        project.finish.slug,
+        project.hasPegs,
+        project.type.slug
+      );
+      setDidSetup(true);
     }
-  }, [didSetup, setupDrawer, unityPlayerState]);
+  }, [didSetup, project, setupDrawer, unityPlayerState]);
 
   return (
     <PlannerContext.Provider

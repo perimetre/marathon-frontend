@@ -9,3 +9,12 @@ export const MODULE_OPTIONS_QUERY = gql`
   }
   ${MODULE_DATA}
 `;
+
+export const MODULE_RULES_QUERY = gql`
+  query ModuleRules($partNumber: String!) {
+    module(where: { partNumber: $partNumber }) {
+      id
+      rulesJson
+    }
+  }
+`;
