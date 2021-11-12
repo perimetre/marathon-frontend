@@ -10,9 +10,10 @@ import ModalRenameProject from '../../Elements/ModalRenameProject';
 import ModalDeleteProject from '../../Elements/ModalDeleteProject';
 import AppLayout from '../../Layouts/AppLayout';
 import ErrorMessage from '../../UI/ErrorMessage';
-import { ChevronDown, PlusCircle, Settings } from 'react-feather';
+import { ChevronDown, LogOut, PlusCircle, Settings } from 'react-feather';
 import Link from 'next/link';
 import Head from 'next/head';
+import NavbarButton from '../../UI/NavbarButton';
 
 export type ProjectsTemplateProps = {
   data?: ProjectsQuery;
@@ -39,7 +40,20 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
   );
 
   return (
-    <AppLayout hideLeft>
+    <AppLayout
+      hideLeft
+      appendRight={() => (
+        <>
+          <Link href="/logout">
+            <a className="h-full hover:text-mui-primary">
+              <NavbarButton icon={<LogOut />} iconPosition="left">
+                <FormattedMessage id="common.exit" />
+              </NavbarButton>
+            </a>
+          </Link>
+        </>
+      )}
+    >
       <Head>
         <title>
           {`${intl.formatMessage({ id: 'projects.title' })} | ${intl.formatMessage({
@@ -77,7 +91,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
             <div className="mt-16 mb-12">
               <div className="pb-8 mb-10 border-b">
                 {loading ? (
-                  <div className="w-56 h-7 mui-skeleton grid" />
+                  <div className="w-56 h-12 mb-4 mui-skeleton grid" />
                 ) : (
                   <button className="flex w-full mb-2 text-left" onClick={() => handleAccordion('ac-projects')}>
                     <h3 className="flex items-center flex-1 text-xl font-bold uppercase gap-2">

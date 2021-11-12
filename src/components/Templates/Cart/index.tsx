@@ -6,13 +6,12 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import SkeletonImage from '../../UI/SkeletonImage';
 import classNames from 'classnames';
 import Button from '../../UI/Button';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFile } from '@fortawesome/free-solid-svg-icons';
 import Link from 'next/link';
 import ErrorMessage from '../../UI/ErrorMessage';
 import Skeleton from '../../UI/Skeleton';
-import { ChevronLeft } from 'react-feather';
+import { ChevronLeft, File } from 'react-feather';
 import { groupBy, values } from 'lodash';
+import NavbarButton from '../../UI/NavbarButton';
 
 type ProjectModules = (CartDataFragment & {
   children?: (CartDataFragment & { quantity?: number })[];
@@ -110,9 +109,10 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading,
               query: { slug }
             }}
           >
-            <a className="flex items-center justify-center h-full px-4 hover:bg-mui-gray-50">
-              <ChevronLeft />
-              <FormattedMessage id="common.back" />
+            <a className="h-full">
+              <NavbarButton icon={<ChevronLeft />} iconPosition="left">
+                <FormattedMessage id="common.back" />
+              </NavbarButton>
             </a>
           </Link>
         </>
@@ -142,7 +142,7 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading,
                       <span>
                         <FormattedMessage id="cart.print" />
                       </span>
-                      <FontAwesomeIcon icon={faFile} className="text-2xl mui-animate-group-hover" />
+                      <File className="text-2xl" />
                     </Button>
                   </div>
                 </div>

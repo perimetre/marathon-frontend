@@ -2,12 +2,11 @@ import React from 'react';
 import classNames from 'classnames';
 import Button from '../../UI/Button';
 import { motion } from 'framer-motion';
-import { ArrowLeft } from '../../UI/Icons/arrowLeft';
-import { ArrowRight } from '../../UI/Icons/arrowRight';
 import AppLayout from '../../Layouts/AppLayout';
 import Spinner from '../../UI/Spinner';
 import SkeletonImage from '../../UI/SkeletonImage';
 import UnitSwitch from '../../Elements/UnitSwitch';
+import { ArrowLeft, ArrowRight } from 'react-feather';
 
 export type ProjectCreationTemplateProps = {
   title: string;

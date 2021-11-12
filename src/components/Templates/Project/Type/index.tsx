@@ -32,9 +32,13 @@ const TypeTemplate: React.FC<TypeTemplateProps> = ({
   const schema = useMemo(
     () =>
       yup.object().shape({
-        type: yup.number().min(0).label('Type').required()
+        type: yup
+          .number()
+          .min(0)
+          .label(intl.formatMessage({ id: 'project.type' }))
+          .required()
       }),
-    []
+    [intl]
   );
 
   return (

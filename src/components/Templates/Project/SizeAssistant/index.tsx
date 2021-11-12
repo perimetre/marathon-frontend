@@ -34,10 +34,16 @@ const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
   const schema = useMemo(
     () =>
       yup.object().shape({
-        gable: yup.string().label('Gable').required(),
-        cabinetWidth: yup.string().label('Width').required()
+        gable: yup
+          .string()
+          .label(intl.formatMessage({ id: 'project.gable' }))
+          .required(),
+        cabinetWidth: yup
+          .string()
+          .label(intl.formatMessage({ id: 'project.width' }))
+          .required()
       }),
-    []
+    [intl]
   );
 
   return (

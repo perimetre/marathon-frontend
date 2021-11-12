@@ -6,7 +6,8 @@
     "tryAgain": "Try again",
     "close": "Close",
     "add": "Add",
-    "back": "Back"
+    "back": "Back",
+    "exit": "Exit"
   },
   "serverErrors": {
     "unknownError": "An error has occurred. Please try again later.",
@@ -66,7 +67,15 @@
     "supplierHeader": "What slides will be used?",
     "typeTitle": "Type",
     "typeHeader": "What kind of drawer will you be designing?",
-    "usePegboard": "Use Pegboard"
+    "usePegboard": "Use Pegboard",
+    "type": "Type",
+    "supplier": "Supplier",
+    "model": "Model",
+    "depth": "Depth",
+    "gable": "Gable",
+    "width": "Width",
+    "finish": "Finish",
+    "collection": "Collection"
   },
   "projects": {
     "title": "My projects",

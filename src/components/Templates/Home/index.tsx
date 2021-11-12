@@ -4,10 +4,9 @@ import { useCallback, useState } from 'react';
 import Button from '../../UI/Button';
 import Expander from '../../UI/Expander';
 import classNames from 'classnames';
-import { ChevronDownIcon } from '../../UI/Icons/chevronDown';
 import AppLayout from '../../Layouts/AppLayout';
-import { UserIcon } from '../../UI/Icons/user';
 import NavbarButton from '../../UI/NavbarButton';
+import { ChevronDown, User } from 'react-feather';
 
 const HomeTemplate: React.FC = () => {
   const [expanded, setExpanded] = useState<string[]>(['ac-portfolio']);
@@ -25,7 +24,7 @@ const HomeTemplate: React.FC = () => {
       appendRight={() => (
         <Link href="/login">
           <a className="h-full">
-            <NavbarButton icon={<UserIcon className="text-mui-primary" />}>
+            <NavbarButton icon={<User className="text-mui-primary" />}>
               <FormattedMessage id="login.signInButton" />
             </NavbarButton>
           </a>
@@ -47,7 +46,7 @@ const HomeTemplate: React.FC = () => {
                   <h3 className="flex-1 font-bold uppercase">
                     <FormattedMessage id="home.accordion.choosePortfolio" />
                   </h3>
-                  <ChevronDownIcon
+                  <ChevronDown
                     className={classNames(
                       'text-mui-primary transition-all',
                       expanded.includes('ac-portfolio') && 'rotate-180'
@@ -70,7 +69,7 @@ const HomeTemplate: React.FC = () => {
                   <h3 className="flex-1 font-bold uppercase">
                     <FormattedMessage id="home.accordion.firstProject" />
                   </h3>
-                  <ChevronDownIcon
+                  <ChevronDown
                     className={classNames(
                       'text-mui-primary transition-all',
                       expanded.includes('ac-project') && 'rotate-180'
@@ -88,7 +87,7 @@ const HomeTemplate: React.FC = () => {
                   <h3 className="flex-1 font-bold uppercase">
                     <FormattedMessage id="home.accordion.pickWhereLeft" />
                   </h3>
-                  <ChevronDownIcon
+                  <ChevronDown
                     className={classNames(
                       'text-mui-primary transition-all',
                       expanded.includes('ac-pick') && 'rotate-180'
