@@ -3,7 +3,11 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import { useUnityPlayerContext } from '../UnityPlayerProvider';
 import logging from '../../../lib/logging';
 import { UNITY_GAME_OBJECT } from '../../../constraints';
-import { PlannerQuery } from '../../../apollo/generated/graphql';
+import {
+  PlannerQuery,
+  useCreateProjectModuleMutation,
+  useDeleteProjectModuleMutation
+} from '../../../apollo/generated/graphql';
 import { nanoid } from 'nanoid';
 
 type PieceBuilderState = 'None' | 'Selected' | 'Editing' | 'Placed' | 'AddingSubModule' | 'Deleted';
@@ -117,7 +121,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   // ** Misc
   // ***********
   const { hasProvider, unityInstance, state: unityPlayerState } = useUnityPlayerContext();
-  // const { id: projectId } = project;
+  const { id: projectId } = project;
 
   if (!hasProvider) {
     throw 'Called PlannerProvider. But no PlannerProvider was found. Wrap your PlannerProvider with the UnityPlayerProvider component';
@@ -128,9 +132,9 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   // ***********
 
   // ** Mutations
-  // const [doCreateProjectModule] = useCreateProjectModuleMutation();
+  const [doCreateProjectModule] = useCreateProjectModuleMutation();
   // const [doUpdateProjectModule] = useUpdateProjectModuleMutation();
-  // const [doDeleteProjectModule] = useDeleteProjectModuleMutation();
+  const [doDeleteProjectModule] = useDeleteProjectModuleMutation();
 
   // ***********
   // ** Business logic
@@ -153,93 +157,94 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   // ** Effects
 
   // Create project
-  // useEffect(() => {
-  //   const createProjectModuleEffect = async () => {
-  //     // If there's a project module
-  //     // If the project module hasn't already been created (if it's not on idMap)
-  //     // And the state is placed or selected
-  //     if (projectModule && !idMap[projectModule.id] && (state === 'Placed' || state === 'Selected')) {
-  //       const { id, posX, posY, posZ, rotY, parentId, moduleId, children } = projectModule;
-  //
-  //       try {
-  //         const { data } = await doCreateProjectModule({
-  //           variables: {
-  //             data: {
-  //               posX,
-  //               posY,
-  //               posZ,
-  //               rotY,
-  //               module: { connect: { id: moduleId } },
-  //               project: { connect: { id: projectId } },
-  //               parent: parentId ? { connect: { id: idMap[parentId] } } : undefined,
-  //               children:
-  //                 children && children.length > 0
-  //                   ? {
-  //                       createMany: {
-  //                         data: children.map(({ posX, posY, posZ, rotY, moduleId }) => ({
-  //                           posX,
-  //                           posY,
-  //                           posZ,
-  //                           rotY,
-  //                           moduleId,
-  //                           projectId
-  //                         }))
-  //                       }
-  //                     }
-  //                   : undefined
-  //             }
-  //           }
-  //         });
-  //
-  //         if (data) {
-  //           setIdMap({ ...idMap, [id]: data.createOneProjectModule.id });
-  //         } else {
-  //           logging.warn(`Created project module but it did not return any data`, { state, projectModule });
-  //         }
-  //       } catch (err) {
-  //         logging.error(err as Error, `Failed creating project module`, { state, projectModule });
-  //       }
-  //     }
-  //   };
-  //
-  //   // createProjectModuleEffect();
-  // }, [doCreateProjectModule, idMap, projectId, projectModule, state]);
+  useEffect(() => {
+    const createProjectModuleEffect = async () => {
+      // If there's a project module
+      // If the project module hasn't already been created (if it's not on idMap)
+      // And the state is placed or selected
+      if (projectModule && !idMap[projectModule.id] && (state === 'Placed' || state === 'Selected')) {
+        const { id, posX, posY, posZ, rotY, parentId, moduleId, children } = projectModule;
+
+        try {
+          const { data } = await doCreateProjectModule({
+            variables: {
+              data: {
+                posX,
+                posY,
+                posZ,
+                rotY,
+                module: { connect: { id: moduleId } },
+                project: { connect: { id: projectId } },
+                parent: parentId ? { connect: { id: idMap[parentId] } } : undefined,
+                children:
+                  children && children.length > 0
+                    ? {
+                        createMany: {
+                          data: children.map(({ posX, posY, posZ, rotY, moduleId }) => ({
+                            posX,
+                            posY,
+                            posZ,
+                            rotY,
+                            moduleId,
+                            projectId
+                          }))
+                        }
+                      }
+                    : undefined
+              }
+            }
+          });
+
+          if (data) {
+            setIdMap({ ...idMap, [id]: data.createOneProjectModule.id });
+          } else {
+            logging.warn(`Created project module but it did not return any data`, { state, projectModule });
+          }
+        } catch (err) {
+          logging.error(err as Error, `Failed creating project module`, { state, projectModule });
+        }
+      }
+    };
+
+    createProjectModuleEffect();
+  }, [doCreateProjectModule, idMap, projectId, projectModule, state]);
 
   // Delete project
-  // useEffect(() => {
-  //   const deleteProjectModuleEffect = async () => {
-  //     // If there's a project module
-  //     // If the project module has already been created (if it's on idMap)
-  //     // And the state is deleted or editing
-  //     if (projectModule && idMap[projectModule.id] && (state === 'Editing' || state === 'Deleted')) {
-  //       const { id, children } = projectModule;
-  //
-  //       const idsToDelete = [id, ...(children?.map((x) => x.id) || [])].map((x) => idMap[x]);
-  //
-  //       try {
-  //         const { data } = await doDeleteProjectModule({
-  //           variables: {
-  //             ids: idsToDelete
-  //           }
-  //         });
-  //
-  //         if (data && data.deleteManyProjectModule.count > 0) {
-  //           setIdMap(
-  //             Object.entries(idMap)
-  //               .filter((x) => !idsToDelete.includes(x[1]))
-  //               .reduce((obj, entry) => ({ ...obj, [entry[0]]: entry[1] }), {} as typeof idMap)
-  //           );
-  //         } else {
-  //           logging.warn(`Deleted project modules but no data was returned`, { state, projectModule });
-  //         }
-  //       } catch (err) {
-  //         logging.error(err as Error, `Failed deleting project modules`, { state, projectModule });
-  //       }
-  //     }
-  //   };
-  //
-  //   // deleteProjectModuleEffect();
-  // }, [doDeleteProjectModule, idMap, projectModule, state]);
+  useEffect(() => {
+    const deleteProjectModuleEffect = async () => {
+      // If there's a project module
+      // If the project module has already been created (if it's on idMap)
+      // And the state is deleted or editing
+      if (projectModule && idMap[projectModule.id] && (state === 'Editing' || state === 'Deleted')) {
+        const { id, children } = projectModule;
+
+        const idsToDelete = [id, ...(children?.map((x) => x.id) || [])].map((x) => idMap[x]);
+
+        try {
+          debugger;
+          const { data } = await doDeleteProjectModule({
+            variables: {
+              ids: idsToDelete
+            }
+          });
+
+          if (data && data.deleteManyProjectModule.count > 0) {
+            setIdMap(
+              Object.entries(idMap)
+                .filter((x) => !idsToDelete.includes(x[1]))
+                .reduce((obj, entry) => ({ ...obj, [entry[0]]: entry[1] }), {} as typeof idMap)
+            );
+          } else {
+            logging.warn(`Deleted project modules but no data was returned`, { state, projectModule });
+          }
+        } catch (err) {
+          logging.error(err as Error, `Failed deleting project modules`, { state, projectModule });
+        }
+      }
+    };
+
+    deleteProjectModuleEffect();
+  }, [doDeleteProjectModule, idMap, projectModule, state]);
 
   // ***********
   // ** Unity <-> React logic
@@ -462,7 +467,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
           project.type.slug,
           projectModules
         );
-      }, 20);
+      }, 30);
       setDidSetup(true);
       setIdMap(idMaps);
     }

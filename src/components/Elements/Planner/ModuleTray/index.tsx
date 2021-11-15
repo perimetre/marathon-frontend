@@ -47,8 +47,6 @@ const ModuleTray: React.FC = () => {
     }
   }, [doLoadModuleRules, projectModule]);
 
-  console.log(data, !data?.module?.rulesJson.rules.rotation);
-
   return (
     <motion.div
       variants={trayVariants}
