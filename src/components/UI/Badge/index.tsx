@@ -24,7 +24,7 @@ export type BadgeProps = {
    *
    * @default 9
    */
-  maxValue?: number;
+  maxValue?: number | null;
   /**
    * Whether or not the badge should have a pulsing effect
    */
@@ -64,7 +64,11 @@ const Badge: React.FC<BadgeProps> = ({
 }) => {
   const content = useMemo(
     () =>
-      typeof propsContent === 'number' ? (propsContent > maxValue ? `${maxValue}+` : `${propsContent}`) : propsContent,
+      typeof propsContent === 'number'
+        ? maxValue && propsContent > maxValue
+          ? `${maxValue}+`
+          : `${propsContent}`
+        : propsContent,
     [propsContent, maxValue]
   );
 

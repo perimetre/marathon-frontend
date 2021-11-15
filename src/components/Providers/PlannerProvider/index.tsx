@@ -162,7 +162,12 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       // If there's a project module
       // If the project module hasn't already been created (if it's not on idMap)
       // And the state is placed or selected
-      if (projectModule && !idMap[projectModule.id] && (state === 'Placed' || state === 'Selected')) {
+      if (
+        projectModule &&
+        !idMap[projectModule.id] &&
+        prevState === 'Editing' &&
+        (state === 'Placed' || state === 'Selected')
+      ) {
         const { id, posX, posY, posZ, rotY, parentId, moduleId, children } = projectModule;
 
         try {
@@ -207,7 +212,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
     };
 
     createProjectModuleEffect();
-  }, [doCreateProjectModule, idMap, projectId, projectModule, state]);
+  }, [doCreateProjectModule, idMap, projectId, projectModule, state, prevState]);
 
   // Delete project
   useEffect(() => {
@@ -221,7 +226,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         const idsToDelete = [id, ...(children?.map((x) => x.id) || [])].map((x) => idMap[x]);
 
         try {
-          debugger;
           const { data } = await doDeleteProjectModule({
             variables: {
               ids: idsToDelete
