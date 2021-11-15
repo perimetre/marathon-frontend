@@ -3,11 +3,8 @@ import React, { useCallback, useContext, useEffect, useMemo, useState } from 're
 import { useUnityPlayerContext } from '../UnityPlayerProvider';
 import logging from '../../../lib/logging';
 import { UNITY_GAME_OBJECT } from '../../../constraints';
-import {
-  PlannerQuery,
-  useCreateProjectModuleMutation,
-  useDeleteProjectModuleMutation
-} from '../../../apollo/generated/graphql';
+import { PlannerQuery } from '../../../apollo/generated/graphql';
+import { nanoid } from 'nanoid';
 
 type PieceBuilderState = 'None' | 'Selected' | 'Editing' | 'Placed' | 'AddingSubModule' | 'Deleted';
 
@@ -22,8 +19,8 @@ export type ProjectModule = {
   posZ: number;
   rotY: number;
 
-  parentId: string; // The parent if this is a submodule
-  children: ProjectModule[]; // The list of submodules if this is a parent
+  parentId?: string; // The parent if this is a submodule
+  children?: ProjectModule[]; // The list of submodules if this is a parent
 };
 
 /*
@@ -120,7 +117,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   // ** Misc
   // ***********
   const { hasProvider, unityInstance, state: unityPlayerState } = useUnityPlayerContext();
-  const { id: projectId } = project;
+  // const { id: projectId } = project;
 
   if (!hasProvider) {
     throw 'Called PlannerProvider. But no PlannerProvider was found. Wrap your PlannerProvider with the UnityPlayerProvider component';
@@ -131,9 +128,9 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   // ***********
 
   // ** Mutations
-  const [doCreateProjectModule] = useCreateProjectModuleMutation();
+  // const [doCreateProjectModule] = useCreateProjectModuleMutation();
   // const [doUpdateProjectModule] = useUpdateProjectModuleMutation();
-  const [doDeleteProjectModule] = useDeleteProjectModuleMutation();
+  // const [doDeleteProjectModule] = useDeleteProjectModuleMutation();
 
   // ***********
   // ** Business logic
@@ -142,6 +139,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   // ** States
   const [didSetup, setDidSetup] = useState(false);
   const [projectModule, setProjectModule] = useState<ProjectModule | undefined>(undefined);
+  // TODO: Remove next line if we start using prevState
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [prevState, setPrevState] = useState(initialState.state);
   const [state, setState] = useState(initialState.state);
@@ -155,93 +153,93 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   // ** Effects
 
   // Create project
-  useEffect(() => {
-    const createProjectModuleEffect = async () => {
-      // If there's a project module
-      // If the project module hasn't already been created (if it's not on idMap)
-      // And the state is placed or selected
-      if (projectModule && !idMap[projectModule.id] && (state === 'Placed' || state === 'Selected')) {
-        const { id, posX, posY, posZ, rotY, parentId, moduleId, children } = projectModule;
-
-        try {
-          const { data } = await doCreateProjectModule({
-            variables: {
-              data: {
-                posX,
-                posY,
-                posZ,
-                rotY,
-                module: { connect: { id: moduleId } },
-                project: { connect: { id: projectId } },
-                parent: parentId ? { connect: { id: idMap[parentId] } } : undefined,
-                children:
-                  children && children.length > 0
-                    ? {
-                        createMany: {
-                          data: children.map(({ posX, posY, posZ, rotY, moduleId }) => ({
-                            posX,
-                            posY,
-                            posZ,
-                            rotY,
-                            moduleId,
-                            projectId
-                          }))
-                        }
-                      }
-                    : undefined
-              }
-            }
-          });
-
-          if (data) {
-            setIdMap({ ...idMap, [id]: data.createOneProjectModule.id });
-          } else {
-            logging.warn(`Created project module but it did not return any data`, { state, projectModule });
-          }
-        } catch (err) {
-          logging.error(err as Error, `Failed creating project module`, { state, projectModule });
-        }
-      }
-    };
-
-    createProjectModuleEffect();
-  }, [doCreateProjectModule, idMap, projectId, projectModule, state]);
+  // useEffect(() => {
+  //   const createProjectModuleEffect = async () => {
+  //     // If there's a project module
+  //     // If the project module hasn't already been created (if it's not on idMap)
+  //     // And the state is placed or selected
+  //     if (projectModule && !idMap[projectModule.id] && (state === 'Placed' || state === 'Selected')) {
+  //       const { id, posX, posY, posZ, rotY, parentId, moduleId, children } = projectModule;
+  //
+  //       try {
+  //         const { data } = await doCreateProjectModule({
+  //           variables: {
+  //             data: {
+  //               posX,
+  //               posY,
+  //               posZ,
+  //               rotY,
+  //               module: { connect: { id: moduleId } },
+  //               project: { connect: { id: projectId } },
+  //               parent: parentId ? { connect: { id: idMap[parentId] } } : undefined,
+  //               children:
+  //                 children && children.length > 0
+  //                   ? {
+  //                       createMany: {
+  //                         data: children.map(({ posX, posY, posZ, rotY, moduleId }) => ({
+  //                           posX,
+  //                           posY,
+  //                           posZ,
+  //                           rotY,
+  //                           moduleId,
+  //                           projectId
+  //                         }))
+  //                       }
+  //                     }
+  //                   : undefined
+  //             }
+  //           }
+  //         });
+  //
+  //         if (data) {
+  //           setIdMap({ ...idMap, [id]: data.createOneProjectModule.id });
+  //         } else {
+  //           logging.warn(`Created project module but it did not return any data`, { state, projectModule });
+  //         }
+  //       } catch (err) {
+  //         logging.error(err as Error, `Failed creating project module`, { state, projectModule });
+  //       }
+  //     }
+  //   };
+  //
+  //   // createProjectModuleEffect();
+  // }, [doCreateProjectModule, idMap, projectId, projectModule, state]);
 
   // Delete project
-  useEffect(() => {
-    const deleteProjectModuleEffect = async () => {
-      // If there's a project module
-      // If the project module has already been created (if it's on idMap)
-      // And the state is deleted or editing
-      if (projectModule && idMap[projectModule.id] && (state === 'Editing' || state === 'Deleted')) {
-        const { id, children } = projectModule;
-
-        const idsToDelete = [id, ...children.map((x) => x.id)].map((x) => idMap[x]);
-
-        try {
-          const { data } = await doDeleteProjectModule({
-            variables: {
-              ids: idsToDelete
-            }
-          });
-
-          if (data && data.deleteManyProjectModule.count > 0) {
-            setIdMap(
-              Object.entries(idMap)
-                .filter((x) => !idsToDelete.includes(x[1]))
-                .reduce((obj, entry) => ({ ...obj, [entry[0]]: entry[1] }), {} as typeof idMap)
-            );
-          } else {
-            logging.warn(`Deleted project modules but no data was returned`, { state, projectModule });
-          }
-        } catch (err) {
-          logging.error(err as Error, `Failed deleting project modules`, { state, projectModule });
-        }
-      }
-    };
-
-    deleteProjectModuleEffect();
-  }, [doDeleteProjectModule, idMap, projectModule, state]);
+  // useEffect(() => {
+  //   const deleteProjectModuleEffect = async () => {
+  //     // If there's a project module
+  //     // If the project module has already been created (if it's on idMap)
+  //     // And the state is deleted or editing
+  //     if (projectModule && idMap[projectModule.id] && (state === 'Editing' || state === 'Deleted')) {
+  //       const { id, children } = projectModule;
+  //
+  //       const idsToDelete = [id, ...(children?.map((x) => x.id) || [])].map((x) => idMap[x]);
+  //
+  //       try {
+  //         const { data } = await doDeleteProjectModule({
+  //           variables: {
+  //             ids: idsToDelete
+  //           }
+  //         });
+  //
+  //         if (data && data.deleteManyProjectModule.count > 0) {
+  //           setIdMap(
+  //             Object.entries(idMap)
+  //               .filter((x) => !idsToDelete.includes(x[1]))
+  //               .reduce((obj, entry) => ({ ...obj, [entry[0]]: entry[1] }), {} as typeof idMap)
+  //           );
+  //         } else {
+  //           logging.warn(`Deleted project modules but no data was returned`, { state, projectModule });
+  //         }
+  //       } catch (err) {
+  //         logging.error(err as Error, `Failed deleting project modules`, { state, projectModule });
+  //       }
+  //     }
+  //   };
+  //
+  //   // deleteProjectModuleEffect();
+  // }, [doDeleteProjectModule, idMap, projectModule, state]);
 
   // ***********
   // ** Unity <-> React logic
@@ -271,19 +269,17 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       },
       setupFinished: (error?: string) => {
         setIsPending(false);
+        console.log('setupFinished');
 
         if (error) {
           setError(error);
           logging.error(new Error(error));
         }
       },
-      createFinished: (error?: string) => {
-        setIsPending(false);
+      deletedModule: (projectModuleId: string) => {
+        setState('Deleted');
 
-        if (error) {
-          setError(error);
-          logging.error(new Error(error));
-        }
+        console.log(projectModuleId);
       }
     };
 
@@ -316,7 +312,20 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   }, [unityInstance]);
 
   const createModule = useCallback(
-    (partNumber: string, moduleId: number, projectModuleId: string, rules: string, bundleUrl: string) =>
+    (partNumber: string, moduleId: number, projectModuleId: string, rules: string, bundleUrl: string) => {
+      // console.log(
+      //   JSON.stringify(
+      //     {
+      //       partNumber,
+      //       moduleId,
+      //       projectModuleId,
+      //       rules,
+      //       bundleUrl
+      //     },
+      //     undefined,
+      //     2
+      //   )
+      // );
       unityInstance.current?.SendMessage(
         UNITY_GAME_OBJECT,
         'CreateModule',
@@ -327,12 +336,26 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
           rules,
           bundleUrl
         })
-      ),
+      );
+    },
     [unityInstance]
   );
 
   const createChildrenModule = useCallback(
-    (partNumber: string, moduleId: number, projectModuleId: string, rules: string, bundleUrl: string) =>
+    (partNumber: string, moduleId: number, projectModuleId: string, rules: string, bundleUrl: string) => {
+      // console.log(
+      //   JSON.stringify(
+      //     {
+      //       partNumber,
+      //       moduleId,
+      //       projectModuleId,
+      //       rules,
+      //       bundleUrl
+      //     },
+      //     undefined,
+      //     2
+      //   )
+      // );
       unityInstance.current?.SendMessage(
         UNITY_GAME_OBJECT,
         'CreateChildrenModule',
@@ -343,7 +366,8 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
           rules,
           bundleUrl
         })
-      ),
+      );
+    },
     [unityInstance]
   );
 
@@ -356,7 +380,22 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       isPegboard: boolean,
       drawerTypeSlug: string,
       initialModules?: ProjectModule[]
-    ) =>
+    ) => {
+      // console.log(
+      //   JSON.stringify(
+      //     {
+      //       width,
+      //       depth,
+      //       gable,
+      //       finishSlug,
+      //       isPegboard,
+      //       drawerTypeSlug,
+      //       initialModules
+      //     },
+      //     undefined,
+      //     2
+      //   )
+      // );
       unityInstance.current?.SendMessage(
         UNITY_GAME_OBJECT,
         'SetupDrawer',
@@ -369,22 +408,63 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
           drawerTypeSlug,
           initialModules
         })
-      ),
+      );
+    },
     [unityInstance]
   );
 
+  // console.log(project, idMap, cartAmount);
+
   useEffect(() => {
     if (unityPlayerState === 'complete' && !didSetup) {
-      // TODO: Call setup but also passing down list of current modules
-      setupDrawer(
-        project.calculatedWidth || 0,
-        project.slideDepth.depth,
-        project.gable,
-        project.finish.slug,
-        project.hasPegs,
-        project.type.slug
+      let idMaps = {};
+      const projectModules = project.projectModules?.map(
+        ({ posX, posY, posZ, rotY, moduleId, module: { bundleUrl, partNumber }, children, id: originalId }) => {
+          const id = nanoid();
+          idMaps = { ...idMaps, [id]: originalId };
+          return {
+            id,
+            posX: posX || 0,
+            posY: posY || 0,
+            posZ: posZ || 0,
+            rotY: rotY || 0,
+            bundleUrl: bundleUrl || undefined,
+            partNumber,
+            moduleId,
+            children: children?.map(
+              ({ posX, posY, posZ, rotY, moduleId, module: { bundleUrl, partNumber }, id: originalId }) => {
+                const childId = nanoid();
+                idMaps = { ...idMaps, [childId]: originalId };
+                return {
+                  id: childId,
+                  parentId: id,
+                  posX: posX || 0,
+                  posY: posY || 0,
+                  posZ: posZ || 0,
+                  rotY: rotY || 0,
+                  bundleUrl: bundleUrl || undefined,
+                  partNumber,
+                  moduleId
+                };
+              }
+            )
+          };
+        }
       );
+
+      setTimeout(() => {
+        setupDrawer(
+          project.calculatedWidth || 0,
+          project.slideDepth.depth,
+          project.gable,
+          project.finish.slug,
+          project.hasPegs,
+          project.type.slug,
+          projectModules
+        );
+      }, 20);
       setDidSetup(true);
+      setIdMap(idMaps);
     }
   }, [didSetup, project, setupDrawer, unityPlayerState]);
 

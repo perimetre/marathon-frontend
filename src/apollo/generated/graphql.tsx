@@ -3804,6 +3804,18 @@ export type ModuleDataFragment = {
   categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
 };
 
+export type ProjectModuleDataFragment = {
+  __typename?: 'ProjectModule';
+  id: number;
+  posX: number;
+  posY: number;
+  posZ: number;
+  rotY: number;
+  parentId?: number | null | undefined;
+  moduleId: number;
+  module: { __typename?: 'Module'; id: number; partNumber: string; bundleUrl?: string | null | undefined };
+};
+
 export type ProjectDataFragment = {
   __typename?: 'Project';
   id: number;
@@ -3908,6 +3920,28 @@ export type PlannerQuery = {
             | null
             | undefined;
           categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+        }>;
+        projectModules: Array<{
+          __typename?: 'ProjectModule';
+          id: number;
+          posX: number;
+          posY: number;
+          posZ: number;
+          rotY: number;
+          parentId?: number | null | undefined;
+          moduleId: number;
+          children: Array<{
+            __typename?: 'ProjectModule';
+            id: number;
+            posX: number;
+            posY: number;
+            posZ: number;
+            rotY: number;
+            parentId?: number | null | undefined;
+            moduleId: number;
+            module: { __typename?: 'Module'; id: number; partNumber: string; bundleUrl?: string | null | undefined };
+          }>;
+          module: { __typename?: 'Module'; id: number; partNumber: string; bundleUrl?: string | null | undefined };
         }>;
       }
     | null
@@ -4080,6 +4114,22 @@ export const ModuleDataFragmentDoc = gql`
       id
       slug
       name
+    }
+  }
+`;
+export const ProjectModuleDataFragmentDoc = gql`
+  fragment ProjectModuleData on ProjectModule {
+    id
+    posX
+    posY
+    posZ
+    rotY
+    parentId
+    moduleId
+    module {
+      id
+      partNumber
+      bundleUrl
     }
   }
 `;
@@ -4382,9 +4432,16 @@ export const PlannerDocument = gql`
       modules {
         ...ModuleData
       }
+      projectModules {
+        ...ProjectModuleData
+        children {
+          ...ProjectModuleData
+        }
+      }
     }
   }
   ${ModuleDataFragmentDoc}
+  ${ProjectModuleDataFragmentDoc}
 `;
 
 /**

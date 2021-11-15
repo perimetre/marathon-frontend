@@ -56,11 +56,11 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/build-0.11.loader.js";
+      var loaderUrl = buildUrl + "/unity.loader.js";
       var config = {
-        dataUrl: buildUrl + "/build-0.11.data",
-        frameworkUrl: buildUrl + "/build-0.11.framework.js",
-        codeUrl: buildUrl + "/build-0.11.wasm",
+        dataUrl: buildUrl + "/unity.data",
+        frameworkUrl: buildUrl + "/unity.framework.js",
+        codeUrl: buildUrl + "/unity.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "Perimetre",
         productName: "marathon-app",
@@ -82,8 +82,8 @@
         config.devicePixelRatio = 1;
         unityShowBanner('WebGL builds are not supported on mobile devices.');
       } else {
-        canvas.style.width = "100%";
-        canvas.style.height = "100%";
+        canvas.style.width = "960px";
+        canvas.style.height = "600px";
       }
       loadingBar.style.display = "block";
 
