@@ -28,7 +28,7 @@ const SidebarCategories: React.FC<SidebarCategoriesProps> = ({ project, onCatego
       className="flex flex-col h-full"
     >
       <p className="flex-grow-0 mx-4 my-6 text-base font-bold text-mui-primary">{project?.title}</p>
-      <div className="flex items-center justify-center flex-grow">
+      <div className="flex flex-col items-center justify-center flex-grow">
         {categories &&
           categories.map((category) => (
             <button

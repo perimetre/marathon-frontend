@@ -414,7 +414,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
           gable,
           finishSlug,
           isPegboard,
-          drawerTypeSlug,
+          drawerType: drawerTypeSlug,
           initialModules
         })
       );

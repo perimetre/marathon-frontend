@@ -1,6 +1,6 @@
 import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { PlannerQuery, PlannerQueryVariables, usePlannerLazyQuery } from '../../../apollo/generated/graphql';
+import React, { useCallback, useMemo } from 'react';
+import { PlannerQuery, PlannerQueryVariables, usePlannerQuery } from '../../../apollo/generated/graphql';
 import { PLANNER_QUERY } from '../../../apollo/planner';
 import PlannerTemplate from '../../../components/Templates/Project/Planner';
 import { addApolloState, initializeApollo, WithApolloProps } from '../../../lib/apollo';
@@ -25,7 +25,12 @@ const PlannerContainer: NextPage<PlannerContainerProps> = ({ slug, data: ssrData
   // ***********
 
   // ** Queries
-  const [getPlanner, { data, error: queryError, refetch, loading }] = usePlannerLazyQuery({
+  const {
+    data,
+    error: queryError,
+    refetch,
+    loading
+  } = usePlannerQuery({
     // This makes the "loading" state to be updated when we run "refetch"
     // if we don't do this, it'll run in background and state will only be updated if the query finishes
     notifyOnNetworkStatusChange: true,
@@ -43,12 +48,6 @@ const PlannerContainer: NextPage<PlannerContainerProps> = ({ slug, data: ssrData
     () => (queryError ? getLocaleIdFromGraphqlError(queryError.graphQLErrors, queryError.networkError) : undefined),
     [queryError]
   );
-
-  // ** Execution
-
-  useEffect(() => {
-    getPlanner();
-  }, [getPlanner]);
 
   // ** Handlers
 
