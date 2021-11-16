@@ -10,6 +10,7 @@
     "dev": "concurrently -n next,codegen -c green,cyan \"next dev\" \"npm run graphql:codegen-watch\"",
     "build": "next build",
     "start": "next start",
+    "serve": "next start -p $PORT",
     "lint": "next lint --fix",
     "prepare": "husky install",
     "graphql:codegen": "cross-env DOTENV_CONFIG_PATH=./.env.development graphql-codegen -r dotenv/config --config codegen.yml",
