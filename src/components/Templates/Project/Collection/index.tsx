@@ -1,7 +1,6 @@
 import { Form, Formik } from 'formik';
 import { GetCollectionsQuery } from '../../../../apollo/generated/graphql';
 import Card from '../../../UI/Card';
-import { ChevronRight } from '../../../UI/Icons/chevronRight';
 import * as yup from 'yup';
 import { FormattedMessage, useIntl } from 'react-intl';
 import React, { useMemo, useState } from 'react';
@@ -11,6 +10,7 @@ import ErrorMessage from '../../../UI/ErrorMessage';
 import Skeleton from '../../../UI/Skeleton';
 import Switch from '../../../UI/Form/Switch';
 import Head from 'next/head';
+import { ChevronRight } from 'react-feather';
 
 export type CollectionTemplateProps = {
   data?: GetCollectionsQuery;
@@ -41,10 +41,13 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
   const schema = useMemo(
     () =>
       yup.object().shape({
-        collection: yup.number().label('Collection').required(),
+        collection: yup
+          .number()
+          .label(intl.formatMessage({ id: 'project.collection' }))
+          .required(),
         hasPegs: yup.boolean().nullable()
       }),
-    []
+    [intl]
   );
 
   return (

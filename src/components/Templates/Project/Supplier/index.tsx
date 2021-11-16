@@ -57,11 +57,20 @@ const SupplierTemplate: React.FC<SupplierTemplateProps> = ({
   const schema = useMemo(
     () =>
       yup.object().shape({
-        slide: yup.number().label('Supplier').required(),
-        model: yup.string().label('Model').required(),
-        depth: yup.string().label('Depth').required()
+        slide: yup
+          .number()
+          .label(intl.formatMessage({ id: 'project.supplier' }))
+          .required(),
+        model: yup
+          .string()
+          .label(intl.formatMessage({ id: 'project.model' }))
+          .required(),
+        depth: yup
+          .string()
+          .label(intl.formatMessage({ id: 'project.depth' }))
+          .required()
       }),
-    []
+    [intl]
   );
 
   useEffect(() => {
