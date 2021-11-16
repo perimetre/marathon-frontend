@@ -69,7 +69,7 @@ ENV NODE_ENV=production
 WORKDIR /app
 
 COPY --from=build /build/package*.json ./
-COPY --from=build /build/.babelrc.json ./
+COPY --from=build /build/.babelrc ./
 COPY --from=build /build/.npmrc ./
 COPY --from=build /build/.next ./.next
 COPY --from=build /build/public ./public
