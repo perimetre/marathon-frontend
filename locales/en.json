@@ -6,7 +6,8 @@
     "tryAgain": "Try again",
     "close": "Close",
     "add": "Add",
-    "back": "Back"
+    "back": "Back",
+    "exit": "Exit"
   },
   "serverErrors": {
     "unknownError": "An error has occurred. Please try again later.",
@@ -14,7 +15,8 @@
     "TypeError": "An unexpected error occurred in our server. (TypeError)",
     "connectionRefused": "Could not contact the server. The server might be down or your internet is turned off. Please try again later.",
     "ECONNREFUSED": "Could not contact the server. The server might be down or your internet is turned off. Please try again later.",
-    "unauthorized": "You are not permitted to do this action"
+    "unauthorized": "You are not permitted to do this action",
+    "wrongCredentials": "Email or password is incorrect"
   },
   "build": {
     "title": "Planner",
@@ -66,7 +68,15 @@
     "supplierHeader": "What slides will be used?",
     "typeTitle": "Type",
     "typeHeader": "What kind of drawer will you be designing?",
-    "usePegboard": "Use Pegboard"
+    "usePegboard": "Use Pegboard",
+    "type": "Type",
+    "supplier": "Supplier",
+    "model": "Model",
+    "depth": "Depth",
+    "gable": "Gable",
+    "width": "Width",
+    "finish": "Finish",
+    "collection": "Collection"
   },
   "projects": {
     "title": "My projects",

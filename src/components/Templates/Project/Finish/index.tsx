@@ -35,9 +35,12 @@ const FinishTemplate: React.FC<FinishTemplateProps> = ({
   const schema = useMemo(
     () =>
       yup.object().shape({
-        finish: yup.number().label('Finish').required()
+        finish: yup
+          .number()
+          .label(intl.formatMessage({ id: 'project.finish' }))
+          .required()
       }),
-    []
+    [intl]
   );
 
   return (

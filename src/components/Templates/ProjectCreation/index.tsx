@@ -2,12 +2,11 @@ import React from 'react';
 import classNames from 'classnames';
 import Button from '../../UI/Button';
 import { motion } from 'framer-motion';
-import { ArrowLeft } from '../../UI/Icons/arrowLeft';
-import { ArrowRight } from '../../UI/Icons/arrowRight';
 import AppLayout from '../../Layouts/AppLayout';
 import Spinner from '../../UI/Spinner';
 import SkeletonImage from '../../UI/SkeletonImage';
 import UnitSwitch from '../../Elements/UnitSwitch';
+import { ArrowLeft, ArrowRight } from 'react-feather';
 
 export type ProjectCreationTemplateProps = {
   title: string;
@@ -107,13 +106,13 @@ const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = ({
                 handlePrev && handlePrev();
               }}
             >
-              <ArrowRight />
+              <ArrowLeft />
               Back
             </Button>
           )}
           <Button disabled={disableNext || loading} className="px-6 py-2" type="submit">
             Next
-            {loading ? <Spinner className="w-5 h-5 ml-2" /> : <ArrowLeft />}
+            {loading ? <Spinner className="w-5 h-5 ml-2" /> : <ArrowRight />}
           </Button>
         </div>
       </div>
