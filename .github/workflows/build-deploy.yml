@@ -301,7 +301,13 @@ jobs:
     if: "github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip-ci') && !contains(github.event.head_commit.message, '#skip-deploy')"
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout github repo (+ download lfs dependencies)
+        uses: actions/checkout@v2
+        with:
+          lfs: true
+
+      - name: Checkout LFS objects
+        run: git lfs checkout
 
       - name: Extract branch name
         id: extract_branch
