@@ -10,13 +10,13 @@ import Spinner from '../../UI/Spinner';
 import logging from '../../../lib/logging';
 import { useIntersection } from 'next/dist/client/use-intersection';
 
-type ModuleButtonImageProps = { module: ModuleDataFragment; isChild?: boolean };
+type ModuleButtonImageProps = { module: ModuleDataFragment; isChild?: boolean; isBlockedToAddSubmodule?: boolean };
 
-const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild }) => {
+const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, isBlockedToAddSubmodule }) => {
   // ***********
   // ** Misc
   // ***********
-  const { createModule, createChildrenModule, setIsPending, state } = usePlannerContext();
+  const { createModule, createChildrenModule, setIsPending } = usePlannerContext();
   const { id, partNumber, bundleUrl } = module;
 
   // A hook that check is the element is visible, so we run logic only when it is
@@ -88,7 +88,7 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild }
             <Button
               className="items-center justify-center group gap-2"
               onClick={!!queryError ? (refetch ? () => refetch() : undefined) : onAddClick}
-              disabled={!data?.module?.rulesJson || loading || (isChild && state !== 'Selected')}
+              disabled={!data?.module?.rulesJson || loading || isBlockedToAddSubmodule}
             >
               {loading ? (
                 <Spinner />

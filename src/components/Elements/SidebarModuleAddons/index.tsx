@@ -5,12 +5,24 @@ import { FormattedMessage } from 'react-intl';
 import ModuleButtonImage from '../ModuleButtonImage';
 import Skeleton from '../../UI/Skeleton';
 import ErrorMessage from '../../UI/ErrorMessage';
+import { usePlannerContext } from '../../Providers/PlannerProvider';
 
 type SidebarModuleAddonsProps = {
   options: string[];
+  parentPartNumber: string;
 };
 
-const SidebarModuleAddons: React.FC<SidebarModuleAddonsProps> = ({ options }) => {
+const SidebarModuleAddons: React.FC<SidebarModuleAddonsProps> = ({ options, parentPartNumber }) => {
+  // ***********
+  // ** Misc
+  // ***********
+  const { state, projectModule } = usePlannerContext();
+
+  const isBlockedToAddSubmodule = useMemo(
+    () => projectModule?.partNumber !== parentPartNumber || state !== 'Selected',
+    [parentPartNumber, projectModule, state]
+  );
+
   // ***********
   // ** Grapqhl declarations
   // ***********
@@ -56,7 +68,11 @@ const SidebarModuleAddons: React.FC<SidebarModuleAddonsProps> = ({ options }) =>
                   <React.Fragment key={moduleOption.id}>
                     {i !== 0 && <div className="flex-shrink-0 w-full my-2 bg-mui-gray-300 h-0.5" />}
                     <div>
-                      <ModuleButtonImage isChild module={moduleOption} />
+                      <ModuleButtonImage
+                        isChild
+                        module={moduleOption}
+                        isBlockedToAddSubmodule={isBlockedToAddSubmodule}
+                      />
                     </div>
                   </React.Fragment>
                 ))
