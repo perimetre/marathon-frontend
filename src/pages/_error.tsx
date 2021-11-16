@@ -1,7 +1,8 @@
 import { NextPage } from 'next';
-import NextError, { ErrorProps } from 'next/error';
+import NextErrorComponent, { ErrorProps } from 'next/error';
 import React from 'react';
 import logging from '../lib/logging';
+import * as Sentry from '@sentry/nextjs';
 
 type CustomErrorGetInitialProps = ErrorProps & {
   // Workaround for https://github.com/vercel/next.js/issues/8592, mark when getInitialProps has run
@@ -17,21 +18,19 @@ const CustomError: NextPage<CustomErrorProps, CustomErrorGetInitialProps> = ({
   err
 }) => {
   if (!hasGetInitialPropsRun && err) {
-    // getInitialProps is not called in case of https://github.com/vercel/next.js/issues/8592.
-    // As a workaround, we pass err via _app.js so it can be captured
+    // getInitialProps is not called in case of
+    // https://github.com/vercel/next.js/issues/8592. As a workaround, we pass
+    // err via _app.js so it can be captured
     logging.error(err);
+    // Flushing is not required in this case as it only happens on the client
   }
 
-  return (
-    <>
-      <NextError statusCode={statusCode} /> matheus
-    </>
-  );
+  return <NextErrorComponent statusCode={statusCode} />;
 };
 
 CustomError.getInitialProps = async (ctx) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const errorInitialProps: any = await NextError.getInitialProps(ctx);
+  const errorInitialProps: any = await NextErrorComponent.getInitialProps(ctx);
 
   // Workaround for https://github.com/vercel/next.js/issues/8592, mark when
   // getInitialProps has run
@@ -60,6 +59,10 @@ CustomError.getInitialProps = async (ctx) => {
     // indicate a bug introduced in Next.js, so record it in Sentry
     logging.error(new Error(`_error.js getInitialProps missing data at path: ${ctx.asPath}`));
   }
+
+  // Flushing before returning is necessary if deploying to Vercel, see
+  // https://vercel.com/docs/platform/limits#streaming-responses
+  await Sentry.flush(2000);
 
   return errorInitialProps;
 };
