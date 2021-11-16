@@ -77,6 +77,7 @@ COPY --from=build /build/package*.json ./
 COPY --from=build /build/.babelrc ./
 COPY --from=build /build/.npmrc ./
 COPY --from=build /build/.next ./.next
+COPY --from=build /build/next.config.js ./
 COPY --from=build /build/public ./public
 COPY --from=build /build/sentry.client.config.js ./
 COPY --from=build /build/sentry.server.config.js ./

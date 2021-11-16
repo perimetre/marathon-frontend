@@ -20,7 +20,7 @@ export function middleware(request: NextRequest) {
     !request.nextUrl.pathname.includes('/api/') &&
     request.nextUrl.locale === 'default';
 
-  logging.debug('', {
+  logging.debug('Locale middleware', {
     shouldHandleLocale,
     locale: request.nextUrl.locale,
     LANG,
