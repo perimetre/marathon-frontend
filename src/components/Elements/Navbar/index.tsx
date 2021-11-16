@@ -20,7 +20,7 @@ const Navbar: React.FC<NavbarProps> = ({ prependLeft, appendRight, hideLeft }) =
       </div>
       {/* Center, we absolute position it, because if we don't, it's never perfectly centered */}
       <div className="absolute inset-0 flex items-stretch justify-center p-2 pointer-events-none">
-        <Link href="/">
+        <Link href="/projects">
           <a className="flex flex-col items-center justify-center h-full px-4 pointer-events-auto ">
             <div className="relative h-full w-52">
               <Image

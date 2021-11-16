@@ -27,7 +27,7 @@ const PlannerTemplate: React.FC<PlannerTemplateProps> = ({ slug, data, loading, 
           <a className="h-full">
             <NavbarButton
               icon={
-                <Badge content={cartAmount}>
+                <Badge content={cartAmount} maxValue={null}>
                   <ShoppingCart />
                 </Badge>
               }

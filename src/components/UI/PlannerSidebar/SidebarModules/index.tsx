@@ -28,10 +28,7 @@ type SidebarModulesProps = Pick<NonNullable<PlannerSidebarProps['project']>, 'mo
 
 const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, category, onCloseClick }) => {
   const modules = useMemo(
-    () =>
-      modulesProps?.filter(
-        (module) => !module.isSubmodule && module.categories.some((cat) => cat.slug === category?.slug)
-      ),
+    () => modulesProps?.filter((module) => module.categories.some((cat) => cat.slug === category?.slug)),
     [modulesProps, category]
   );
 

@@ -40,7 +40,7 @@ export type UnityPlayerProviderProps = Record<string, unknown> & PlannerProvider
 export const UnityPlayerProvider: React.FC<UnityPlayerProviderProps> = ({ children, ...plannerProviderProps }) => {
   const [state, setState] = useState<UnityPlayerContextType['state']>(initialState.state);
   const [loadingProgress, setLoadingProgress] = useState(initialState.loadingProgress);
-  const [errorMessage, setErrorMessage] = useState<string | undefined>(undefined);
+  const [errorMessage, setErrorMessage] = useState<string | undefined>(initialState.errorMessage);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const unityInstance = useRef<any>();

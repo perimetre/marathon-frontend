@@ -27,7 +27,8 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
   drawerFinish,
   drawerSlide,
   drawerTitle,
-  drawerCollection
+  drawerCollection,
+  drawerPegs
 }) => {
   const { clear, unit, setDrawerSize } = useProjectCreationContext();
   const router = useRouter();
@@ -48,6 +49,7 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
           variables: {
             data: {
               slug,
+              hasPegs: drawerPegs,
               user: {
                 connect: {
                   id: userId
@@ -101,33 +103,36 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
       doCreateProject,
       drawerCollection,
       drawerFinish,
-      drawerSlide?.depth,
-      drawerSlide?.slide,
+      drawerSlide,
       drawerTitle,
       drawerType,
       router,
-      setDrawerSize
+      setDrawerSize,
+      drawerPegs
     ]
   );
 
-  const GABLE_DATA = [
-    {
-      display: '5/8"',
-      value: convertInToMm('0', '5', '8')
-    },
-    {
-      display: '11/16"',
-      value: convertInToMm('0', '11', '16')
-    },
-    {
-      display: '18mm',
-      value: '18'
-    },
-    {
-      display: '3/4"',
-      value: convertInToMm('0', '3', '4')
-    }
-  ];
+  const GABLE_DATA = useMemo(
+    () => [
+      {
+        display: '5/8"',
+        value: convertInToMm('0', '5', '8')
+      },
+      {
+        display: '11/16"',
+        value: convertInToMm('0', '11', '16')
+      },
+      {
+        display: '18mm',
+        value: '18'
+      },
+      {
+        display: '3/4"',
+        value: convertInToMm('0', '3', '4')
+      }
+    ],
+    []
+  );
 
   const error = useMemo(
     () =>

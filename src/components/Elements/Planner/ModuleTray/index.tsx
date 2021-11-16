@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { usePlannerContext } from '../../../Providers/PlannerProvider';
 import { motion } from 'framer-motion';
 import TrayButton from '../../../UI/TrayButton';
@@ -6,6 +6,7 @@ import { Check, CornerLeftDown, CornerRightDown, Move, Trash2 } from 'react-feat
 import { FormattedMessage } from 'react-intl';
 import VerticalDivider from '../../../UI/VerticalDivider';
 import Button from '../../../UI/Button';
+import { useModuleRulesLazyQuery } from '../../../../apollo/generated/graphql';
 
 const trayVariants = {
   open: { translateY: '0%', transition: { type: 'spring', stiffness: 350, damping: 40 } },
@@ -13,9 +14,38 @@ const trayVariants = {
 };
 
 const ModuleTray: React.FC = () => {
-  const { state, trayDone, trayDelete, trayEdit, trayRotateRight, trayRotateLeft } = usePlannerContext();
+  // ***********
+  // ** Misc
+  // ***********
+  const { state, trayDone, trayDelete, trayEdit, trayRotateRight, trayRotateLeft, projectModule } = usePlannerContext();
+
+  // ***********
+  // ** Grapqhl declarations
+  // ***********
+
+  // ** Queries
+  const [doLoadModuleRules, { data }] = useModuleRulesLazyQuery({
+    // This makes the "loading" state to be updated when we run "refetch"
+    // if we don't do this, it'll run in background and state will only be updated if the query finishes
+    notifyOnNetworkStatusChange: true
+  });
+
+  // ***********
+  // ** Business logic
+  // ***********
 
   const isOpen = useMemo(() => ['AddingSubModule', 'Editing', 'Selected'].includes(state), [state]);
+
+  // ** Effects
+  useEffect(() => {
+    if (projectModule && projectModule.partNumber) {
+      doLoadModuleRules({
+        variables: {
+          partNumber: projectModule.partNumber
+        }
+      });
+    }
+  }, [doLoadModuleRules, projectModule]);
 
   return (
     <motion.div
@@ -38,13 +68,23 @@ const ModuleTray: React.FC = () => {
 
         <VerticalDivider />
 
-        <TrayButton iconPosition="left" icon={() => <CornerLeftDown />} onClick={trayRotateLeft}>
+        <TrayButton
+          iconPosition="left"
+          icon={() => <CornerLeftDown />}
+          onClick={trayRotateLeft}
+          disabled={!data?.module?.rulesJson.rules.rotation}
+        >
           <FormattedMessage id="build.tray.rotateLeft" />
         </TrayButton>
 
         <VerticalDivider />
 
-        <TrayButton iconPosition="left" icon={() => <CornerRightDown />} onClick={trayRotateRight}>
+        <TrayButton
+          iconPosition="left"
+          icon={() => <CornerRightDown />}
+          onClick={trayRotateRight}
+          disabled={!data?.module?.rulesJson.rules.rotation}
+        >
           <FormattedMessage id="build.tray.rotateRight" />
         </TrayButton>
       </div>

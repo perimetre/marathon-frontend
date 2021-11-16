@@ -15,7 +15,7 @@ const SidebarModuleDetail: React.FC<SidebarModuleDetailProps> = ({ module }) => 
   return (
     <div className="flex flex-col h-full mr-4">
       <ModuleButtonImage module={module} />
-      {options && options.length > 0 && <SidebarModuleAddons options={options} />}
+      {options && options.length > 0 && <SidebarModuleAddons options={options} parentPartNumber={module.partNumber} />}
     </div>
   );
 };
