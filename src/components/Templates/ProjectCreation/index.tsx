@@ -106,13 +106,13 @@ const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = ({
                 handlePrev && handlePrev();
               }}
             >
-              <ArrowRight />
+              <ArrowLeft />
               Back
             </Button>
           )}
           <Button disabled={disableNext || loading} className="px-6 py-2" type="submit">
             Next
-            {loading ? <Spinner className="w-5 h-5 ml-2" /> : <ArrowLeft />}
+            {loading ? <Spinner className="w-5 h-5 ml-2" /> : <ArrowRight />}
           </Button>
         </div>
       </div>

@@ -15,7 +15,8 @@
     "TypeError": "An unexpected error occurred in our server. (TypeError)",
     "connectionRefused": "Could not contact the server. The server might be down or your internet is turned off. Please try again later.",
     "ECONNREFUSED": "Could not contact the server. The server might be down or your internet is turned off. Please try again later.",
-    "unauthorized": "You are not permitted to do this action"
+    "unauthorized": "You are not permitted to do this action",
+    "wrongCredentials": "Email or password is incorrect"
   },
   "build": {
     "title": "Planner",
