@@ -16,6 +16,9 @@ COPY package*.json ./
 COPY postcss.config.js ./
 COPY tailwind.config.js ./
 COPY tsconfig.json ./
+COPY sentry.client.config.js ./
+COPY sentry.server.config.js ./
+COPY sentry.properties ./
 
 COPY src ./src
 COPY locales ./locales
@@ -73,6 +76,9 @@ COPY --from=build /build/.babelrc.json ./
 COPY --from=build /build/.npmrc ./
 COPY --from=build /build/.next ./.next
 COPY --from=build /build/public ./public
+COPY --from=build /build/sentry.client.config.js ./
+COPY --from=build /build/sentry.server.config.js ./
+COPY --from=build /build/sentry.properties ./
 
 RUN npm install next
 
@@ -81,3 +87,4 @@ EXPOSE $PORT
 
 # Run command
 CMD npm run serve
+
