@@ -8,11 +8,12 @@ import {
 } from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { TYPE_QUERY } from '../../../apollo/type';
-import { useGetTypeLazyQuery } from '../../../apollo/generated/graphql';
+import { useGetTypeQuery } from '../../../apollo/generated/graphql';
 import TypeTemplate from '../../../components/Templates/Project/Type';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
 import { requiredAuthWithRedirectProp } from '../../../utils/auth';
+import logging from '../../../lib/logging';
 
 type TypeContainerGetServerProps = ProjectCreationProviderProps;
 
@@ -23,11 +24,14 @@ const TypeContainer: NextPage<TypeContainerProps> = ({ drawerType }) => {
 
   const router = useRouter();
 
-  const [getType, { data, loading, error: queryError, refetch }] = useGetTypeLazyQuery({
+  const {
+    data,
+    loading,
+    error: queryError,
+    refetch
+  } = useGetTypeQuery({
     notifyOnNetworkStatusChange: true
   });
-
-  useEffect(() => getType(), [getType]);
 
   const handleTryAgain = useCallback(() => refetch && refetch(), [refetch]);
 
@@ -98,8 +102,14 @@ export const getServerSideProps: GetServerSideProps<TypeContainerGetServerProps>
           permanent: false
         }
       };
+    } else {
+      // Do nothing for now. The client side will get the same error when trying to call the query
+      logging.error(err, `Failed to load props for [TypeContainer]`, {
+        params: ctx.params,
+        query: ctx.query
+      });
+      res.statusCode = 500;
     }
-    res.statusCode = 404;
   }
 
   return addApolloState(apolloClient, {

@@ -47,7 +47,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
           <Link href="/logout">
             <a className="h-full hover:text-mui-primary">
               <NavbarButton icon={<LogOut />} iconPosition="left">
-                <FormattedMessage id="common.exit" />
+                <FormattedMessage id="common.logout" />
               </NavbarButton>
             </a>
           </Link>
