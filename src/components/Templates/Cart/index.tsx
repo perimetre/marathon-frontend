@@ -68,7 +68,7 @@ const CartProjectModules: React.FC<CartProjectModulesProps> = ({ projectModules,
 };
 
 type CartTemplateProps = {
-  data: CartQuery;
+  data?: CartQuery;
   slug: string;
   loading: boolean;
   error?: string;
@@ -79,7 +79,7 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading,
   const intl = useIntl();
 
   const projectModules = useMemo(() => {
-    if (data.project?.projectModules && data.project.projectModules.length > 0) {
+    if (data?.project?.projectModules && data?.project.projectModules.length > 0) {
       // This method groups similar modules and returns the amount as quantity, then does the same for the children.
       // So if the user has two of the same modules. We show "quantity:2" instead of showing the module twice
       return values(groupBy(data.project.projectModules, 'moduleId')).map((group) => ({

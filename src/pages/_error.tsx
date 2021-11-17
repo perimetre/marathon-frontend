@@ -51,9 +51,7 @@ CustomError.getInitialProps = async (ctx) => {
 
   if (ctx.err) {
     logging.error(ctx.err, undefined, { ctx: { ...ctx } });
-  }
-
-  if (ctx.res?.statusCode !== 404) {
+  } else if (ctx.res?.statusCode !== 404) {
     // If this point is reached, getInitialProps was called without any
     // information about what the error might be. This is unexpected and may
     // indicate a bug introduced in Next.js, so record it in Sentry

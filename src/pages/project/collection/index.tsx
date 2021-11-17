@@ -8,11 +8,12 @@ import {
 } from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { COLLECTION_QUERY } from '../../../apollo/collection';
-import { useGetCollectionsLazyQuery } from '../../../apollo/generated/graphql';
+import { useGetCollectionsQuery } from '../../../apollo/generated/graphql';
 import CollectionTemplate from '../../../components/Templates/Project/Collection';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
 import { requiredAuthWithRedirectProp } from '../../../utils/auth';
+import logging from '../../../lib/logging';
 
 type CollectionContainerGetServerProps = ProjectCreationProviderProps;
 
@@ -23,14 +24,17 @@ const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollect
 
   const router = useRouter();
 
-  const [getCollection, { data, loading, error: queryError, refetch }] = useGetCollectionsLazyQuery({
+  const {
+    data,
+    loading,
+    error: queryError,
+    refetch
+  } = useGetCollectionsQuery({
     notifyOnNetworkStatusChange: true,
     variables: {
       typeId: Number(drawerType)
     }
   });
-
-  useEffect(() => getCollection(), [getCollection]);
 
   const handleTryAgain = useCallback(() => refetch && refetch(), [refetch]);
 
@@ -108,8 +112,14 @@ export const getServerSideProps: GetServerSideProps<CollectionContainerGetServer
           permanent: false
         }
       };
+    } else {
+      // Do nothing for now. The client side will get the same error when trying to call the query
+      logging.error(err, `Failed to load props for [CollectionContainer]`, {
+        params: ctx.params,
+        query: ctx.query
+      });
+      res.statusCode = 500;
     }
-    res.statusCode = 404;
   }
 
   return addApolloState(apolloClient, {

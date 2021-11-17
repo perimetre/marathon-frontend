@@ -8,11 +8,12 @@ import {
 } from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { SUPPLIER_QUERY } from '../../../apollo/supplier';
-import { useGetSlideSupplierByCollectionLazyQuery } from '../../../apollo/generated/graphql';
+import { useGetSlideSupplierByCollectionQuery } from '../../../apollo/generated/graphql';
 import SupplierTemplate from '../../../components/Templates/Project/Supplier';
-import { useCallback, useEffect, useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
 import { requiredAuthWithRedirectProp } from '../../../utils/auth';
+import logging from '../../../lib/logging';
 
 type SupplierContainerGetServerProps = ProjectCreationProviderProps;
 
@@ -23,14 +24,17 @@ const SupplierContainer: NextPage<SupplierContainerProps> = ({ drawerCollection,
 
   const router = useRouter();
 
-  const [getSupplier, { data, loading, error: queryError, refetch }] = useGetSlideSupplierByCollectionLazyQuery({
+  const {
+    data,
+    loading,
+    error: queryError,
+    refetch
+  } = useGetSlideSupplierByCollectionQuery({
     notifyOnNetworkStatusChange: true,
     variables: {
       collectionId: Number(drawerCollection)
     }
   });
-
-  useEffect(() => getSupplier(), [getSupplier]);
 
   const handleTryAgain = useCallback(() => refetch && refetch(), [refetch]);
 
@@ -105,8 +109,14 @@ export const getServerSideProps: GetServerSideProps<SupplierContainerGetServerPr
           permanent: false
         }
       };
+    } else {
+      // Do nothing for now. The client side will get the same error when trying to call the query
+      logging.error(err, `Failed to load props for [SupplierContainer]`, {
+        params: ctx.params,
+        query: ctx.query
+      });
+      res.statusCode = 500;
     }
-    res.statusCode = 404;
   }
 
   return addApolloState(apolloClient, {

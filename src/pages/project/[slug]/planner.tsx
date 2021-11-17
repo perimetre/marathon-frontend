@@ -7,6 +7,7 @@ import { addApolloState, initializeApollo, WithApolloProps } from '../../../lib/
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
 import { requiredAuthWithRedirectProp } from '../../../utils/auth';
 import { UnityPlayerProvider } from '../../../components/Providers/UnityPlayerProvider';
+import logging from '../../../lib/logging';
 
 type PlannerParams = {
   slug?: string;
@@ -109,7 +110,7 @@ export const getServerSideProps: GetServerSideProps<WithApolloProps<PlannerServe
         slug: params.slug
       }
     });
-    if (!data.project?.id) {
+    if (!data?.project?.id) {
       return {
         redirect: {
           destination: '/404',
@@ -126,8 +127,14 @@ export const getServerSideProps: GetServerSideProps<WithApolloProps<PlannerServe
           permanent: false
         }
       };
+    } else {
+      // Do nothing for now. The client side will get the same error when trying to call the query
+      logging.error(err, `Failed to load props for [PlannerContainer]`, {
+        params: ctx.params,
+        query: ctx.query
+      });
+      res.statusCode = 500;
     }
-    res.statusCode = 404;
   }
 
   return addApolloState(apolloClient, {

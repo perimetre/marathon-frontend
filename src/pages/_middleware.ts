@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { dayjsLocaleMap, defaultLocale } from '../lib/locale';
-import logging from '../lib/logging';
 
 const PUBLIC_FILE = /\.(.*)$/;
 
@@ -19,15 +18,6 @@ export function middleware(request: NextRequest) {
     !PUBLIC_FILE.test(request.nextUrl.pathname) &&
     !request.nextUrl.pathname.includes('/api/') &&
     request.nextUrl.locale === 'default';
-
-  logging.debug('Locale middleware', {
-    shouldHandleLocale,
-    locale: request.nextUrl.locale,
-    LANG,
-    href: request.nextUrl.href,
-    pathname: request.nextUrl.pathname,
-    redirect: shouldHandleLocale ? `/${LANG}${request.nextUrl.href}` : undefined
-  });
 
   return shouldHandleLocale && !request.nextUrl.href.startsWith(`/${LANG}`)
     ? NextResponse.redirect(`/${LANG}${request.nextUrl.href}`)

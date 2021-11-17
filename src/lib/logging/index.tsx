@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/nextjs';
 import { Severity } from '@sentry/nextjs';
 import { Extras } from '@sentry/types';
 
-const error = (error: Error, message?: string, extra: Extras = {}) => {
+const error = (error: unknown, message?: string, extra: Extras = {}) => {
   if (message) {
     console.error(message, error, extra);
   } else {
@@ -15,7 +15,7 @@ const error = (error: Error, message?: string, extra: Extras = {}) => {
   });
 };
 
-const fatal = (error: Error, message?: string, extra: Extras = {}) => {
+const fatal = (error: unknown, message?: string, extra: Extras = {}) => {
   if (message) {
     console.error(message, error, extra);
   } else {
@@ -34,7 +34,7 @@ const info = (message: string, extra: Extras = {}) => {
 };
 
 const debug = (message: string, extra: Extras = {}) => {
-  console.log('log.debug', message, extra);
+  console.log('[DEBUG] -- ', message, extra);
   return Sentry.captureMessage(message, { level: Severity.Debug, extra });
 };
 

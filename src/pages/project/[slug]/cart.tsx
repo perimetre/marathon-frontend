@@ -1,30 +1,33 @@
 import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
-import React, { useCallback, useEffect, useMemo } from 'react';
-import { CartQuery, CartQueryVariables, useCartLazyQuery } from '../../../apollo/generated/graphql';
+import React, { useCallback, useMemo } from 'react';
+import { CartQuery, CartQueryVariables, useCartQuery } from '../../../apollo/generated/graphql';
 import { addApolloState, initializeApollo, WithApolloProps } from '../../../lib/apollo';
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
 import { CART_QUERY } from '../../../apollo/cart';
 import CartTemplate from '../../../components/Templates/Cart';
 import { requiredAuthWithRedirectProp } from '../../../utils/auth';
+import logging from '../../../lib/logging';
 
 type CartParams = {
   slug?: string;
 };
 
-type CartServerSideProps = CartParams & {
-  // Graphql data
-  data?: CartQuery;
-};
+type CartServerSideProps = CartParams;
 
 type CartContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const CartContainer: NextPage<CartContainerProps> = ({ slug, data: ssrData }) => {
+const CartContainer: NextPage<CartContainerProps> = ({ slug }) => {
   // ***********
   // ** Grapqhl declarations
   // ***********
 
   // ** Queries
-  const [getCart, { data, error: queryError, refetch, loading }] = useCartLazyQuery({
+  const {
+    data,
+    error: queryError,
+    refetch,
+    loading
+  } = useCartQuery({
     // This makes the "loading" state to be updated when we run "refetch"
     // if we don't do this, it'll run in background and state will only be updated if the query finishes
     notifyOnNetworkStatusChange: true,
@@ -43,12 +46,6 @@ const CartContainer: NextPage<CartContainerProps> = ({ slug, data: ssrData }) =>
     [queryError]
   );
 
-  // ** Execution
-
-  useEffect(() => {
-    getCart();
-  }, [getCart]);
-
   // ** Handlers
 
   const handleTryAgain = useCallback(() => {
@@ -58,13 +55,7 @@ const CartContainer: NextPage<CartContainerProps> = ({ slug, data: ssrData }) =>
   }, [refetch]);
 
   return (
-    <CartTemplate
-      slug={slug as string}
-      data={(data || ssrData) as CartQuery}
-      loading={loading}
-      error={error}
-      handleTryAgain={handleTryAgain}
-    />
+    <CartTemplate slug={slug as string} data={data} loading={loading} error={error} handleTryAgain={handleTryAgain} />
   );
 };
 
@@ -101,7 +92,7 @@ export const getServerSideProps: GetServerSideProps<WithApolloProps<CartServerSi
         slug: params.slug
       }
     });
-    if (!data.project?.id) {
+    if (!data?.project?.id) {
       return {
         redirect: {
           destination: '/404',
@@ -109,7 +100,6 @@ export const getServerSideProps: GetServerSideProps<WithApolloProps<CartServerSi
         }
       };
     }
-    props.data = data;
   } catch (err) {
     if (hasGraphqlUnauthorizedError(err)) {
       return {
@@ -118,8 +108,14 @@ export const getServerSideProps: GetServerSideProps<WithApolloProps<CartServerSi
           permanent: false
         }
       };
+    } else {
+      // Do nothing for now. The client side will get the same error when trying to call the query
+      logging.error(err, `Failed to load props for [CartContainer]`, {
+        params: ctx.params,
+        query: ctx.query
+      });
+      res.statusCode = 500;
     }
-    res.statusCode = 404;
   }
 
   return addApolloState(apolloClient, {

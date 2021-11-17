@@ -1,6 +1,6 @@
 import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
-import { useCallback, useEffect, useMemo } from 'react';
-import { useProjectsLazyQuery } from '../../apollo/generated/graphql';
+import { useCallback, useMemo } from 'react';
+import { useProjectsQuery } from '../../apollo/generated/graphql';
 import { PROJECTS_QUERY } from '../../apollo/projects';
 import {
   projectCreationDataHoc,
@@ -11,20 +11,24 @@ import ProjectsTemplate from '../../components/Templates/Projects';
 import { addApolloState, initializeApollo } from '../../lib/apollo';
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../lib/apollo/exceptions';
 import { requiredAuthWithRedirectProp } from '../../utils/auth';
+import logging from '../../lib/logging';
 
 type ProjectsContainerGetServerProps = ProjectCreationProviderProps & { userId?: number };
 
 type ProjectsContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
 const ProjectsContainer: NextPage<ProjectsContainerProps> = ({ userId }) => {
-  const [getProjects, { data, error: queryError, refetch, loading }] = useProjectsLazyQuery({
+  const {
+    data,
+    error: queryError,
+    refetch,
+    loading
+  } = useProjectsQuery({
     notifyOnNetworkStatusChange: true,
     variables: {
       userId: Number(userId)
     }
   });
-
-  useEffect(() => getProjects(), [getProjects]);
 
   const handleTryAgain = useCallback(() => refetch && refetch(), [refetch]);
 
@@ -70,8 +74,14 @@ export const getServerSideProps: GetServerSideProps<ProjectsContainerGetServerPr
           permanent: false
         }
       };
+    } else {
+      // Do nothing for now. The client side will get the same error when trying to call the query
+      logging.error(err, `Failed to load props for [ProjectsContainer]`, {
+        params: ctx.params,
+        query: ctx.query
+      });
+      res.statusCode = 500;
     }
-    res.statusCode = 404;
   }
 
   const projectData = requiredProjectData(ctx);

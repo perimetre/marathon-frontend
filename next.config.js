@@ -19,7 +19,16 @@ const moduleExports = {
     defaultLocale: 'default',
     localeDetection: true
   },
-  trailingSlash: true
+  trailingSlash: true,
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/projects',
+        permanent: true
+      }
+    ];
+  }
 };
 
 const sentryWebpackPluginOptions = {
