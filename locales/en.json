@@ -20,6 +20,7 @@
     "wrongCredentials": "Email or password is incorrect"
   },
   "build": {
+    "loadingModule": "Please wait...",
     "title": "Planner",
     "error": "Unable to load the {appTitle} app: \r\n <error>{errorMessage}</error>",
     "projectsPageNav": "Projects",
