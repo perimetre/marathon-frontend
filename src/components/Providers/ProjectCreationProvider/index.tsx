@@ -114,7 +114,6 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
   const [drawerSize, setDrawerSize] = useState<ProjectCreationType['drawerSize']>(size || null);
 
   const clear = useCallback(() => {
-    setUnit('in');
     setDrawerType(undefined);
     setDrawerTitle(undefined);
     setDrawerCollection(undefined);

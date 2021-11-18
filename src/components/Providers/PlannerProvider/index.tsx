@@ -168,51 +168,54 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         prevState === 'Editing' &&
         (state === 'Placed' || state === 'Selected')
       ) {
-        const { id, posX, posY, posZ, rotY, parentId, moduleId, children } = projectModule;
-
-        try {
-          const { data } = await doCreateProjectModule({
-            variables: {
-              data: {
-                posX,
-                posY,
-                posZ,
-                rotY,
-                module: { connect: { id: moduleId } },
-                project: { connect: { id: projectId } },
-                parent: parentId ? { connect: { id: idMap[parentId] } } : undefined,
-                children:
-                  children && children.length > 0
-                    ? {
-                        createMany: {
-                          data: children.map(({ posX, posY, posZ, rotY, moduleId }) => ({
-                            posX,
-                            posY,
-                            posZ,
-                            rotY,
-                            moduleId,
-                            projectId
-                          }))
-                        }
-                      }
-                    : undefined
-              }
-            }
-          });
-
-          if (data) {
-            setIdMap({ ...idMap, [id]: data.createOneProjectModule.id });
-          } else {
-            logging.warn(`Created project module but it did not return any data`, { state, projectModule });
-          }
-        } catch (err) {
-          logging.error(err as Error, `Failed creating project module`, { state, projectModule });
-        }
+        // console.log('Creating project module', { prevState, state, idMap, projectModule });
+        // const { id, posX, posY, posZ, rotY, parentId, moduleId, children } = projectModule;
+        // try {
+        //   const { data } = await doCreateProjectModule({
+        //     variables: {
+        //       data: {
+        //         posX,
+        //         posY,
+        //         posZ,
+        //         rotY,
+        //         module: { connect: { id: moduleId } },
+        //         project: { connect: { id: projectId } },
+        //         parent: parentId ? { connect: { id: idMap[parentId] } } : undefined,
+        //         children:
+        //           children && children.length > 0
+        //             ? {
+        //                 createMany: {
+        //                   data: children.map(({ posX, posY, posZ, rotY, moduleId }) => ({
+        //                     posX,
+        //                     posY,
+        //                     posZ,
+        //                     rotY,
+        //                     moduleId,
+        //                     projectId
+        //                   }))
+        //                 }
+        //               }
+        //             : undefined
+        //       }
+        //     }
+        //   });
+        //   if (data) {
+        //     setIdMap({ ...idMap, [id]: data.createOneProjectModule.id });
+        //   } else {
+        //     logging.warn(`Created project module but it did not return any data`, { state, projectModule });
+        //   }
+        // } catch (err) {
+        //   logging.error(err as Error, `Failed creating project module`, { state, projectModule });
+        // }
       }
     };
 
     createProjectModuleEffect();
   }, [doCreateProjectModule, idMap, projectId, projectModule, state, prevState]);
+
+  useEffect(() => {
+    console.log({ prevState, state });
+  }, [prevState, state]);
 
   // Delete project
   useEffect(() => {
@@ -269,6 +272,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
             setProjectModule(undefined);
           }
         } else {
+          console.log('projectModule');
           setProjectModule(undefined);
         }
         setState((state) => {
@@ -301,6 +305,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
    * */
 
   const trayDone = useCallback(() => {
+    console.log('trayDone:', UNITY_GAME_OBJECT);
     unityInstance.current?.SendMessage(UNITY_GAME_OBJECT, 'TrayDone');
   }, [unityInstance]);
 
@@ -322,19 +327,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   const createModule = useCallback(
     (partNumber: string, moduleId: number, projectModuleId: string, rules: string, bundleUrl: string) => {
-      // console.log(
-      //   JSON.stringify(
-      //     {
-      //       partNumber,
-      //       moduleId,
-      //       projectModuleId,
-      //       rules,
-      //       bundleUrl
-      //     },
-      //     undefined,
-      //     2
-      //   )
-      // );
+      console.log('createModule', partNumber);
       unityInstance.current?.SendMessage(
         UNITY_GAME_OBJECT,
         'CreateModule',
@@ -352,19 +345,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   const createChildrenModule = useCallback(
     (partNumber: string, moduleId: number, projectModuleId: string, rules: string, bundleUrl: string) => {
-      // console.log(
-      //   JSON.stringify(
-      //     {
-      //       partNumber,
-      //       moduleId,
-      //       projectModuleId,
-      //       rules,
-      //       bundleUrl
-      //     },
-      //     undefined,
-      //     2
-      //   )
-      // );
+      console.log('createChildrenModule', partNumber);
       unityInstance.current?.SendMessage(
         UNITY_GAME_OBJECT,
         'CreateChildrenModule',
@@ -421,8 +402,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
     },
     [unityInstance]
   );
-
-  // console.log(project, idMap, cartAmount);
 
   useEffect(() => {
     if (unityPlayerState === 'complete' && !didSetup) {
