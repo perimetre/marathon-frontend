@@ -6,9 +6,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import AppLayout from '../../Layouts/AppLayout';
 import { TextInput } from '../../UI/Form/TextInput';
 import Image from 'next/image';
-import NavbarButton from '../../UI/NavbarButton';
-import Link from 'next/link';
-import { XCircle } from 'react-feather';
 import Head from 'next/head';
 import Spinner from '../../UI/Spinner';
 import ErrorMessage from '../../UI/ErrorMessage';
@@ -40,18 +37,7 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ loading, error, onSubmit 
   );
 
   return (
-    <AppLayout
-      hideLeft
-      appendRight={() => (
-        <Link href="/">
-          <a className="h-full">
-            <NavbarButton>
-              <XCircle className="text-mui-primary h-7 w-7" />
-            </NavbarButton>
-          </a>
-        </Link>
-      )}
-    >
+    <AppLayout hideLeft>
       <Head>
         <title>
           {`${intl.formatMessage({ id: 'login.title' })} | ${intl.formatMessage({
@@ -91,23 +77,6 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ loading, error, onSubmit 
               <div className="flex justify-between mb-4">
                 <Button disabled={loading} type="submit" variant="default">
                   {loading ? <Spinner /> : <FormattedMessage id="login.signInButton" />}
-                </Button>
-                <Button variant="text" className="px-0 text-gray-300">
-                  <FormattedMessage id="login.forgotPass" />
-                </Button>
-              </div>
-              <div>
-                <Button variant="text" className="px-0 text-white">
-                  <FormattedMessage
-                    id="login.dontHaveAccount"
-                    values={{
-                      message: (
-                        <p className="text-gray-300">
-                          <FormattedMessage id="login.startDesigning" />
-                        </p>
-                      )
-                    }}
-                  />
                 </Button>
               </div>
               {error && <ErrorMessage error={error} />}

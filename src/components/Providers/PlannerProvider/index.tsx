@@ -169,7 +169,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         (state === 'Placed' || state === 'Selected')
       ) {
         const { id, posX, posY, posZ, rotY, parentId, moduleId, children } = projectModule;
-
         try {
           const { data } = await doCreateProjectModule({
             variables: {
@@ -199,7 +198,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
               }
             }
           });
-
           if (data) {
             setIdMap({ ...idMap, [id]: data.createOneProjectModule.id });
           } else {
@@ -278,17 +276,13 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       },
       setupFinished: (error?: string) => {
         setIsPending(false);
-        console.log('setupFinished');
-
         if (error) {
           setError(error);
           logging.error(new Error(error));
         }
       },
-      deletedModule: (projectModuleId: string) => {
+      deletedModule: () => {
         setState('Deleted');
-
-        console.log(projectModuleId);
       }
     };
 
@@ -322,19 +316,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   const createModule = useCallback(
     (partNumber: string, moduleId: number, projectModuleId: string, rules: string, bundleUrl: string) => {
-      // console.log(
-      //   JSON.stringify(
-      //     {
-      //       partNumber,
-      //       moduleId,
-      //       projectModuleId,
-      //       rules,
-      //       bundleUrl
-      //     },
-      //     undefined,
-      //     2
-      //   )
-      // );
       unityInstance.current?.SendMessage(
         UNITY_GAME_OBJECT,
         'CreateModule',
@@ -352,19 +333,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   const createChildrenModule = useCallback(
     (partNumber: string, moduleId: number, projectModuleId: string, rules: string, bundleUrl: string) => {
-      // console.log(
-      //   JSON.stringify(
-      //     {
-      //       partNumber,
-      //       moduleId,
-      //       projectModuleId,
-      //       rules,
-      //       bundleUrl
-      //     },
-      //     undefined,
-      //     2
-      //   )
-      // );
       unityInstance.current?.SendMessage(
         UNITY_GAME_OBJECT,
         'CreateChildrenModule',
@@ -390,21 +358,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       drawerTypeSlug: string,
       initialModules?: ProjectModule[]
     ) => {
-      // console.log(
-      //   JSON.stringify(
-      //     {
-      //       width,
-      //       depth,
-      //       gable,
-      //       finishSlug,
-      //       isPegboard,
-      //       drawerTypeSlug,
-      //       initialModules
-      //     },
-      //     undefined,
-      //     2
-      //   )
-      // );
       unityInstance.current?.SendMessage(
         UNITY_GAME_OBJECT,
         'SetupDrawer',
@@ -421,8 +374,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
     },
     [unityInstance]
   );
-
-  // console.log(project, idMap, cartAmount);
 
   useEffect(() => {
     if (unityPlayerState === 'complete' && !didSetup) {
