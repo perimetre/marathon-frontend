@@ -7,6 +7,10 @@ import LoadingState from './LoadingState';
 import ErrorState from './ErrorState';
 import ModuleTray from './ModuleTray';
 import { PlannerQuery } from '../../../apollo/generated/graphql';
+import { usePlannerContext } from '../../Providers/PlannerProvider';
+import Spinner from '../../UI/Spinner';
+import { FormattedMessage } from 'react-intl';
+import { motion } from 'framer-motion';
 
 export type PlannerProps = {
   slug: string;
@@ -19,9 +23,27 @@ export type PlannerProps = {
 
 const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTryAgain, isSidebarOpen }) => {
   const { loadingProgress, state } = useUnityPlayerContext();
+  const { isPending } = usePlannerContext();
 
   return (
-    <div className="flex max-h-screen">
+    <div className="relative flex max-h-screen">
+      {isPending && (
+        <motion.div
+          variants={{
+            hidden: { opacity: 0, translateY: 50 },
+            show: { opacity: 1, translateY: 0, transition: { delay: 0.2 } }
+          }}
+          initial="hidden"
+          animate="show"
+          exit="hidden"
+          className="absolute z-20 right-10 bottom-10"
+        >
+          <div className="flex py-4 bg-white px-7 rounded-md">
+            <Spinner className="w-6 h-6 mr-5" />
+            <FormattedMessage id="build.loadingModule" />
+          </div>
+        </motion.div>
+      )}
       {/* Left sidebar, fixed width */}
       <PlannerSidebar project={data?.project} isSidebarOpen={isSidebarOpen} loading={loading} />
       {/* Right section, takes remaining space(flex-grow) */}

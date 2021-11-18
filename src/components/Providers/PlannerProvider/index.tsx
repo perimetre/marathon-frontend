@@ -269,6 +269,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         } else {
           setProjectModule(undefined);
         }
+        setIsPending(false);
         setState((state) => {
           setPrevState(state);
           return builderState;

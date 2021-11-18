@@ -16,7 +16,7 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
   // ***********
   // ** Misc
   // ***********
-  const { createModule, createChildrenModule, setIsPending } = usePlannerContext();
+  const { createModule, createChildrenModule, setIsPending, isPending } = usePlannerContext();
   const { id, partNumber, bundleUrl } = module;
 
   // A hook that check is the element is visible, so we run logic only when it is
@@ -88,9 +88,9 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
             <Button
               className="items-center justify-center group gap-2"
               onClick={!!queryError ? (refetch ? () => refetch() : undefined) : onAddClick}
-              disabled={!data?.module?.rulesJson || loading || isBlockedToAddSubmodule}
+              disabled={!data?.module?.rulesJson || loading || isBlockedToAddSubmodule || isPending}
             >
-              {loading ? (
+              {!!(loading || isPending) ? (
                 <Spinner />
               ) : !!queryError ? (
                 <>
