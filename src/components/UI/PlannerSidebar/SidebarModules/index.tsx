@@ -72,7 +72,13 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
                     onClick={module.id !== selectedModuleId ? () => setSelectedModuleId(module.id) : undefined}
                   >
                     {module.thumbnailUrl ? (
-                      <SkeletonImage src={module.thumbnailUrl} alt={module.partNumber} width={144} height={144} />
+                      <SkeletonImage
+                        key={module.partNumber}
+                        src={module.thumbnailUrl}
+                        alt={module.partNumber}
+                        width={144}
+                        height={144}
+                      />
                     ) : (
                       <div className="w-36 h-36" />
                     )}
