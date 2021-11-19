@@ -35,6 +35,7 @@ const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = ({
         <div className="flex overflow-hidden h-28 gap-4">
           <div className="relative w-full h-full min-w-96">
             <SkeletonImage
+              key="drawer-one"
               src="/images/IMG_DrawerOne.jpg"
               priority
               layout="fill"
@@ -44,6 +45,7 @@ const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = ({
           </div>
           <div className="relative w-full h-full min-w-96">
             <SkeletonImage
+              key="drawer-two"
               src="/images/IMG_DrawerTwo.jpg"
               priority
               layout="fill"
@@ -53,6 +55,7 @@ const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = ({
           </div>
           <div className="relative w-full h-full min-w-96">
             <SkeletonImage
+              key="drawer-three"
               src="/images/IMG_DrawerThree.jpg"
               priority
               layout="fill"
@@ -62,6 +65,7 @@ const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = ({
           </div>
           <div className="relative w-full h-full min-w-96">
             <SkeletonImage
+              key="drawer-four"
               src="/images/IMG_DrawerFour.jpg"
               priority
               layout="fill"

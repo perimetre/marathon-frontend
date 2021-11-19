@@ -27,6 +27,7 @@ const Card: React.FC<CardProps> = ({
       {image && (
         <div className="relative h-52">
           <SkeletonImage
+            key={title}
             layout="fill"
             className={classNames('object-contain', imageClassName)}
             src={image}

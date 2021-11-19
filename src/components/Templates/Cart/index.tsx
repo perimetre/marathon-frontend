@@ -33,6 +33,7 @@ const CartProjectModules: React.FC<CartProjectModulesProps> = ({ projectModules,
             <div className={classNames('relative h-44 mui-border-radius col-span-2', { 'col-start-2': isChildren })}>
               {projectModule.module.thumbnailUrl && (
                 <SkeletonImage
+                  key={projectModule.id}
                   src={projectModule.module.thumbnailUrl}
                   alt={projectModule.module.partNumber}
                   layout="fill"

@@ -143,6 +143,7 @@ const SupplierTemplate: React.FC<SupplierTemplateProps> = ({
                           <div className="flex items-center justify-center w-64 h-full bg-mui-gray-300">
                             {slide.thumbnailUrl && (
                               <SkeletonImage
+                                key={slide.name}
                                 className="object-contain"
                                 width={140}
                                 height={58}
