@@ -1,10 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import classNames from 'classnames';
 import SkeletonImage from '../../SkeletonImage';
 import { PlannerSidebarCategories, PlannerSidebarProps } from '../index';
 import SidebarModuleDetail from '../../../Elements/SidebarModuleDetail';
 import { ArrowLeft } from 'react-feather';
+import { usePlannerContext } from '../../../Providers/PlannerProvider';
 
 const container = {
   hidden: { opacity: 0 },
@@ -27,6 +28,8 @@ type SidebarModulesProps = Pick<NonNullable<PlannerSidebarProps['project']>, 'mo
 };
 
 const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, category, onCloseClick }) => {
+  const { state: projectState, projectModule } = usePlannerContext();
+
   const modules = useMemo(
     () => modulesProps?.filter((module) => module.categories.some((cat) => cat.slug === category?.slug)),
     [modulesProps, category]
@@ -34,6 +37,21 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
 
   const [selectedModuleId, setSelectedModuleId] = useState<number>(modules && modules[0] ? modules[0].id : -1);
   const selectedModule = useMemo(() => modules?.find((x) => x.id === selectedModuleId), [selectedModuleId, modules]);
+
+  useEffect(() => {
+    if (projectState === 'Selected' && projectModule) {
+      setSelectedModuleId(projectModule.moduleId);
+      const element = document.getElementById(`module-${projectModule.moduleId}`);
+      const divElement = document.getElementById('sidebar-scrollbar');
+      if (divElement && element) {
+        divElement.scrollTo({
+          // 138px Is the size of the distance from the top to the scroll
+          top: Number(element.offsetTop - divElement.getBoundingClientRect().top - 138),
+          behavior: 'smooth'
+        });
+      }
+    }
+  }, [projectState, projectModule]);
 
   return (
     <motion.div
@@ -59,9 +77,10 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
               variants={container}
               initial="hidden"
               animate="show"
+              id="sidebar-scrollbar"
             >
               {modules?.map((module) => (
-                <motion.div variants={item} key={module.id}>
+                <motion.div variants={item} key={module.id} id={`module-${module.id}`}>
                   <button
                     className={classNames(
                       'flex flex-col items-center justify-center w-full h-full px-2 py-4 bg-white shadow-md mui-border-radius hover:scale-105 transition-all duration-75 active:scale-100 active:transition-none border-2 border-solid border-white',
@@ -72,13 +91,14 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
                     onClick={module.id !== selectedModuleId ? () => setSelectedModuleId(module.id) : undefined}
                   >
                     {module.thumbnailUrl ? (
-                      <SkeletonImage
-                        key={module.partNumber}
-                        src={module.thumbnailUrl}
-                        alt={module.partNumber}
-                        width={144}
-                        height={144}
-                      />
+                      <div className="relative w-36 h-36">
+                        <SkeletonImage
+                          key={module.partNumber}
+                          src={module.thumbnailUrl}
+                          alt={module.partNumber}
+                          layout="fill"
+                        />
+                      </div>
                     ) : (
                       <div className="w-36 h-36" />
                     )}

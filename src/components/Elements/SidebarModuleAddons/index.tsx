@@ -67,7 +67,7 @@ const SidebarModuleAddons: React.FC<SidebarModuleAddonsProps> = ({ options, pare
               ? data?.modules.map((moduleOption, i) => (
                   <React.Fragment key={moduleOption.id}>
                     {i !== 0 && <div className="flex-shrink-0 w-full my-2 bg-mui-gray-300 h-0.5" />}
-                    <div>
+                    <div className="relative">
                       <ModuleButtonImage
                         isChild
                         module={moduleOption}
