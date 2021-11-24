@@ -1,10 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { ModuleDataFragment } from '../../../apollo/generated/graphql';
 import { AnimatePresence, motion } from 'framer-motion';
 import SidebarModules from './SidebarModules';
 import SidebarCategories from './SidebarCategories';
+import { usePlannerContext } from '../../Providers/PlannerProvider';
 
-type PlannerSidebarState = 'closed' | 'categories' | 'modules';
+export type PlannerSidebarState = 'closed' | 'categories' | 'modules';
 
 export type PlannerSidebarProps = {
   project?: {
@@ -26,6 +27,7 @@ const animationVariants = {
 };
 
 const PlannerSidebar: React.FC<PlannerSidebarProps> = ({ project, isSidebarOpen, loading }) => {
+  const { state: plannerState } = usePlannerContext();
   const [state, setState] = useState<PlannerSidebarState>('categories');
   const [category, setCategory] = useState<PlannerSidebarCategories | undefined>();
 
@@ -37,6 +39,20 @@ const PlannerSidebar: React.FC<PlannerSidebarProps> = ({ project, isSidebarOpen,
   const onCategoryCloseClick = useCallback(() => {
     setState('categories');
   }, []);
+
+  const handleCategoryOpen = useCallback(() => {
+    if (state === 'categories' && project?.modules) {
+      const all = project?.modules[0].categories.find((f) => f.slug === 'all');
+      onCategoryClick(all);
+    }
+  }, [state, project, onCategoryClick]);
+
+  useEffect(() => {
+    if (plannerState === 'Selected') {
+      handleCategoryOpen();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [plannerState]);
 
   return (
     <motion.div

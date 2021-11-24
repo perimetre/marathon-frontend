@@ -317,6 +317,16 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   const createModule = useCallback(
     (partNumber: string, moduleId: number, projectModuleId: string, rules: string, bundleUrl: string) => {
+      console.log(
+        'MODULE ',
+        JSON.stringify({
+          partNumber,
+          moduleId,
+          projectModuleId,
+          rules,
+          bundleUrl
+        })
+      );
       unityInstance.current?.SendMessage(
         UNITY_GAME_OBJECT,
         'CreateModule',
@@ -359,6 +369,18 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       drawerTypeSlug: string,
       initialModules?: ProjectModule[]
     ) => {
+      console.log(
+        'JEISON',
+        JSON.stringify({
+          width,
+          depth,
+          gable,
+          finishSlug,
+          isPegboard,
+          drawerType: drawerTypeSlug,
+          initialModules
+        })
+      );
       unityInstance.current?.SendMessage(
         UNITY_GAME_OBJECT,
         'SetupDrawer',
