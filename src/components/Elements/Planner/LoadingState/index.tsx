@@ -38,6 +38,8 @@ const LoadingState: React.FC = () => {
           alt={'marathon'}
           sizes="25vw"
           objectFit="cover"
+          loader={(props) => props.src}
+          unoptimized
           onLoadingComplete={() => {
             if (mountRef.current) setImageLoaded(true);
           }}

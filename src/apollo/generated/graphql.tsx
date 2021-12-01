@@ -1039,6 +1039,7 @@ export type Module = {
   projectModules: Array<ProjectModule>;
   rules?: Maybe<ModuleRules>;
   rulesJson?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth: Scalars['Boolean'];
   thumbnailUrl?: Maybe<Scalars['String']>;
 };
 
@@ -1174,6 +1175,7 @@ export type ModuleCreateManyCollectionInput = {
   isSubmodule?: Maybe<Scalars['Boolean']>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
 };
 
@@ -1193,6 +1195,7 @@ export type ModuleCreateManyFinishInput = {
   isSubmodule?: Maybe<Scalars['Boolean']>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
 };
 
@@ -1248,6 +1251,7 @@ export type ModuleCreateWithoutCollectionInput = {
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
 };
 
@@ -1263,6 +1267,7 @@ export type ModuleCreateWithoutFinishInput = {
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
 };
 
@@ -1278,6 +1283,7 @@ export type ModuleCreateWithoutProjectModulesInput = {
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
 };
 
@@ -1319,6 +1325,7 @@ export type ModuleOrderByInput = {
   isSubmodule?: Maybe<SortOrder>;
   partNumber?: Maybe<SortOrder>;
   rules?: Maybe<SortOrder>;
+  shouldHideBasedOnWidth?: Maybe<SortOrder>;
   thumbnailUrl?: Maybe<SortOrder>;
 };
 
@@ -1346,6 +1353,7 @@ export type ModuleRulesMetadata = {
   requiredNetInterior?: Maybe<ModuleMinMax>;
   /** The amount (in degrees) that the product can be rotated */
   rotation?: Maybe<Scalars['Float']>;
+  trimOffset?: Maybe<TrimOffsetMetadata>;
   /** Where a module can be cut if there's excess beyond the drawer */
   trimmable?: Maybe<Array<Scalars['String']>>;
 };
@@ -1365,6 +1373,7 @@ export type ModuleScalarWhereInput = {
   isSubmodule?: Maybe<BoolFilter>;
   partNumber?: Maybe<StringFilter>;
   rules?: Maybe<JsonNullableFilter>;
+  shouldHideBasedOnWidth?: Maybe<BoolFilter>;
   thumbnailUrl?: Maybe<StringNullableFilter>;
 };
 
@@ -1383,6 +1392,7 @@ export type ModuleUpdateManyMutationInput = {
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
 };
 
@@ -1454,6 +1464,7 @@ export type ModuleUpdateWithoutCollectionInput = {
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
 };
 
@@ -1469,6 +1480,7 @@ export type ModuleUpdateWithoutFinishInput = {
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
 };
 
@@ -1484,6 +1496,7 @@ export type ModuleUpdateWithoutProjectModulesInput = {
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
 };
 
@@ -1523,6 +1536,7 @@ export type ModuleWhereInput = {
   partNumber?: Maybe<StringFilter>;
   projectModules?: Maybe<ProjectModuleListRelationFilter>;
   rules?: Maybe<JsonNullableFilter>;
+  shouldHideBasedOnWidth?: Maybe<BoolFilter>;
   thumbnailUrl?: Maybe<StringNullableFilter>;
 };
 
@@ -3413,6 +3427,14 @@ export type StringNullableFilter = {
   not?: Maybe<NestedStringNullableFilter>;
   notIn?: Maybe<Array<Scalars['String']>>;
   startsWith?: Maybe<Scalars['String']>;
+};
+
+export type TrimOffsetMetadata = {
+  __typename?: 'TrimOffsetMetadata';
+  bottom?: Maybe<Scalars['Float']>;
+  left?: Maybe<Scalars['Float']>;
+  right?: Maybe<Scalars['Float']>;
+  top?: Maybe<Scalars['Float']>;
 };
 
 export type Type = {

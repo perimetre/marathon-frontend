@@ -51,6 +51,8 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ loading, error, onSubmit 
           src="/images/Background/7px.Kemsley Color Palette 3 Angle.png"
           layout="fill"
           objectFit="cover"
+          loader={(props) => props.src}
+          unoptimized
           quality={100}
         />
       </div>

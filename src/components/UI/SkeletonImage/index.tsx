@@ -25,6 +25,8 @@ const SkeletonImage: React.FC<SkeletonImageProps> = ({ className, ...props }) =>
       onLoadingComplete={() => {
         if (mountRef.current) setImageLoaded(true);
       }}
+      loader={(props) => props.src}
+      unoptimized
       className={classNames({ 'mui-skeleton': !imageLoaded }, className)}
     />
   );

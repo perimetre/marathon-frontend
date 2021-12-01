@@ -28,6 +28,8 @@ const Navbar: React.FC<NavbarProps> = ({ prependLeft, appendRight, hideLeft }) =
                 layout="fill"
                 alt={'Marathon logo'}
                 sizes="50vw"
+                loader={(props) => props.src}
+                unoptimized
                 objectFit="scale-down"
               />
             </div>
