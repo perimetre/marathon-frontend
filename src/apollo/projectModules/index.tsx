@@ -4,6 +4,7 @@ export const CREATE_PROJECT_MODULE = gql`
   mutation CreateProjectModule($data: ProjectModuleCreateInput!) {
     createOneProjectModule(data: $data) {
       id
+      moduleId
     }
   }
 `;

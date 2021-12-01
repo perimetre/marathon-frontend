@@ -10,7 +10,7 @@ import {
 } from '../../../apollo/generated/graphql';
 import { nanoid } from 'nanoid';
 
-type PieceBuilderState = 'None' | 'Selected' | 'Editing' | 'Placed' | 'AddingSubModule' | 'Deleted';
+type PieceBuilderState = 'None' | 'Created' | 'Selected' | 'Editing' | 'Placed' | 'AddingSubModule' | 'Deleted';
 
 export type ProjectModule = {
   id: string;
@@ -39,6 +39,7 @@ type PlannerContextType = {
   projectModule?: ProjectModule;
   error?: string;
   cartAmount: number;
+  idMap: { [key: string]: Record<string, number> } | null;
   // Methods
   // State Methods
   setIsPending: (isPending: boolean) => void;
@@ -79,6 +80,7 @@ const initialState: PlannerContextType = {
   state: 'None',
   isPending: false,
   cartAmount: 0,
+  idMap: null,
   setIsPending: () => {
     throw new Error('setIsPending is not implemented');
   },
@@ -111,7 +113,6 @@ const initialState: PlannerContextType = {
 /*
  * Component
  * */
-
 const PlannerContext = React.createContext<PlannerContextType>(initialState);
 
 export type PlannerProviderProps = { project: NonNullable<PlannerQuery['project']> };
@@ -142,86 +143,118 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   // ** States
   const [didSetup, setDidSetup] = useState(false);
-  const [projectModule, setProjectModule] = useState<ProjectModule | undefined>(undefined);
-  // TODO: Remove next line if we start using prevState
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [prevState, setPrevState] = useState(initialState.state);
-  const [state, setState] = useState(initialState.state);
   const [isPending, setIsPending] = useState(initialState.isPending);
+
   const [error, setError] = useState<string | undefined>(initialState.error);
-  const [idMap, setIdMap] = useState<Record<string, number>>({});
-  const cartAmount = useMemo(() => Object.keys(idMap).length, [idMap]);
+  const [idMap, setIdMap] = useState<PlannerContextType['idMap']>(null);
 
-  // TODO: Check if error change on effect, and display tooltip for X seconds, then clear error when the tooltip closes
+  const cartAmount = useMemo(() => (idMap ? Object.keys(idMap).length : 0), [idMap]);
 
-  // ** Effects
+  const [state, setState] = useState(initialState.state);
+  const [projectModule, setProjectModule] = useState<ProjectModule | undefined>(undefined);
 
-  // Create project
-  useEffect(() => {
-    const createProjectModuleEffect = async () => {
-      // If there's a project module
-      // If the project module hasn't already been created (if it's not on idMap)
-      // And the state is placed or selected
-      if (
-        projectModule &&
-        !idMap[projectModule.id] &&
-        prevState === 'Editing' &&
-        (state === 'Placed' || state === 'Selected')
-      ) {
-        const { id, posX, posY, posZ, rotY, parentId, moduleId, children } = projectModule;
+  // ***********
+  // ** Unity <-> React logic
+  // ***********+
+
+  const handleSetupFinished = useCallback((error: string) => {
+    setIsPending(false);
+    if (error) {
+      setError(error);
+      logging.error(new Error(error));
+    }
+  }, []);
+
+  const handleCreateModule = useCallback((moduleJson: string) => {
+    const projectModule = JSON.parse(moduleJson) as ProjectModule;
+    console.log('createModule: ', projectModule);
+    setProjectModule(projectModule);
+    setIsPending(false);
+    setState('Created');
+  }, []);
+
+  const handlePlaceModule = useCallback(
+    async (moduleJson: string) => {
+      const module = JSON.parse(moduleJson) as ProjectModule;
+      console.log('placedModule: ', module);
+      setIsPending(false);
+
+      if (state === 'Editing' && idMap && !idMap[module.id]) {
+        const { id, posX, posY, posZ, rotY, parentId, moduleId, children } = module;
         try {
+          const form = {
+            posX,
+            posY,
+            posZ,
+            rotY,
+            module: { connect: { id: moduleId } },
+            project: { connect: { id: projectId } },
+            parent: parentId ? { connect: { id: idMap[parentId].id } } : undefined,
+            children:
+              children && children.length > 0
+                ? {
+                    createMany: {
+                      data: children.map(({ posX, posY, posZ, rotY, moduleId }) => ({
+                        posX,
+                        posY,
+                        posZ,
+                        rotY,
+                        moduleId,
+                        projectId
+                      }))
+                    }
+                  }
+                : undefined
+          };
           const { data } = await doCreateProjectModule({
             variables: {
-              data: {
-                posX,
-                posY,
-                posZ,
-                rotY,
-                module: { connect: { id: moduleId } },
-                project: { connect: { id: projectId } },
-                parent: parentId ? { connect: { id: idMap[parentId] } } : undefined,
-                children:
-                  children && children.length > 0
-                    ? {
-                        createMany: {
-                          data: children.map(({ posX, posY, posZ, rotY, moduleId }) => ({
-                            posX,
-                            posY,
-                            posZ,
-                            rotY,
-                            moduleId,
-                            projectId
-                          }))
-                        }
-                      }
-                    : undefined
-              }
+              data: form
             }
           });
           if (data) {
-            setIdMap({ ...idMap, [id]: data.createOneProjectModule.id });
+            setIdMap({
+              ...idMap,
+              [id]: { id: data.createOneProjectModule.id, moduleId: data.createOneProjectModule.moduleId }
+            });
           } else {
-            logging.warn(`Created project module but it did not return any data`, { state, projectModule });
+            logging.warn(`Created project module but it did not return any data`, { state, module });
           }
         } catch (err) {
-          logging.error(err as Error, `Failed creating project module`, { state, projectModule });
+          logging.error(err as Error, `Failed creating project module`, { state, module });
         }
       }
-    };
 
-    createProjectModuleEffect();
-  }, [doCreateProjectModule, idMap, projectId, projectModule, state, prevState]);
+      setProjectModule(undefined);
+      setState('Placed');
+    },
+    [state, idMap, projectId, doCreateProjectModule]
+  );
 
-  // Delete project
-  useEffect(() => {
-    const deleteProjectModuleEffect = async () => {
-      // If there's a project module
-      // If the project module has already been created (if it's on idMap)
-      // And the state is deleted or editing
-      if (projectModule && idMap[projectModule.id] && (state === 'Editing' || state === 'Deleted')) {
+  const handleSelectModule = useCallback((moduleJson: string) => {
+    const projectModule = JSON.parse(moduleJson) as ProjectModule;
+    console.log('selectedModule: ', projectModule);
+    setProjectModule(projectModule);
+    setIsPending(false);
+    setState('Selected');
+  }, []);
+
+  const handleEditModule = useCallback((moduleJson: string) => {
+    const projectModule = JSON.parse(moduleJson) as ProjectModule;
+    console.log('editedModule: ', projectModule);
+    setProjectModule(projectModule);
+    setIsPending(false);
+    setState('Editing');
+  }, []);
+
+  const handleDeleteModule = useCallback(
+    async (moduleId: string) => {
+      console.log('deletedModule: ', moduleId);
+      setIsPending(false);
+
+      if (projectModule && idMap && idMap[projectModule.id] && (state === 'Editing' || state === 'Deleted')) {
         const { id, children } = projectModule;
 
-        const idsToDelete = [id, ...(children?.map((x) => x.id) || [])].map((x) => idMap[x]);
+        const idsToDelete = [id, ...(children?.map((x) => x.id) || [])].map((x) => idMap[x].id);
 
         try {
           const { data } = await doDeleteProjectModule({
@@ -233,7 +266,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
           if (data && data.deleteManyProjectModule.count > 0) {
             setIdMap(
               Object.entries(idMap)
-                .filter((x) => !idsToDelete.includes(x[1]))
+                .filter((x) => !idsToDelete.includes(x[1].id))
                 .reduce((obj, entry) => ({ ...obj, [entry[0]]: entry[1] }), {} as typeof idMap)
             );
           } else {
@@ -243,53 +276,36 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
           logging.error(err as Error, `Failed deleting project modules`, { state, projectModule });
         }
       }
-    };
 
-    deleteProjectModuleEffect();
-  }, [doDeleteProjectModule, idMap, projectModule, state]);
-
-  // ***********
-  // ** Unity <-> React logic
-  // ***********
+      setProjectModule(undefined);
+      setState('Deleted');
+    },
+    [state, projectModule, idMap, doDeleteProjectModule]
+  );
 
   useEffect(() => {
     /*
      * Unity -> React
      * */
     const planner = {
-      moduleStateChange: (builderState: PieceBuilderState, projectModuleJson: string) => {
-        if (projectModuleJson) {
-          try {
-            const projectModule = JSON.parse(projectModuleJson) as ProjectModule;
-            setProjectModule(projectModule);
-          } catch (error) {
-            logging.error(error as Error);
-            setProjectModule(undefined);
-          }
-        } else {
-          setProjectModule(undefined);
-        }
-        setIsPending(false);
-        setState((state) => {
-          setPrevState(state);
-          return builderState;
-        });
-      },
-      setupFinished: (error?: string) => {
-        setIsPending(false);
-        if (error) {
-          setError(error);
-          logging.error(new Error(error));
-        }
-      },
-      deletedModule: () => {
-        setState('Deleted');
-      }
+      setupFinished: handleSetupFinished,
+      createdModule: handleCreateModule,
+      selectedModule: handleSelectModule,
+      editedModule: handleEditModule,
+      placedModule: handlePlaceModule,
+      deletedModule: handleDeleteModule
     };
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).planner = planner;
-  }, []);
+  }, [
+    handleSetupFinished,
+    handleCreateModule,
+    handleSelectModule,
+    handleEditModule,
+    handlePlaceModule,
+    handleDeleteModule
+  ]);
 
   /*
    * React -> Unity
@@ -317,6 +333,15 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   const createModule = useCallback(
     (partNumber: string, moduleId: number, projectModuleId: string, rules: string, bundleUrl: string) => {
+      // console.log(
+      //   JSON.stringify({
+      //     partNumber,
+      //     moduleId,
+      //     projectModuleId,
+      //     rules,
+      //     bundleUrl
+      //   })
+      // );
       unityInstance.current?.SendMessage(
         UNITY_GAME_OBJECT,
         'CreateModule',
@@ -359,6 +384,17 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       drawerTypeSlug: string,
       initialModules?: ProjectModule[]
     ) => {
+      console.log(
+        JSON.stringify({
+          width,
+          depth,
+          gable,
+          finishSlug,
+          isPegboard,
+          drawerType: drawerTypeSlug,
+          initialModules
+        })
+      );
       unityInstance.current?.SendMessage(
         UNITY_GAME_OBJECT,
         'SetupDrawer',
@@ -382,7 +418,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       const projectModules = project.projectModules?.map(
         ({ posX, posY, posZ, rotY, moduleId, module: { bundleUrl, partNumber }, children, id: originalId }) => {
           const id = nanoid();
-          idMaps = { ...idMaps, [id]: originalId };
+          idMaps = { ...idMaps, [id]: { moduleId, id: originalId } };
           return {
             id,
             posX: posX || 0,
@@ -395,7 +431,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
             children: children?.map(
               ({ posX, posY, posZ, rotY, moduleId, module: { bundleUrl, partNumber }, id: originalId }) => {
                 const childId = nanoid();
-                idMaps = { ...idMaps, [childId]: originalId };
+                idMaps = { ...idMaps, [childId]: { moduleId, id: originalId } };
                 return {
                   id: childId,
                   parentId: id,
@@ -437,6 +473,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         isPending,
         setIsPending,
         projectModule,
+        idMap,
         error,
         cartAmount,
         trayDone,
