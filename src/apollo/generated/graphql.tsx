@@ -1706,8 +1706,10 @@ export type Project = {
 
 export type ProjectProjectModulesArgs = {
   cursor?: Maybe<ProjectModuleWhereUniqueInput>;
+  orderBy?: Maybe<Array<ProjectModuleOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
+  where?: Maybe<ProjectModuleWhereInput>;
 };
 
 export type ProjectCreateInput = {
@@ -3954,7 +3956,7 @@ export type CreateProjectModuleMutationVariables = Exact<{
 
 export type CreateProjectModuleMutation = {
   __typename?: 'Mutation';
-  createOneProjectModule: { __typename?: 'ProjectModule'; id: number };
+  createOneProjectModule: { __typename?: 'ProjectModule'; id: number; moduleId: number };
 };
 
 export type UpdateProjectModuleMutationVariables = Exact<{
@@ -4156,7 +4158,7 @@ export const CartDocument = gql`
       id
       slug
       title
-      projectModules {
+      projectModules(where: { parentId: { equals: null } }) {
         ...CartData
         children {
           ...CartData
@@ -4432,7 +4434,7 @@ export const PlannerDocument = gql`
       modules {
         ...ModuleData
       }
-      projectModules {
+      projectModules(where: { parentId: { equals: null } }) {
         ...ProjectModuleData
         children {
           ...ProjectModuleData
@@ -4475,6 +4477,7 @@ export const CreateProjectModuleDocument = gql`
   mutation CreateProjectModule($data: ProjectModuleCreateInput!) {
     createOneProjectModule(data: $data) {
       id
+      moduleId
     }
   }
 `;

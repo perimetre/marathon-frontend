@@ -28,7 +28,7 @@ type SidebarModulesProps = Pick<NonNullable<PlannerSidebarProps['project']>, 'mo
 };
 
 const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, category, onCloseClick }) => {
-  const { state: projectState, projectModule } = usePlannerContext();
+  const { idMap, state: projectState, projectModule } = usePlannerContext();
 
   const modules = useMemo(
     () => modulesProps?.filter((module) => module.categories.some((cat) => cat.slug === category?.slug)),
@@ -40,8 +40,14 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
 
   useEffect(() => {
     if (projectState === 'Selected' && projectModule) {
-      setSelectedModuleId(projectModule.moduleId);
-      const element = document.getElementById(`module-${projectModule.moduleId}`);
+      let moduleId = projectModule.moduleId;
+
+      if (projectModule.parentId && idMap && idMap[projectModule.parentId]) {
+        moduleId = idMap[projectModule.parentId].moduleId;
+      }
+
+      setSelectedModuleId(moduleId);
+      const element = document.getElementById(`module-${moduleId}`);
       const divElement = document.getElementById('sidebar-scrollbar');
       if (divElement && element) {
         divElement.scrollTo({
@@ -51,7 +57,7 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
         });
       }
     }
-  }, [projectState, projectModule]);
+  }, [projectState, projectModule, idMap, modules]);
 
   return (
     <motion.div

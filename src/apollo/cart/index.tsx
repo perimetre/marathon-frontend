@@ -7,7 +7,7 @@ export const CART_QUERY = gql`
       id
       slug
       title
-      projectModules {
+      projectModules(where: { parentId: { equals: null } }) {
         ...CartData
         children {
           ...CartData

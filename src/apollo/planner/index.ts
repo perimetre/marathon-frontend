@@ -25,7 +25,7 @@ export const PLANNER_QUERY = gql`
       modules {
         ...ModuleData
       }
-      projectModules {
+      projectModules(where: { parentId: { equals: null } }) {
         ...ProjectModuleData
         children {
           ...ProjectModuleData
