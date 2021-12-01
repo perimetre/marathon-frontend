@@ -3,6 +3,7 @@ import React from 'react';
 import Image from 'next/image';
 import { FormattedMessage } from 'react-intl';
 import ProjectNavbarButton from '../../UI/NavbarButton/ProjectNavbarButton';
+import { customImageLoader } from '../../../lib/next';
 
 export type NavbarProps = {
   hideLeft?: boolean;
@@ -28,7 +29,7 @@ const Navbar: React.FC<NavbarProps> = ({ prependLeft, appendRight, hideLeft }) =
                 layout="fill"
                 alt={'Marathon logo'}
                 sizes="50vw"
-                loader={(props) => props.src}
+                loader={customImageLoader}
                 unoptimized
                 objectFit="scale-down"
               />

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { FormattedMessage } from 'react-intl';
 import Spinner from '../../../UI/Spinner';
 import ProgressBar from '../../../UI/ProgressBar';
+import { customImageLoader } from '../../../../lib/next';
 
 const LoadingState: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -38,7 +39,7 @@ const LoadingState: React.FC = () => {
           alt={'marathon'}
           sizes="25vw"
           objectFit="cover"
-          loader={(props) => props.src}
+          loader={customImageLoader}
           unoptimized
           onLoadingComplete={() => {
             if (mountRef.current) setImageLoaded(true);
