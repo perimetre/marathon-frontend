@@ -384,17 +384,17 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       drawerTypeSlug: string,
       initialModules?: ProjectModule[]
     ) => {
-      console.log(
-        JSON.stringify({
-          width,
-          depth,
-          gable,
-          finishSlug,
-          isPegboard,
-          drawerType: drawerTypeSlug,
-          initialModules
-        })
-      );
+      // console.log(
+      //   JSON.stringify({
+      //     width,
+      //     depth,
+      //     gable,
+      //     finishSlug,
+      //     isPegboard,
+      //     drawerType: drawerTypeSlug,
+      //     initialModules
+      //   })
+      // );
       unityInstance.current?.SendMessage(
         UNITY_GAME_OBJECT,
         'SetupDrawer',
