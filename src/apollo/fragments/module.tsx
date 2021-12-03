@@ -24,5 +24,6 @@ export const MODULE_DATA = gql`
       slug
       name
     }
+    rulesJson
   }
 `;

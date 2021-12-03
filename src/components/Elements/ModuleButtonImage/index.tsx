@@ -5,7 +5,6 @@ import SkeletonImage from '../../UI/SkeletonImage';
 import Button from '../../UI/Button';
 import { FormattedMessage } from 'react-intl';
 import { PlusCircle } from 'react-feather';
-import { nanoid } from 'nanoid';
 import Spinner from '../../UI/Spinner';
 import logging from '../../../lib/logging';
 import { useIntersection } from 'next/dist/client/use-intersection';
@@ -17,7 +16,7 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
   // ** Misc
   // ***********
   const { createModule, createChildrenModule, setIsPending, isPending } = usePlannerContext();
-  const { id, partNumber, bundleUrl } = module;
+  const { partNumber } = module;
 
   // A hook that check is the element is visible, so we run logic only when it is
   // Ref: https://github.com/vercel/next.js/blob/0c04f96e9be0a78c1b3a77e8d2788afc0822ba1a/packages/next/client/image.tsx#L505
@@ -59,16 +58,12 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
   const onAddClick = useCallback(() => {
     setIsPending(true);
 
-    const projectModuleId = nanoid();
-
-    if (data?.module && bundleUrl) {
-      if (!isChild) {
-        createModule(partNumber, id, projectModuleId, data.module.rulesJson, bundleUrl);
-      } else {
-        createChildrenModule(partNumber, id, projectModuleId, data.module.rulesJson, bundleUrl);
-      }
+    if (!isChild) {
+      createModule(module);
+    } else {
+      createChildrenModule(module);
     }
-  }, [bundleUrl, createChildrenModule, createModule, id, isChild, partNumber, setIsPending, data]);
+  }, [createChildrenModule, createModule, isChild, module, setIsPending]);
 
   return (
     <div>

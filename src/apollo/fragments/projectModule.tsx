@@ -1,4 +1,5 @@
 import { gql } from '@apollo/client';
+import { MODULE_DATA } from './module';
 
 export const PROJECT_MODULE_DATA = gql`
   fragment ProjectModuleData on ProjectModule {
@@ -10,9 +11,8 @@ export const PROJECT_MODULE_DATA = gql`
     parentId
     moduleId
     module {
-      id
-      partNumber
-      bundleUrl
+      ...ModuleData
     }
   }
+  ${MODULE_DATA}
 `;

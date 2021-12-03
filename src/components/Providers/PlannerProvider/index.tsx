@@ -4,6 +4,7 @@ import { useUnityPlayerContext } from '../UnityPlayerProvider';
 import logging from '../../../lib/logging';
 import { UNITY_GAME_OBJECT } from '../../../constraints';
 import {
+  ModuleDataFragment,
   PlannerQuery,
   useCreateProjectModuleMutation,
   useDeleteProjectModuleMutation
@@ -12,19 +13,42 @@ import { nanoid } from 'nanoid';
 
 type PieceBuilderState = 'None' | 'Created' | 'Selected' | 'Editing' | 'Placed' | 'AddingSubModule' | 'Deleted';
 
-export type ProjectModule = {
-  id: string;
-  moduleId: number;
+export type ModuleJson = {
   partNumber: string;
-  bundleUrl?: string;
+  moduleId: number;
+  projectModuleId: string;
+  bundleUrl: string;
+  isSubmodule: boolean;
+  isExtension: boolean;
+
+  // Parsed rules json
+  metadata: Record<string, unknown>;
+};
+
+export type ProjectModuleJson = {
+  id: string;
 
   posX: number;
   posY: number;
   posZ: number;
   rotY: number;
 
+  module: ModuleJson;
+
   parentId?: string; // The parent if this is a submodule
-  children?: ProjectModule[]; // The list of submodules if this is a parent
+  children?: ProjectModuleJson[]; // The list of submodules if this is a parent
+};
+
+const makeModuleJson = (module: ModuleDataFragment, projectModuleId: string, isExtension?: boolean) => {
+  return {
+    partNumber: module.partNumber,
+    moduleId: module.id,
+    projectModuleId,
+    bundleUrl: module.bundleUrl,
+    isSubmodule: module.isSubmodule,
+    isExtension: isExtension || false,
+    metadata: module.rulesJson
+  } as ModuleJson;
 };
 
 /*
@@ -36,7 +60,7 @@ type PlannerContextType = {
   // State variables
   state: PieceBuilderState;
   isPending: boolean;
-  projectModule?: ProjectModule;
+  projectModule?: ProjectModuleJson;
   error?: string;
   cartAmount: number;
   idMap: { [key: string]: Record<string, number> } | null;
@@ -50,20 +74,8 @@ type PlannerContextType = {
   trayEdit: () => void;
   trayRotateLeft: () => void;
   trayRotateRight: () => void;
-  createModule: (
-    partNumber: string,
-    moduleId: number,
-    projectModuleId: string,
-    rules: string,
-    bundleUrl: string
-  ) => void;
-  createChildrenModule: (
-    partNumber: string,
-    moduleId: number,
-    projectModuleId: string,
-    rules: string,
-    bundleUrl: string
-  ) => void;
+  createModule: (module: ModuleDataFragment) => void;
+  createChildrenModule: (module: ModuleDataFragment) => void;
   setupDrawer: (
     width: number,
     depth: number,
@@ -71,7 +83,7 @@ type PlannerContextType = {
     finishSlug: string,
     isPegboard: boolean,
     drawerTypeSlug: string,
-    initialModules?: ProjectModule[]
+    initialModules?: ProjectModuleJson[]
   ) => void;
 };
 
@@ -151,7 +163,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   const cartAmount = useMemo(() => (idMap ? Object.keys(idMap).length : 0), [idMap]);
 
   const [state, setState] = useState(initialState.state);
-  const [projectModule, setProjectModule] = useState<ProjectModule | undefined>(undefined);
+  const [projectModule, setProjectModule] = useState<ProjectModuleJson | undefined>(undefined);
 
   // ***********
   // ** Unity <-> React logic
@@ -166,7 +178,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   }, []);
 
   const handleCreateModule = useCallback((moduleJson: string) => {
-    const projectModule = JSON.parse(moduleJson) as ProjectModule;
+    const projectModule = JSON.parse(moduleJson) as ProjectModuleJson;
     console.log('createModule: ', projectModule);
     setProjectModule(projectModule);
     setIsPending(false);
@@ -175,12 +187,21 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   const handlePlaceModule = useCallback(
     async (moduleJson: string) => {
-      const module = JSON.parse(moduleJson) as ProjectModule;
+      const module = JSON.parse(moduleJson) as ProjectModuleJson;
       console.log('placedModule: ', module);
       setIsPending(false);
 
       if (state === 'Editing' && idMap && !idMap[module.id]) {
-        const { id, posX, posY, posZ, rotY, parentId, moduleId, children } = module;
+        const {
+          id,
+          posX,
+          posY,
+          posZ,
+          rotY,
+          parentId,
+          module: { moduleId },
+          children
+        } = module;
         try {
           const form = {
             posX,
@@ -194,7 +215,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
               children && children.length > 0
                 ? {
                     createMany: {
-                      data: children.map(({ posX, posY, posZ, rotY, moduleId }) => ({
+                      data: children.map(({ posX, posY, posZ, rotY, module: { moduleId } }) => ({
                         posX,
                         posY,
                         posZ,
@@ -231,7 +252,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   );
 
   const handleSelectModule = useCallback((moduleJson: string) => {
-    const projectModule = JSON.parse(moduleJson) as ProjectModule;
+    const projectModule = JSON.parse(moduleJson) as ProjectModuleJson;
     console.log('selectedModule: ', projectModule);
     setProjectModule(projectModule);
     setIsPending(false);
@@ -239,7 +260,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   }, []);
 
   const handleEditModule = useCallback((moduleJson: string) => {
-    const projectModule = JSON.parse(moduleJson) as ProjectModule;
+    const projectModule = JSON.parse(moduleJson) as ProjectModuleJson;
     console.log('editedModule: ', projectModule);
     setProjectModule(projectModule);
     setIsPending(false);
@@ -332,44 +353,31 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   }, [unityInstance]);
 
   const createModule = useCallback(
-    (partNumber: string, moduleId: number, projectModuleId: string, rules: string, bundleUrl: string) => {
-      // console.log(
-      //   JSON.stringify({
-      //     partNumber,
-      //     moduleId,
-      //     projectModuleId,
-      //     rules,
-      //     bundleUrl
-      //   })
-      // );
-      unityInstance.current?.SendMessage(
-        UNITY_GAME_OBJECT,
-        'CreateModule',
-        JSON.stringify({
-          partNumber,
-          moduleId,
-          projectModuleId,
-          rules,
-          bundleUrl
-        })
-      );
+    (module: ModuleDataFragment) => {
+      const projectModuleId = nanoid();
+      const moduleJson = makeModuleJson(module, projectModuleId);
+
+      const json = JSON.stringify(moduleJson);
+
+      console.log('createModule', json);
+
+      unityInstance.current?.SendMessage(UNITY_GAME_OBJECT, 'CreateModule', json);
     },
     [unityInstance]
   );
 
   const createChildrenModule = useCallback(
-    (partNumber: string, moduleId: number, projectModuleId: string, rules: string, bundleUrl: string) => {
-      unityInstance.current?.SendMessage(
-        UNITY_GAME_OBJECT,
-        'CreateChildrenModule',
-        JSON.stringify({
-          partNumber,
-          moduleId,
-          projectModuleId,
-          rules,
-          bundleUrl
-        })
-      );
+    (module: ModuleDataFragment) => {
+      const projectModuleId = nanoid();
+      const isExtension = false;
+      console.error('Refactor UI: TODO: Make sure to pass isExtension correctly');
+      const moduleJson = makeModuleJson(module, projectModuleId, isExtension);
+
+      const json = JSON.stringify(moduleJson);
+
+      console.log('createChildrenModule', json);
+
+      unityInstance.current?.SendMessage(UNITY_GAME_OBJECT, 'CreateChildrenModule', json);
     },
     [unityInstance]
   );
@@ -382,32 +390,21 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       finishSlug: string,
       isPegboard: boolean,
       drawerTypeSlug: string,
-      initialModules?: ProjectModule[]
+      initialModules?: ProjectModuleJson[]
     ) => {
-      // console.log(
-      //   JSON.stringify({
-      //     width,
-      //     depth,
-      //     gable,
-      //     finishSlug,
-      //     isPegboard,
-      //     drawerType: drawerTypeSlug,
-      //     initialModules
-      //   })
-      // );
-      unityInstance.current?.SendMessage(
-        UNITY_GAME_OBJECT,
-        'SetupDrawer',
-        JSON.stringify({
-          width,
-          depth,
-          gable,
-          finishSlug,
-          isPegboard,
-          drawerType: drawerTypeSlug,
-          initialModules
-        })
-      );
+      const json = JSON.stringify({
+        width,
+        depth,
+        gable,
+        finishSlug,
+        isPegboard,
+        drawerType: drawerTypeSlug,
+        initialModules
+      });
+
+      console.log('setupDrawer', json);
+
+      unityInstance.current?.SendMessage(UNITY_GAME_OBJECT, 'SetupDrawer', json);
     },
     [unityInstance]
   );
@@ -415,39 +412,36 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   useEffect(() => {
     if (unityPlayerState === 'complete' && !didSetup) {
       let idMaps = {};
-      const projectModules = project.projectModules?.map(
-        ({ posX, posY, posZ, rotY, moduleId, module: { bundleUrl, partNumber }, children, id: originalId }) => {
-          const id = nanoid();
-          idMaps = { ...idMaps, [id]: { moduleId, id: originalId } };
-          return {
-            id,
-            posX: posX || 0,
-            posY: posY || 0,
-            posZ: posZ || 0,
-            rotY: rotY || 0,
-            bundleUrl: bundleUrl || undefined,
-            partNumber,
-            moduleId,
-            children: children?.map(
-              ({ posX, posY, posZ, rotY, moduleId, module: { bundleUrl, partNumber }, id: originalId }) => {
-                const childId = nanoid();
-                idMaps = { ...idMaps, [childId]: { moduleId, id: originalId } };
-                return {
-                  id: childId,
-                  parentId: id,
-                  posX: posX || 0,
-                  posY: posY || 0,
-                  posZ: posZ || 0,
-                  rotY: rotY || 0,
-                  bundleUrl: bundleUrl || undefined,
-                  partNumber,
-                  moduleId
-                };
-              }
-            )
-          };
-        }
-      );
+      const projectModules = project.projectModules?.map((projectModule) => {
+        const id = nanoid();
+        idMaps = { ...idMaps, [id]: { moduleId: projectModule.moduleId, id: projectModule.id } };
+
+        return {
+          id,
+          posX: projectModule.posX || 0,
+          posY: projectModule.posY || 0,
+          posZ: projectModule.posZ || 0,
+          rotY: projectModule.rotY || 0,
+          module: makeModuleJson(projectModule.module, id),
+          children: projectModule.children?.map((childProjectModule) => {
+            const childId = nanoid();
+            idMaps = { ...idMaps, [childId]: { moduleId: childProjectModule.moduleId, id: childProjectModule.id } };
+
+            const isExtension = false;
+            console.error('Refactor UI: TODO: Make sure to pass isExtension correctly');
+
+            return {
+              id: childId,
+              parentId: id,
+              posX: childProjectModule.posX || 0,
+              posY: childProjectModule.posY || 0,
+              posZ: childProjectModule.posZ || 0,
+              rotY: childProjectModule.rotY || 0,
+              module: makeModuleJson(childProjectModule.module, childId, isExtension)
+            };
+          })
+        } as ProjectModuleJson;
+      });
 
       setTimeout(() => {
         setupDrawer(

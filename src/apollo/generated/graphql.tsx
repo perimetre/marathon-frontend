@@ -3814,6 +3814,7 @@ export type ModuleDataFragment = {
   partNumber: string;
   thumbnailUrl?: string | null | undefined;
   description?: string | null | undefined;
+  rulesJson?: any | null | undefined;
   rules?:
     | {
         __typename?: 'ModuleRules';
@@ -3837,7 +3838,31 @@ export type ProjectModuleDataFragment = {
   rotY: number;
   parentId?: number | null | undefined;
   moduleId: number;
-  module: { __typename?: 'Module'; id: number; partNumber: string; bundleUrl?: string | null | undefined };
+  module: {
+    __typename?: 'Module';
+    id: number;
+    bundleUrl?: string | null | undefined;
+    hasPegs: boolean;
+    isImprintExtension: boolean;
+    isMat: boolean;
+    isSubmodule: boolean;
+    partNumber: string;
+    thumbnailUrl?: string | null | undefined;
+    description?: string | null | undefined;
+    rulesJson?: any | null | undefined;
+    rules?:
+      | {
+          __typename?: 'ModuleRules';
+          rules?: { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined } | null | undefined;
+          extensions?:
+            | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+            | null
+            | undefined;
+        }
+      | null
+      | undefined;
+    categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+  };
 };
 
 export type ProjectDataFragment = {
@@ -3877,6 +3902,7 @@ export type ModuleOptionsQuery = {
     partNumber: string;
     thumbnailUrl?: string | null | undefined;
     description?: string | null | undefined;
+    rulesJson?: any | null | undefined;
     rules?:
       | {
           __typename?: 'ModuleRules';
@@ -3929,6 +3955,7 @@ export type PlannerQuery = {
           partNumber: string;
           thumbnailUrl?: string | null | undefined;
           description?: string | null | undefined;
+          rulesJson?: any | null | undefined;
           rules?:
             | {
                 __typename?: 'ModuleRules';
@@ -3963,9 +3990,63 @@ export type PlannerQuery = {
             rotY: number;
             parentId?: number | null | undefined;
             moduleId: number;
-            module: { __typename?: 'Module'; id: number; partNumber: string; bundleUrl?: string | null | undefined };
+            module: {
+              __typename?: 'Module';
+              id: number;
+              bundleUrl?: string | null | undefined;
+              hasPegs: boolean;
+              isImprintExtension: boolean;
+              isMat: boolean;
+              isSubmodule: boolean;
+              partNumber: string;
+              thumbnailUrl?: string | null | undefined;
+              description?: string | null | undefined;
+              rulesJson?: any | null | undefined;
+              rules?:
+                | {
+                    __typename?: 'ModuleRules';
+                    rules?:
+                      | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                      | null
+                      | undefined;
+                    extensions?:
+                      | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                      | null
+                      | undefined;
+                  }
+                | null
+                | undefined;
+              categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+            };
           }>;
-          module: { __typename?: 'Module'; id: number; partNumber: string; bundleUrl?: string | null | undefined };
+          module: {
+            __typename?: 'Module';
+            id: number;
+            bundleUrl?: string | null | undefined;
+            hasPegs: boolean;
+            isImprintExtension: boolean;
+            isMat: boolean;
+            isSubmodule: boolean;
+            partNumber: string;
+            thumbnailUrl?: string | null | undefined;
+            description?: string | null | undefined;
+            rulesJson?: any | null | undefined;
+            rules?:
+              | {
+                  __typename?: 'ModuleRules';
+                  rules?:
+                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                  extensions?:
+                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+          };
         }>;
       }
     | null
@@ -4139,6 +4220,7 @@ export const ModuleDataFragmentDoc = gql`
       slug
       name
     }
+    rulesJson
   }
 `;
 export const ProjectModuleDataFragmentDoc = gql`
@@ -4151,11 +4233,10 @@ export const ProjectModuleDataFragmentDoc = gql`
     parentId
     moduleId
     module {
-      id
-      partNumber
-      bundleUrl
+      ...ModuleData
     }
   }
+  ${ModuleDataFragmentDoc}
 `;
 export const ProjectDataFragmentDoc = gql`
   fragment ProjectData on Project {
