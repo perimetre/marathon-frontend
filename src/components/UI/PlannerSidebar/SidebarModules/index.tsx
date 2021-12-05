@@ -28,7 +28,7 @@ type SidebarModulesProps = Pick<NonNullable<PlannerSidebarProps['project']>, 'mo
 };
 
 const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, category, onCloseClick }) => {
-  const { idMap, state: projectState, projectModule } = usePlannerContext();
+  const { state: projectState, projectModule, didFinishSetup } = usePlannerContext();
 
   const modules = useMemo(
     () => modulesProps?.filter((module) => module.categories.some((cat) => cat.slug === category?.slug)),
@@ -39,25 +39,25 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
   const selectedModule = useMemo(() => modules?.find((x) => x.id === selectedModuleId), [selectedModuleId, modules]);
 
   useEffect(() => {
-    if (projectState === 'Selected' && projectModule) {
-      let moduleId = projectModule.moduleId;
+    if (didFinishSetup && projectState === 'Selected' && projectModule) {
+      if (projectModule.module.isExtension || projectModule.module.isSubmodule) return;
 
-      if (projectModule.parentId && idMap && idMap[projectModule.parentId]) {
-        moduleId = idMap[projectModule.parentId].moduleId;
-      }
+      const moduleId = projectModule.module.id;
 
-      setSelectedModuleId(moduleId);
-      const element = document.getElementById(`module-${moduleId}`);
-      const divElement = document.getElementById('sidebar-scrollbar');
-      if (divElement && element) {
-        divElement.scrollTo({
-          // 138px Is the size of the distance from the top to the scroll
-          top: Number(element.offsetTop - divElement.getBoundingClientRect().top - 138),
-          behavior: 'smooth'
-        });
+      if (modules?.some((x) => x.id === moduleId)) {
+        setSelectedModuleId(moduleId);
+        const element = document.getElementById(`module-${moduleId}`);
+        const divElement = document.getElementById('sidebar-scrollbar');
+        if (divElement && element) {
+          divElement.scrollTo({
+            // 138px Is the size of the distance from the top to the scroll
+            top: Number(element.offsetTop - divElement.getBoundingClientRect().top - 138),
+            behavior: 'smooth'
+          });
+        }
       }
     }
-  }, [projectState, projectModule, idMap, modules]);
+  }, [projectModule, projectState, didFinishSetup, modules]);
 
   return (
     <motion.div
