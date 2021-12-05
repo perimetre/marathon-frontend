@@ -43,6 +43,9 @@ export type UnityProjectModuleJson = {
   defaultRightExtension?: UnityProjectModuleJson;
   defaultLeftExtension?: UnityProjectModuleJson;
 
+  attachmentAppend?: UnityProjectModuleJson;
+  moduleAttachments?: UnityProjectModuleJson[];
+
   parentId?: number; // The parent if this is a submodule
   parentNanoId?: string; // The parent if this is a submodule
 };
@@ -52,7 +55,9 @@ export type UnityProjectModuleJsonChildren = {
 };
 
 const makeModuleJson = (
-  module: ModuleDataFragment & { rulesJson?: Record<string, unknown> },
+  module: Pick<ModuleDataFragment, 'id' | 'partNumber' | 'bundleUrl' | 'isSubmodule' | 'isExtension' | 'rules'> & {
+    rulesJson?: Record<string, unknown>;
+  },
   rulesJson?: Record<string, unknown>
 ): UnityModuleJson => {
   const rules = rulesJson || module.rulesJson;
@@ -208,6 +213,8 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   const createModule = useCallback(
     (module: ModuleDataFragment, rulesJson: Record<string, unknown>) => {
+      setIsPending(true);
+
       const parentNanoId = nanoid();
       const moduleJson = {
         nanoId: parentNanoId,
@@ -225,7 +232,22 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
               parentNanoId,
               module: makeModuleJson(module.defaultRightExtension)
             }
-          : undefined
+          : undefined,
+        attachmentAppend: module.attachmentToAppend
+          ? {
+              nanoId: nanoid(),
+              parentNanoId,
+              module: makeModuleJson(module.attachmentToAppend)
+            }
+          : undefined,
+        moduleAttachments:
+          module.moduleAttachments && module.moduleAttachments.length > 0
+            ? module.moduleAttachments.map((attachment) => ({
+                nanoId: nanoid(),
+                parentNanoId,
+                module: makeModuleJson(attachment.attachment)
+              }))
+            : undefined
       } as UnityProjectModuleJson;
 
       const json = JSON.stringify(moduleJson);
@@ -239,6 +261,8 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   const createChildrenModule = useCallback(
     (module: ModuleDataFragment, rulesJson: Record<string, unknown>) => {
+      setIsPending(true);
+
       const moduleJson = {
         nanoId: nanoid(),
         parentId: projectModule?.id,
@@ -488,7 +512,22 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         posY: projectModule.posY || 0,
         posZ: projectModule.posZ || 0,
         rotY: projectModule.rotY || 0,
-        module: makeModuleJson(projectModule.module)
+        module: makeModuleJson(projectModule.module),
+        attachmentAppend: projectModule.module.attachmentToAppend
+          ? {
+              nanoId: nanoid(),
+              parentNanoId: projectModule.nanoId,
+              module: makeModuleJson(projectModule.module.attachmentToAppend)
+            }
+          : undefined,
+        moduleAttachments:
+          projectModule.module.moduleAttachments && projectModule.module.moduleAttachments.length > 0
+            ? projectModule.module.moduleAttachments.map((attachment) => ({
+                nanoId: nanoid(),
+                parentNanoId: projectModule.nanoId,
+                module: makeModuleJson(attachment.attachment)
+              }))
+            : undefined
       } as UnityProjectModuleJson;
     });
 
@@ -544,11 +583,10 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('selectedModule: ', projectModule, childrenModules);
 
-        await handleUpsertProjectModule(projectModule, childrenModules.children);
-
         setIsPending(false);
         setProjectModule(projectModule);
         setState('Selected');
+        await handleUpsertProjectModule(projectModule, childrenModules.children);
       },
       editedModule: (projectModuleJson: string, childrenJson: string) => {
         if (!finishedSetup) return;
@@ -579,11 +617,10 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('deletedModule: ', projectModule, childrenModules);
 
-        await handleDeleteProjectModule(projectModule, childrenModules.children);
-
         setIsPending(false);
         setProjectModule(undefined);
         setState('Deleted');
+        await handleDeleteProjectModule(projectModule, childrenModules.children);
       },
       recalculatedExtensions: async (projectModuleJson: string, childrenJson: string) => {
         if (!finishedSetup) return;

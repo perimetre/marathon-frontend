@@ -38,6 +38,17 @@ export const MODULE_DATA = gql`
       ...ModuleDataWithoutExtensions
       rulesJson
     }
+    attachmentToAppend {
+      ...ModuleDataWithoutExtensions
+      rulesJson
+    }
+    moduleAttachments {
+      id
+      attachment {
+        ...ModuleDataWithoutExtensions
+        rulesJson
+      }
+    }
   }
   ${MODULE_DATA_WITHOUT_EXTENSIONS}
 `;

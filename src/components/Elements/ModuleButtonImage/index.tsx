@@ -15,7 +15,7 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
   // ***********
   // ** Misc
   // ***********
-  const { createModule, createChildrenModule, setIsPending, isPending } = usePlannerContext();
+  const { createModule, createChildrenModule, isPending } = usePlannerContext();
   const { partNumber } = module;
 
   // A hook that check is the element is visible, so we run logic only when it is
@@ -56,8 +56,6 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
 
   // ** Handlers
   const onAddClick = useCallback(() => {
-    setIsPending(true);
-
     if (data?.module) {
       if (!isChild) {
         createModule(module, data.module.rulesJson);
@@ -65,7 +63,7 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
         createChildrenModule(module, data.module.rulesJson);
       }
     }
-  }, [createChildrenModule, createModule, data, isChild, module, setIsPending]);
+  }, [createChildrenModule, createModule, data, isChild, module]);
 
   return (
     <div>

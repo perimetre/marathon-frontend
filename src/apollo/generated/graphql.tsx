@@ -1023,6 +1023,9 @@ export enum Locale {
 
 export type Module = {
   __typename?: 'Module';
+  attachmentToAppend?: Maybe<Module>;
+  attachmentToAppendId?: Maybe<Scalars['Int']>;
+  attachmentToAppendParents: Array<Module>;
   bundleUrl?: Maybe<Scalars['String']>;
   categories: Array<Category>;
   collection: Collection;
@@ -1041,12 +1044,20 @@ export type Module = {
   isExtension: Scalars['Boolean'];
   isMat: Scalars['Boolean'];
   isSubmodule: Scalars['Boolean'];
+  moduleAttachedTo: Array<ModuleAttachments>;
+  moduleAttachments: Array<ModuleAttachments>;
   partNumber: Scalars['String'];
   projectModules: Array<ProjectModule>;
   rules?: Maybe<ModuleRules>;
   rulesJson?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth: Scalars['Boolean'];
   thumbnailUrl?: Maybe<Scalars['String']>;
+};
+
+export type ModuleAttachmentToAppendParentsArgs = {
+  cursor?: Maybe<ModuleWhereUniqueInput>;
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
 };
 
 export type ModuleCategoriesArgs = {
@@ -1065,12 +1076,187 @@ export type ModuleDefaultRightExtensionParentsArgs = {
   take?: Maybe<Scalars['Int']>;
 };
 
+export type ModuleModuleAttachedToArgs = {
+  cursor?: Maybe<ModuleAttachmentsWhereUniqueInput>;
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
+};
+
+export type ModuleModuleAttachmentsArgs = {
+  cursor?: Maybe<ModuleAttachmentsWhereUniqueInput>;
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
+};
+
 export type ModuleProjectModulesArgs = {
   cursor?: Maybe<ProjectModuleWhereUniqueInput>;
   orderBy?: Maybe<Array<ProjectModuleOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
   where?: Maybe<ProjectModuleWhereInput>;
+};
+
+export type ModuleAttachments = {
+  __typename?: 'ModuleAttachments';
+  attachment: Module;
+  attachmentId: Scalars['Int'];
+  id: Scalars['Int'];
+  module: Module;
+  moduleId: Scalars['Int'];
+};
+
+export type ModuleAttachmentsCreateManyAttachmentInput = {
+  id?: Maybe<Scalars['Int']>;
+  moduleId: Scalars['Int'];
+};
+
+export type ModuleAttachmentsCreateManyAttachmentInputEnvelope = {
+  data?: Maybe<Array<ModuleAttachmentsCreateManyAttachmentInput>>;
+  skipDuplicates?: Maybe<Scalars['Boolean']>;
+};
+
+export type ModuleAttachmentsCreateManyModuleInput = {
+  attachmentId: Scalars['Int'];
+  id?: Maybe<Scalars['Int']>;
+};
+
+export type ModuleAttachmentsCreateManyModuleInputEnvelope = {
+  data?: Maybe<Array<ModuleAttachmentsCreateManyModuleInput>>;
+  skipDuplicates?: Maybe<Scalars['Boolean']>;
+};
+
+export type ModuleAttachmentsCreateNestedManyWithoutAttachmentInput = {
+  connect?: Maybe<Array<ModuleAttachmentsWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ModuleAttachmentsCreateOrConnectWithoutAttachmentInput>>;
+  create?: Maybe<Array<ModuleAttachmentsCreateWithoutAttachmentInput>>;
+  createMany?: Maybe<ModuleAttachmentsCreateManyAttachmentInputEnvelope>;
+};
+
+export type ModuleAttachmentsCreateNestedManyWithoutModuleInput = {
+  connect?: Maybe<Array<ModuleAttachmentsWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ModuleAttachmentsCreateOrConnectWithoutModuleInput>>;
+  create?: Maybe<Array<ModuleAttachmentsCreateWithoutModuleInput>>;
+  createMany?: Maybe<ModuleAttachmentsCreateManyModuleInputEnvelope>;
+};
+
+export type ModuleAttachmentsCreateOrConnectWithoutAttachmentInput = {
+  create: ModuleAttachmentsCreateWithoutAttachmentInput;
+  where: ModuleAttachmentsWhereUniqueInput;
+};
+
+export type ModuleAttachmentsCreateOrConnectWithoutModuleInput = {
+  create: ModuleAttachmentsCreateWithoutModuleInput;
+  where: ModuleAttachmentsWhereUniqueInput;
+};
+
+export type ModuleAttachmentsCreateWithoutAttachmentInput = {
+  module: ModuleCreateNestedOneWithoutModuleAttachmentsInput;
+};
+
+export type ModuleAttachmentsCreateWithoutModuleInput = {
+  attachment: ModuleCreateNestedOneWithoutModuleAttachedToInput;
+};
+
+export type ModuleAttachmentsListRelationFilter = {
+  every?: Maybe<ModuleAttachmentsWhereInput>;
+  none?: Maybe<ModuleAttachmentsWhereInput>;
+  some?: Maybe<ModuleAttachmentsWhereInput>;
+};
+
+export type ModuleAttachmentsScalarWhereInput = {
+  AND?: Maybe<Array<ModuleAttachmentsScalarWhereInput>>;
+  NOT?: Maybe<Array<ModuleAttachmentsScalarWhereInput>>;
+  OR?: Maybe<Array<ModuleAttachmentsScalarWhereInput>>;
+  attachmentId?: Maybe<IntFilter>;
+  id?: Maybe<IntFilter>;
+  moduleId?: Maybe<IntFilter>;
+};
+
+export type ModuleAttachmentsUpdateManyMutationInput = {
+  _?: Maybe<Scalars['Int']>;
+};
+
+export type ModuleAttachmentsUpdateManyWithWhereWithoutAttachmentInput = {
+  data: ModuleAttachmentsUpdateManyMutationInput;
+  where: ModuleAttachmentsScalarWhereInput;
+};
+
+export type ModuleAttachmentsUpdateManyWithWhereWithoutModuleInput = {
+  data: ModuleAttachmentsUpdateManyMutationInput;
+  where: ModuleAttachmentsScalarWhereInput;
+};
+
+export type ModuleAttachmentsUpdateManyWithoutAttachmentInput = {
+  connect?: Maybe<Array<ModuleAttachmentsWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ModuleAttachmentsCreateOrConnectWithoutAttachmentInput>>;
+  create?: Maybe<Array<ModuleAttachmentsCreateWithoutAttachmentInput>>;
+  createMany?: Maybe<ModuleAttachmentsCreateManyAttachmentInputEnvelope>;
+  delete?: Maybe<Array<ModuleAttachmentsWhereUniqueInput>>;
+  deleteMany?: Maybe<Array<ModuleAttachmentsScalarWhereInput>>;
+  disconnect?: Maybe<Array<ModuleAttachmentsWhereUniqueInput>>;
+  set?: Maybe<Array<ModuleAttachmentsWhereUniqueInput>>;
+  update?: Maybe<Array<ModuleAttachmentsUpdateWithWhereUniqueWithoutAttachmentInput>>;
+  updateMany?: Maybe<Array<ModuleAttachmentsUpdateManyWithWhereWithoutAttachmentInput>>;
+  upsert?: Maybe<Array<ModuleAttachmentsUpsertWithWhereUniqueWithoutAttachmentInput>>;
+};
+
+export type ModuleAttachmentsUpdateManyWithoutModuleInput = {
+  connect?: Maybe<Array<ModuleAttachmentsWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ModuleAttachmentsCreateOrConnectWithoutModuleInput>>;
+  create?: Maybe<Array<ModuleAttachmentsCreateWithoutModuleInput>>;
+  createMany?: Maybe<ModuleAttachmentsCreateManyModuleInputEnvelope>;
+  delete?: Maybe<Array<ModuleAttachmentsWhereUniqueInput>>;
+  deleteMany?: Maybe<Array<ModuleAttachmentsScalarWhereInput>>;
+  disconnect?: Maybe<Array<ModuleAttachmentsWhereUniqueInput>>;
+  set?: Maybe<Array<ModuleAttachmentsWhereUniqueInput>>;
+  update?: Maybe<Array<ModuleAttachmentsUpdateWithWhereUniqueWithoutModuleInput>>;
+  updateMany?: Maybe<Array<ModuleAttachmentsUpdateManyWithWhereWithoutModuleInput>>;
+  upsert?: Maybe<Array<ModuleAttachmentsUpsertWithWhereUniqueWithoutModuleInput>>;
+};
+
+export type ModuleAttachmentsUpdateWithWhereUniqueWithoutAttachmentInput = {
+  data: ModuleAttachmentsUpdateWithoutAttachmentInput;
+  where: ModuleAttachmentsWhereUniqueInput;
+};
+
+export type ModuleAttachmentsUpdateWithWhereUniqueWithoutModuleInput = {
+  data: ModuleAttachmentsUpdateWithoutModuleInput;
+  where: ModuleAttachmentsWhereUniqueInput;
+};
+
+export type ModuleAttachmentsUpdateWithoutAttachmentInput = {
+  module?: Maybe<ModuleUpdateOneRequiredWithoutModuleAttachmentsInput>;
+};
+
+export type ModuleAttachmentsUpdateWithoutModuleInput = {
+  attachment?: Maybe<ModuleUpdateOneRequiredWithoutModuleAttachedToInput>;
+};
+
+export type ModuleAttachmentsUpsertWithWhereUniqueWithoutAttachmentInput = {
+  create: ModuleAttachmentsCreateWithoutAttachmentInput;
+  update: ModuleAttachmentsUpdateWithoutAttachmentInput;
+  where: ModuleAttachmentsWhereUniqueInput;
+};
+
+export type ModuleAttachmentsUpsertWithWhereUniqueWithoutModuleInput = {
+  create: ModuleAttachmentsCreateWithoutModuleInput;
+  update: ModuleAttachmentsUpdateWithoutModuleInput;
+  where: ModuleAttachmentsWhereUniqueInput;
+};
+
+export type ModuleAttachmentsWhereInput = {
+  AND?: Maybe<Array<ModuleAttachmentsWhereInput>>;
+  NOT?: Maybe<Array<ModuleAttachmentsWhereInput>>;
+  OR?: Maybe<Array<ModuleAttachmentsWhereInput>>;
+  attachment?: Maybe<ModuleWhereInput>;
+  attachmentId?: Maybe<IntFilter>;
+  id?: Maybe<IntFilter>;
+  module?: Maybe<ModuleWhereInput>;
+  moduleId?: Maybe<IntFilter>;
+};
+
+export type ModuleAttachmentsWhereUniqueInput = {
+  id?: Maybe<Scalars['Int']>;
 };
 
 export type ModuleCategory = {
@@ -1182,7 +1368,31 @@ export type ModuleCategoryWhereUniqueInput = {
   id?: Maybe<Scalars['Int']>;
 };
 
+export type ModuleCreateManyAttachmentToAppendInput = {
+  bundleUrl?: Maybe<Scalars['String']>;
+  collectionId: Scalars['Int'];
+  defaultLeftExtensionId?: Maybe<Scalars['Int']>;
+  defaultRightExtensionId?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  finishId: Scalars['Int'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['Int']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
+  partNumber: Scalars['String'];
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
+};
+
+export type ModuleCreateManyAttachmentToAppendInputEnvelope = {
+  data?: Maybe<Array<ModuleCreateManyAttachmentToAppendInput>>;
+  skipDuplicates?: Maybe<Scalars['Boolean']>;
+};
+
 export type ModuleCreateManyCollectionInput = {
+  attachmentToAppendId?: Maybe<Scalars['Int']>;
   bundleUrl?: Maybe<Scalars['String']>;
   defaultLeftExtensionId?: Maybe<Scalars['Int']>;
   defaultRightExtensionId?: Maybe<Scalars['Int']>;
@@ -1205,6 +1415,7 @@ export type ModuleCreateManyCollectionInputEnvelope = {
 };
 
 export type ModuleCreateManyDefaultLeftExtensionInput = {
+  attachmentToAppendId?: Maybe<Scalars['Int']>;
   bundleUrl?: Maybe<Scalars['String']>;
   collectionId: Scalars['Int'];
   defaultRightExtensionId?: Maybe<Scalars['Int']>;
@@ -1227,6 +1438,7 @@ export type ModuleCreateManyDefaultLeftExtensionInputEnvelope = {
 };
 
 export type ModuleCreateManyDefaultRightExtensionInput = {
+  attachmentToAppendId?: Maybe<Scalars['Int']>;
   bundleUrl?: Maybe<Scalars['String']>;
   collectionId: Scalars['Int'];
   defaultLeftExtensionId?: Maybe<Scalars['Int']>;
@@ -1249,6 +1461,7 @@ export type ModuleCreateManyDefaultRightExtensionInputEnvelope = {
 };
 
 export type ModuleCreateManyFinishInput = {
+  attachmentToAppendId?: Maybe<Scalars['Int']>;
   bundleUrl?: Maybe<Scalars['String']>;
   collectionId: Scalars['Int'];
   defaultLeftExtensionId?: Maybe<Scalars['Int']>;
@@ -1268,6 +1481,13 @@ export type ModuleCreateManyFinishInput = {
 export type ModuleCreateManyFinishInputEnvelope = {
   data?: Maybe<Array<ModuleCreateManyFinishInput>>;
   skipDuplicates?: Maybe<Scalars['Boolean']>;
+};
+
+export type ModuleCreateNestedManyWithoutAttachmentToAppendInput = {
+  connect?: Maybe<Array<ModuleWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ModuleCreateOrConnectWithoutAttachmentToAppendInput>>;
+  create?: Maybe<Array<ModuleCreateWithoutAttachmentToAppendInput>>;
+  createMany?: Maybe<ModuleCreateManyAttachmentToAppendInputEnvelope>;
 };
 
 export type ModuleCreateNestedManyWithoutCollectionInput = {
@@ -1298,6 +1518,12 @@ export type ModuleCreateNestedManyWithoutFinishInput = {
   createMany?: Maybe<ModuleCreateManyFinishInputEnvelope>;
 };
 
+export type ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput = {
+  connect?: Maybe<ModuleWhereUniqueInput>;
+  connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutAttachmentToAppendParentsInput>;
+  create?: Maybe<ModuleCreateWithoutAttachmentToAppendParentsInput>;
+};
+
 export type ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput = {
   connect?: Maybe<ModuleWhereUniqueInput>;
   connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutDefaultLeftExtensionParentsInput>;
@@ -1310,10 +1536,32 @@ export type ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput = {
   create?: Maybe<ModuleCreateWithoutDefaultRightExtensionParentsInput>;
 };
 
+export type ModuleCreateNestedOneWithoutModuleAttachedToInput = {
+  connect?: Maybe<ModuleWhereUniqueInput>;
+  connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutModuleAttachedToInput>;
+  create?: Maybe<ModuleCreateWithoutModuleAttachedToInput>;
+};
+
+export type ModuleCreateNestedOneWithoutModuleAttachmentsInput = {
+  connect?: Maybe<ModuleWhereUniqueInput>;
+  connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutModuleAttachmentsInput>;
+  create?: Maybe<ModuleCreateWithoutModuleAttachmentsInput>;
+};
+
 export type ModuleCreateNestedOneWithoutProjectModulesInput = {
   connect?: Maybe<ModuleWhereUniqueInput>;
   connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutProjectModulesInput>;
   create?: Maybe<ModuleCreateWithoutProjectModulesInput>;
+};
+
+export type ModuleCreateOrConnectWithoutAttachmentToAppendInput = {
+  create: ModuleCreateWithoutAttachmentToAppendInput;
+  where: ModuleWhereUniqueInput;
+};
+
+export type ModuleCreateOrConnectWithoutAttachmentToAppendParentsInput = {
+  create: ModuleCreateWithoutAttachmentToAppendParentsInput;
+  where: ModuleWhereUniqueInput;
 };
 
 export type ModuleCreateOrConnectWithoutCollectionInput = {
@@ -1346,12 +1594,72 @@ export type ModuleCreateOrConnectWithoutFinishInput = {
   where: ModuleWhereUniqueInput;
 };
 
+export type ModuleCreateOrConnectWithoutModuleAttachedToInput = {
+  create: ModuleCreateWithoutModuleAttachedToInput;
+  where: ModuleWhereUniqueInput;
+};
+
+export type ModuleCreateOrConnectWithoutModuleAttachmentsInput = {
+  create: ModuleCreateWithoutModuleAttachmentsInput;
+  where: ModuleWhereUniqueInput;
+};
+
 export type ModuleCreateOrConnectWithoutProjectModulesInput = {
   create: ModuleCreateWithoutProjectModulesInput;
   where: ModuleWhereUniqueInput;
 };
 
+export type ModuleCreateWithoutAttachmentToAppendInput = {
+  attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
+  bundleUrl?: Maybe<Scalars['String']>;
+  collection: CollectionCreateNestedOneWithoutModulesInput;
+  defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<Scalars['String']>;
+  finish: FinishCreateNestedOneWithoutModulesInput;
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
+  moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
+  partNumber: Scalars['String'];
+  projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
+};
+
+export type ModuleCreateWithoutAttachmentToAppendParentsInput = {
+  attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
+  bundleUrl?: Maybe<Scalars['String']>;
+  collection: CollectionCreateNestedOneWithoutModulesInput;
+  defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<Scalars['String']>;
+  finish: FinishCreateNestedOneWithoutModulesInput;
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
+  moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
+  partNumber: Scalars['String'];
+  projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
+};
+
 export type ModuleCreateWithoutCollectionInput = {
+  attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
@@ -1363,6 +1671,8 @@ export type ModuleCreateWithoutCollectionInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
@@ -1372,6 +1682,8 @@ export type ModuleCreateWithoutCollectionInput = {
 };
 
 export type ModuleCreateWithoutDefaultLeftExtensionInput = {
+  attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
   defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
@@ -1383,6 +1695,8 @@ export type ModuleCreateWithoutDefaultLeftExtensionInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
@@ -1392,6 +1706,8 @@ export type ModuleCreateWithoutDefaultLeftExtensionInput = {
 };
 
 export type ModuleCreateWithoutDefaultLeftExtensionParentsInput = {
+  attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
@@ -1403,6 +1719,8 @@ export type ModuleCreateWithoutDefaultLeftExtensionParentsInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
@@ -1412,6 +1730,8 @@ export type ModuleCreateWithoutDefaultLeftExtensionParentsInput = {
 };
 
 export type ModuleCreateWithoutDefaultRightExtensionInput = {
+  attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
@@ -1423,6 +1743,8 @@ export type ModuleCreateWithoutDefaultRightExtensionInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
@@ -1432,6 +1754,8 @@ export type ModuleCreateWithoutDefaultRightExtensionInput = {
 };
 
 export type ModuleCreateWithoutDefaultRightExtensionParentsInput = {
+  attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
@@ -1443,6 +1767,8 @@ export type ModuleCreateWithoutDefaultRightExtensionParentsInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
@@ -1452,6 +1778,8 @@ export type ModuleCreateWithoutDefaultRightExtensionParentsInput = {
 };
 
 export type ModuleCreateWithoutFinishInput = {
+  attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
@@ -1463,6 +1791,8 @@ export type ModuleCreateWithoutFinishInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
@@ -1471,7 +1801,9 @@ export type ModuleCreateWithoutFinishInput = {
   thumbnailUrl?: Maybe<Scalars['String']>;
 };
 
-export type ModuleCreateWithoutProjectModulesInput = {
+export type ModuleCreateWithoutModuleAttachedToInput = {
+  attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
@@ -1484,6 +1816,56 @@ export type ModuleCreateWithoutProjectModulesInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
+  moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
+  partNumber: Scalars['String'];
+  projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
+};
+
+export type ModuleCreateWithoutModuleAttachmentsInput = {
+  attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
+  bundleUrl?: Maybe<Scalars['String']>;
+  collection: CollectionCreateNestedOneWithoutModulesInput;
+  defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<Scalars['String']>;
+  finish: FinishCreateNestedOneWithoutModulesInput;
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
+  moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
+  partNumber: Scalars['String'];
+  projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
+};
+
+export type ModuleCreateWithoutProjectModulesInput = {
+  attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
+  bundleUrl?: Maybe<Scalars['String']>;
+  collection: CollectionCreateNestedOneWithoutModulesInput;
+  defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<Scalars['String']>;
+  finish: FinishCreateNestedOneWithoutModulesInput;
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
@@ -1518,6 +1900,7 @@ export type ModuleMinMax = {
 };
 
 export type ModuleOrderByInput = {
+  attachmentToAppendId?: Maybe<SortOrder>;
   bundleUrl?: Maybe<SortOrder>;
   collectionId?: Maybe<SortOrder>;
   defaultLeftExtensionId?: Maybe<SortOrder>;
@@ -1568,6 +1951,7 @@ export type ModuleScalarWhereInput = {
   AND?: Maybe<Array<ModuleScalarWhereInput>>;
   NOT?: Maybe<Array<ModuleScalarWhereInput>>;
   OR?: Maybe<Array<ModuleScalarWhereInput>>;
+  attachmentToAppendId?: Maybe<IntNullableFilter>;
   bundleUrl?: Maybe<StringNullableFilter>;
   collectionId?: Maybe<IntFilter>;
   defaultLeftExtensionId?: Maybe<IntNullableFilter>;
@@ -1604,6 +1988,11 @@ export type ModuleUpdateManyMutationInput = {
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
 };
 
+export type ModuleUpdateManyWithWhereWithoutAttachmentToAppendInput = {
+  data: ModuleUpdateManyMutationInput;
+  where: ModuleScalarWhereInput;
+};
+
 export type ModuleUpdateManyWithWhereWithoutCollectionInput = {
   data: ModuleUpdateManyMutationInput;
   where: ModuleScalarWhereInput;
@@ -1622,6 +2011,20 @@ export type ModuleUpdateManyWithWhereWithoutDefaultRightExtensionInput = {
 export type ModuleUpdateManyWithWhereWithoutFinishInput = {
   data: ModuleUpdateManyMutationInput;
   where: ModuleScalarWhereInput;
+};
+
+export type ModuleUpdateManyWithoutAttachmentToAppendInput = {
+  connect?: Maybe<Array<ModuleWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ModuleCreateOrConnectWithoutAttachmentToAppendInput>>;
+  create?: Maybe<Array<ModuleCreateWithoutAttachmentToAppendInput>>;
+  createMany?: Maybe<ModuleCreateManyAttachmentToAppendInputEnvelope>;
+  delete?: Maybe<Array<ModuleWhereUniqueInput>>;
+  deleteMany?: Maybe<Array<ModuleScalarWhereInput>>;
+  disconnect?: Maybe<Array<ModuleWhereUniqueInput>>;
+  set?: Maybe<Array<ModuleWhereUniqueInput>>;
+  update?: Maybe<Array<ModuleUpdateWithWhereUniqueWithoutAttachmentToAppendInput>>;
+  updateMany?: Maybe<Array<ModuleUpdateManyWithWhereWithoutAttachmentToAppendInput>>;
+  upsert?: Maybe<Array<ModuleUpsertWithWhereUniqueWithoutAttachmentToAppendInput>>;
 };
 
 export type ModuleUpdateManyWithoutCollectionInput = {
@@ -1680,12 +2083,38 @@ export type ModuleUpdateManyWithoutFinishInput = {
   upsert?: Maybe<Array<ModuleUpsertWithWhereUniqueWithoutFinishInput>>;
 };
 
+export type ModuleUpdateOneRequiredWithoutModuleAttachedToInput = {
+  connect?: Maybe<ModuleWhereUniqueInput>;
+  connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutModuleAttachedToInput>;
+  create?: Maybe<ModuleCreateWithoutModuleAttachedToInput>;
+  update?: Maybe<ModuleUpdateWithoutModuleAttachedToInput>;
+  upsert?: Maybe<ModuleUpsertWithoutModuleAttachedToInput>;
+};
+
+export type ModuleUpdateOneRequiredWithoutModuleAttachmentsInput = {
+  connect?: Maybe<ModuleWhereUniqueInput>;
+  connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutModuleAttachmentsInput>;
+  create?: Maybe<ModuleCreateWithoutModuleAttachmentsInput>;
+  update?: Maybe<ModuleUpdateWithoutModuleAttachmentsInput>;
+  upsert?: Maybe<ModuleUpsertWithoutModuleAttachmentsInput>;
+};
+
 export type ModuleUpdateOneRequiredWithoutProjectModulesInput = {
   connect?: Maybe<ModuleWhereUniqueInput>;
   connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutProjectModulesInput>;
   create?: Maybe<ModuleCreateWithoutProjectModulesInput>;
   update?: Maybe<ModuleUpdateWithoutProjectModulesInput>;
   upsert?: Maybe<ModuleUpsertWithoutProjectModulesInput>;
+};
+
+export type ModuleUpdateOneWithoutAttachmentToAppendParentsInput = {
+  connect?: Maybe<ModuleWhereUniqueInput>;
+  connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutAttachmentToAppendParentsInput>;
+  create?: Maybe<ModuleCreateWithoutAttachmentToAppendParentsInput>;
+  delete?: Maybe<Scalars['Boolean']>;
+  disconnect?: Maybe<Scalars['Boolean']>;
+  update?: Maybe<ModuleUpdateWithoutAttachmentToAppendParentsInput>;
+  upsert?: Maybe<ModuleUpsertWithoutAttachmentToAppendParentsInput>;
 };
 
 export type ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput = {
@@ -1708,6 +2137,11 @@ export type ModuleUpdateOneWithoutDefaultRightExtensionParentsInput = {
   upsert?: Maybe<ModuleUpsertWithoutDefaultRightExtensionParentsInput>;
 };
 
+export type ModuleUpdateWithWhereUniqueWithoutAttachmentToAppendInput = {
+  data: ModuleUpdateWithoutAttachmentToAppendInput;
+  where: ModuleWhereUniqueInput;
+};
+
 export type ModuleUpdateWithWhereUniqueWithoutCollectionInput = {
   data: ModuleUpdateWithoutCollectionInput;
   where: ModuleWhereUniqueInput;
@@ -1728,7 +2162,57 @@ export type ModuleUpdateWithWhereUniqueWithoutFinishInput = {
   where: ModuleWhereUniqueInput;
 };
 
+export type ModuleUpdateWithoutAttachmentToAppendInput = {
+  attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
+  bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
+  isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
+  moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
+  partNumber?: Maybe<StringFieldUpdateOperationsInput>;
+  projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
+  thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+};
+
+export type ModuleUpdateWithoutAttachmentToAppendParentsInput = {
+  attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
+  bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
+  isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
+  moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
+  partNumber?: Maybe<StringFieldUpdateOperationsInput>;
+  projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
+  thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+};
+
 export type ModuleUpdateWithoutCollectionInput = {
+  attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
@@ -1740,6 +2224,8 @@ export type ModuleUpdateWithoutCollectionInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
@@ -1749,6 +2235,8 @@ export type ModuleUpdateWithoutCollectionInput = {
 };
 
 export type ModuleUpdateWithoutDefaultLeftExtensionInput = {
+  attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
   defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
@@ -1760,6 +2248,8 @@ export type ModuleUpdateWithoutDefaultLeftExtensionInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
@@ -1769,6 +2259,8 @@ export type ModuleUpdateWithoutDefaultLeftExtensionInput = {
 };
 
 export type ModuleUpdateWithoutDefaultLeftExtensionParentsInput = {
+  attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
@@ -1780,6 +2272,8 @@ export type ModuleUpdateWithoutDefaultLeftExtensionParentsInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
@@ -1789,6 +2283,8 @@ export type ModuleUpdateWithoutDefaultLeftExtensionParentsInput = {
 };
 
 export type ModuleUpdateWithoutDefaultRightExtensionInput = {
+  attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
@@ -1800,6 +2296,8 @@ export type ModuleUpdateWithoutDefaultRightExtensionInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
@@ -1809,6 +2307,8 @@ export type ModuleUpdateWithoutDefaultRightExtensionInput = {
 };
 
 export type ModuleUpdateWithoutDefaultRightExtensionParentsInput = {
+  attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
@@ -1820,6 +2320,8 @@ export type ModuleUpdateWithoutDefaultRightExtensionParentsInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
@@ -1829,6 +2331,8 @@ export type ModuleUpdateWithoutDefaultRightExtensionParentsInput = {
 };
 
 export type ModuleUpdateWithoutFinishInput = {
+  attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
@@ -1840,6 +2344,8 @@ export type ModuleUpdateWithoutFinishInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
@@ -1848,7 +2354,9 @@ export type ModuleUpdateWithoutFinishInput = {
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
 };
 
-export type ModuleUpdateWithoutProjectModulesInput = {
+export type ModuleUpdateWithoutModuleAttachedToInput = {
+  attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
@@ -1861,11 +2369,67 @@ export type ModuleUpdateWithoutProjectModulesInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
+  moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
+  partNumber?: Maybe<StringFieldUpdateOperationsInput>;
+  projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
+  thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+};
+
+export type ModuleUpdateWithoutModuleAttachmentsInput = {
+  attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
+  bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
+  isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
+  moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
+  partNumber?: Maybe<StringFieldUpdateOperationsInput>;
+  projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
+  thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+};
+
+export type ModuleUpdateWithoutProjectModulesInput = {
+  attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
+  bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
+  isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+};
+
+export type ModuleUpsertWithWhereUniqueWithoutAttachmentToAppendInput = {
+  create: ModuleCreateWithoutAttachmentToAppendInput;
+  update: ModuleUpdateWithoutAttachmentToAppendInput;
+  where: ModuleWhereUniqueInput;
 };
 
 export type ModuleUpsertWithWhereUniqueWithoutCollectionInput = {
@@ -1892,6 +2456,11 @@ export type ModuleUpsertWithWhereUniqueWithoutFinishInput = {
   where: ModuleWhereUniqueInput;
 };
 
+export type ModuleUpsertWithoutAttachmentToAppendParentsInput = {
+  create: ModuleCreateWithoutAttachmentToAppendParentsInput;
+  update: ModuleUpdateWithoutAttachmentToAppendParentsInput;
+};
+
 export type ModuleUpsertWithoutDefaultLeftExtensionParentsInput = {
   create: ModuleCreateWithoutDefaultLeftExtensionParentsInput;
   update: ModuleUpdateWithoutDefaultLeftExtensionParentsInput;
@@ -1900,6 +2469,16 @@ export type ModuleUpsertWithoutDefaultLeftExtensionParentsInput = {
 export type ModuleUpsertWithoutDefaultRightExtensionParentsInput = {
   create: ModuleCreateWithoutDefaultRightExtensionParentsInput;
   update: ModuleUpdateWithoutDefaultRightExtensionParentsInput;
+};
+
+export type ModuleUpsertWithoutModuleAttachedToInput = {
+  create: ModuleCreateWithoutModuleAttachedToInput;
+  update: ModuleUpdateWithoutModuleAttachedToInput;
+};
+
+export type ModuleUpsertWithoutModuleAttachmentsInput = {
+  create: ModuleCreateWithoutModuleAttachmentsInput;
+  update: ModuleUpdateWithoutModuleAttachmentsInput;
 };
 
 export type ModuleUpsertWithoutProjectModulesInput = {
@@ -1911,6 +2490,9 @@ export type ModuleWhereInput = {
   AND?: Maybe<Array<ModuleWhereInput>>;
   NOT?: Maybe<Array<ModuleWhereInput>>;
   OR?: Maybe<Array<ModuleWhereInput>>;
+  attachmentToAppend?: Maybe<ModuleWhereInput>;
+  attachmentToAppendId?: Maybe<IntNullableFilter>;
+  attachmentToAppendParents?: Maybe<ModuleListRelationFilter>;
   bundleUrl?: Maybe<StringNullableFilter>;
   collection?: Maybe<CollectionWhereInput>;
   collectionId?: Maybe<IntFilter>;
@@ -1928,6 +2510,8 @@ export type ModuleWhereInput = {
   isExtension?: Maybe<BoolFilter>;
   isMat?: Maybe<BoolFilter>;
   isSubmodule?: Maybe<BoolFilter>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsListRelationFilter>;
+  moduleAttachments?: Maybe<ModuleAttachmentsListRelationFilter>;
   moduleCategories?: Maybe<ModuleCategoryListRelationFilter>;
   partNumber?: Maybe<StringFilter>;
   projectModules?: Maybe<ProjectModuleListRelationFilter>;
@@ -4334,6 +4918,69 @@ export type ModuleDataFragment = {
       }
     | null
     | undefined;
+  moduleAttachments: Array<{
+    __typename?: 'ModuleAttachments';
+    id: number;
+    attachment: {
+      __typename?: 'Module';
+      rulesJson?: any | null | undefined;
+      id: number;
+      bundleUrl?: string | null | undefined;
+      hasPegs: boolean;
+      isExtension: boolean;
+      isMat: boolean;
+      isSubmodule: boolean;
+      partNumber: string;
+      thumbnailUrl?: string | null | undefined;
+      description?: string | null | undefined;
+      rules?:
+        | {
+            __typename?: 'ModuleRules';
+            rules?:
+              | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+              | null
+              | undefined;
+            extensions?:
+              | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+              | null
+              | undefined;
+          }
+        | null
+        | undefined;
+      categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+    };
+  }>;
+  attachmentToAppend?:
+    | {
+        __typename?: 'Module';
+        rulesJson?: any | null | undefined;
+        id: number;
+        bundleUrl?: string | null | undefined;
+        hasPegs: boolean;
+        isExtension: boolean;
+        isMat: boolean;
+        isSubmodule: boolean;
+        partNumber: string;
+        thumbnailUrl?: string | null | undefined;
+        description?: string | null | undefined;
+        rules?:
+          | {
+              __typename?: 'ModuleRules';
+              rules?:
+                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                | null
+                | undefined;
+              extensions?:
+                | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+      }
+    | null
+    | undefined;
   rules?:
     | {
         __typename?: 'ModuleRules';
@@ -4402,6 +5049,69 @@ export type ProjectModuleDataFragment = {
       | null
       | undefined;
     defaultRightExtension?:
+      | {
+          __typename?: 'Module';
+          rulesJson?: any | null | undefined;
+          id: number;
+          bundleUrl?: string | null | undefined;
+          hasPegs: boolean;
+          isExtension: boolean;
+          isMat: boolean;
+          isSubmodule: boolean;
+          partNumber: string;
+          thumbnailUrl?: string | null | undefined;
+          description?: string | null | undefined;
+          rules?:
+            | {
+                __typename?: 'ModuleRules';
+                rules?:
+                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+                extensions?:
+                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+        }
+      | null
+      | undefined;
+    moduleAttachments: Array<{
+      __typename?: 'ModuleAttachments';
+      id: number;
+      attachment: {
+        __typename?: 'Module';
+        rulesJson?: any | null | undefined;
+        id: number;
+        bundleUrl?: string | null | undefined;
+        hasPegs: boolean;
+        isExtension: boolean;
+        isMat: boolean;
+        isSubmodule: boolean;
+        partNumber: string;
+        thumbnailUrl?: string | null | undefined;
+        description?: string | null | undefined;
+        rules?:
+          | {
+              __typename?: 'ModuleRules';
+              rules?:
+                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                | null
+                | undefined;
+              extensions?:
+                | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+      };
+    }>;
+    attachmentToAppend?:
       | {
           __typename?: 'Module';
           rulesJson?: any | null | undefined;
@@ -4546,6 +5256,69 @@ export type ModuleOptionsQuery = {
         }
       | null
       | undefined;
+    moduleAttachments: Array<{
+      __typename?: 'ModuleAttachments';
+      id: number;
+      attachment: {
+        __typename?: 'Module';
+        rulesJson?: any | null | undefined;
+        id: number;
+        bundleUrl?: string | null | undefined;
+        hasPegs: boolean;
+        isExtension: boolean;
+        isMat: boolean;
+        isSubmodule: boolean;
+        partNumber: string;
+        thumbnailUrl?: string | null | undefined;
+        description?: string | null | undefined;
+        rules?:
+          | {
+              __typename?: 'ModuleRules';
+              rules?:
+                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                | null
+                | undefined;
+              extensions?:
+                | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+      };
+    }>;
+    attachmentToAppend?:
+      | {
+          __typename?: 'Module';
+          rulesJson?: any | null | undefined;
+          id: number;
+          bundleUrl?: string | null | undefined;
+          hasPegs: boolean;
+          isExtension: boolean;
+          isMat: boolean;
+          isSubmodule: boolean;
+          partNumber: string;
+          thumbnailUrl?: string | null | undefined;
+          description?: string | null | undefined;
+          rules?:
+            | {
+                __typename?: 'ModuleRules';
+                rules?:
+                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+                extensions?:
+                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+        }
+      | null
+      | undefined;
     rules?:
       | {
           __typename?: 'ModuleRules';
@@ -4630,6 +5403,69 @@ export type PlannerQuery = {
             | null
             | undefined;
           defaultRightExtension?:
+            | {
+                __typename?: 'Module';
+                rulesJson?: any | null | undefined;
+                id: number;
+                bundleUrl?: string | null | undefined;
+                hasPegs: boolean;
+                isExtension: boolean;
+                isMat: boolean;
+                isSubmodule: boolean;
+                partNumber: string;
+                thumbnailUrl?: string | null | undefined;
+                description?: string | null | undefined;
+                rules?:
+                  | {
+                      __typename?: 'ModuleRules';
+                      rules?:
+                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                      extensions?:
+                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                    }
+                  | null
+                  | undefined;
+                categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+              }
+            | null
+            | undefined;
+          moduleAttachments: Array<{
+            __typename?: 'ModuleAttachments';
+            id: number;
+            attachment: {
+              __typename?: 'Module';
+              rulesJson?: any | null | undefined;
+              id: number;
+              bundleUrl?: string | null | undefined;
+              hasPegs: boolean;
+              isExtension: boolean;
+              isMat: boolean;
+              isSubmodule: boolean;
+              partNumber: string;
+              thumbnailUrl?: string | null | undefined;
+              description?: string | null | undefined;
+              rules?:
+                | {
+                    __typename?: 'ModuleRules';
+                    rules?:
+                      | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                      | null
+                      | undefined;
+                    extensions?:
+                      | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                      | null
+                      | undefined;
+                  }
+                | null
+                | undefined;
+              categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+            };
+          }>;
+          attachmentToAppend?:
             | {
                 __typename?: 'Module';
                 rulesJson?: any | null | undefined;
@@ -4770,6 +5606,69 @@ export type PlannerQuery = {
                   }
                 | null
                 | undefined;
+              moduleAttachments: Array<{
+                __typename?: 'ModuleAttachments';
+                id: number;
+                attachment: {
+                  __typename?: 'Module';
+                  rulesJson?: any | null | undefined;
+                  id: number;
+                  bundleUrl?: string | null | undefined;
+                  hasPegs: boolean;
+                  isExtension: boolean;
+                  isMat: boolean;
+                  isSubmodule: boolean;
+                  partNumber: string;
+                  thumbnailUrl?: string | null | undefined;
+                  description?: string | null | undefined;
+                  rules?:
+                    | {
+                        __typename?: 'ModuleRules';
+                        rules?:
+                          | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                          | null
+                          | undefined;
+                        extensions?:
+                          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
+                  categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+                };
+              }>;
+              attachmentToAppend?:
+                | {
+                    __typename?: 'Module';
+                    rulesJson?: any | null | undefined;
+                    id: number;
+                    bundleUrl?: string | null | undefined;
+                    hasPegs: boolean;
+                    isExtension: boolean;
+                    isMat: boolean;
+                    isSubmodule: boolean;
+                    partNumber: string;
+                    thumbnailUrl?: string | null | undefined;
+                    description?: string | null | undefined;
+                    rules?:
+                      | {
+                          __typename?: 'ModuleRules';
+                          rules?:
+                            | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                            | null
+                            | undefined;
+                          extensions?:
+                            | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                    categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+                  }
+                | null
+                | undefined;
               rules?:
                 | {
                     __typename?: 'ModuleRules';
@@ -4831,6 +5730,69 @@ export type PlannerQuery = {
               | null
               | undefined;
             defaultRightExtension?:
+              | {
+                  __typename?: 'Module';
+                  rulesJson?: any | null | undefined;
+                  id: number;
+                  bundleUrl?: string | null | undefined;
+                  hasPegs: boolean;
+                  isExtension: boolean;
+                  isMat: boolean;
+                  isSubmodule: boolean;
+                  partNumber: string;
+                  thumbnailUrl?: string | null | undefined;
+                  description?: string | null | undefined;
+                  rules?:
+                    | {
+                        __typename?: 'ModuleRules';
+                        rules?:
+                          | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                          | null
+                          | undefined;
+                        extensions?:
+                          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
+                  categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+                }
+              | null
+              | undefined;
+            moduleAttachments: Array<{
+              __typename?: 'ModuleAttachments';
+              id: number;
+              attachment: {
+                __typename?: 'Module';
+                rulesJson?: any | null | undefined;
+                id: number;
+                bundleUrl?: string | null | undefined;
+                hasPegs: boolean;
+                isExtension: boolean;
+                isMat: boolean;
+                isSubmodule: boolean;
+                partNumber: string;
+                thumbnailUrl?: string | null | undefined;
+                description?: string | null | undefined;
+                rules?:
+                  | {
+                      __typename?: 'ModuleRules';
+                      rules?:
+                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                      extensions?:
+                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                    }
+                  | null
+                  | undefined;
+                categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+              };
+            }>;
+            attachmentToAppend?:
               | {
                   __typename?: 'Module';
                   rulesJson?: any | null | undefined;
@@ -4973,6 +5935,69 @@ export type GetProjectModuleQuery = {
           }
         | null
         | undefined;
+      moduleAttachments: Array<{
+        __typename?: 'ModuleAttachments';
+        id: number;
+        attachment: {
+          __typename?: 'Module';
+          rulesJson?: any | null | undefined;
+          id: number;
+          bundleUrl?: string | null | undefined;
+          hasPegs: boolean;
+          isExtension: boolean;
+          isMat: boolean;
+          isSubmodule: boolean;
+          partNumber: string;
+          thumbnailUrl?: string | null | undefined;
+          description?: string | null | undefined;
+          rules?:
+            | {
+                __typename?: 'ModuleRules';
+                rules?:
+                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+                extensions?:
+                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+        };
+      }>;
+      attachmentToAppend?:
+        | {
+            __typename?: 'Module';
+            rulesJson?: any | null | undefined;
+            id: number;
+            bundleUrl?: string | null | undefined;
+            hasPegs: boolean;
+            isExtension: boolean;
+            isMat: boolean;
+            isSubmodule: boolean;
+            partNumber: string;
+            thumbnailUrl?: string | null | undefined;
+            description?: string | null | undefined;
+            rules?:
+              | {
+                  __typename?: 'ModuleRules';
+                  rules?:
+                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                  extensions?:
+                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+          }
+        | null
+        | undefined;
       rules?:
         | {
             __typename?: 'ModuleRules';
@@ -5052,6 +6077,69 @@ export type CreateProjectModuleMutation = {
         | null
         | undefined;
       defaultRightExtension?:
+        | {
+            __typename?: 'Module';
+            rulesJson?: any | null | undefined;
+            id: number;
+            bundleUrl?: string | null | undefined;
+            hasPegs: boolean;
+            isExtension: boolean;
+            isMat: boolean;
+            isSubmodule: boolean;
+            partNumber: string;
+            thumbnailUrl?: string | null | undefined;
+            description?: string | null | undefined;
+            rules?:
+              | {
+                  __typename?: 'ModuleRules';
+                  rules?:
+                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                  extensions?:
+                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+          }
+        | null
+        | undefined;
+      moduleAttachments: Array<{
+        __typename?: 'ModuleAttachments';
+        id: number;
+        attachment: {
+          __typename?: 'Module';
+          rulesJson?: any | null | undefined;
+          id: number;
+          bundleUrl?: string | null | undefined;
+          hasPegs: boolean;
+          isExtension: boolean;
+          isMat: boolean;
+          isSubmodule: boolean;
+          partNumber: string;
+          thumbnailUrl?: string | null | undefined;
+          description?: string | null | undefined;
+          rules?:
+            | {
+                __typename?: 'ModuleRules';
+                rules?:
+                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+                extensions?:
+                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+        };
+      }>;
+      attachmentToAppend?:
         | {
             __typename?: 'Module';
             rulesJson?: any | null | undefined;
@@ -5163,6 +6251,69 @@ export type UpdateProjectModuleMutation = {
             | null
             | undefined;
           defaultRightExtension?:
+            | {
+                __typename?: 'Module';
+                rulesJson?: any | null | undefined;
+                id: number;
+                bundleUrl?: string | null | undefined;
+                hasPegs: boolean;
+                isExtension: boolean;
+                isMat: boolean;
+                isSubmodule: boolean;
+                partNumber: string;
+                thumbnailUrl?: string | null | undefined;
+                description?: string | null | undefined;
+                rules?:
+                  | {
+                      __typename?: 'ModuleRules';
+                      rules?:
+                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                      extensions?:
+                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                    }
+                  | null
+                  | undefined;
+                categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+              }
+            | null
+            | undefined;
+          moduleAttachments: Array<{
+            __typename?: 'ModuleAttachments';
+            id: number;
+            attachment: {
+              __typename?: 'Module';
+              rulesJson?: any | null | undefined;
+              id: number;
+              bundleUrl?: string | null | undefined;
+              hasPegs: boolean;
+              isExtension: boolean;
+              isMat: boolean;
+              isSubmodule: boolean;
+              partNumber: string;
+              thumbnailUrl?: string | null | undefined;
+              description?: string | null | undefined;
+              rules?:
+                | {
+                    __typename?: 'ModuleRules';
+                    rules?:
+                      | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                      | null
+                      | undefined;
+                    extensions?:
+                      | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                      | null
+                      | undefined;
+                  }
+                | null
+                | undefined;
+              categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+            };
+          }>;
+          attachmentToAppend?:
             | {
                 __typename?: 'Module';
                 rulesJson?: any | null | undefined;
@@ -5372,6 +6523,17 @@ export const ModuleDataFragmentDoc = gql`
       rulesJson
     }
     defaultRightExtension {
+      ...ModuleDataWithoutExtensions
+      rulesJson
+    }
+    moduleAttachments {
+      id
+      attachment {
+        ...ModuleDataWithoutExtensions
+        rulesJson
+      }
+    }
+    attachmentToAppend {
       ...ModuleDataWithoutExtensions
       rulesJson
     }
