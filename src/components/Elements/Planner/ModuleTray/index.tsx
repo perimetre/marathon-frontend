@@ -38,10 +38,10 @@ const ModuleTray: React.FC = () => {
 
   // ** Effects
   useEffect(() => {
-    if (projectModule && projectModule.partNumber) {
+    if (projectModule && projectModule.module.partNumber) {
       doLoadModuleRules({
         variables: {
-          partNumber: projectModule.partNumber
+          partNumber: projectModule.module.partNumber
         }
       });
     }
