@@ -23,7 +23,7 @@ export type PlannerProps = {
 
 const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTryAgain, isSidebarOpen }) => {
   const { loadingProgress, state } = useUnityPlayerContext();
-  const { isPending } = usePlannerContext();
+  const { isPending, didFinishSetup } = usePlannerContext();
 
   return (
     <div className="relative flex max-h-screen">
@@ -53,13 +53,13 @@ const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTry
         {!error && (
           <UnityPlayer
             className={classNames('opacity-0 absolute inset-0', {
-              'animate-fade-in': state === 'complete' && loadingProgress >= 1
+              'animate-fade-in': state === 'complete' && didFinishSetup && loadingProgress >= 1
             })}
           />
         )}
         {/* Content on top of unity player */}
         <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none">
-          {(state === 'loading' || loading) && <LoadingState />}
+          {(state === 'loading' || loading || !didFinishSetup) && <LoadingState />}
           {(state === 'error' || error) && <ErrorState slug={slug} handleTryAgain={handleTryAgain} error={error} />}
           {state === 'complete' && (
             <>

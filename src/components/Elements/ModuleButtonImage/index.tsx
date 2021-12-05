@@ -58,12 +58,14 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
   const onAddClick = useCallback(() => {
     setIsPending(true);
 
-    if (!isChild) {
-      createModule(module);
-    } else {
-      createChildrenModule(module);
+    if (data?.module) {
+      if (!isChild) {
+        createModule(module, data.module.rulesJson);
+      } else {
+        createChildrenModule(module, data.module.rulesJson);
+      }
     }
-  }, [createChildrenModule, createModule, isChild, module, setIsPending]);
+  }, [createChildrenModule, createModule, data, isChild, module, setIsPending]);
 
   return (
     <div>

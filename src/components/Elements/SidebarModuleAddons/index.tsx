@@ -19,7 +19,7 @@ const SidebarModuleAddons: React.FC<SidebarModuleAddonsProps> = ({ options, pare
   const { state, projectModule } = usePlannerContext();
 
   const isBlockedToAddSubmodule = useMemo(
-    () => projectModule?.partNumber !== parentPartNumber || state !== 'Selected',
+    () => projectModule?.module.partNumber !== parentPartNumber || state !== 'Selected',
     [parentPartNumber, projectModule, state]
   );
 

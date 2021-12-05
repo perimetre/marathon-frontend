@@ -1027,12 +1027,18 @@ export type Module = {
   categories: Array<Category>;
   collection: Collection;
   collectionId: Scalars['Int'];
+  defaultLeftExtension?: Maybe<Module>;
+  defaultLeftExtensionId?: Maybe<Scalars['Int']>;
+  defaultLeftExtensionParents: Array<Module>;
+  defaultRightExtension?: Maybe<Module>;
+  defaultRightExtensionId?: Maybe<Scalars['Int']>;
+  defaultRightExtensionParents: Array<Module>;
   description?: Maybe<Scalars['String']>;
   finish: Finish;
   finishId: Scalars['Int'];
   hasPegs: Scalars['Boolean'];
   id: Scalars['Int'];
-  isImprintExtension: Scalars['Boolean'];
+  isExtension: Scalars['Boolean'];
   isMat: Scalars['Boolean'];
   isSubmodule: Scalars['Boolean'];
   partNumber: Scalars['String'];
@@ -1045,6 +1051,18 @@ export type Module = {
 
 export type ModuleCategoriesArgs = {
   where?: Maybe<CategoryWhereInput>;
+};
+
+export type ModuleDefaultLeftExtensionParentsArgs = {
+  cursor?: Maybe<ModuleWhereUniqueInput>;
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
+};
+
+export type ModuleDefaultRightExtensionParentsArgs = {
+  cursor?: Maybe<ModuleWhereUniqueInput>;
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
 };
 
 export type ModuleProjectModulesArgs = {
@@ -1166,11 +1184,13 @@ export type ModuleCategoryWhereUniqueInput = {
 
 export type ModuleCreateManyCollectionInput = {
   bundleUrl?: Maybe<Scalars['String']>;
+  defaultLeftExtensionId?: Maybe<Scalars['Int']>;
+  defaultRightExtensionId?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   finishId: Scalars['Int'];
   hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
-  isImprintExtension?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
   partNumber: Scalars['String'];
@@ -1184,13 +1204,59 @@ export type ModuleCreateManyCollectionInputEnvelope = {
   skipDuplicates?: Maybe<Scalars['Boolean']>;
 };
 
+export type ModuleCreateManyDefaultLeftExtensionInput = {
+  bundleUrl?: Maybe<Scalars['String']>;
+  collectionId: Scalars['Int'];
+  defaultRightExtensionId?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  finishId: Scalars['Int'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['Int']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
+  partNumber: Scalars['String'];
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
+};
+
+export type ModuleCreateManyDefaultLeftExtensionInputEnvelope = {
+  data?: Maybe<Array<ModuleCreateManyDefaultLeftExtensionInput>>;
+  skipDuplicates?: Maybe<Scalars['Boolean']>;
+};
+
+export type ModuleCreateManyDefaultRightExtensionInput = {
+  bundleUrl?: Maybe<Scalars['String']>;
+  collectionId: Scalars['Int'];
+  defaultLeftExtensionId?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  finishId: Scalars['Int'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['Int']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
+  partNumber: Scalars['String'];
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
+};
+
+export type ModuleCreateManyDefaultRightExtensionInputEnvelope = {
+  data?: Maybe<Array<ModuleCreateManyDefaultRightExtensionInput>>;
+  skipDuplicates?: Maybe<Scalars['Boolean']>;
+};
+
 export type ModuleCreateManyFinishInput = {
   bundleUrl?: Maybe<Scalars['String']>;
   collectionId: Scalars['Int'];
+  defaultLeftExtensionId?: Maybe<Scalars['Int']>;
+  defaultRightExtensionId?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
   hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
-  isImprintExtension?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
   partNumber: Scalars['String'];
@@ -1211,11 +1277,37 @@ export type ModuleCreateNestedManyWithoutCollectionInput = {
   createMany?: Maybe<ModuleCreateManyCollectionInputEnvelope>;
 };
 
+export type ModuleCreateNestedManyWithoutDefaultLeftExtensionInput = {
+  connect?: Maybe<Array<ModuleWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ModuleCreateOrConnectWithoutDefaultLeftExtensionInput>>;
+  create?: Maybe<Array<ModuleCreateWithoutDefaultLeftExtensionInput>>;
+  createMany?: Maybe<ModuleCreateManyDefaultLeftExtensionInputEnvelope>;
+};
+
+export type ModuleCreateNestedManyWithoutDefaultRightExtensionInput = {
+  connect?: Maybe<Array<ModuleWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ModuleCreateOrConnectWithoutDefaultRightExtensionInput>>;
+  create?: Maybe<Array<ModuleCreateWithoutDefaultRightExtensionInput>>;
+  createMany?: Maybe<ModuleCreateManyDefaultRightExtensionInputEnvelope>;
+};
+
 export type ModuleCreateNestedManyWithoutFinishInput = {
   connect?: Maybe<Array<ModuleWhereUniqueInput>>;
   connectOrCreate?: Maybe<Array<ModuleCreateOrConnectWithoutFinishInput>>;
   create?: Maybe<Array<ModuleCreateWithoutFinishInput>>;
   createMany?: Maybe<ModuleCreateManyFinishInputEnvelope>;
+};
+
+export type ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput = {
+  connect?: Maybe<ModuleWhereUniqueInput>;
+  connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutDefaultLeftExtensionParentsInput>;
+  create?: Maybe<ModuleCreateWithoutDefaultLeftExtensionParentsInput>;
+};
+
+export type ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput = {
+  connect?: Maybe<ModuleWhereUniqueInput>;
+  connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutDefaultRightExtensionParentsInput>;
+  create?: Maybe<ModuleCreateWithoutDefaultRightExtensionParentsInput>;
 };
 
 export type ModuleCreateNestedOneWithoutProjectModulesInput = {
@@ -1226,6 +1318,26 @@ export type ModuleCreateNestedOneWithoutProjectModulesInput = {
 
 export type ModuleCreateOrConnectWithoutCollectionInput = {
   create: ModuleCreateWithoutCollectionInput;
+  where: ModuleWhereUniqueInput;
+};
+
+export type ModuleCreateOrConnectWithoutDefaultLeftExtensionInput = {
+  create: ModuleCreateWithoutDefaultLeftExtensionInput;
+  where: ModuleWhereUniqueInput;
+};
+
+export type ModuleCreateOrConnectWithoutDefaultLeftExtensionParentsInput = {
+  create: ModuleCreateWithoutDefaultLeftExtensionParentsInput;
+  where: ModuleWhereUniqueInput;
+};
+
+export type ModuleCreateOrConnectWithoutDefaultRightExtensionInput = {
+  create: ModuleCreateWithoutDefaultRightExtensionInput;
+  where: ModuleWhereUniqueInput;
+};
+
+export type ModuleCreateOrConnectWithoutDefaultRightExtensionParentsInput = {
+  create: ModuleCreateWithoutDefaultRightExtensionParentsInput;
   where: ModuleWhereUniqueInput;
 };
 
@@ -1241,10 +1353,94 @@ export type ModuleCreateOrConnectWithoutProjectModulesInput = {
 
 export type ModuleCreateWithoutCollectionInput = {
   bundleUrl?: Maybe<Scalars['String']>;
+  defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
-  isImprintExtension?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
+  partNumber: Scalars['String'];
+  projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
+};
+
+export type ModuleCreateWithoutDefaultLeftExtensionInput = {
+  bundleUrl?: Maybe<Scalars['String']>;
+  collection: CollectionCreateNestedOneWithoutModulesInput;
+  defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<Scalars['String']>;
+  finish: FinishCreateNestedOneWithoutModulesInput;
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
+  partNumber: Scalars['String'];
+  projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
+};
+
+export type ModuleCreateWithoutDefaultLeftExtensionParentsInput = {
+  bundleUrl?: Maybe<Scalars['String']>;
+  collection: CollectionCreateNestedOneWithoutModulesInput;
+  defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<Scalars['String']>;
+  finish: FinishCreateNestedOneWithoutModulesInput;
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
+  partNumber: Scalars['String'];
+  projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
+};
+
+export type ModuleCreateWithoutDefaultRightExtensionInput = {
+  bundleUrl?: Maybe<Scalars['String']>;
+  collection: CollectionCreateNestedOneWithoutModulesInput;
+  defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<Scalars['String']>;
+  finish: FinishCreateNestedOneWithoutModulesInput;
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
+  moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
+  partNumber: Scalars['String'];
+  projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
+};
+
+export type ModuleCreateWithoutDefaultRightExtensionParentsInput = {
+  bundleUrl?: Maybe<Scalars['String']>;
+  collection: CollectionCreateNestedOneWithoutModulesInput;
+  defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
+  description?: Maybe<Scalars['String']>;
+  finish: FinishCreateNestedOneWithoutModulesInput;
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
@@ -1258,9 +1454,13 @@ export type ModuleCreateWithoutCollectionInput = {
 export type ModuleCreateWithoutFinishInput = {
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
+  defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<Scalars['String']>;
   hasPegs?: Maybe<Scalars['Boolean']>;
-  isImprintExtension?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
@@ -1274,10 +1474,14 @@ export type ModuleCreateWithoutFinishInput = {
 export type ModuleCreateWithoutProjectModulesInput = {
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
+  defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
-  isImprintExtension?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
@@ -1316,11 +1520,13 @@ export type ModuleMinMax = {
 export type ModuleOrderByInput = {
   bundleUrl?: Maybe<SortOrder>;
   collectionId?: Maybe<SortOrder>;
+  defaultLeftExtensionId?: Maybe<SortOrder>;
+  defaultRightExtensionId?: Maybe<SortOrder>;
   description?: Maybe<SortOrder>;
   finishId?: Maybe<SortOrder>;
   hasPegs?: Maybe<SortOrder>;
   id?: Maybe<SortOrder>;
-  isImprintExtension?: Maybe<SortOrder>;
+  isExtension?: Maybe<SortOrder>;
   isMat?: Maybe<SortOrder>;
   isSubmodule?: Maybe<SortOrder>;
   partNumber?: Maybe<SortOrder>;
@@ -1364,11 +1570,13 @@ export type ModuleScalarWhereInput = {
   OR?: Maybe<Array<ModuleScalarWhereInput>>;
   bundleUrl?: Maybe<StringNullableFilter>;
   collectionId?: Maybe<IntFilter>;
+  defaultLeftExtensionId?: Maybe<IntNullableFilter>;
+  defaultRightExtensionId?: Maybe<IntNullableFilter>;
   description?: Maybe<StringNullableFilter>;
   finishId?: Maybe<IntFilter>;
   hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
-  isImprintExtension?: Maybe<BoolFilter>;
+  isExtension?: Maybe<BoolFilter>;
   isMat?: Maybe<BoolFilter>;
   isSubmodule?: Maybe<BoolFilter>;
   partNumber?: Maybe<StringFilter>;
@@ -1387,7 +1595,7 @@ export type ModuleUpdateManyMutationInput = {
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
-  isImprintExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
@@ -1397,6 +1605,16 @@ export type ModuleUpdateManyMutationInput = {
 };
 
 export type ModuleUpdateManyWithWhereWithoutCollectionInput = {
+  data: ModuleUpdateManyMutationInput;
+  where: ModuleScalarWhereInput;
+};
+
+export type ModuleUpdateManyWithWhereWithoutDefaultLeftExtensionInput = {
+  data: ModuleUpdateManyMutationInput;
+  where: ModuleScalarWhereInput;
+};
+
+export type ModuleUpdateManyWithWhereWithoutDefaultRightExtensionInput = {
   data: ModuleUpdateManyMutationInput;
   where: ModuleScalarWhereInput;
 };
@@ -1418,6 +1636,34 @@ export type ModuleUpdateManyWithoutCollectionInput = {
   update?: Maybe<Array<ModuleUpdateWithWhereUniqueWithoutCollectionInput>>;
   updateMany?: Maybe<Array<ModuleUpdateManyWithWhereWithoutCollectionInput>>;
   upsert?: Maybe<Array<ModuleUpsertWithWhereUniqueWithoutCollectionInput>>;
+};
+
+export type ModuleUpdateManyWithoutDefaultLeftExtensionInput = {
+  connect?: Maybe<Array<ModuleWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ModuleCreateOrConnectWithoutDefaultLeftExtensionInput>>;
+  create?: Maybe<Array<ModuleCreateWithoutDefaultLeftExtensionInput>>;
+  createMany?: Maybe<ModuleCreateManyDefaultLeftExtensionInputEnvelope>;
+  delete?: Maybe<Array<ModuleWhereUniqueInput>>;
+  deleteMany?: Maybe<Array<ModuleScalarWhereInput>>;
+  disconnect?: Maybe<Array<ModuleWhereUniqueInput>>;
+  set?: Maybe<Array<ModuleWhereUniqueInput>>;
+  update?: Maybe<Array<ModuleUpdateWithWhereUniqueWithoutDefaultLeftExtensionInput>>;
+  updateMany?: Maybe<Array<ModuleUpdateManyWithWhereWithoutDefaultLeftExtensionInput>>;
+  upsert?: Maybe<Array<ModuleUpsertWithWhereUniqueWithoutDefaultLeftExtensionInput>>;
+};
+
+export type ModuleUpdateManyWithoutDefaultRightExtensionInput = {
+  connect?: Maybe<Array<ModuleWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ModuleCreateOrConnectWithoutDefaultRightExtensionInput>>;
+  create?: Maybe<Array<ModuleCreateWithoutDefaultRightExtensionInput>>;
+  createMany?: Maybe<ModuleCreateManyDefaultRightExtensionInputEnvelope>;
+  delete?: Maybe<Array<ModuleWhereUniqueInput>>;
+  deleteMany?: Maybe<Array<ModuleScalarWhereInput>>;
+  disconnect?: Maybe<Array<ModuleWhereUniqueInput>>;
+  set?: Maybe<Array<ModuleWhereUniqueInput>>;
+  update?: Maybe<Array<ModuleUpdateWithWhereUniqueWithoutDefaultRightExtensionInput>>;
+  updateMany?: Maybe<Array<ModuleUpdateManyWithWhereWithoutDefaultRightExtensionInput>>;
+  upsert?: Maybe<Array<ModuleUpsertWithWhereUniqueWithoutDefaultRightExtensionInput>>;
 };
 
 export type ModuleUpdateManyWithoutFinishInput = {
@@ -1442,8 +1688,38 @@ export type ModuleUpdateOneRequiredWithoutProjectModulesInput = {
   upsert?: Maybe<ModuleUpsertWithoutProjectModulesInput>;
 };
 
+export type ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput = {
+  connect?: Maybe<ModuleWhereUniqueInput>;
+  connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutDefaultLeftExtensionParentsInput>;
+  create?: Maybe<ModuleCreateWithoutDefaultLeftExtensionParentsInput>;
+  delete?: Maybe<Scalars['Boolean']>;
+  disconnect?: Maybe<Scalars['Boolean']>;
+  update?: Maybe<ModuleUpdateWithoutDefaultLeftExtensionParentsInput>;
+  upsert?: Maybe<ModuleUpsertWithoutDefaultLeftExtensionParentsInput>;
+};
+
+export type ModuleUpdateOneWithoutDefaultRightExtensionParentsInput = {
+  connect?: Maybe<ModuleWhereUniqueInput>;
+  connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutDefaultRightExtensionParentsInput>;
+  create?: Maybe<ModuleCreateWithoutDefaultRightExtensionParentsInput>;
+  delete?: Maybe<Scalars['Boolean']>;
+  disconnect?: Maybe<Scalars['Boolean']>;
+  update?: Maybe<ModuleUpdateWithoutDefaultRightExtensionParentsInput>;
+  upsert?: Maybe<ModuleUpsertWithoutDefaultRightExtensionParentsInput>;
+};
+
 export type ModuleUpdateWithWhereUniqueWithoutCollectionInput = {
   data: ModuleUpdateWithoutCollectionInput;
+  where: ModuleWhereUniqueInput;
+};
+
+export type ModuleUpdateWithWhereUniqueWithoutDefaultLeftExtensionInput = {
+  data: ModuleUpdateWithoutDefaultLeftExtensionInput;
+  where: ModuleWhereUniqueInput;
+};
+
+export type ModuleUpdateWithWhereUniqueWithoutDefaultRightExtensionInput = {
+  data: ModuleUpdateWithoutDefaultRightExtensionInput;
   where: ModuleWhereUniqueInput;
 };
 
@@ -1454,10 +1730,94 @@ export type ModuleUpdateWithWhereUniqueWithoutFinishInput = {
 
 export type ModuleUpdateWithoutCollectionInput = {
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
-  isImprintExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
+  isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
+  partNumber?: Maybe<StringFieldUpdateOperationsInput>;
+  projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
+  thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+};
+
+export type ModuleUpdateWithoutDefaultLeftExtensionInput = {
+  bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
+  isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
+  partNumber?: Maybe<StringFieldUpdateOperationsInput>;
+  projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
+  thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+};
+
+export type ModuleUpdateWithoutDefaultLeftExtensionParentsInput = {
+  bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
+  isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
+  partNumber?: Maybe<StringFieldUpdateOperationsInput>;
+  projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
+  thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+};
+
+export type ModuleUpdateWithoutDefaultRightExtensionInput = {
+  bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
+  isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
+  partNumber?: Maybe<StringFieldUpdateOperationsInput>;
+  projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
+  thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+};
+
+export type ModuleUpdateWithoutDefaultRightExtensionParentsInput = {
+  bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
+  description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
@@ -1471,9 +1831,13 @@ export type ModuleUpdateWithoutCollectionInput = {
 export type ModuleUpdateWithoutFinishInput = {
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
-  isImprintExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
@@ -1487,10 +1851,14 @@ export type ModuleUpdateWithoutFinishInput = {
 export type ModuleUpdateWithoutProjectModulesInput = {
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
-  isImprintExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
@@ -1506,10 +1874,32 @@ export type ModuleUpsertWithWhereUniqueWithoutCollectionInput = {
   where: ModuleWhereUniqueInput;
 };
 
+export type ModuleUpsertWithWhereUniqueWithoutDefaultLeftExtensionInput = {
+  create: ModuleCreateWithoutDefaultLeftExtensionInput;
+  update: ModuleUpdateWithoutDefaultLeftExtensionInput;
+  where: ModuleWhereUniqueInput;
+};
+
+export type ModuleUpsertWithWhereUniqueWithoutDefaultRightExtensionInput = {
+  create: ModuleCreateWithoutDefaultRightExtensionInput;
+  update: ModuleUpdateWithoutDefaultRightExtensionInput;
+  where: ModuleWhereUniqueInput;
+};
+
 export type ModuleUpsertWithWhereUniqueWithoutFinishInput = {
   create: ModuleCreateWithoutFinishInput;
   update: ModuleUpdateWithoutFinishInput;
   where: ModuleWhereUniqueInput;
+};
+
+export type ModuleUpsertWithoutDefaultLeftExtensionParentsInput = {
+  create: ModuleCreateWithoutDefaultLeftExtensionParentsInput;
+  update: ModuleUpdateWithoutDefaultLeftExtensionParentsInput;
+};
+
+export type ModuleUpsertWithoutDefaultRightExtensionParentsInput = {
+  create: ModuleCreateWithoutDefaultRightExtensionParentsInput;
+  update: ModuleUpdateWithoutDefaultRightExtensionParentsInput;
 };
 
 export type ModuleUpsertWithoutProjectModulesInput = {
@@ -1524,12 +1914,18 @@ export type ModuleWhereInput = {
   bundleUrl?: Maybe<StringNullableFilter>;
   collection?: Maybe<CollectionWhereInput>;
   collectionId?: Maybe<IntFilter>;
+  defaultLeftExtension?: Maybe<ModuleWhereInput>;
+  defaultLeftExtensionId?: Maybe<IntNullableFilter>;
+  defaultLeftExtensionParents?: Maybe<ModuleListRelationFilter>;
+  defaultRightExtension?: Maybe<ModuleWhereInput>;
+  defaultRightExtensionId?: Maybe<IntNullableFilter>;
+  defaultRightExtensionParents?: Maybe<ModuleListRelationFilter>;
   description?: Maybe<StringNullableFilter>;
   finish?: Maybe<FinishWhereInput>;
   finishId?: Maybe<IntFilter>;
   hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
-  isImprintExtension?: Maybe<BoolFilter>;
+  isExtension?: Maybe<BoolFilter>;
   isMat?: Maybe<BoolFilter>;
   isSubmodule?: Maybe<BoolFilter>;
   moduleCategories?: Maybe<ModuleCategoryListRelationFilter>;
@@ -1968,8 +2364,10 @@ export type ProjectModule = {
   id: Scalars['Int'];
   module: Module;
   moduleId: Scalars['Int'];
+  nanoId: Scalars['String'];
   parent?: Maybe<ProjectModule>;
   parentId?: Maybe<Scalars['Int']>;
+  parentNanoId?: Maybe<Scalars['String']>;
   posX: Scalars['Float'];
   posY: Scalars['Float'];
   posZ: Scalars['Float'];
@@ -1987,7 +2385,9 @@ export type ProjectModuleChildrenArgs = {
 export type ProjectModuleCreateInput = {
   children?: Maybe<ProjectModuleCreateNestedManyWithoutParentInput>;
   module: ModuleCreateNestedOneWithoutProjectModulesInput;
+  nanoId: Scalars['String'];
   parent?: Maybe<ProjectModuleCreateNestedOneWithoutChildrenInput>;
+  parentNanoId?: Maybe<Scalars['String']>;
   posX?: Maybe<Scalars['Float']>;
   posY?: Maybe<Scalars['Float']>;
   posZ?: Maybe<Scalars['Float']>;
@@ -1997,7 +2397,9 @@ export type ProjectModuleCreateInput = {
 
 export type ProjectModuleCreateManyModuleInput = {
   id?: Maybe<Scalars['Int']>;
+  nanoId: Scalars['String'];
   parentId?: Maybe<Scalars['Int']>;
+  parentNanoId?: Maybe<Scalars['String']>;
   posX?: Maybe<Scalars['Float']>;
   posY?: Maybe<Scalars['Float']>;
   posZ?: Maybe<Scalars['Float']>;
@@ -2013,6 +2415,8 @@ export type ProjectModuleCreateManyModuleInputEnvelope = {
 export type ProjectModuleCreateManyParentInput = {
   id?: Maybe<Scalars['Int']>;
   moduleId: Scalars['Int'];
+  nanoId: Scalars['String'];
+  parentNanoId?: Maybe<Scalars['String']>;
   posX?: Maybe<Scalars['Float']>;
   posY?: Maybe<Scalars['Float']>;
   posZ?: Maybe<Scalars['Float']>;
@@ -2028,7 +2432,9 @@ export type ProjectModuleCreateManyParentInputEnvelope = {
 export type ProjectModuleCreateManyProjectInput = {
   id?: Maybe<Scalars['Int']>;
   moduleId: Scalars['Int'];
+  nanoId: Scalars['String'];
   parentId?: Maybe<Scalars['Int']>;
+  parentNanoId?: Maybe<Scalars['String']>;
   posX?: Maybe<Scalars['Float']>;
   posY?: Maybe<Scalars['Float']>;
   posZ?: Maybe<Scalars['Float']>;
@@ -2089,7 +2495,9 @@ export type ProjectModuleCreateOrConnectWithoutProjectInput = {
 
 export type ProjectModuleCreateWithoutChildrenInput = {
   module: ModuleCreateNestedOneWithoutProjectModulesInput;
+  nanoId: Scalars['String'];
   parent?: Maybe<ProjectModuleCreateNestedOneWithoutChildrenInput>;
+  parentNanoId?: Maybe<Scalars['String']>;
   posX?: Maybe<Scalars['Float']>;
   posY?: Maybe<Scalars['Float']>;
   posZ?: Maybe<Scalars['Float']>;
@@ -2099,7 +2507,9 @@ export type ProjectModuleCreateWithoutChildrenInput = {
 
 export type ProjectModuleCreateWithoutModuleInput = {
   children?: Maybe<ProjectModuleCreateNestedManyWithoutParentInput>;
+  nanoId: Scalars['String'];
   parent?: Maybe<ProjectModuleCreateNestedOneWithoutChildrenInput>;
+  parentNanoId?: Maybe<Scalars['String']>;
   posX?: Maybe<Scalars['Float']>;
   posY?: Maybe<Scalars['Float']>;
   posZ?: Maybe<Scalars['Float']>;
@@ -2110,6 +2520,8 @@ export type ProjectModuleCreateWithoutModuleInput = {
 export type ProjectModuleCreateWithoutParentInput = {
   children?: Maybe<ProjectModuleCreateNestedManyWithoutParentInput>;
   module: ModuleCreateNestedOneWithoutProjectModulesInput;
+  nanoId: Scalars['String'];
+  parentNanoId?: Maybe<Scalars['String']>;
   posX?: Maybe<Scalars['Float']>;
   posY?: Maybe<Scalars['Float']>;
   posZ?: Maybe<Scalars['Float']>;
@@ -2120,7 +2532,9 @@ export type ProjectModuleCreateWithoutParentInput = {
 export type ProjectModuleCreateWithoutProjectInput = {
   children?: Maybe<ProjectModuleCreateNestedManyWithoutParentInput>;
   module: ModuleCreateNestedOneWithoutProjectModulesInput;
+  nanoId: Scalars['String'];
   parent?: Maybe<ProjectModuleCreateNestedOneWithoutChildrenInput>;
+  parentNanoId?: Maybe<Scalars['String']>;
   posX?: Maybe<Scalars['Float']>;
   posY?: Maybe<Scalars['Float']>;
   posZ?: Maybe<Scalars['Float']>;
@@ -2136,7 +2550,9 @@ export type ProjectModuleListRelationFilter = {
 export type ProjectModuleOrderByInput = {
   id?: Maybe<SortOrder>;
   moduleId?: Maybe<SortOrder>;
+  nanoId?: Maybe<SortOrder>;
   parentId?: Maybe<SortOrder>;
+  parentNanoId?: Maybe<SortOrder>;
   posX?: Maybe<SortOrder>;
   posY?: Maybe<SortOrder>;
   posZ?: Maybe<SortOrder>;
@@ -2150,7 +2566,9 @@ export type ProjectModuleScalarWhereInput = {
   OR?: Maybe<Array<ProjectModuleScalarWhereInput>>;
   id?: Maybe<IntFilter>;
   moduleId?: Maybe<IntFilter>;
+  nanoId?: Maybe<StringFilter>;
   parentId?: Maybe<IntNullableFilter>;
+  parentNanoId?: Maybe<StringNullableFilter>;
   posX?: Maybe<FloatFilter>;
   posY?: Maybe<FloatFilter>;
   posZ?: Maybe<FloatFilter>;
@@ -2161,7 +2579,9 @@ export type ProjectModuleScalarWhereInput = {
 export type ProjectModuleUpdateInput = {
   children?: Maybe<ProjectModuleUpdateManyWithoutParentInput>;
   module?: Maybe<ModuleUpdateOneRequiredWithoutProjectModulesInput>;
+  nanoId?: Maybe<StringFieldUpdateOperationsInput>;
   parent?: Maybe<ProjectModuleUpdateOneWithoutChildrenInput>;
+  parentNanoId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
   posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
@@ -2170,6 +2590,8 @@ export type ProjectModuleUpdateInput = {
 };
 
 export type ProjectModuleUpdateManyMutationInput = {
+  nanoId?: Maybe<StringFieldUpdateOperationsInput>;
+  parentNanoId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
   posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
@@ -2260,7 +2682,9 @@ export type ProjectModuleUpdateWithWhereUniqueWithoutProjectInput = {
 
 export type ProjectModuleUpdateWithoutChildrenInput = {
   module?: Maybe<ModuleUpdateOneRequiredWithoutProjectModulesInput>;
+  nanoId?: Maybe<StringFieldUpdateOperationsInput>;
   parent?: Maybe<ProjectModuleUpdateOneWithoutChildrenInput>;
+  parentNanoId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
   posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
@@ -2270,7 +2694,9 @@ export type ProjectModuleUpdateWithoutChildrenInput = {
 
 export type ProjectModuleUpdateWithoutModuleInput = {
   children?: Maybe<ProjectModuleUpdateManyWithoutParentInput>;
+  nanoId?: Maybe<StringFieldUpdateOperationsInput>;
   parent?: Maybe<ProjectModuleUpdateOneWithoutChildrenInput>;
+  parentNanoId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
   posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
@@ -2281,6 +2707,8 @@ export type ProjectModuleUpdateWithoutModuleInput = {
 export type ProjectModuleUpdateWithoutParentInput = {
   children?: Maybe<ProjectModuleUpdateManyWithoutParentInput>;
   module?: Maybe<ModuleUpdateOneRequiredWithoutProjectModulesInput>;
+  nanoId?: Maybe<StringFieldUpdateOperationsInput>;
+  parentNanoId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
   posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
@@ -2291,7 +2719,9 @@ export type ProjectModuleUpdateWithoutParentInput = {
 export type ProjectModuleUpdateWithoutProjectInput = {
   children?: Maybe<ProjectModuleUpdateManyWithoutParentInput>;
   module?: Maybe<ModuleUpdateOneRequiredWithoutProjectModulesInput>;
+  nanoId?: Maybe<StringFieldUpdateOperationsInput>;
   parent?: Maybe<ProjectModuleUpdateOneWithoutChildrenInput>;
+  parentNanoId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   posX?: Maybe<FloatFieldUpdateOperationsInput>;
   posY?: Maybe<FloatFieldUpdateOperationsInput>;
   posZ?: Maybe<FloatFieldUpdateOperationsInput>;
@@ -2329,8 +2759,10 @@ export type ProjectModuleWhereInput = {
   id?: Maybe<IntFilter>;
   module?: Maybe<ModuleWhereInput>;
   moduleId?: Maybe<IntFilter>;
+  nanoId?: Maybe<StringFilter>;
   parent?: Maybe<ProjectModuleWhereInput>;
   parentId?: Maybe<IntNullableFilter>;
+  parentNanoId?: Maybe<StringNullableFilter>;
   posX?: Maybe<FloatFilter>;
   posY?: Maybe<FloatFilter>;
   posZ?: Maybe<FloatFilter>;
@@ -2341,6 +2773,7 @@ export type ProjectModuleWhereInput = {
 
 export type ProjectModuleWhereUniqueInput = {
   id?: Maybe<Scalars['Int']>;
+  nanoId?: Maybe<Scalars['String']>;
 };
 
 export type ProjectOrderByInput = {
@@ -3803,18 +4236,104 @@ export type CartDataFragment = {
   };
 };
 
-export type ModuleDataFragment = {
+export type ModuleDataWithoutExtensionsFragment = {
   __typename?: 'Module';
   id: number;
   bundleUrl?: string | null | undefined;
   hasPegs: boolean;
-  isImprintExtension: boolean;
+  isExtension: boolean;
   isMat: boolean;
   isSubmodule: boolean;
   partNumber: string;
   thumbnailUrl?: string | null | undefined;
   description?: string | null | undefined;
-  rulesJson?: any | null | undefined;
+  rules?:
+    | {
+        __typename?: 'ModuleRules';
+        rules?: { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined } | null | undefined;
+        extensions?:
+          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+          | null
+          | undefined;
+      }
+    | null
+    | undefined;
+  categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+};
+
+export type ModuleDataFragment = {
+  __typename?: 'Module';
+  id: number;
+  bundleUrl?: string | null | undefined;
+  hasPegs: boolean;
+  isExtension: boolean;
+  isMat: boolean;
+  isSubmodule: boolean;
+  partNumber: string;
+  thumbnailUrl?: string | null | undefined;
+  description?: string | null | undefined;
+  defaultLeftExtension?:
+    | {
+        __typename?: 'Module';
+        rulesJson?: any | null | undefined;
+        id: number;
+        bundleUrl?: string | null | undefined;
+        hasPegs: boolean;
+        isExtension: boolean;
+        isMat: boolean;
+        isSubmodule: boolean;
+        partNumber: string;
+        thumbnailUrl?: string | null | undefined;
+        description?: string | null | undefined;
+        rules?:
+          | {
+              __typename?: 'ModuleRules';
+              rules?:
+                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                | null
+                | undefined;
+              extensions?:
+                | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+      }
+    | null
+    | undefined;
+  defaultRightExtension?:
+    | {
+        __typename?: 'Module';
+        rulesJson?: any | null | undefined;
+        id: number;
+        bundleUrl?: string | null | undefined;
+        hasPegs: boolean;
+        isExtension: boolean;
+        isMat: boolean;
+        isSubmodule: boolean;
+        partNumber: string;
+        thumbnailUrl?: string | null | undefined;
+        description?: string | null | undefined;
+        rules?:
+          | {
+              __typename?: 'ModuleRules';
+              rules?:
+                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                | null
+                | undefined;
+              extensions?:
+                | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+      }
+    | null
+    | undefined;
   rules?:
     | {
         __typename?: 'ModuleRules';
@@ -3832,24 +4351,87 @@ export type ModuleDataFragment = {
 export type ProjectModuleDataFragment = {
   __typename?: 'ProjectModule';
   id: number;
+  nanoId: string;
   posX: number;
   posY: number;
   posZ: number;
   rotY: number;
   parentId?: number | null | undefined;
-  moduleId: number;
+  parentNanoId?: string | null | undefined;
   module: {
     __typename?: 'Module';
+    rulesJson?: any | null | undefined;
     id: number;
     bundleUrl?: string | null | undefined;
     hasPegs: boolean;
-    isImprintExtension: boolean;
+    isExtension: boolean;
     isMat: boolean;
     isSubmodule: boolean;
     partNumber: string;
     thumbnailUrl?: string | null | undefined;
     description?: string | null | undefined;
-    rulesJson?: any | null | undefined;
+    defaultLeftExtension?:
+      | {
+          __typename?: 'Module';
+          rulesJson?: any | null | undefined;
+          id: number;
+          bundleUrl?: string | null | undefined;
+          hasPegs: boolean;
+          isExtension: boolean;
+          isMat: boolean;
+          isSubmodule: boolean;
+          partNumber: string;
+          thumbnailUrl?: string | null | undefined;
+          description?: string | null | undefined;
+          rules?:
+            | {
+                __typename?: 'ModuleRules';
+                rules?:
+                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+                extensions?:
+                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+        }
+      | null
+      | undefined;
+    defaultRightExtension?:
+      | {
+          __typename?: 'Module';
+          rulesJson?: any | null | undefined;
+          id: number;
+          bundleUrl?: string | null | undefined;
+          hasPegs: boolean;
+          isExtension: boolean;
+          isMat: boolean;
+          isSubmodule: boolean;
+          partNumber: string;
+          thumbnailUrl?: string | null | undefined;
+          description?: string | null | undefined;
+          rules?:
+            | {
+                __typename?: 'ModuleRules';
+                rules?:
+                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+                extensions?:
+                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+        }
+      | null
+      | undefined;
     rules?:
       | {
           __typename?: 'ModuleRules';
@@ -3896,13 +4478,74 @@ export type ModuleOptionsQuery = {
     id: number;
     bundleUrl?: string | null | undefined;
     hasPegs: boolean;
-    isImprintExtension: boolean;
+    isExtension: boolean;
     isMat: boolean;
     isSubmodule: boolean;
     partNumber: string;
     thumbnailUrl?: string | null | undefined;
     description?: string | null | undefined;
-    rulesJson?: any | null | undefined;
+    defaultLeftExtension?:
+      | {
+          __typename?: 'Module';
+          rulesJson?: any | null | undefined;
+          id: number;
+          bundleUrl?: string | null | undefined;
+          hasPegs: boolean;
+          isExtension: boolean;
+          isMat: boolean;
+          isSubmodule: boolean;
+          partNumber: string;
+          thumbnailUrl?: string | null | undefined;
+          description?: string | null | undefined;
+          rules?:
+            | {
+                __typename?: 'ModuleRules';
+                rules?:
+                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+                extensions?:
+                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+        }
+      | null
+      | undefined;
+    defaultRightExtension?:
+      | {
+          __typename?: 'Module';
+          rulesJson?: any | null | undefined;
+          id: number;
+          bundleUrl?: string | null | undefined;
+          hasPegs: boolean;
+          isExtension: boolean;
+          isMat: boolean;
+          isSubmodule: boolean;
+          partNumber: string;
+          thumbnailUrl?: string | null | undefined;
+          description?: string | null | undefined;
+          rules?:
+            | {
+                __typename?: 'ModuleRules';
+                rules?:
+                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+                extensions?:
+                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+        }
+      | null
+      | undefined;
     rules?:
       | {
           __typename?: 'ModuleRules';
@@ -3949,13 +4592,74 @@ export type PlannerQuery = {
           id: number;
           bundleUrl?: string | null | undefined;
           hasPegs: boolean;
-          isImprintExtension: boolean;
+          isExtension: boolean;
           isMat: boolean;
           isSubmodule: boolean;
           partNumber: string;
           thumbnailUrl?: string | null | undefined;
           description?: string | null | undefined;
-          rulesJson?: any | null | undefined;
+          defaultLeftExtension?:
+            | {
+                __typename?: 'Module';
+                rulesJson?: any | null | undefined;
+                id: number;
+                bundleUrl?: string | null | undefined;
+                hasPegs: boolean;
+                isExtension: boolean;
+                isMat: boolean;
+                isSubmodule: boolean;
+                partNumber: string;
+                thumbnailUrl?: string | null | undefined;
+                description?: string | null | undefined;
+                rules?:
+                  | {
+                      __typename?: 'ModuleRules';
+                      rules?:
+                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                      extensions?:
+                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                    }
+                  | null
+                  | undefined;
+                categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+              }
+            | null
+            | undefined;
+          defaultRightExtension?:
+            | {
+                __typename?: 'Module';
+                rulesJson?: any | null | undefined;
+                id: number;
+                bundleUrl?: string | null | undefined;
+                hasPegs: boolean;
+                isExtension: boolean;
+                isMat: boolean;
+                isSubmodule: boolean;
+                partNumber: string;
+                thumbnailUrl?: string | null | undefined;
+                description?: string | null | undefined;
+                rules?:
+                  | {
+                      __typename?: 'ModuleRules';
+                      rules?:
+                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                      extensions?:
+                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                    }
+                  | null
+                  | undefined;
+                categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+              }
+            | null
+            | undefined;
           rules?:
             | {
                 __typename?: 'ModuleRules';
@@ -3975,33 +4679,97 @@ export type PlannerQuery = {
         projectModules: Array<{
           __typename?: 'ProjectModule';
           id: number;
+          nanoId: string;
           posX: number;
           posY: number;
           posZ: number;
           rotY: number;
           parentId?: number | null | undefined;
-          moduleId: number;
+          parentNanoId?: string | null | undefined;
           children: Array<{
             __typename?: 'ProjectModule';
             id: number;
+            nanoId: string;
             posX: number;
             posY: number;
             posZ: number;
             rotY: number;
             parentId?: number | null | undefined;
-            moduleId: number;
+            parentNanoId?: string | null | undefined;
             module: {
               __typename?: 'Module';
+              rulesJson?: any | null | undefined;
               id: number;
               bundleUrl?: string | null | undefined;
               hasPegs: boolean;
-              isImprintExtension: boolean;
+              isExtension: boolean;
               isMat: boolean;
               isSubmodule: boolean;
               partNumber: string;
               thumbnailUrl?: string | null | undefined;
               description?: string | null | undefined;
-              rulesJson?: any | null | undefined;
+              defaultLeftExtension?:
+                | {
+                    __typename?: 'Module';
+                    rulesJson?: any | null | undefined;
+                    id: number;
+                    bundleUrl?: string | null | undefined;
+                    hasPegs: boolean;
+                    isExtension: boolean;
+                    isMat: boolean;
+                    isSubmodule: boolean;
+                    partNumber: string;
+                    thumbnailUrl?: string | null | undefined;
+                    description?: string | null | undefined;
+                    rules?:
+                      | {
+                          __typename?: 'ModuleRules';
+                          rules?:
+                            | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                            | null
+                            | undefined;
+                          extensions?:
+                            | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                    categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+                  }
+                | null
+                | undefined;
+              defaultRightExtension?:
+                | {
+                    __typename?: 'Module';
+                    rulesJson?: any | null | undefined;
+                    id: number;
+                    bundleUrl?: string | null | undefined;
+                    hasPegs: boolean;
+                    isExtension: boolean;
+                    isMat: boolean;
+                    isSubmodule: boolean;
+                    partNumber: string;
+                    thumbnailUrl?: string | null | undefined;
+                    description?: string | null | undefined;
+                    rules?:
+                      | {
+                          __typename?: 'ModuleRules';
+                          rules?:
+                            | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                            | null
+                            | undefined;
+                          extensions?:
+                            | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                    categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+                  }
+                | null
+                | undefined;
               rules?:
                 | {
                     __typename?: 'ModuleRules';
@@ -4021,16 +4789,78 @@ export type PlannerQuery = {
           }>;
           module: {
             __typename?: 'Module';
+            rulesJson?: any | null | undefined;
             id: number;
             bundleUrl?: string | null | undefined;
             hasPegs: boolean;
-            isImprintExtension: boolean;
+            isExtension: boolean;
             isMat: boolean;
             isSubmodule: boolean;
             partNumber: string;
             thumbnailUrl?: string | null | undefined;
             description?: string | null | undefined;
-            rulesJson?: any | null | undefined;
+            defaultLeftExtension?:
+              | {
+                  __typename?: 'Module';
+                  rulesJson?: any | null | undefined;
+                  id: number;
+                  bundleUrl?: string | null | undefined;
+                  hasPegs: boolean;
+                  isExtension: boolean;
+                  isMat: boolean;
+                  isSubmodule: boolean;
+                  partNumber: string;
+                  thumbnailUrl?: string | null | undefined;
+                  description?: string | null | undefined;
+                  rules?:
+                    | {
+                        __typename?: 'ModuleRules';
+                        rules?:
+                          | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                          | null
+                          | undefined;
+                        extensions?:
+                          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
+                  categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+                }
+              | null
+              | undefined;
+            defaultRightExtension?:
+              | {
+                  __typename?: 'Module';
+                  rulesJson?: any | null | undefined;
+                  id: number;
+                  bundleUrl?: string | null | undefined;
+                  hasPegs: boolean;
+                  isExtension: boolean;
+                  isMat: boolean;
+                  isSubmodule: boolean;
+                  partNumber: string;
+                  thumbnailUrl?: string | null | undefined;
+                  description?: string | null | undefined;
+                  rules?:
+                    | {
+                        __typename?: 'ModuleRules';
+                        rules?:
+                          | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                          | null
+                          | undefined;
+                        extensions?:
+                          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
+                  categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+                }
+              | null
+              | undefined;
             rules?:
               | {
                   __typename?: 'ModuleRules';
@@ -4053,13 +4883,222 @@ export type PlannerQuery = {
     | undefined;
 };
 
+export type GetProjectModuleQueryVariables = Exact<{
+  nanoIds: Array<Scalars['String']> | Scalars['String'];
+}>;
+
+export type GetProjectModuleQuery = {
+  __typename?: 'Query';
+  projectModules: Array<{
+    __typename?: 'ProjectModule';
+    id: number;
+    nanoId: string;
+    posX: number;
+    posY: number;
+    posZ: number;
+    rotY: number;
+    parentId?: number | null | undefined;
+    parentNanoId?: string | null | undefined;
+    module: {
+      __typename?: 'Module';
+      rulesJson?: any | null | undefined;
+      id: number;
+      bundleUrl?: string | null | undefined;
+      hasPegs: boolean;
+      isExtension: boolean;
+      isMat: boolean;
+      isSubmodule: boolean;
+      partNumber: string;
+      thumbnailUrl?: string | null | undefined;
+      description?: string | null | undefined;
+      defaultLeftExtension?:
+        | {
+            __typename?: 'Module';
+            rulesJson?: any | null | undefined;
+            id: number;
+            bundleUrl?: string | null | undefined;
+            hasPegs: boolean;
+            isExtension: boolean;
+            isMat: boolean;
+            isSubmodule: boolean;
+            partNumber: string;
+            thumbnailUrl?: string | null | undefined;
+            description?: string | null | undefined;
+            rules?:
+              | {
+                  __typename?: 'ModuleRules';
+                  rules?:
+                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                  extensions?:
+                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+          }
+        | null
+        | undefined;
+      defaultRightExtension?:
+        | {
+            __typename?: 'Module';
+            rulesJson?: any | null | undefined;
+            id: number;
+            bundleUrl?: string | null | undefined;
+            hasPegs: boolean;
+            isExtension: boolean;
+            isMat: boolean;
+            isSubmodule: boolean;
+            partNumber: string;
+            thumbnailUrl?: string | null | undefined;
+            description?: string | null | undefined;
+            rules?:
+              | {
+                  __typename?: 'ModuleRules';
+                  rules?:
+                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                  extensions?:
+                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+          }
+        | null
+        | undefined;
+      rules?:
+        | {
+            __typename?: 'ModuleRules';
+            rules?:
+              | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+              | null
+              | undefined;
+            extensions?:
+              | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+              | null
+              | undefined;
+          }
+        | null
+        | undefined;
+      categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+    };
+  }>;
+};
+
 export type CreateProjectModuleMutationVariables = Exact<{
   data: ProjectModuleCreateInput;
 }>;
 
 export type CreateProjectModuleMutation = {
   __typename?: 'Mutation';
-  createOneProjectModule: { __typename?: 'ProjectModule'; id: number; moduleId: number };
+  createOneProjectModule: {
+    __typename?: 'ProjectModule';
+    id: number;
+    nanoId: string;
+    posX: number;
+    posY: number;
+    posZ: number;
+    rotY: number;
+    parentId?: number | null | undefined;
+    parentNanoId?: string | null | undefined;
+    module: {
+      __typename?: 'Module';
+      rulesJson?: any | null | undefined;
+      id: number;
+      bundleUrl?: string | null | undefined;
+      hasPegs: boolean;
+      isExtension: boolean;
+      isMat: boolean;
+      isSubmodule: boolean;
+      partNumber: string;
+      thumbnailUrl?: string | null | undefined;
+      description?: string | null | undefined;
+      defaultLeftExtension?:
+        | {
+            __typename?: 'Module';
+            rulesJson?: any | null | undefined;
+            id: number;
+            bundleUrl?: string | null | undefined;
+            hasPegs: boolean;
+            isExtension: boolean;
+            isMat: boolean;
+            isSubmodule: boolean;
+            partNumber: string;
+            thumbnailUrl?: string | null | undefined;
+            description?: string | null | undefined;
+            rules?:
+              | {
+                  __typename?: 'ModuleRules';
+                  rules?:
+                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                  extensions?:
+                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+          }
+        | null
+        | undefined;
+      defaultRightExtension?:
+        | {
+            __typename?: 'Module';
+            rulesJson?: any | null | undefined;
+            id: number;
+            bundleUrl?: string | null | undefined;
+            hasPegs: boolean;
+            isExtension: boolean;
+            isMat: boolean;
+            isSubmodule: boolean;
+            partNumber: string;
+            thumbnailUrl?: string | null | undefined;
+            description?: string | null | undefined;
+            rules?:
+              | {
+                  __typename?: 'ModuleRules';
+                  rules?:
+                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                  extensions?:
+                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+          }
+        | null
+        | undefined;
+      rules?:
+        | {
+            __typename?: 'ModuleRules';
+            rules?:
+              | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+              | null
+              | undefined;
+            extensions?:
+              | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+              | null
+              | undefined;
+          }
+        | null
+        | undefined;
+      categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+    };
+  };
 };
 
 export type UpdateProjectModuleMutationVariables = Exact<{
@@ -4069,11 +5108,114 @@ export type UpdateProjectModuleMutationVariables = Exact<{
 
 export type UpdateProjectModuleMutation = {
   __typename?: 'Mutation';
-  updateOneProjectModule?: { __typename?: 'ProjectModule'; id: number } | null | undefined;
+  updateOneProjectModule?:
+    | {
+        __typename?: 'ProjectModule';
+        id: number;
+        nanoId: string;
+        posX: number;
+        posY: number;
+        posZ: number;
+        rotY: number;
+        parentId?: number | null | undefined;
+        parentNanoId?: string | null | undefined;
+        module: {
+          __typename?: 'Module';
+          rulesJson?: any | null | undefined;
+          id: number;
+          bundleUrl?: string | null | undefined;
+          hasPegs: boolean;
+          isExtension: boolean;
+          isMat: boolean;
+          isSubmodule: boolean;
+          partNumber: string;
+          thumbnailUrl?: string | null | undefined;
+          description?: string | null | undefined;
+          defaultLeftExtension?:
+            | {
+                __typename?: 'Module';
+                rulesJson?: any | null | undefined;
+                id: number;
+                bundleUrl?: string | null | undefined;
+                hasPegs: boolean;
+                isExtension: boolean;
+                isMat: boolean;
+                isSubmodule: boolean;
+                partNumber: string;
+                thumbnailUrl?: string | null | undefined;
+                description?: string | null | undefined;
+                rules?:
+                  | {
+                      __typename?: 'ModuleRules';
+                      rules?:
+                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                      extensions?:
+                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                    }
+                  | null
+                  | undefined;
+                categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+              }
+            | null
+            | undefined;
+          defaultRightExtension?:
+            | {
+                __typename?: 'Module';
+                rulesJson?: any | null | undefined;
+                id: number;
+                bundleUrl?: string | null | undefined;
+                hasPegs: boolean;
+                isExtension: boolean;
+                isMat: boolean;
+                isSubmodule: boolean;
+                partNumber: string;
+                thumbnailUrl?: string | null | undefined;
+                description?: string | null | undefined;
+                rules?:
+                  | {
+                      __typename?: 'ModuleRules';
+                      rules?:
+                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                      extensions?:
+                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                    }
+                  | null
+                  | undefined;
+                categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+              }
+            | null
+            | undefined;
+          rules?:
+            | {
+                __typename?: 'ModuleRules';
+                rules?:
+                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+                extensions?:
+                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+        };
+      }
+    | null
+    | undefined;
 };
 
 export type DeleteProjectModuleMutationVariables = Exact<{
-  ids?: Maybe<Array<Scalars['Int']> | Scalars['Int']>;
+  nanoIds: Array<Scalars['String']> | Scalars['String'];
 }>;
 
 export type DeleteProjectModuleMutation = {
@@ -4196,12 +5338,12 @@ export const CartDataFragmentDoc = gql`
     }
   }
 `;
-export const ModuleDataFragmentDoc = gql`
-  fragment ModuleData on Module {
+export const ModuleDataWithoutExtensionsFragmentDoc = gql`
+  fragment ModuleDataWithoutExtensions on Module {
     id
     bundleUrl
     hasPegs
-    isImprintExtension
+    isExtension
     isMat
     isSubmodule
     partNumber
@@ -4220,20 +5362,35 @@ export const ModuleDataFragmentDoc = gql`
       slug
       name
     }
-    rulesJson
   }
+`;
+export const ModuleDataFragmentDoc = gql`
+  fragment ModuleData on Module {
+    ...ModuleDataWithoutExtensions
+    defaultLeftExtension {
+      ...ModuleDataWithoutExtensions
+      rulesJson
+    }
+    defaultRightExtension {
+      ...ModuleDataWithoutExtensions
+      rulesJson
+    }
+  }
+  ${ModuleDataWithoutExtensionsFragmentDoc}
 `;
 export const ProjectModuleDataFragmentDoc = gql`
   fragment ProjectModuleData on ProjectModule {
     id
+    nanoId
     posX
     posY
     posZ
     rotY
     parentId
-    moduleId
+    parentNanoId
     module {
       ...ModuleData
+      rulesJson
     }
   }
   ${ModuleDataFragmentDoc}
@@ -4576,13 +5733,53 @@ export function usePlannerLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<Pl
 export type PlannerQueryHookResult = ReturnType<typeof usePlannerQuery>;
 export type PlannerLazyQueryHookResult = ReturnType<typeof usePlannerLazyQuery>;
 export type PlannerQueryResult = Apollo.QueryResult<PlannerQuery, PlannerQueryVariables>;
+export const GetProjectModuleDocument = gql`
+  query GetProjectModule($nanoIds: [String!]!) {
+    projectModules(where: { nanoId: { in: $nanoIds } }) {
+      ...ProjectModuleData
+    }
+  }
+  ${ProjectModuleDataFragmentDoc}
+`;
+
+/**
+ * __useGetProjectModuleQuery__
+ *
+ * To run a query within a React component, call `useGetProjectModuleQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetProjectModuleQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetProjectModuleQuery({
+ *   variables: {
+ *      nanoIds: // value for 'nanoIds'
+ *   },
+ * });
+ */
+export function useGetProjectModuleQuery(
+  baseOptions: Apollo.QueryHookOptions<GetProjectModuleQuery, GetProjectModuleQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetProjectModuleQuery, GetProjectModuleQueryVariables>(GetProjectModuleDocument, options);
+}
+export function useGetProjectModuleLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<GetProjectModuleQuery, GetProjectModuleQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetProjectModuleQuery, GetProjectModuleQueryVariables>(GetProjectModuleDocument, options);
+}
+export type GetProjectModuleQueryHookResult = ReturnType<typeof useGetProjectModuleQuery>;
+export type GetProjectModuleLazyQueryHookResult = ReturnType<typeof useGetProjectModuleLazyQuery>;
+export type GetProjectModuleQueryResult = Apollo.QueryResult<GetProjectModuleQuery, GetProjectModuleQueryVariables>;
 export const CreateProjectModuleDocument = gql`
   mutation CreateProjectModule($data: ProjectModuleCreateInput!) {
     createOneProjectModule(data: $data) {
-      id
-      moduleId
+      ...ProjectModuleData
     }
   }
+  ${ProjectModuleDataFragmentDoc}
 `;
 export type CreateProjectModuleMutationFn = Apollo.MutationFunction<
   CreateProjectModuleMutation,
@@ -4624,9 +5821,10 @@ export type CreateProjectModuleMutationOptions = Apollo.BaseMutationOptions<
 export const UpdateProjectModuleDocument = gql`
   mutation UpdateProjectModule($data: ProjectModuleUpdateInput!, $id: Int!) {
     updateOneProjectModule(data: $data, where: { id: $id }) {
-      id
+      ...ProjectModuleData
     }
   }
+  ${ProjectModuleDataFragmentDoc}
 `;
 export type UpdateProjectModuleMutationFn = Apollo.MutationFunction<
   UpdateProjectModuleMutation,
@@ -4667,8 +5865,8 @@ export type UpdateProjectModuleMutationOptions = Apollo.BaseMutationOptions<
   UpdateProjectModuleMutationVariables
 >;
 export const DeleteProjectModuleDocument = gql`
-  mutation DeleteProjectModule($ids: [Int!]) {
-    deleteManyProjectModule(where: { id: { in: $ids } }) {
+  mutation DeleteProjectModule($nanoIds: [String!]!) {
+    deleteManyProjectModule(where: { nanoId: { in: $nanoIds } }) {
       count
     }
   }
@@ -4691,7 +5889,7 @@ export type DeleteProjectModuleMutationFn = Apollo.MutationFunction<
  * @example
  * const [deleteProjectModuleMutation, { data, loading, error }] = useDeleteProjectModuleMutation({
  *   variables: {
- *      ids: // value for 'ids'
+ *      nanoIds: // value for 'nanoIds'
  *   },
  * });
  */

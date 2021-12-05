@@ -7,10 +7,12 @@ import { FormattedMessage } from 'react-intl';
 import Spinner from '../../../UI/Spinner';
 import ProgressBar from '../../../UI/ProgressBar';
 import { customImageLoader } from '../../../../lib/next';
+import { usePlannerContext } from '../../../Providers/PlannerProvider';
 
 const LoadingState: React.FC = () => {
   const [imageLoaded, setImageLoaded] = useState(false);
   const { loadingProgress } = useUnityPlayerContext();
+  const { didFinishSetup } = usePlannerContext();
   const mountRef = useRef<boolean | null>(null);
 
   useEffect(() => {
@@ -24,8 +26,8 @@ const LoadingState: React.FC = () => {
   return (
     <CenterContent
       className={classNames({
-        'opacity-0 animate-fade-in': loadingProgress < 1, // Animate in when progress starts
-        'animate-fade-out': loadingProgress >= 1 // Fade out when loading is finished
+        'opacity-0 animate-fade-in': loadingProgress < 1 && !didFinishSetup, // Animate in when progress starts
+        'animate-fade-out': loadingProgress >= 1 && didFinishSetup // Fade out when loading is finished
       })}
     >
       <div
