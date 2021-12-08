@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useUnityPlayerContext } from '../UnityPlayerProvider';
 import logging from '../../../lib/logging';
 import { UNITY_GAME_OBJECT } from '../../../constraints';
@@ -10,6 +10,7 @@ import {
   PlannerQuery,
   useCreateProjectModuleMutation,
   useDeleteProjectModuleMutation,
+  useProjectCartQuery,
   useUpdateProjectModuleMutation
 } from '../../../apollo/generated/graphql';
 import { nanoid } from 'nanoid';
@@ -24,6 +25,7 @@ export type UnityModuleJson = {
   bundleUrl?: string;
   isSubmodule: boolean;
   isExtension: boolean;
+  isMat: boolean;
 
   // Parsed rules json
   rules?: Record<string, unknown>;
@@ -55,7 +57,10 @@ export type UnityProjectModuleJsonChildren = {
 };
 
 const makeModuleJson = (
-  module: Pick<ModuleDataFragment, 'id' | 'partNumber' | 'bundleUrl' | 'isSubmodule' | 'isExtension' | 'rules'> & {
+  module: Pick<
+    ModuleDataFragment,
+    'id' | 'partNumber' | 'bundleUrl' | 'isSubmodule' | 'isExtension' | 'isMat' | 'rules'
+  > & {
     rulesJson?: Record<string, unknown>;
   },
   rulesJson?: Record<string, unknown>
@@ -70,6 +75,7 @@ const makeModuleJson = (
     bundleUrl: module.bundleUrl || undefined,
     isSubmodule: module.isSubmodule,
     isExtension: module.isExtension,
+    isMat: module.isMat,
     rules
   };
 };
@@ -166,11 +172,18 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   // ***********
   // ** Grapqhl declarations
   // ***********
+  const { data: projectCart } = useProjectCartQuery({ variables: { slug: project.slug } });
+
+  const cartAmount = useMemo(() => {
+    return projectCart?.project?.cartAmount || project.cartAmount;
+  }, [project, projectCart]);
+
+  // ** Queries
 
   // ** Mutations
-  const [doCreateProjectModule] = useCreateProjectModuleMutation();
-  const [doUpdateProjectModule] = useUpdateProjectModuleMutation();
-  const [doDeleteProjectModule] = useDeleteProjectModuleMutation();
+  const [doCreateProjectModule] = useCreateProjectModuleMutation({ refetchQueries: ['ProjectCart'] });
+  const [doUpdateProjectModule] = useUpdateProjectModuleMutation({ refetchQueries: ['ProjectCart'] });
+  const [doDeleteProjectModule] = useDeleteProjectModuleMutation({ refetchQueries: ['ProjectCart'] });
   const apolloClient = useApolloClient();
 
   // ***********
@@ -180,7 +193,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   // ** States
   const [didFinishSetup, setFinishSetup] = useState(initialState.didFinishSetup);
   const [isPending, setIsPending] = useState(initialState.isPending);
-  const [cartAmount, setCartAmount] = useState(0);
 
   const [error, setError] = useState<string | undefined>(initialState.error);
 
@@ -381,8 +393,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
           if (!data) {
             logging.warn(`Created project module but it did not return any data`, { projectModuleToCreate });
-          } else {
-            setCartAmount((currAmount) => currAmount + 1 + children.length);
           }
         } else {
           // All children where it doesn't exist
@@ -457,8 +467,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
               existingProjectModule: existingProjectModules
             });
           }
-
-          setCartAmount((currAmount) => currAmount + childrenToCreate.length);
         }
       } catch (err) {
         logging.error(err as Error, `Failed upserting project module`, { projectModuleToCreate, children, projectId });
@@ -469,14 +477,13 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   );
 
   const handleDeleteProjectModule = useCallback(
-    async (projectModuleToDelete: UnityProjectModuleJson, children: UnityProjectModuleJson[]) => {
+    async (projectModuleToDelete: UnityProjectModuleJson, children?: UnityProjectModuleJson[]) => {
       try {
         await doDeleteProjectModule({
           variables: {
             nanoIds: [projectModuleToDelete.nanoId]
           }
         });
-        setCartAmount((currAmount) => currAmount - 1 - children.length);
       } catch (err) {
         logging.error(err as Error, `Failed deleting project module`, { projectModuleToDelete, children });
       }
@@ -542,7 +549,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         projectModules,
         children
       );
-      setCartAmount(projectModules.length + children.length);
     }, 20);
   }, [project, setupDrawer]);
 
@@ -565,28 +571,34 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
           logging.error(new Error(error));
         }
       },
-      createdModule: (projectModuleJson: string, childrenJson: string) => {
+      createdModule: async (projectModuleJson: string, childrenJson?: string) => {
         if (!finishedSetup) return;
         const projectModule = JSON.parse(projectModuleJson) as UnityProjectModuleJson;
-        const childrenModules = JSON.parse(childrenJson) as UnityProjectModuleJsonChildren;
+        const childrenModules = childrenJson ? (JSON.parse(childrenJson) as UnityProjectModuleJsonChildren) : undefined;
 
         console.log('createModule: ', projectModule, childrenModules);
 
         setIsPending(false);
         setProjectModule(projectModule);
         setState('Created');
+
+        if (projectModule.module.isMat) {
+          await handleUpsertProjectModule(projectModule, []);
+        }
       },
-      selectedModule: async (projectModuleJson: string, childrenJson: string) => {
+      selectedModule: async (projectModuleJson: string, childrenJson?: string) => {
         if (!finishedSetup) return;
         const projectModule = JSON.parse(projectModuleJson) as UnityProjectModuleJson;
-        const childrenModules = JSON.parse(childrenJson) as UnityProjectModuleJsonChildren;
+        const childrenModules = childrenJson ? (JSON.parse(childrenJson) as UnityProjectModuleJsonChildren) : undefined;
 
         console.log('selectedModule: ', projectModule, childrenModules);
 
         setIsPending(false);
         setProjectModule(projectModule);
         setState('Selected');
-        await handleUpsertProjectModule(projectModule, childrenModules.children);
+        if (!projectModule.module.isMat) {
+          await handleUpsertProjectModule(projectModule, childrenModules?.children || []);
+        }
       },
       editedModule: (projectModuleJson: string, childrenJson: string) => {
         if (!finishedSetup) return;
@@ -602,7 +614,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       placedModule: (projectModuleJson: string, childrenJson: string) => {
         if (!finishedSetup) return;
         const projectModule = JSON.parse(projectModuleJson) as UnityProjectModuleJson;
-        const childrenModules = JSON.parse(childrenJson) as UnityProjectModuleJsonChildren;
+        const childrenModules = childrenJson ? (JSON.parse(childrenJson) as UnityProjectModuleJsonChildren) : undefined;
 
         console.log('placedModule: ', projectModule, childrenModules);
 
@@ -610,17 +622,17 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         setProjectModule(undefined);
         setState('Placed');
       },
-      deletedModule: async (projectModuleJson: string, childrenJson: string) => {
+      deletedModule: async (projectModuleJson: string, childrenJson?: string) => {
         if (!finishedSetup) return;
         const projectModule = JSON.parse(projectModuleJson) as UnityProjectModuleJson;
-        const childrenModules = JSON.parse(childrenJson) as UnityProjectModuleJsonChildren;
+        const childrenModules = childrenJson ? (JSON.parse(childrenJson) as UnityProjectModuleJsonChildren) : undefined;
 
         console.log('deletedModule: ', projectModule, childrenModules);
 
         setIsPending(false);
         setProjectModule(undefined);
         setState('Deleted');
-        await handleDeleteProjectModule(projectModule, childrenModules.children);
+        await handleDeleteProjectModule(projectModule, childrenModules?.children);
       },
       recalculatedExtensions: async (projectModuleJson: string, childrenJson: string) => {
         if (!finishedSetup) return;

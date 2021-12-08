@@ -2677,6 +2677,7 @@ export type Project = {
   __typename?: 'Project';
   cabinetWidth?: Maybe<Scalars['Float']>;
   calculatedWidth?: Maybe<Scalars['Float']>;
+  cartAmount: Scalars['Int'];
   collection: Collection;
   collectionId: Scalars['Int'];
   finish: Finish;
@@ -4918,6 +4919,37 @@ export type ModuleDataFragment = {
       }
     | null
     | undefined;
+  attachmentToAppend?:
+    | {
+        __typename?: 'Module';
+        rulesJson?: any | null | undefined;
+        id: number;
+        bundleUrl?: string | null | undefined;
+        hasPegs: boolean;
+        isExtension: boolean;
+        isMat: boolean;
+        isSubmodule: boolean;
+        partNumber: string;
+        thumbnailUrl?: string | null | undefined;
+        description?: string | null | undefined;
+        rules?:
+          | {
+              __typename?: 'ModuleRules';
+              rules?:
+                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                | null
+                | undefined;
+              extensions?:
+                | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                | null
+                | undefined;
+            }
+          | null
+          | undefined;
+        categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+      }
+    | null
+    | undefined;
   moduleAttachments: Array<{
     __typename?: 'ModuleAttachments';
     id: number;
@@ -4950,37 +4982,6 @@ export type ModuleDataFragment = {
       categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
     };
   }>;
-  attachmentToAppend?:
-    | {
-        __typename?: 'Module';
-        rulesJson?: any | null | undefined;
-        id: number;
-        bundleUrl?: string | null | undefined;
-        hasPegs: boolean;
-        isExtension: boolean;
-        isMat: boolean;
-        isSubmodule: boolean;
-        partNumber: string;
-        thumbnailUrl?: string | null | undefined;
-        description?: string | null | undefined;
-        rules?:
-          | {
-              __typename?: 'ModuleRules';
-              rules?:
-                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
-                | null
-                | undefined;
-              extensions?:
-                | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
-                | null
-                | undefined;
-            }
-          | null
-          | undefined;
-        categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
-      }
-    | null
-    | undefined;
   rules?:
     | {
         __typename?: 'ModuleRules';
@@ -5079,6 +5080,37 @@ export type ProjectModuleDataFragment = {
         }
       | null
       | undefined;
+    attachmentToAppend?:
+      | {
+          __typename?: 'Module';
+          rulesJson?: any | null | undefined;
+          id: number;
+          bundleUrl?: string | null | undefined;
+          hasPegs: boolean;
+          isExtension: boolean;
+          isMat: boolean;
+          isSubmodule: boolean;
+          partNumber: string;
+          thumbnailUrl?: string | null | undefined;
+          description?: string | null | undefined;
+          rules?:
+            | {
+                __typename?: 'ModuleRules';
+                rules?:
+                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+                extensions?:
+                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+        }
+      | null
+      | undefined;
     moduleAttachments: Array<{
       __typename?: 'ModuleAttachments';
       id: number;
@@ -5111,37 +5143,6 @@ export type ProjectModuleDataFragment = {
         categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
       };
     }>;
-    attachmentToAppend?:
-      | {
-          __typename?: 'Module';
-          rulesJson?: any | null | undefined;
-          id: number;
-          bundleUrl?: string | null | undefined;
-          hasPegs: boolean;
-          isExtension: boolean;
-          isMat: boolean;
-          isSubmodule: boolean;
-          partNumber: string;
-          thumbnailUrl?: string | null | undefined;
-          description?: string | null | undefined;
-          rules?:
-            | {
-                __typename?: 'ModuleRules';
-                rules?:
-                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
-                  | null
-                  | undefined;
-                extensions?:
-                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
-                  | null
-                  | undefined;
-              }
-            | null
-            | undefined;
-          categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
-        }
-      | null
-      | undefined;
     rules?:
       | {
           __typename?: 'ModuleRules';
@@ -5256,6 +5257,37 @@ export type ModuleOptionsQuery = {
         }
       | null
       | undefined;
+    attachmentToAppend?:
+      | {
+          __typename?: 'Module';
+          rulesJson?: any | null | undefined;
+          id: number;
+          bundleUrl?: string | null | undefined;
+          hasPegs: boolean;
+          isExtension: boolean;
+          isMat: boolean;
+          isSubmodule: boolean;
+          partNumber: string;
+          thumbnailUrl?: string | null | undefined;
+          description?: string | null | undefined;
+          rules?:
+            | {
+                __typename?: 'ModuleRules';
+                rules?:
+                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+                extensions?:
+                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | null
+                  | undefined;
+              }
+            | null
+            | undefined;
+          categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+        }
+      | null
+      | undefined;
     moduleAttachments: Array<{
       __typename?: 'ModuleAttachments';
       id: number;
@@ -5288,37 +5320,6 @@ export type ModuleOptionsQuery = {
         categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
       };
     }>;
-    attachmentToAppend?:
-      | {
-          __typename?: 'Module';
-          rulesJson?: any | null | undefined;
-          id: number;
-          bundleUrl?: string | null | undefined;
-          hasPegs: boolean;
-          isExtension: boolean;
-          isMat: boolean;
-          isSubmodule: boolean;
-          partNumber: string;
-          thumbnailUrl?: string | null | undefined;
-          description?: string | null | undefined;
-          rules?:
-            | {
-                __typename?: 'ModuleRules';
-                rules?:
-                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
-                  | null
-                  | undefined;
-                extensions?:
-                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
-                  | null
-                  | undefined;
-              }
-            | null
-            | undefined;
-          categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
-        }
-      | null
-      | undefined;
     rules?:
       | {
           __typename?: 'ModuleRules';
@@ -5353,10 +5354,12 @@ export type PlannerQuery = {
     | {
         __typename?: 'Project';
         id: number;
+        slug: string;
         title: string;
         gable: number;
         calculatedWidth?: number | null | undefined;
         hasPegs: boolean;
+        cartAmount: number;
         type: { __typename?: 'Type'; id: number; slug: string };
         finish: { __typename?: 'Finish'; id: number; slug: string };
         slideDepth: { __typename?: 'SlideDepth'; id: number; depth: number };
@@ -5433,6 +5436,37 @@ export type PlannerQuery = {
               }
             | null
             | undefined;
+          attachmentToAppend?:
+            | {
+                __typename?: 'Module';
+                rulesJson?: any | null | undefined;
+                id: number;
+                bundleUrl?: string | null | undefined;
+                hasPegs: boolean;
+                isExtension: boolean;
+                isMat: boolean;
+                isSubmodule: boolean;
+                partNumber: string;
+                thumbnailUrl?: string | null | undefined;
+                description?: string | null | undefined;
+                rules?:
+                  | {
+                      __typename?: 'ModuleRules';
+                      rules?:
+                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                      extensions?:
+                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                    }
+                  | null
+                  | undefined;
+                categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+              }
+            | null
+            | undefined;
           moduleAttachments: Array<{
             __typename?: 'ModuleAttachments';
             id: number;
@@ -5465,37 +5499,6 @@ export type PlannerQuery = {
               categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
             };
           }>;
-          attachmentToAppend?:
-            | {
-                __typename?: 'Module';
-                rulesJson?: any | null | undefined;
-                id: number;
-                bundleUrl?: string | null | undefined;
-                hasPegs: boolean;
-                isExtension: boolean;
-                isMat: boolean;
-                isSubmodule: boolean;
-                partNumber: string;
-                thumbnailUrl?: string | null | undefined;
-                description?: string | null | undefined;
-                rules?:
-                  | {
-                      __typename?: 'ModuleRules';
-                      rules?:
-                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
-                        | null
-                        | undefined;
-                      extensions?:
-                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
-                        | null
-                        | undefined;
-                    }
-                  | null
-                  | undefined;
-                categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
-              }
-            | null
-            | undefined;
           rules?:
             | {
                 __typename?: 'ModuleRules';
@@ -5606,6 +5609,37 @@ export type PlannerQuery = {
                   }
                 | null
                 | undefined;
+              attachmentToAppend?:
+                | {
+                    __typename?: 'Module';
+                    rulesJson?: any | null | undefined;
+                    id: number;
+                    bundleUrl?: string | null | undefined;
+                    hasPegs: boolean;
+                    isExtension: boolean;
+                    isMat: boolean;
+                    isSubmodule: boolean;
+                    partNumber: string;
+                    thumbnailUrl?: string | null | undefined;
+                    description?: string | null | undefined;
+                    rules?:
+                      | {
+                          __typename?: 'ModuleRules';
+                          rules?:
+                            | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                            | null
+                            | undefined;
+                          extensions?:
+                            | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                            | null
+                            | undefined;
+                        }
+                      | null
+                      | undefined;
+                    categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+                  }
+                | null
+                | undefined;
               moduleAttachments: Array<{
                 __typename?: 'ModuleAttachments';
                 id: number;
@@ -5638,37 +5672,6 @@ export type PlannerQuery = {
                   categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
                 };
               }>;
-              attachmentToAppend?:
-                | {
-                    __typename?: 'Module';
-                    rulesJson?: any | null | undefined;
-                    id: number;
-                    bundleUrl?: string | null | undefined;
-                    hasPegs: boolean;
-                    isExtension: boolean;
-                    isMat: boolean;
-                    isSubmodule: boolean;
-                    partNumber: string;
-                    thumbnailUrl?: string | null | undefined;
-                    description?: string | null | undefined;
-                    rules?:
-                      | {
-                          __typename?: 'ModuleRules';
-                          rules?:
-                            | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
-                            | null
-                            | undefined;
-                          extensions?:
-                            | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
-                            | null
-                            | undefined;
-                        }
-                      | null
-                      | undefined;
-                    categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
-                  }
-                | null
-                | undefined;
               rules?:
                 | {
                     __typename?: 'ModuleRules';
@@ -5760,6 +5763,37 @@ export type PlannerQuery = {
                 }
               | null
               | undefined;
+            attachmentToAppend?:
+              | {
+                  __typename?: 'Module';
+                  rulesJson?: any | null | undefined;
+                  id: number;
+                  bundleUrl?: string | null | undefined;
+                  hasPegs: boolean;
+                  isExtension: boolean;
+                  isMat: boolean;
+                  isSubmodule: boolean;
+                  partNumber: string;
+                  thumbnailUrl?: string | null | undefined;
+                  description?: string | null | undefined;
+                  rules?:
+                    | {
+                        __typename?: 'ModuleRules';
+                        rules?:
+                          | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                          | null
+                          | undefined;
+                        extensions?:
+                          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                          | null
+                          | undefined;
+                      }
+                    | null
+                    | undefined;
+                  categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+                }
+              | null
+              | undefined;
             moduleAttachments: Array<{
               __typename?: 'ModuleAttachments';
               id: number;
@@ -5792,37 +5826,6 @@ export type PlannerQuery = {
                 categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
               };
             }>;
-            attachmentToAppend?:
-              | {
-                  __typename?: 'Module';
-                  rulesJson?: any | null | undefined;
-                  id: number;
-                  bundleUrl?: string | null | undefined;
-                  hasPegs: boolean;
-                  isExtension: boolean;
-                  isMat: boolean;
-                  isSubmodule: boolean;
-                  partNumber: string;
-                  thumbnailUrl?: string | null | undefined;
-                  description?: string | null | undefined;
-                  rules?:
-                    | {
-                        __typename?: 'ModuleRules';
-                        rules?:
-                          | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
-                          | null
-                          | undefined;
-                        extensions?:
-                          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
-                          | null
-                          | undefined;
-                      }
-                    | null
-                    | undefined;
-                  categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
-                }
-              | null
-              | undefined;
             rules?:
               | {
                   __typename?: 'ModuleRules';
@@ -5935,6 +5938,37 @@ export type GetProjectModuleQuery = {
           }
         | null
         | undefined;
+      attachmentToAppend?:
+        | {
+            __typename?: 'Module';
+            rulesJson?: any | null | undefined;
+            id: number;
+            bundleUrl?: string | null | undefined;
+            hasPegs: boolean;
+            isExtension: boolean;
+            isMat: boolean;
+            isSubmodule: boolean;
+            partNumber: string;
+            thumbnailUrl?: string | null | undefined;
+            description?: string | null | undefined;
+            rules?:
+              | {
+                  __typename?: 'ModuleRules';
+                  rules?:
+                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                  extensions?:
+                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+          }
+        | null
+        | undefined;
       moduleAttachments: Array<{
         __typename?: 'ModuleAttachments';
         id: number;
@@ -5967,37 +6001,6 @@ export type GetProjectModuleQuery = {
           categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
         };
       }>;
-      attachmentToAppend?:
-        | {
-            __typename?: 'Module';
-            rulesJson?: any | null | undefined;
-            id: number;
-            bundleUrl?: string | null | undefined;
-            hasPegs: boolean;
-            isExtension: boolean;
-            isMat: boolean;
-            isSubmodule: boolean;
-            partNumber: string;
-            thumbnailUrl?: string | null | undefined;
-            description?: string | null | undefined;
-            rules?:
-              | {
-                  __typename?: 'ModuleRules';
-                  rules?:
-                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
-                    | null
-                    | undefined;
-                  extensions?:
-                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
-                    | null
-                    | undefined;
-                }
-              | null
-              | undefined;
-            categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
-          }
-        | null
-        | undefined;
       rules?:
         | {
             __typename?: 'ModuleRules';
@@ -6107,6 +6110,37 @@ export type CreateProjectModuleMutation = {
           }
         | null
         | undefined;
+      attachmentToAppend?:
+        | {
+            __typename?: 'Module';
+            rulesJson?: any | null | undefined;
+            id: number;
+            bundleUrl?: string | null | undefined;
+            hasPegs: boolean;
+            isExtension: boolean;
+            isMat: boolean;
+            isSubmodule: boolean;
+            partNumber: string;
+            thumbnailUrl?: string | null | undefined;
+            description?: string | null | undefined;
+            rules?:
+              | {
+                  __typename?: 'ModuleRules';
+                  rules?:
+                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                  extensions?:
+                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | null
+                    | undefined;
+                }
+              | null
+              | undefined;
+            categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+          }
+        | null
+        | undefined;
       moduleAttachments: Array<{
         __typename?: 'ModuleAttachments';
         id: number;
@@ -6139,37 +6173,6 @@ export type CreateProjectModuleMutation = {
           categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
         };
       }>;
-      attachmentToAppend?:
-        | {
-            __typename?: 'Module';
-            rulesJson?: any | null | undefined;
-            id: number;
-            bundleUrl?: string | null | undefined;
-            hasPegs: boolean;
-            isExtension: boolean;
-            isMat: boolean;
-            isSubmodule: boolean;
-            partNumber: string;
-            thumbnailUrl?: string | null | undefined;
-            description?: string | null | undefined;
-            rules?:
-              | {
-                  __typename?: 'ModuleRules';
-                  rules?:
-                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
-                    | null
-                    | undefined;
-                  extensions?:
-                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
-                    | null
-                    | undefined;
-                }
-              | null
-              | undefined;
-            categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
-          }
-        | null
-        | undefined;
       rules?:
         | {
             __typename?: 'ModuleRules';
@@ -6281,6 +6284,37 @@ export type UpdateProjectModuleMutation = {
               }
             | null
             | undefined;
+          attachmentToAppend?:
+            | {
+                __typename?: 'Module';
+                rulesJson?: any | null | undefined;
+                id: number;
+                bundleUrl?: string | null | undefined;
+                hasPegs: boolean;
+                isExtension: boolean;
+                isMat: boolean;
+                isSubmodule: boolean;
+                partNumber: string;
+                thumbnailUrl?: string | null | undefined;
+                description?: string | null | undefined;
+                rules?:
+                  | {
+                      __typename?: 'ModuleRules';
+                      rules?:
+                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                      extensions?:
+                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | null
+                        | undefined;
+                    }
+                  | null
+                  | undefined;
+                categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
+              }
+            | null
+            | undefined;
           moduleAttachments: Array<{
             __typename?: 'ModuleAttachments';
             id: number;
@@ -6313,37 +6347,6 @@ export type UpdateProjectModuleMutation = {
               categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
             };
           }>;
-          attachmentToAppend?:
-            | {
-                __typename?: 'Module';
-                rulesJson?: any | null | undefined;
-                id: number;
-                bundleUrl?: string | null | undefined;
-                hasPegs: boolean;
-                isExtension: boolean;
-                isMat: boolean;
-                isSubmodule: boolean;
-                partNumber: string;
-                thumbnailUrl?: string | null | undefined;
-                description?: string | null | undefined;
-                rules?:
-                  | {
-                      __typename?: 'ModuleRules';
-                      rules?:
-                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
-                        | null
-                        | undefined;
-                      extensions?:
-                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
-                        | null
-                        | undefined;
-                    }
-                  | null
-                  | undefined;
-                categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
-              }
-            | null
-            | undefined;
           rules?:
             | {
                 __typename?: 'ModuleRules';
@@ -6372,6 +6375,15 @@ export type DeleteProjectModuleMutationVariables = Exact<{
 export type DeleteProjectModuleMutation = {
   __typename?: 'Mutation';
   deleteManyProjectModule: { __typename?: 'AffectedRowsOutput'; count: number };
+};
+
+export type ProjectCartQueryVariables = Exact<{
+  slug: Scalars['String'];
+}>;
+
+export type ProjectCartQuery = {
+  __typename?: 'Query';
+  project?: { __typename?: 'Project'; id: number; slug: string; cartAmount: number } | null | undefined;
 };
 
 export type ProjectsQueryVariables = Exact<{
@@ -6526,16 +6538,16 @@ export const ModuleDataFragmentDoc = gql`
       ...ModuleDataWithoutExtensions
       rulesJson
     }
+    attachmentToAppend {
+      ...ModuleDataWithoutExtensions
+      rulesJson
+    }
     moduleAttachments {
       id
       attachment {
         ...ModuleDataWithoutExtensions
         rulesJson
       }
-    }
-    attachmentToAppend {
-      ...ModuleDataWithoutExtensions
-      rulesJson
     }
   }
   ${ModuleDataWithoutExtensionsFragmentDoc}
@@ -6837,10 +6849,12 @@ export const PlannerDocument = gql`
   query Planner($slug: String!) {
     project(where: { slug: $slug }) {
       id
+      slug
       title
       gable
       calculatedWidth
       hasPegs
+      cartAmount
       type {
         id
         slug
@@ -7070,6 +7084,45 @@ export type DeleteProjectModuleMutationOptions = Apollo.BaseMutationOptions<
   DeleteProjectModuleMutation,
   DeleteProjectModuleMutationVariables
 >;
+export const ProjectCartDocument = gql`
+  query ProjectCart($slug: String!) {
+    project(where: { slug: $slug }) {
+      id
+      slug
+      cartAmount
+    }
+  }
+`;
+
+/**
+ * __useProjectCartQuery__
+ *
+ * To run a query within a React component, call `useProjectCartQuery` and pass it any options that fit your needs.
+ * When your component renders, `useProjectCartQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useProjectCartQuery({
+ *   variables: {
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useProjectCartQuery(baseOptions: Apollo.QueryHookOptions<ProjectCartQuery, ProjectCartQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<ProjectCartQuery, ProjectCartQueryVariables>(ProjectCartDocument, options);
+}
+export function useProjectCartLazyQuery(
+  baseOptions?: Apollo.LazyQueryHookOptions<ProjectCartQuery, ProjectCartQueryVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<ProjectCartQuery, ProjectCartQueryVariables>(ProjectCartDocument, options);
+}
+export type ProjectCartQueryHookResult = ReturnType<typeof useProjectCartQuery>;
+export type ProjectCartLazyQueryHookResult = ReturnType<typeof useProjectCartLazyQuery>;
+export type ProjectCartQueryResult = Apollo.QueryResult<ProjectCartQuery, ProjectCartQueryVariables>;
 export const ProjectsDocument = gql`
   query Projects($userId: Int!) {
     projects(where: { userId: { equals: $userId } }) {

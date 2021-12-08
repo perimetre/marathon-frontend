@@ -6,10 +6,12 @@ export const PLANNER_QUERY = gql`
   query Planner($slug: String!) {
     project(where: { slug: $slug }) {
       id
+      slug
       title
       gable
       calculatedWidth
       hasPegs
+      cartAmount
       type {
         id
         slug
