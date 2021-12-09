@@ -96,6 +96,8 @@
     "continue": "Continue",
     "rename": "Rename",
     "delete": "Delete",
+    "duplicate": "Duplicate",
+    "clone": "Clone",
     "modalDeleteTitle": "Delete project",
     "modalDeleteBody": "Are you sure you want do delete the project"
   },

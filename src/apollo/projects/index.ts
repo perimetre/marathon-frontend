@@ -33,6 +33,9 @@ export const PROJECTS_QUERY = gql`
     projects(where: { userId: { equals: $userId } }) {
       ...ProjectData
     }
+    portfolio: projects(where: { user: { email: { equals: "charlie.ricottone@marathonhardware.com" } } }) {
+      ...ProjectData
+    }
   }
   ${PROJECT_DATA}
 `;
@@ -61,4 +64,13 @@ export const DELETE_PROJECT_MUTATION = gql`
       id
     }
   }
+`;
+
+export const CLONE_PROJECT_MUTATION = gql`
+  mutation CloneProject($id: Int!) {
+    cloneOneProject(id: $id) {
+      ...ProjectData
+    }
+  }
+  ${PROJECT_DATA}
 `;

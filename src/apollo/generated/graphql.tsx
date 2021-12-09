@@ -2527,6 +2527,7 @@ export type ModuleWhereUniqueInput = {
 
 export type Mutation = {
   __typename?: 'Mutation';
+  cloneOneProject: Project;
   createOneProject: Project;
   createOneProjectModule: ProjectModule;
   deleteManyProjectModule: AffectedRowsOutput;
@@ -2536,6 +2537,10 @@ export type Mutation = {
   updateManyProjectModule: AffectedRowsOutput;
   updateOneProject?: Maybe<Project>;
   updateOneProjectModule?: Maybe<ProjectModule>;
+};
+
+export type MutationCloneOneProjectArgs = {
+  id: Scalars['Int'];
 };
 
 export type MutationCreateOneProjectArgs = {
@@ -2963,8 +2968,10 @@ export type ProjectModule = {
 
 export type ProjectModuleChildrenArgs = {
   cursor?: Maybe<ProjectModuleWhereUniqueInput>;
+  orderBy?: Maybe<Array<ProjectModuleOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
+  where?: Maybe<ProjectModuleWhereInput>;
 };
 
 export type ProjectModuleCreateInput = {
@@ -6402,6 +6409,16 @@ export type ProjectsQuery = {
     type: { __typename?: 'Type'; id: number; slug: string };
     collection: { __typename?: 'Collection'; id: number; slug: string };
   }>;
+  portfolio: Array<{
+    __typename?: 'Project';
+    id: number;
+    title: string;
+    slug: string;
+    cabinetWidth?: number | null | undefined;
+    gable: number;
+    type: { __typename?: 'Type'; id: number; slug: string };
+    collection: { __typename?: 'Collection'; id: number; slug: string };
+  }>;
 };
 
 export type CreateProjectMutationVariables = Exact<{
@@ -6451,6 +6468,24 @@ export type DeleteProjectMutationVariables = Exact<{
 export type DeleteProjectMutation = {
   __typename?: 'Mutation';
   deleteOneProject?: { __typename?: 'Project'; id: number } | null | undefined;
+};
+
+export type CloneProjectMutationVariables = Exact<{
+  id: Scalars['Int'];
+}>;
+
+export type CloneProjectMutation = {
+  __typename?: 'Mutation';
+  cloneOneProject: {
+    __typename?: 'Project';
+    id: number;
+    title: string;
+    slug: string;
+    cabinetWidth?: number | null | undefined;
+    gable: number;
+    type: { __typename?: 'Type'; id: number; slug: string };
+    collection: { __typename?: 'Collection'; id: number; slug: string };
+  };
 };
 
 export type GetSlideSupplierByCollectionQueryVariables = Exact<{
@@ -6594,7 +6629,7 @@ export const CartDocument = gql`
       title
       projectModules(where: { parentId: { equals: null } }) {
         ...CartData
-        children {
+        children(where: { module: { partNumber: { not: { contains: "EXTENSION" } } } }) {
           ...CartData
         }
       }
@@ -7128,6 +7163,9 @@ export const ProjectsDocument = gql`
     projects(where: { userId: { equals: $userId } }) {
       ...ProjectData
     }
+    portfolio: projects(where: { user: { email: { equals: "charlie.ricottone@marathonhardware.com" } } }) {
+      ...ProjectData
+    }
   }
   ${ProjectDataFragmentDoc}
 `;
@@ -7275,6 +7313,45 @@ export type DeleteProjectMutationResult = Apollo.MutationResult<DeleteProjectMut
 export type DeleteProjectMutationOptions = Apollo.BaseMutationOptions<
   DeleteProjectMutation,
   DeleteProjectMutationVariables
+>;
+export const CloneProjectDocument = gql`
+  mutation CloneProject($id: Int!) {
+    cloneOneProject(id: $id) {
+      ...ProjectData
+    }
+  }
+  ${ProjectDataFragmentDoc}
+`;
+export type CloneProjectMutationFn = Apollo.MutationFunction<CloneProjectMutation, CloneProjectMutationVariables>;
+
+/**
+ * __useCloneProjectMutation__
+ *
+ * To run a mutation, you first call `useCloneProjectMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCloneProjectMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [cloneProjectMutation, { data, loading, error }] = useCloneProjectMutation({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useCloneProjectMutation(
+  baseOptions?: Apollo.MutationHookOptions<CloneProjectMutation, CloneProjectMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CloneProjectMutation, CloneProjectMutationVariables>(CloneProjectDocument, options);
+}
+export type CloneProjectMutationHookResult = ReturnType<typeof useCloneProjectMutation>;
+export type CloneProjectMutationResult = Apollo.MutationResult<CloneProjectMutation>;
+export type CloneProjectMutationOptions = Apollo.BaseMutationOptions<
+  CloneProjectMutation,
+  CloneProjectMutationVariables
 >;
 export const GetSlideSupplierByCollectionDocument = gql`
   query GetSlideSupplierByCollection($collectionId: Int!) {

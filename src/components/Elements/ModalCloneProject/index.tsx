@@ -1,32 +1,32 @@
 import { useCallback, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { Project, useDeleteProjectMutation } from '../../../apollo/generated/graphql';
+import { Project, useCloneProjectMutation } from '../../../apollo/generated/graphql';
 import { getLocaleIdFromGraphqlError } from '../../../lib/apollo/exceptions';
 import Button from '../../UI/Button';
 import ErrorMessage from '../../UI/ErrorMessage';
 import Modal from '../../UI/Modal';
 import Spinner from '../../UI/Spinner';
 
-export type ModalDeleteProjectProps = {
+export type ModalCloneProjectProps = {
   open?: boolean;
   project?: Project;
   onClose: () => void;
 };
 
-const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({ open, onClose, project }) => {
-  const [deleteProject, { loading, error: mutationError }] = useDeleteProjectMutation();
+const ModalCloneProject: React.FC<ModalCloneProjectProps> = ({ open, onClose, project }) => {
+  const [cloneProject, { loading, error: mutationError }] = useCloneProjectMutation();
 
-  const handleDelete = useCallback(async () => {
+  const handleClone = useCallback(async () => {
     if (project) {
-      await deleteProject({
+      await cloneProject({
         refetchQueries: ['Projects'],
         variables: {
-          projectId: project.id
+          id: project.id
         }
       });
       onClose();
     }
-  }, [deleteProject, onClose, project]);
+  }, [cloneProject, onClose, project]);
 
   const error = useMemo(
     () =>
@@ -39,21 +39,17 @@ const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({ open, onClose, 
       isOpen={open}
       onToggle={onClose}
       actions={() => (
-        <Button onClick={handleDelete} disabled={loading}>
-          <FormattedMessage id="projects.delete" />
+        <Button onClick={handleClone} disabled={loading}>
+          <FormattedMessage id="projects.clone" />
           {loading && <Spinner className="w-6 h-6" />}
         </Button>
       )}
     >
       <div className="min-w-2/6vw">
         <div className="flex flex-col w-full px-12 pb-8">
-          <h1 className="text-3xl font-semibold">
-            <FormattedMessage id="projects.modalDeleteTitle" />
+          <h1 className="text-xl">
+            You are about to clone the project <strong>{project?.title}</strong>
           </h1>
-          <p className="my-4">
-            <FormattedMessage id="projects.modalDeleteBody" />
-          </p>
-          <strong>{project?.title}</strong>
           {error && <ErrorMessage error={error} />}
         </div>
       </div>
@@ -61,4 +57,4 @@ const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({ open, onClose, 
   );
 };
 
-export default ModalDeleteProject;
+export default ModalCloneProject;
