@@ -86,7 +86,7 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
                 </div>
               ) : (
                 <div className="container mx-auto">
-                  <div className="flex flex-wrap justify-center my-16 gap-16">
+                  <div className="flex flex-wrap justify-center mt-16 mb-8 gap-16">
                     {data?.collections.map((collection) => (
                       <Card
                         key={`collection-card-${collection.id}`}
@@ -112,7 +112,7 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
                     ))}
                   </div>
                   {displayPegs && (
-                    <div className="flex items-center justify-center">
+                    <div className="flex items-center justify-center mb-12">
                       <Switch name="hasPegs" disabled={!enablePegs} />
                       <FormattedMessage id="project.usePegboard" />
                     </div>
