@@ -7,6 +7,8 @@ import { TextInput } from '../../UI/Form/TextInput';
 import Modal from '../../UI/Modal';
 import Spinner from '../../UI/Spinner';
 import * as yup from 'yup';
+import { getLocaleIdFromGraphqlError } from '../../../lib/apollo/exceptions';
+import ErrorMessage from '../../UI/ErrorMessage';
 
 export type ModalRenameProjectProps = {
   open?: boolean;
@@ -15,7 +17,7 @@ export type ModalRenameProjectProps = {
 };
 
 const ModalRenameProject: React.FC<ModalRenameProjectProps> = ({ open, onClose, project }) => {
-  const [doUpdate, { loading }] = useUpdateProjectMutation();
+  const [doUpdate, { loading, error: mutationError }] = useUpdateProjectMutation();
 
   const handleSubmit = useCallback(
     async (form: { title: string }) => {
@@ -38,6 +40,12 @@ const ModalRenameProject: React.FC<ModalRenameProjectProps> = ({ open, onClose, 
         title: yup.string().label('Title').required()
       }),
     []
+  );
+
+  const error = useMemo(
+    () =>
+      mutationError ? getLocaleIdFromGraphqlError(mutationError.graphQLErrors, mutationError.networkError) : undefined,
+    [mutationError]
   );
 
   return (
@@ -68,6 +76,7 @@ const ModalRenameProject: React.FC<ModalRenameProjectProps> = ({ open, onClose, 
                   <TextInput name="title" />
                 </div>
               </div>
+              {error && <ErrorMessage error={error} />}
             </div>
           </Form>
         </Modal>
