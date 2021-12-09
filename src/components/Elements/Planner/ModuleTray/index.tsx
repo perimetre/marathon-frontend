@@ -62,7 +62,12 @@ const ModuleTray: React.FC = () => {
 
         <VerticalDivider />
 
-        <TrayButton iconPosition="left" icon={() => <Move />} onClick={trayEdit} disabled={state === 'Editing'}>
+        <TrayButton
+          iconPosition="left"
+          icon={() => <Move />}
+          onClick={trayEdit}
+          disabled={state === 'Editing' || data?.module?.isMat}
+        >
           <FormattedMessage id="build.tray.move" />
         </TrayButton>
 

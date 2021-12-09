@@ -15,6 +15,7 @@ export const MODULE_RULES_QUERY = gql`
     module(where: { partNumber: $partNumber }) {
       id
       rulesJson
+      isMat
     }
   }
 `;

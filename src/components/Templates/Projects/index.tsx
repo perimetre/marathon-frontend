@@ -32,7 +32,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
     openClone?: boolean;
     project: Project;
   } | null>(null);
-  const [expanded, setExpanded] = useState<string[]>(['ac-projects']);
+  const [expanded, setExpanded] = useState<string[]>(['ac-projects', 'ac-kits']);
 
   const handleAccordion = useCallback(
     (key: string) => {
