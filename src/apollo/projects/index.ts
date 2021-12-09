@@ -18,6 +18,16 @@ export const PROJECT_DATA = gql`
   }
 `;
 
+export const PROJECT_CART = gql`
+  query ProjectCart($slug: String!) {
+    project(where: { slug: $slug }) {
+      id
+      slug
+      cartAmount
+    }
+  }
+`;
+
 export const PROJECTS_QUERY = gql`
   query Projects($userId: Int!) {
     projects(where: { userId: { equals: $userId } }) {

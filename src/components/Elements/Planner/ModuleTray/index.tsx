@@ -72,7 +72,7 @@ const ModuleTray: React.FC = () => {
           iconPosition="left"
           icon={() => <CornerLeftDown />}
           onClick={trayRotateLeft}
-          disabled={!data?.module?.rulesJson.rules.rotation}
+          disabled={!data?.module?.rulesJson?.rules?.rotation}
         >
           <FormattedMessage id="build.tray.rotateLeft" />
         </TrayButton>
@@ -83,7 +83,7 @@ const ModuleTray: React.FC = () => {
           iconPosition="left"
           icon={() => <CornerRightDown />}
           onClick={trayRotateRight}
-          disabled={!data?.module?.rulesJson.rules.rotation}
+          disabled={!data?.module?.rulesJson?.rules?.rotation}
         >
           <FormattedMessage id="build.tray.rotateRight" />
         </TrayButton>
