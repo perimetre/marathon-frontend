@@ -468,8 +468,10 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
             });
           }
         }
+        setIsPending(false);
       } catch (err) {
         logging.error(err as Error, `Failed upserting project module`, { projectModuleToCreate, children, projectId });
+        setIsPending(false);
       }
     },
     // DO NOT add more dependencies to this method. Receive them as arguments
@@ -479,13 +481,16 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   const handleDeleteProjectModule = useCallback(
     async (projectModuleToDelete: UnityProjectModuleJson, children?: UnityProjectModuleJson[]) => {
       try {
+        setIsPending(true);
         await doDeleteProjectModule({
           variables: {
-            nanoIds: [projectModuleToDelete.nanoId]
+            nanoIds: [projectModuleToDelete.nanoId, ...(children || []).map((child) => child.nanoId)]
           }
         });
+        setIsPending(false);
       } catch (err) {
         logging.error(err as Error, `Failed deleting project module`, { projectModuleToDelete, children });
+        setIsPending(false);
       }
     },
     [doDeleteProjectModule]
@@ -593,7 +598,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('selectedModule: ', projectModule, childrenModules);
 
-        setIsPending(false);
         setProjectModule(projectModule);
         setState('Selected');
         if (!projectModule.module.isMat) {
@@ -607,7 +611,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('editedModule: ', projectModule, childrenModules);
 
-        setIsPending(false);
         setProjectModule(projectModule);
         setState('Editing');
       },
@@ -618,7 +621,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('placedModule: ', projectModule, childrenModules);
 
-        setIsPending(false);
         setProjectModule(undefined);
         setState('Placed');
       },
@@ -629,7 +631,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('deletedModule: ', projectModule, childrenModules);
 
-        setIsPending(false);
         setProjectModule(undefined);
         setState('Deleted');
         await handleDeleteProjectModule(projectModule, childrenModules?.children);
