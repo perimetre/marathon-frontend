@@ -9,7 +9,7 @@ export const CART_QUERY = gql`
       title
       projectModules(where: { parentId: { equals: null } }) {
         ...CartData
-        children {
+        children(where: { module: { partNumber: { not: { contains: "EXTENSION" } } } }) {
           ...CartData
         }
       }

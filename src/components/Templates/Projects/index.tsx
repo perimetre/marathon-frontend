@@ -14,6 +14,7 @@ import { ChevronDown, LogOut, PlusCircle, Settings } from 'react-feather';
 import Link from 'next/link';
 import Head from 'next/head';
 import NavbarButton from '../../UI/NavbarButton';
+import ModalCloneProject from '../../Elements/ModalCloneProject';
 
 export type ProjectsTemplateProps = {
   data?: ProjectsQuery;
@@ -28,9 +29,10 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
   const [modalProject, setModalProject] = useState<{
     openDelete?: boolean;
     openRename?: boolean;
+    openClone?: boolean;
     project: Project;
   } | null>(null);
-  const [expanded, setExpanded] = useState<string[]>(['ac-projects']);
+  const [expanded, setExpanded] = useState<string[]>(['ac-projects', 'ac-kits']);
 
   const handleAccordion = useCallback(
     (key: string) => {
@@ -136,7 +138,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                                   className="text-left"
                                   onClick={() => setModalProject({ openRename: true, project: project as Project })}
                                 >
-                                  Rename
+                                  <FormattedMessage id="projects.rename" />
                                 </button>
                               )
                             }
@@ -149,7 +151,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                                   className="text-left"
                                   onClick={() => setModalProject({ openDelete: true, project: project as Project })}
                                 >
-                                  Delete
+                                  <FormattedMessage id="projects.delete" />
                                 </button>
                               )
                             }
@@ -188,7 +190,42 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                     />
                   </button>
                 )}
-                <Expander isExpanded={expanded.includes('ac-kits')}>{/*TODO: load kits*/}</Expander>
+                <Expander isExpanded={expanded.includes('ac-kits')}>
+                  {loading ? (
+                    <div className="flex flex-col items-center gap-2">
+                      <div className="w-full h-10 mui-skeleton grid" />
+                      <div className="w-full h-10 mui-skeleton grid" />
+                      <div className="w-full h-10 mui-skeleton grid" />
+                    </div>
+                  ) : (
+                    data?.portfolio.map((project) => (
+                      <div key={project.id} className="flex items-center gap-6">
+                        <a className="w-full py-3">
+                          <h3 className="flex items-center flex-1 pl-4 text-lg font-semibold gap-2">{project.title}</h3>
+                        </a>
+                        <Dropdown
+                          content={[
+                            {
+                              id: 'key-clone',
+                              content: (
+                                <button
+                                  className="text-left"
+                                  onClick={() => setModalProject({ openClone: true, project: project as Project })}
+                                >
+                                  <FormattedMessage id="projects.duplicate" />
+                                </button>
+                              )
+                            }
+                          ]}
+                        >
+                          <div className="py-3">
+                            <Settings className="text-gray-400 hover:text-mui-primary" />
+                          </div>
+                        </Dropdown>
+                      </div>
+                    ))
+                  )}
+                </Expander>
               </div>
             </div>
             {loading && <div className="h-10 w-44 mui-skeleton grid" />}
@@ -200,6 +237,9 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
         )}
         {modalProject?.openRename && (
           <ModalRenameProject open onClose={() => setModalProject(null)} project={modalProject?.project} />
+        )}
+        {modalProject?.openClone && (
+          <ModalCloneProject open onClose={() => setModalProject(null)} project={modalProject?.project} />
         )}
       </div>
     </AppLayout>
