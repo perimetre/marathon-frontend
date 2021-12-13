@@ -172,7 +172,10 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   // ***********
   // ** Grapqhl declarations
   // ***********
-  const { data: projectCart } = useProjectCartQuery({ variables: { slug: project.slug } });
+  const { data: projectCart } = useProjectCartQuery({
+    notifyOnNetworkStatusChange: true,
+    variables: { slug: project.slug }
+  });
 
   const cartAmount = useMemo(() => {
     return projectCart?.project?.cartAmount || project.cartAmount;
@@ -195,6 +198,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   const [isPending, setIsPending] = useState(initialState.isPending);
 
   const [error, setError] = useState<string | undefined>(initialState.error);
+  const [, setShouldCreateOrUpdate] = useState(false);
 
   const [state, setState] = useState(initialState.state);
   const [projectModule, setProjectModule] = useState<UnityProjectModuleJson | undefined>(initialState.projectModule);
@@ -329,6 +333,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       if (projectModuleToCreate.module.isExtension) return;
 
       try {
+        setIsPending(true);
         const { data: existingProjectModules } = await apolloClient.query<
           GetProjectModuleQuery,
           GetProjectModuleQueryVariables
@@ -468,8 +473,10 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
             });
           }
         }
+        setIsPending(false);
       } catch (err) {
         logging.error(err as Error, `Failed upserting project module`, { projectModuleToCreate, children, projectId });
+        setIsPending(false);
       }
     },
     // DO NOT add more dependencies to this method. Receive them as arguments
@@ -479,13 +486,16 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   const handleDeleteProjectModule = useCallback(
     async (projectModuleToDelete: UnityProjectModuleJson, children?: UnityProjectModuleJson[]) => {
       try {
+        setIsPending(true);
         await doDeleteProjectModule({
           variables: {
-            nanoIds: [projectModuleToDelete.nanoId]
+            nanoIds: [projectModuleToDelete.nanoId, ...(children || []).map((child) => child.nanoId)]
           }
         });
+        setIsPending(false);
       } catch (err) {
         logging.error(err as Error, `Failed deleting project module`, { projectModuleToDelete, children });
+        setIsPending(false);
       }
     },
     [doDeleteProjectModule]
@@ -586,7 +596,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
           await handleUpsertProjectModule(projectModule, []);
         }
       },
-      selectedModule: async (projectModuleJson: string, childrenJson?: string) => {
+      selectedModule: (projectModuleJson: string, childrenJson?: string) => {
         if (!finishedSetup) return;
         const projectModule = JSON.parse(projectModuleJson) as UnityProjectModuleJson;
         const childrenModules = childrenJson ? (JSON.parse(childrenJson) as UnityProjectModuleJsonChildren) : undefined;
@@ -594,11 +604,21 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         console.log('selectedModule: ', projectModule, childrenModules);
 
         setIsPending(false);
-        setProjectModule(projectModule);
+        setProjectModule((prevProjectModule) => {
+          // Only calls upsertModule if the selected module has been moved
+          if (
+            prevProjectModule &&
+            prevProjectModule.nanoId === projectModule.nanoId &&
+            (prevProjectModule?.posX !== projectModule.posX ||
+              prevProjectModule?.posY !== projectModule.posY ||
+              prevProjectModule?.posZ !== projectModule.posZ ||
+              prevProjectModule?.rotY !== projectModule.rotY)
+          ) {
+            setShouldCreateOrUpdate(true);
+          }
+          return projectModule;
+        });
         setState('Selected');
-        if (!projectModule.module.isMat) {
-          await handleUpsertProjectModule(projectModule, childrenModules?.children || []);
-        }
       },
       editedModule: (projectModuleJson: string, childrenJson: string) => {
         if (!finishedSetup) return;
@@ -607,20 +627,28 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('editedModule: ', projectModule, childrenModules);
 
-        setIsPending(false);
         setProjectModule(projectModule);
         setState('Editing');
       },
-      placedModule: (projectModuleJson: string, childrenJson: string) => {
+      placedModule: async (projectModuleJson: string, childrenJson: string) => {
         if (!finishedSetup) return;
         const projectModule = JSON.parse(projectModuleJson) as UnityProjectModuleJson;
         const childrenModules = childrenJson ? (JSON.parse(childrenJson) as UnityProjectModuleJsonChildren) : undefined;
 
         console.log('placedModule: ', projectModule, childrenModules);
-
-        setIsPending(false);
-        setProjectModule(undefined);
         setState('Placed');
+
+        // Using this because putting the variable on the dependencies make the entire code not run.
+        let updateOrCreate = false;
+        setShouldCreateOrUpdate((should) => {
+          updateOrCreate = should;
+          return false;
+        });
+
+        if (!projectModule.module.isMat && updateOrCreate) {
+          await handleUpsertProjectModule(projectModule, childrenModules?.children || []);
+          setProjectModule(undefined);
+        }
       },
       deletedModule: async (projectModuleJson: string, childrenJson?: string) => {
         if (!finishedSetup) return;
@@ -629,7 +657,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('deletedModule: ', projectModule, childrenModules);
 
-        setIsPending(false);
         setProjectModule(undefined);
         setState('Deleted');
         await handleDeleteProjectModule(projectModule, childrenModules?.children);

@@ -40,13 +40,13 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
 
   useEffect(() => {
     if (didFinishSetup && projectState === 'Selected' && projectModule) {
-      if (projectModule.module.isExtension || projectModule.module.isSubmodule) return;
-
       const moduleId = projectModule.module.id;
 
-      if (modules?.some((x) => x.id === moduleId)) {
-        setSelectedModuleId(moduleId);
-        const element = document.getElementById(`module-${moduleId}`);
+      const isSub = modules?.find((module) => module.rules?.rules?.options?.includes(projectModule.module.partNumber));
+
+      if (modules?.some((x) => x.id === moduleId) || isSub) {
+        setSelectedModuleId(isSub ? isSub.id : moduleId);
+        const element = document.getElementById(`module-${isSub ? isSub.id : moduleId}`);
         const divElement = document.getElementById('sidebar-scrollbar');
         if (divElement && element) {
           divElement.scrollTo({
