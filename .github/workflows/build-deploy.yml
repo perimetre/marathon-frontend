@@ -5,6 +5,8 @@ on:
     # Publish `master` as Docker `latest` image.
     branches:
       - dev
+      # - staging
+      # - master
 
     # Publish `v1.2.3` tags as releases.
     tags:
@@ -16,9 +18,7 @@ on:
 env:
   # TODO: Change variable to your image's name.
   IMAGE_NAME: marathon-frontend
-  DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-  DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-  DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+  # GITHUB_TOKEN
   # DOCKER_BUILD_ARGS:
   # SSH_HOST:
   # SSH_PORT:
@@ -51,7 +51,7 @@ jobs:
           SLACK_BOT_TOKEN: ${{ env.SLACK_BOT_TOKEN }}
         with:
           channel: ${{ env.SLACK_CHANNEL }}
-          status: STARTING
+          status: STARTING (${{ github.actor }})
           color: warning
 
   # Run tests.
@@ -164,9 +164,6 @@ jobs:
           if [[ $BRANCH == 'dev' ]]; then
             # quotes are SUPER IMPORTANT to handle multiline vars
             DOCKER_BUILD_ARGS="${{ secrets.DEV_DOCKER_BUILD_ARGS }}"
-          elif [[ $BRANCH == 'demo' ]]; then
-            # quotes are SUPER IMPORTANT to handle multiline vars
-            DOCKER_BUILD_ARGS="${{ secrets.DEMO_DOCKER_BUILD_ARGS }}"
           elif [[ $BRANCH == 'staging' ]]; then
             # quotes are SUPER IMPORTANT to handle multiline vars
             DOCKER_BUILD_ARGS="${{ secrets.STAGING_DOCKER_BUILD_ARGS }}"
@@ -192,11 +189,9 @@ jobs:
         uses: docker/login-action@v1
         with:
           # registry: docker.pkg.github.com
-          # username: ${{ github.actor }}
-          # password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build and Push
         uses: docker/build-push-action@v2
@@ -246,10 +241,6 @@ jobs:
             SSH_HOST=${{ secrets.DEV_SSH_HOST }}
             SSH_PORT=${{ secrets.DEV_SSH_PORT }}
             APP_PATH=${{ secrets.DEV_PATH }}
-          elif [[ $BRANCH == 'demo' ]]; then
-            SSH_HOST=${{ secrets.DEMO_SSH_HOST }}
-            SSH_PORT=${{ secrets.DEMO_SSH_PORT }}
-            APP_PATH=${{ secrets.DEMO_PATH }}
           elif [[ $BRANCH == 'staging' ]]; then
             SSH_HOST=${{ secrets.STAGING_SSH_HOST }}
             SSH_PORT=${{ secrets.STAGING_SSH_PORT }}
@@ -274,7 +265,7 @@ jobs:
           script: |
             cd ${{ steps.set_vars.outputs.APP_PATH }}
             docker-compose down
-            echo ${{ secrets.GHCR_TOKEN }} | docker login ghcr.io --username ${{ github.repository_owner }} --password-stdin
+            echo ${{ secrets.GITHUB_TOKEN }} | docker login ghcr.io --username ${{ github.actor }} --password-stdin
             docker-compose pull
             docker-compose up -d
             docker image prune -f
@@ -347,8 +338,6 @@ jobs:
 
           if [[ $BRANCH == 'dev' ]]; then
             SENTRY_ENVIRONMENT='dev'
-          elif [[ $BRANCH == 'demo' ]]; then
-            SENTRY_ENVIRONMENT='demo'
           elif [[ $BRANCH == 'staging' ]]; then
             SENTRY_ENVIRONMENT='staging'
           elif [[ $BRANCH == 'master' ]]; then
