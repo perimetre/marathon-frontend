@@ -61,11 +61,13 @@ const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTry
         <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none">
           {(state === 'loading' || loading || !didFinishSetup) && <LoadingState />}
           {(state === 'error' || error) && <ErrorState slug={slug} handleTryAgain={handleTryAgain} error={error} />}
-          {state === 'complete' && (
-            <>
-              <ModuleTray />
-            </>
-          )}
+          <div className="absolute bottom-0 left-0 right-0">
+            {state === 'complete' && (
+              <>
+                <ModuleTray />
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>

@@ -1023,6 +1023,7 @@ export enum Locale {
 
 export type Module = {
   __typename?: 'Module';
+  alwaysDisplay: Scalars['Boolean'];
   attachmentToAppend?: Maybe<Module>;
   attachmentToAppendId?: Maybe<Scalars['Int']>;
   attachmentToAppendParents: Array<Module>;
@@ -1041,6 +1042,7 @@ export type Module = {
   finishId: Scalars['Int'];
   hasPegs: Scalars['Boolean'];
   id: Scalars['Int'];
+  isEdge: Scalars['Boolean'];
   isExtension: Scalars['Boolean'];
   isMat: Scalars['Boolean'];
   isSubmodule: Scalars['Boolean'];
@@ -1376,6 +1378,7 @@ export type ModuleCategoryWhereUniqueInput = {
 };
 
 export type ModuleCreateManyAttachmentToAppendInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   bundleUrl?: Maybe<Scalars['String']>;
   collectionId: Scalars['Int'];
   defaultLeftExtensionId?: Maybe<Scalars['Int']>;
@@ -1384,6 +1387,7 @@ export type ModuleCreateManyAttachmentToAppendInput = {
   finishId: Scalars['Int'];
   hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1399,6 +1403,7 @@ export type ModuleCreateManyAttachmentToAppendInputEnvelope = {
 };
 
 export type ModuleCreateManyCollectionInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppendId?: Maybe<Scalars['Int']>;
   bundleUrl?: Maybe<Scalars['String']>;
   defaultLeftExtensionId?: Maybe<Scalars['Int']>;
@@ -1407,6 +1412,7 @@ export type ModuleCreateManyCollectionInput = {
   finishId: Scalars['Int'];
   hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1422,6 +1428,7 @@ export type ModuleCreateManyCollectionInputEnvelope = {
 };
 
 export type ModuleCreateManyDefaultLeftExtensionInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppendId?: Maybe<Scalars['Int']>;
   bundleUrl?: Maybe<Scalars['String']>;
   collectionId: Scalars['Int'];
@@ -1430,6 +1437,7 @@ export type ModuleCreateManyDefaultLeftExtensionInput = {
   finishId: Scalars['Int'];
   hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1445,6 +1453,7 @@ export type ModuleCreateManyDefaultLeftExtensionInputEnvelope = {
 };
 
 export type ModuleCreateManyDefaultRightExtensionInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppendId?: Maybe<Scalars['Int']>;
   bundleUrl?: Maybe<Scalars['String']>;
   collectionId: Scalars['Int'];
@@ -1453,6 +1462,7 @@ export type ModuleCreateManyDefaultRightExtensionInput = {
   finishId: Scalars['Int'];
   hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1468,6 +1478,7 @@ export type ModuleCreateManyDefaultRightExtensionInputEnvelope = {
 };
 
 export type ModuleCreateManyFinishInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppendId?: Maybe<Scalars['Int']>;
   bundleUrl?: Maybe<Scalars['String']>;
   collectionId: Scalars['Int'];
@@ -1476,6 +1487,7 @@ export type ModuleCreateManyFinishInput = {
   description?: Maybe<Scalars['String']>;
   hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1628,6 +1640,7 @@ export type ModuleCreateOrConnectWithoutProjectModulesInput = {
 };
 
 export type ModuleCreateWithoutAttachmentToAppendInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
@@ -1638,6 +1651,7 @@ export type ModuleCreateWithoutAttachmentToAppendInput = {
   description?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1653,6 +1667,7 @@ export type ModuleCreateWithoutAttachmentToAppendInput = {
 };
 
 export type ModuleCreateWithoutAttachmentToAppendParentsInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
@@ -1663,6 +1678,7 @@ export type ModuleCreateWithoutAttachmentToAppendParentsInput = {
   description?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1678,6 +1694,7 @@ export type ModuleCreateWithoutAttachmentToAppendParentsInput = {
 };
 
 export type ModuleCreateWithoutCollectionInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
@@ -1688,6 +1705,7 @@ export type ModuleCreateWithoutCollectionInput = {
   description?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1703,6 +1721,7 @@ export type ModuleCreateWithoutCollectionInput = {
 };
 
 export type ModuleCreateWithoutDefaultLeftExtensionInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
@@ -1713,6 +1732,7 @@ export type ModuleCreateWithoutDefaultLeftExtensionInput = {
   description?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1728,6 +1748,7 @@ export type ModuleCreateWithoutDefaultLeftExtensionInput = {
 };
 
 export type ModuleCreateWithoutDefaultLeftExtensionParentsInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
@@ -1738,6 +1759,7 @@ export type ModuleCreateWithoutDefaultLeftExtensionParentsInput = {
   description?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1753,6 +1775,7 @@ export type ModuleCreateWithoutDefaultLeftExtensionParentsInput = {
 };
 
 export type ModuleCreateWithoutDefaultRightExtensionInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
@@ -1763,6 +1786,7 @@ export type ModuleCreateWithoutDefaultRightExtensionInput = {
   description?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1778,6 +1802,7 @@ export type ModuleCreateWithoutDefaultRightExtensionInput = {
 };
 
 export type ModuleCreateWithoutDefaultRightExtensionParentsInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
@@ -1788,6 +1813,7 @@ export type ModuleCreateWithoutDefaultRightExtensionParentsInput = {
   description?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1803,6 +1829,7 @@ export type ModuleCreateWithoutDefaultRightExtensionParentsInput = {
 };
 
 export type ModuleCreateWithoutFinishInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
@@ -1813,6 +1840,7 @@ export type ModuleCreateWithoutFinishInput = {
   defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<Scalars['String']>;
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1828,6 +1856,7 @@ export type ModuleCreateWithoutFinishInput = {
 };
 
 export type ModuleCreateWithoutModuleAttachedToInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
@@ -1839,6 +1868,7 @@ export type ModuleCreateWithoutModuleAttachedToInput = {
   description?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1853,6 +1883,7 @@ export type ModuleCreateWithoutModuleAttachedToInput = {
 };
 
 export type ModuleCreateWithoutModuleAttachmentsInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
@@ -1864,6 +1895,7 @@ export type ModuleCreateWithoutModuleAttachmentsInput = {
   description?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1878,6 +1910,7 @@ export type ModuleCreateWithoutModuleAttachmentsInput = {
 };
 
 export type ModuleCreateWithoutModuleTypeInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
@@ -1889,6 +1922,7 @@ export type ModuleCreateWithoutModuleTypeInput = {
   description?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1903,6 +1937,7 @@ export type ModuleCreateWithoutModuleTypeInput = {
 };
 
 export type ModuleCreateWithoutProjectModulesInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
@@ -1914,6 +1949,7 @@ export type ModuleCreateWithoutProjectModulesInput = {
   description?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
@@ -1954,6 +1990,7 @@ export type ModuleMinMax = {
 };
 
 export type ModuleOrderByInput = {
+  alwaysDisplay?: Maybe<SortOrder>;
   attachmentToAppendId?: Maybe<SortOrder>;
   bundleUrl?: Maybe<SortOrder>;
   collectionId?: Maybe<SortOrder>;
@@ -1963,6 +2000,7 @@ export type ModuleOrderByInput = {
   finishId?: Maybe<SortOrder>;
   hasPegs?: Maybe<SortOrder>;
   id?: Maybe<SortOrder>;
+  isEdge?: Maybe<SortOrder>;
   isExtension?: Maybe<SortOrder>;
   isMat?: Maybe<SortOrder>;
   isSubmodule?: Maybe<SortOrder>;
@@ -2005,6 +2043,7 @@ export type ModuleScalarWhereInput = {
   AND?: Maybe<Array<ModuleScalarWhereInput>>;
   NOT?: Maybe<Array<ModuleScalarWhereInput>>;
   OR?: Maybe<Array<ModuleScalarWhereInput>>;
+  alwaysDisplay?: Maybe<BoolFilter>;
   attachmentToAppendId?: Maybe<IntNullableFilter>;
   bundleUrl?: Maybe<StringNullableFilter>;
   collectionId?: Maybe<IntFilter>;
@@ -2014,6 +2053,7 @@ export type ModuleScalarWhereInput = {
   finishId?: Maybe<IntFilter>;
   hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
+  isEdge?: Maybe<BoolFilter>;
   isExtension?: Maybe<BoolFilter>;
   isMat?: Maybe<BoolFilter>;
   isSubmodule?: Maybe<BoolFilter>;
@@ -2193,9 +2233,11 @@ export type ModuleUnit = {
 };
 
 export type ModuleUpdateManyMutationInput = {
+  alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2388,6 +2430,7 @@ export type ModuleUpdateWithWhereUniqueWithoutFinishInput = {
 };
 
 export type ModuleUpdateWithoutAttachmentToAppendInput = {
+  alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
@@ -2398,6 +2441,7 @@ export type ModuleUpdateWithoutAttachmentToAppendInput = {
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2413,6 +2457,7 @@ export type ModuleUpdateWithoutAttachmentToAppendInput = {
 };
 
 export type ModuleUpdateWithoutAttachmentToAppendParentsInput = {
+  alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
   attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
@@ -2423,6 +2468,7 @@ export type ModuleUpdateWithoutAttachmentToAppendParentsInput = {
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2438,6 +2484,7 @@ export type ModuleUpdateWithoutAttachmentToAppendParentsInput = {
 };
 
 export type ModuleUpdateWithoutCollectionInput = {
+  alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
   attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
@@ -2448,6 +2495,7 @@ export type ModuleUpdateWithoutCollectionInput = {
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2463,6 +2511,7 @@ export type ModuleUpdateWithoutCollectionInput = {
 };
 
 export type ModuleUpdateWithoutDefaultLeftExtensionInput = {
+  alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
   attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
@@ -2473,6 +2522,7 @@ export type ModuleUpdateWithoutDefaultLeftExtensionInput = {
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2488,6 +2538,7 @@ export type ModuleUpdateWithoutDefaultLeftExtensionInput = {
 };
 
 export type ModuleUpdateWithoutDefaultLeftExtensionParentsInput = {
+  alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
   attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
@@ -2498,6 +2549,7 @@ export type ModuleUpdateWithoutDefaultLeftExtensionParentsInput = {
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2513,6 +2565,7 @@ export type ModuleUpdateWithoutDefaultLeftExtensionParentsInput = {
 };
 
 export type ModuleUpdateWithoutDefaultRightExtensionInput = {
+  alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
   attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
@@ -2523,6 +2576,7 @@ export type ModuleUpdateWithoutDefaultRightExtensionInput = {
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2538,6 +2592,7 @@ export type ModuleUpdateWithoutDefaultRightExtensionInput = {
 };
 
 export type ModuleUpdateWithoutDefaultRightExtensionParentsInput = {
+  alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
   attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
@@ -2548,6 +2603,7 @@ export type ModuleUpdateWithoutDefaultRightExtensionParentsInput = {
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2563,6 +2619,7 @@ export type ModuleUpdateWithoutDefaultRightExtensionParentsInput = {
 };
 
 export type ModuleUpdateWithoutFinishInput = {
+  alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
   attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
@@ -2573,6 +2630,7 @@ export type ModuleUpdateWithoutFinishInput = {
   defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2588,6 +2646,7 @@ export type ModuleUpdateWithoutFinishInput = {
 };
 
 export type ModuleUpdateWithoutModuleAttachedToInput = {
+  alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
   attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
@@ -2599,6 +2658,7 @@ export type ModuleUpdateWithoutModuleAttachedToInput = {
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2613,6 +2673,7 @@ export type ModuleUpdateWithoutModuleAttachedToInput = {
 };
 
 export type ModuleUpdateWithoutModuleAttachmentsInput = {
+  alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
   attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
@@ -2624,6 +2685,7 @@ export type ModuleUpdateWithoutModuleAttachmentsInput = {
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2638,6 +2700,7 @@ export type ModuleUpdateWithoutModuleAttachmentsInput = {
 };
 
 export type ModuleUpdateWithoutModuleTypeInput = {
+  alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
   attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
@@ -2649,6 +2712,7 @@ export type ModuleUpdateWithoutModuleTypeInput = {
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2663,6 +2727,7 @@ export type ModuleUpdateWithoutModuleTypeInput = {
 };
 
 export type ModuleUpdateWithoutProjectModulesInput = {
+  alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
   attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
@@ -2674,6 +2739,7 @@ export type ModuleUpdateWithoutProjectModulesInput = {
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2756,6 +2822,7 @@ export type ModuleWhereInput = {
   AND?: Maybe<Array<ModuleWhereInput>>;
   NOT?: Maybe<Array<ModuleWhereInput>>;
   OR?: Maybe<Array<ModuleWhereInput>>;
+  alwaysDisplay?: Maybe<BoolFilter>;
   attachmentToAppend?: Maybe<ModuleWhereInput>;
   attachmentToAppendId?: Maybe<IntNullableFilter>;
   attachmentToAppendParents?: Maybe<ModuleListRelationFilter>;
@@ -2773,6 +2840,7 @@ export type ModuleWhereInput = {
   finishId?: Maybe<IntFilter>;
   hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
+  isEdge?: Maybe<BoolFilter>;
   isExtension?: Maybe<BoolFilter>;
   isMat?: Maybe<BoolFilter>;
   isSubmodule?: Maybe<BoolFilter>;
