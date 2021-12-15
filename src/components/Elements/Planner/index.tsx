@@ -59,7 +59,7 @@ const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTry
           />
         )}
         {/* Content on top of unity player */}
-        <div className="absolute inset-0 z-10 overflow-hidden">
+        <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none">
           {unityError && <ErrorUnity error={unityError} />}
           {(state === 'loading' || loading || !didFinishSetup) && <LoadingState />}
           {(state === 'error' || error) && <ErrorState slug={slug} handleTryAgain={handleTryAgain} error={error} />}
