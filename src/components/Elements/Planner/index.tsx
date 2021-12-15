@@ -11,6 +11,8 @@ import { usePlannerContext } from '../../Providers/PlannerProvider';
 import Spinner from '../../UI/Spinner';
 import { FormattedMessage } from 'react-intl';
 import { motion } from 'framer-motion';
+import { AlertTriangle } from 'react-feather';
+import Button from '../../UI/Button';
 
 export type PlannerProps = {
   slug: string;
@@ -23,7 +25,7 @@ export type PlannerProps = {
 
 const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTryAgain, isSidebarOpen }) => {
   const { loadingProgress, state } = useUnityPlayerContext();
-  const { isPending, didFinishSetup } = usePlannerContext();
+  const { isPending, didFinishSetup, error: unityError } = usePlannerContext();
 
   return (
     <div className="relative flex max-h-screen">
@@ -58,11 +60,36 @@ const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTry
           />
         )}
         {/* Content on top of unity player */}
-        <div className="absolute inset-0 z-10 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 z-10 overflow-hidden">
+          {unityError && (
+            <div className="absolute top-0 left-0 right-0 flex items-center justify-center w-full h-full select-auto">
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, translateY: 50 },
+                  show: { opacity: 1, translateY: 0, transition: { delay: 0.2 } }
+                }}
+                initial="hidden"
+                animate="show"
+                exit="hidden"
+                className="px-6 py-4 bg-white shadow-lg rounded-md"
+              >
+                <div className="flex items-center font-semibold text-red-600">
+                  <AlertTriangle />
+                  <h2 className="pl-2 text-xl">
+                    <FormattedMessage id="planner.unityError" />
+                  </h2>
+                </div>
+                <p className="mt-2 mb-4">{unityError}</p>
+                <Button onClick={() => window.location.reload()}>
+                  <FormattedMessage id="planner.reloadPage" />
+                </Button>
+              </motion.div>
+            </div>
+          )}
           {(state === 'loading' || loading || !didFinishSetup) && <LoadingState />}
           {(state === 'error' || error) && <ErrorState slug={slug} handleTryAgain={handleTryAgain} error={error} />}
           <div className="absolute bottom-0 left-0 right-0">
-            {state === 'complete' && (
+            {!!(state === 'complete' && !unityError) && (
               <>
                 <ModuleTray />
               </>

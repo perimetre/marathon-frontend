@@ -78,7 +78,9 @@
     "gable": "Gable",
     "width": "Width",
     "finish": "Finish",
-    "collection": "Collection"
+    "collection": "Collection",
+    "reloadPage": "Reload Page",
+    "unityError": "Error!"
   },
   "projects": {
     "title": "My projects",
