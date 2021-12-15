@@ -7,6 +7,7 @@ import { FormattedMessage } from 'react-intl';
 import VerticalDivider from '../../../UI/VerticalDivider';
 import Button from '../../../UI/Button';
 import { useModuleRulesLazyQuery } from '../../../../apollo/generated/graphql';
+import PlannerHelper from '../PlannerHelper';
 
 const trayVariants = {
   open: { translateY: '0%', transition: { type: 'spring', stiffness: 350, damping: 40 } },
@@ -48,59 +49,62 @@ const ModuleTray: React.FC = () => {
   }, [doLoadModuleRules, projectModule]);
 
   return (
-    <motion.div
-      variants={trayVariants}
-      initial="closed"
-      animate={isOpen ? 'open' : 'closed'}
-      className="absolute bottom-0 left-0 right-0 flex items-stretch justify-between bg-white shadow-md pointer-events-auto"
-    >
-      {/*Left*/}
-      <div className="flex items-stretch justify-center gap-2">
-        <TrayButton className="text-mui-error" iconPosition="left" icon={() => <Trash2 />} onClick={trayDelete}>
-          <FormattedMessage id="build.tray.delete" />
-        </TrayButton>
+    <>
+      <PlannerHelper state={state} canRotate={!!data?.module?.rulesJson?.rules?.rotation} />
+      <motion.div
+        variants={trayVariants}
+        initial="closed"
+        animate={isOpen ? 'open' : 'closed'}
+        className="flex items-stretch justify-between bg-white shadow-md pointer-events-auto"
+      >
+        {/*Left*/}
+        <div className="flex items-stretch justify-center gap-2">
+          <TrayButton className="text-mui-error" iconPosition="left" icon={() => <Trash2 />} onClick={trayDelete}>
+            <FormattedMessage id="build.tray.delete" />
+          </TrayButton>
 
-        <VerticalDivider />
+          <VerticalDivider />
 
-        <TrayButton
-          iconPosition="left"
-          icon={() => <Move />}
-          onClick={trayEdit}
-          disabled={state === 'Editing' || data?.module?.isMat}
-        >
-          <FormattedMessage id="build.tray.move" />
-        </TrayButton>
+          <TrayButton
+            iconPosition="left"
+            icon={() => <Move />}
+            onClick={trayEdit}
+            disabled={state === 'Editing' || data?.module?.isMat}
+          >
+            <FormattedMessage id="build.tray.move" />
+          </TrayButton>
 
-        <VerticalDivider />
+          <VerticalDivider />
 
-        <TrayButton
-          iconPosition="left"
-          icon={() => <CornerLeftDown />}
-          onClick={trayRotateLeft}
-          disabled={!data?.module?.rulesJson?.rules?.rotation}
-        >
-          <FormattedMessage id="build.tray.rotateLeft" />
-        </TrayButton>
+          <TrayButton
+            iconPosition="left"
+            icon={() => <CornerLeftDown />}
+            onClick={trayRotateLeft}
+            disabled={!data?.module?.rulesJson?.rules?.rotation}
+          >
+            <FormattedMessage id="build.tray.rotateLeft" />
+          </TrayButton>
 
-        <VerticalDivider />
+          <VerticalDivider />
 
-        <TrayButton
-          iconPosition="left"
-          icon={() => <CornerRightDown />}
-          onClick={trayRotateRight}
-          disabled={!data?.module?.rulesJson?.rules?.rotation}
-        >
-          <FormattedMessage id="build.tray.rotateRight" />
-        </TrayButton>
-      </div>
-      {/*Right*/}
-      <div>
-        <Button className="m-2 bg-mui-success" onClick={trayDone}>
-          <FormattedMessage id="build.tray.done" />
-          <Check />
-        </Button>
-      </div>
-    </motion.div>
+          <TrayButton
+            iconPosition="left"
+            icon={() => <CornerRightDown />}
+            onClick={trayRotateRight}
+            disabled={!data?.module?.rulesJson?.rules?.rotation}
+          >
+            <FormattedMessage id="build.tray.rotateRight" />
+          </TrayButton>
+        </div>
+        {/*Right*/}
+        <div>
+          <Button className="m-2 bg-mui-success" onClick={trayDone}>
+            <FormattedMessage id="build.tray.done" />
+            <Check />
+          </Button>
+        </div>
+      </motion.div>
+    </>
   );
 };
 

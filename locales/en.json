@@ -115,5 +115,13 @@
       "product": "Product",
       "quantity": "Qty"
     }
+  },
+  "help": {
+    "selectModule": "Select module",
+    "placeModule": "Place module",
+    "editModule": "Edit module",
+    "deleteModule": "Delete module",
+    "rotateModule": "Rotate module",
+    "moveModule": "Move module"
   }
 }

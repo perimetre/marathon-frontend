@@ -17,7 +17,7 @@ import { nanoid } from 'nanoid';
 import { useApolloClient } from '@apollo/client';
 import { GET_PROJECT_MODULE } from '../../../apollo/projectModules';
 
-type PieceBuilderState = 'None' | 'Created' | 'Selected' | 'Editing' | 'Placed' | 'AddingSubModule' | 'Deleted';
+export type PieceBuilderState = 'None' | 'Created' | 'Selected' | 'Editing' | 'Placed' | 'AddingSubModule' | 'Deleted';
 
 export type UnityModuleJson = {
   id: number;
