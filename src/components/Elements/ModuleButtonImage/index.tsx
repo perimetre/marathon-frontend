@@ -67,7 +67,7 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
 
   return (
     <div>
-      <div className="relative w-full h-48 bg-white mui-border-radius" ref={ref}>
+      <div className="relative w-full bg-white h-44 xl:h-48 mui-border-radius" ref={ref}>
         {module.thumbnailUrl && (
           <SkeletonImage
             key={partNumber}
@@ -105,7 +105,7 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
           </div>
         </div>
       </div>
-      <p className="mt-2 text-lg font-bold">{partNumber}</p>
+      <p className="mt-2 text-base font-bold">{partNumber}</p>
       {module.description && <p className="mt-4 text-base">{module.description}</p>}
     </div>
   );
