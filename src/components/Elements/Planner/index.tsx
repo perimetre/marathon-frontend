@@ -63,13 +63,15 @@ const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTry
           {unityError && <ErrorUnity error={unityError} />}
           {(state === 'loading' || loading || !didFinishSetup) && <LoadingState />}
           {(state === 'error' || error) && <ErrorState slug={slug} handleTryAgain={handleTryAgain} error={error} />}
-          <div className="absolute bottom-0 left-0 right-0">
-            {!!(state === 'complete' && !unityError) && (
-              <>
-                <ModuleTray />
-              </>
-            )}
-          </div>
+          {!!(state !== 'loading' && !loading && didFinishSetup) && (
+            <div className="absolute bottom-0 left-0 right-0">
+              {!!(state === 'complete' && !unityError) && (
+                <>
+                  <ModuleTray />
+                </>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
