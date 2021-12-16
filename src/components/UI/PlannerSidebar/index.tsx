@@ -21,8 +21,8 @@ export type PlannerSidebarCategories = NonNullable<
 >[number]['categories'][number];
 
 const animationVariants = {
-  categories: { width: '20%', opacity: 1 },
-  modules: { width: '35%', opacity: 1 },
+  categories: { minWidth: 240, width: '20%', opacity: 1 },
+  modules: { maxWidth: 600, minWidth: 240, width: '35%', opacity: 1 },
   closed: { width: '0%', opacity: 0 }
 };
 
