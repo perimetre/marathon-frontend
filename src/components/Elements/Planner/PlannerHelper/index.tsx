@@ -30,44 +30,46 @@ const PlannerHelper: React.FC<PlannerHelperProps> = ({ state, canRotate }) => {
       variants={trayVariants}
       initial="closed"
       animate={isOpen ? 'open' : 'closed'}
-      className="container flex w-full h-10 px-8 mx-auto bg-black select-none gap-2 opacity-80"
+      className="flex w-full h-10 px-8 bg-black select-none opacity-80"
     >
-      <div className="flex flex-row items-center text-sm text-white gap-1">
-        <MouseLeftClick />
-        {!isOpen ? (
-          <FormattedMessage id="help.selectModule" />
-        ) : state === 'Selected' ? (
-          <FormattedMessage id="help.editModule" />
-        ) : (
-          <FormattedMessage id="help.placeModule" />
+      <div className="container flex w-full mx-auto gap-2">
+        <div className="flex flex-row items-center text-sm text-white gap-1">
+          <MouseLeftClick />
+          {!isOpen ? (
+            <FormattedMessage id="help.selectModule" />
+          ) : state === 'Selected' ? (
+            <FormattedMessage id="help.editModule" />
+          ) : (
+            <FormattedMessage id="help.placeModule" />
+          )}
+        </div>
+        {state === 'Selected' && (
+          <div className="flex flex-row items-center text-sm text-white gap-1">
+            <KeyboardM />
+            <FormattedMessage id="help.moveModule" />
+          </div>
+        )}
+        {state === 'Selected' && (
+          <div className="flex flex-row items-center text-sm text-white gap-1">
+            <KeyboardD />
+            <FormattedMessage id="help.deleteModule" />
+          </div>
+        )}
+        {state === 'Editing' && (
+          <div className="flex flex-row items-center text-sm text-white gap-1">
+            <MouseRightClick />
+            /
+            <KeyboardD />
+            <FormattedMessage id="help.deleteModule" />
+          </div>
+        )}
+        {!!(state === 'Editing' && canRotate) && (
+          <div className="flex flex-row items-center text-sm text-white gap-1">
+            <MouseScroll />
+            <FormattedMessage id="help.rotateModule" />
+          </div>
         )}
       </div>
-      {state === 'Selected' && (
-        <div className="flex flex-row items-center text-sm text-white gap-1">
-          <KeyboardM />
-          <FormattedMessage id="help.moveModule" />
-        </div>
-      )}
-      {state === 'Selected' && (
-        <div className="flex flex-row items-center text-sm text-white gap-1">
-          <KeyboardD />
-          <FormattedMessage id="help.deleteModule" />
-        </div>
-      )}
-      {state === 'Editing' && (
-        <div className="flex flex-row items-center text-sm text-white gap-1">
-          <MouseRightClick />
-          /
-          <KeyboardD />
-          <FormattedMessage id="help.deleteModule" />
-        </div>
-      )}
-      {!!(state === 'Editing' && canRotate) && (
-        <div className="flex flex-row items-center text-sm text-white gap-1">
-          <MouseScroll />
-          <FormattedMessage id="help.rotateModule" />
-        </div>
-      )}
     </motion.div>
   );
 };
