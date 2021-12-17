@@ -837,6 +837,22 @@
             "deprecationReason": null
           },
           {
+            "name": "isComingSoon",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "Boolean",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "modules",
             "description": null,
             "args": [
@@ -1556,6 +1572,18 @@
             "deprecationReason": null
           },
           {
+            "name": "isComingSoon",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "modules",
             "description": null,
             "type": {
@@ -1667,6 +1695,18 @@
             "deprecationReason": null
           },
           {
+            "name": "isComingSoon",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "projects",
             "description": null,
             "type": {
@@ -1766,6 +1806,18 @@
             "deprecationReason": null
           },
           {
+            "name": "isComingSoon",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "modules",
             "description": null,
             "type": {
@@ -1854,6 +1906,18 @@
           },
           {
             "name": "hasPegs",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "Boolean",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "isComingSoon",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -3685,6 +3749,18 @@
             "deprecationReason": null
           },
           {
+            "name": "isComingSoon",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "SortOrder",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "slug",
             "description": null,
             "type": {
@@ -5384,6 +5460,18 @@
             "deprecationReason": null
           },
           {
+            "name": "isComingSoon",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "BoolFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "modules",
             "description": null,
             "type": {
@@ -5491,6 +5579,18 @@
             "deprecationReason": null
           },
           {
+            "name": "isComingSoon",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "BoolFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "projects",
             "description": null,
             "type": {
@@ -5586,6 +5686,18 @@
             "deprecationReason": null
           },
           {
+            "name": "isComingSoon",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "BoolFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "modules",
             "description": null,
             "type": {
@@ -5670,6 +5782,18 @@
           },
           {
             "name": "hasPegs",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "BoolFieldUpdateOperationsInput",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "isComingSoon",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -6013,6 +6137,18 @@
             "type": {
               "kind": "INPUT_OBJECT",
               "name": "IntFilter",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "isComingSoon",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "BoolFilter",
               "ofType": null
             },
             "defaultValue": null,

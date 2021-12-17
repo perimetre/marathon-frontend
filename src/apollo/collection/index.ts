@@ -11,6 +11,7 @@ export const COLLECTION_QUERY = gql`
       name
       slug
       hasPegs
+      isComingSoon
       subtitle
       description
       footer

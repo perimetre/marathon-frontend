@@ -103,6 +103,7 @@ export type Collection = {
   footer?: Maybe<Scalars['String']>;
   hasPegs: Scalars['Boolean'];
   id: Scalars['Int'];
+  isComingSoon: Scalars['Boolean'];
   modules: Array<Module>;
   name: Scalars['String'];
   projects: Array<Project>;
@@ -190,6 +191,7 @@ export type CollectionCreateOrConnectWithoutSlidesInput = {
 
 export type CollectionCreateWithoutCollectionFinishesInput = {
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isComingSoon?: Maybe<Scalars['Boolean']>;
   modules?: Maybe<ModuleCreateNestedManyWithoutCollectionInput>;
   projects?: Maybe<ProjectCreateNestedManyWithoutCollectionInput>;
   slides?: Maybe<SlideCreateNestedManyWithoutCollectionInput>;
@@ -201,6 +203,7 @@ export type CollectionCreateWithoutCollectionFinishesInput = {
 export type CollectionCreateWithoutModulesInput = {
   collectionFinishes?: Maybe<CollectionFinishesCreateNestedManyWithoutCollectionInput>;
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isComingSoon?: Maybe<Scalars['Boolean']>;
   projects?: Maybe<ProjectCreateNestedManyWithoutCollectionInput>;
   slides?: Maybe<SlideCreateNestedManyWithoutCollectionInput>;
   slug: Scalars['String'];
@@ -211,6 +214,7 @@ export type CollectionCreateWithoutModulesInput = {
 export type CollectionCreateWithoutProjectsInput = {
   collectionFinishes?: Maybe<CollectionFinishesCreateNestedManyWithoutCollectionInput>;
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isComingSoon?: Maybe<Scalars['Boolean']>;
   modules?: Maybe<ModuleCreateNestedManyWithoutCollectionInput>;
   slides?: Maybe<SlideCreateNestedManyWithoutCollectionInput>;
   slug: Scalars['String'];
@@ -221,6 +225,7 @@ export type CollectionCreateWithoutProjectsInput = {
 export type CollectionCreateWithoutSlidesInput = {
   collectionFinishes?: Maybe<CollectionFinishesCreateNestedManyWithoutCollectionInput>;
   hasPegs?: Maybe<Scalars['Boolean']>;
+  isComingSoon?: Maybe<Scalars['Boolean']>;
   modules?: Maybe<ModuleCreateNestedManyWithoutCollectionInput>;
   projects?: Maybe<ProjectCreateNestedManyWithoutCollectionInput>;
   slug: Scalars['String'];
@@ -400,6 +405,7 @@ export type CollectionFinishesWhereUniqueInput = {
 export type CollectionOrderByInput = {
   hasPegs?: Maybe<SortOrder>;
   id?: Maybe<SortOrder>;
+  isComingSoon?: Maybe<SortOrder>;
   slug?: Maybe<SortOrder>;
   thumbnailUrl?: Maybe<SortOrder>;
 };
@@ -567,6 +573,7 @@ export type CollectionUpdateOneRequiredWithoutSlidesInput = {
 
 export type CollectionUpdateWithoutCollectionFinishesInput = {
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isComingSoon?: Maybe<BoolFieldUpdateOperationsInput>;
   modules?: Maybe<ModuleUpdateManyWithoutCollectionInput>;
   projects?: Maybe<ProjectUpdateManyWithoutCollectionInput>;
   slides?: Maybe<SlideUpdateManyWithoutCollectionInput>;
@@ -578,6 +585,7 @@ export type CollectionUpdateWithoutCollectionFinishesInput = {
 export type CollectionUpdateWithoutModulesInput = {
   collectionFinishes?: Maybe<CollectionFinishesUpdateManyWithoutCollectionInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isComingSoon?: Maybe<BoolFieldUpdateOperationsInput>;
   projects?: Maybe<ProjectUpdateManyWithoutCollectionInput>;
   slides?: Maybe<SlideUpdateManyWithoutCollectionInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -588,6 +596,7 @@ export type CollectionUpdateWithoutModulesInput = {
 export type CollectionUpdateWithoutProjectsInput = {
   collectionFinishes?: Maybe<CollectionFinishesUpdateManyWithoutCollectionInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isComingSoon?: Maybe<BoolFieldUpdateOperationsInput>;
   modules?: Maybe<ModuleUpdateManyWithoutCollectionInput>;
   slides?: Maybe<SlideUpdateManyWithoutCollectionInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -598,6 +607,7 @@ export type CollectionUpdateWithoutProjectsInput = {
 export type CollectionUpdateWithoutSlidesInput = {
   collectionFinishes?: Maybe<CollectionFinishesUpdateManyWithoutCollectionInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isComingSoon?: Maybe<BoolFieldUpdateOperationsInput>;
   modules?: Maybe<ModuleUpdateManyWithoutCollectionInput>;
   projects?: Maybe<ProjectUpdateManyWithoutCollectionInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -632,6 +642,7 @@ export type CollectionWhereInput = {
   collectionFinishes?: Maybe<CollectionFinishesListRelationFilter>;
   hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
+  isComingSoon?: Maybe<BoolFilter>;
   modules?: Maybe<ModuleListRelationFilter>;
   projects?: Maybe<ProjectListRelationFilter>;
   slides?: Maybe<SlideListRelationFilter>;
@@ -5269,6 +5280,7 @@ export type GetCollectionsQuery = {
     name: string;
     slug: string;
     hasPegs: boolean;
+    isComingSoon: boolean;
     subtitle?: string | null | undefined;
     description?: string | null | undefined;
     footer?: string | null | undefined;
@@ -7153,6 +7165,7 @@ export const GetCollectionsDocument = gql`
       name
       slug
       hasPegs
+      isComingSoon
       subtitle
       description
       footer
