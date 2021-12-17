@@ -5325,6 +5325,7 @@ export type ModuleDataWithoutExtensionsFragment = {
   isExtension: boolean;
   isMat: boolean;
   isSubmodule: boolean;
+  isEdge: boolean;
   partNumber: string;
   thumbnailUrl?: string | null | undefined;
   description?: string | null | undefined;
@@ -5350,6 +5351,7 @@ export type ModuleDataFragment = {
   isExtension: boolean;
   isMat: boolean;
   isSubmodule: boolean;
+  isEdge: boolean;
   partNumber: string;
   thumbnailUrl?: string | null | undefined;
   description?: string | null | undefined;
@@ -5363,6 +5365,7 @@ export type ModuleDataFragment = {
         isExtension: boolean;
         isMat: boolean;
         isSubmodule: boolean;
+        isEdge: boolean;
         partNumber: string;
         thumbnailUrl?: string | null | undefined;
         description?: string | null | undefined;
@@ -5394,6 +5397,7 @@ export type ModuleDataFragment = {
         isExtension: boolean;
         isMat: boolean;
         isSubmodule: boolean;
+        isEdge: boolean;
         partNumber: string;
         thumbnailUrl?: string | null | undefined;
         description?: string | null | undefined;
@@ -5425,6 +5429,7 @@ export type ModuleDataFragment = {
         isExtension: boolean;
         isMat: boolean;
         isSubmodule: boolean;
+        isEdge: boolean;
         partNumber: string;
         thumbnailUrl?: string | null | undefined;
         description?: string | null | undefined;
@@ -5458,6 +5463,7 @@ export type ModuleDataFragment = {
       isExtension: boolean;
       isMat: boolean;
       isSubmodule: boolean;
+      isEdge: boolean;
       partNumber: string;
       thumbnailUrl?: string | null | undefined;
       description?: string | null | undefined;
@@ -5511,6 +5517,7 @@ export type ProjectModuleDataFragment = {
     isExtension: boolean;
     isMat: boolean;
     isSubmodule: boolean;
+    isEdge: boolean;
     partNumber: string;
     thumbnailUrl?: string | null | undefined;
     description?: string | null | undefined;
@@ -5524,6 +5531,7 @@ export type ProjectModuleDataFragment = {
           isExtension: boolean;
           isMat: boolean;
           isSubmodule: boolean;
+          isEdge: boolean;
           partNumber: string;
           thumbnailUrl?: string | null | undefined;
           description?: string | null | undefined;
@@ -5555,6 +5563,7 @@ export type ProjectModuleDataFragment = {
           isExtension: boolean;
           isMat: boolean;
           isSubmodule: boolean;
+          isEdge: boolean;
           partNumber: string;
           thumbnailUrl?: string | null | undefined;
           description?: string | null | undefined;
@@ -5586,6 +5595,7 @@ export type ProjectModuleDataFragment = {
           isExtension: boolean;
           isMat: boolean;
           isSubmodule: boolean;
+          isEdge: boolean;
           partNumber: string;
           thumbnailUrl?: string | null | undefined;
           description?: string | null | undefined;
@@ -5619,6 +5629,7 @@ export type ProjectModuleDataFragment = {
         isExtension: boolean;
         isMat: boolean;
         isSubmodule: boolean;
+        isEdge: boolean;
         partNumber: string;
         thumbnailUrl?: string | null | undefined;
         description?: string | null | undefined;
@@ -5654,17 +5665,6 @@ export type ProjectModuleDataFragment = {
   };
 };
 
-export type ProjectDataFragment = {
-  __typename?: 'Project';
-  id: number;
-  title: string;
-  slug: string;
-  cabinetWidth?: number | null | undefined;
-  gable: number;
-  type: { __typename?: 'Type'; id: number; slug: string };
-  collection: { __typename?: 'Collection'; id: number; slug: string };
-};
-
 export type LoginMutationVariables = Exact<{
   user: UserSingIn;
 }>;
@@ -5688,6 +5688,7 @@ export type ModuleOptionsQuery = {
     isExtension: boolean;
     isMat: boolean;
     isSubmodule: boolean;
+    isEdge: boolean;
     partNumber: string;
     thumbnailUrl?: string | null | undefined;
     description?: string | null | undefined;
@@ -5701,6 +5702,7 @@ export type ModuleOptionsQuery = {
           isExtension: boolean;
           isMat: boolean;
           isSubmodule: boolean;
+          isEdge: boolean;
           partNumber: string;
           thumbnailUrl?: string | null | undefined;
           description?: string | null | undefined;
@@ -5732,6 +5734,7 @@ export type ModuleOptionsQuery = {
           isExtension: boolean;
           isMat: boolean;
           isSubmodule: boolean;
+          isEdge: boolean;
           partNumber: string;
           thumbnailUrl?: string | null | undefined;
           description?: string | null | undefined;
@@ -5763,6 +5766,7 @@ export type ModuleOptionsQuery = {
           isExtension: boolean;
           isMat: boolean;
           isSubmodule: boolean;
+          isEdge: boolean;
           partNumber: string;
           thumbnailUrl?: string | null | undefined;
           description?: string | null | undefined;
@@ -5796,6 +5800,7 @@ export type ModuleOptionsQuery = {
         isExtension: boolean;
         isMat: boolean;
         isSubmodule: boolean;
+        isEdge: boolean;
         partNumber: string;
         thumbnailUrl?: string | null | undefined;
         description?: string | null | undefined;
@@ -5867,6 +5872,7 @@ export type PlannerQuery = {
           isExtension: boolean;
           isMat: boolean;
           isSubmodule: boolean;
+          isEdge: boolean;
           partNumber: string;
           thumbnailUrl?: string | null | undefined;
           description?: string | null | undefined;
@@ -5880,6 +5886,7 @@ export type PlannerQuery = {
                 isExtension: boolean;
                 isMat: boolean;
                 isSubmodule: boolean;
+                isEdge: boolean;
                 partNumber: string;
                 thumbnailUrl?: string | null | undefined;
                 description?: string | null | undefined;
@@ -5911,6 +5918,7 @@ export type PlannerQuery = {
                 isExtension: boolean;
                 isMat: boolean;
                 isSubmodule: boolean;
+                isEdge: boolean;
                 partNumber: string;
                 thumbnailUrl?: string | null | undefined;
                 description?: string | null | undefined;
@@ -5942,6 +5950,7 @@ export type PlannerQuery = {
                 isExtension: boolean;
                 isMat: boolean;
                 isSubmodule: boolean;
+                isEdge: boolean;
                 partNumber: string;
                 thumbnailUrl?: string | null | undefined;
                 description?: string | null | undefined;
@@ -5975,6 +5984,7 @@ export type PlannerQuery = {
               isExtension: boolean;
               isMat: boolean;
               isSubmodule: boolean;
+              isEdge: boolean;
               partNumber: string;
               thumbnailUrl?: string | null | undefined;
               description?: string | null | undefined;
@@ -6040,6 +6050,7 @@ export type PlannerQuery = {
               isExtension: boolean;
               isMat: boolean;
               isSubmodule: boolean;
+              isEdge: boolean;
               partNumber: string;
               thumbnailUrl?: string | null | undefined;
               description?: string | null | undefined;
@@ -6053,6 +6064,7 @@ export type PlannerQuery = {
                     isExtension: boolean;
                     isMat: boolean;
                     isSubmodule: boolean;
+                    isEdge: boolean;
                     partNumber: string;
                     thumbnailUrl?: string | null | undefined;
                     description?: string | null | undefined;
@@ -6084,6 +6096,7 @@ export type PlannerQuery = {
                     isExtension: boolean;
                     isMat: boolean;
                     isSubmodule: boolean;
+                    isEdge: boolean;
                     partNumber: string;
                     thumbnailUrl?: string | null | undefined;
                     description?: string | null | undefined;
@@ -6115,6 +6128,7 @@ export type PlannerQuery = {
                     isExtension: boolean;
                     isMat: boolean;
                     isSubmodule: boolean;
+                    isEdge: boolean;
                     partNumber: string;
                     thumbnailUrl?: string | null | undefined;
                     description?: string | null | undefined;
@@ -6148,6 +6162,7 @@ export type PlannerQuery = {
                   isExtension: boolean;
                   isMat: boolean;
                   isSubmodule: boolean;
+                  isEdge: boolean;
                   partNumber: string;
                   thumbnailUrl?: string | null | undefined;
                   description?: string | null | undefined;
@@ -6194,6 +6209,7 @@ export type PlannerQuery = {
             isExtension: boolean;
             isMat: boolean;
             isSubmodule: boolean;
+            isEdge: boolean;
             partNumber: string;
             thumbnailUrl?: string | null | undefined;
             description?: string | null | undefined;
@@ -6207,6 +6223,7 @@ export type PlannerQuery = {
                   isExtension: boolean;
                   isMat: boolean;
                   isSubmodule: boolean;
+                  isEdge: boolean;
                   partNumber: string;
                   thumbnailUrl?: string | null | undefined;
                   description?: string | null | undefined;
@@ -6238,6 +6255,7 @@ export type PlannerQuery = {
                   isExtension: boolean;
                   isMat: boolean;
                   isSubmodule: boolean;
+                  isEdge: boolean;
                   partNumber: string;
                   thumbnailUrl?: string | null | undefined;
                   description?: string | null | undefined;
@@ -6269,6 +6287,7 @@ export type PlannerQuery = {
                   isExtension: boolean;
                   isMat: boolean;
                   isSubmodule: boolean;
+                  isEdge: boolean;
                   partNumber: string;
                   thumbnailUrl?: string | null | undefined;
                   description?: string | null | undefined;
@@ -6302,6 +6321,7 @@ export type PlannerQuery = {
                 isExtension: boolean;
                 isMat: boolean;
                 isSubmodule: boolean;
+                isEdge: boolean;
                 partNumber: string;
                 thumbnailUrl?: string | null | undefined;
                 description?: string | null | undefined;
@@ -6369,6 +6389,7 @@ export type GetProjectModuleQuery = {
       isExtension: boolean;
       isMat: boolean;
       isSubmodule: boolean;
+      isEdge: boolean;
       partNumber: string;
       thumbnailUrl?: string | null | undefined;
       description?: string | null | undefined;
@@ -6382,6 +6403,7 @@ export type GetProjectModuleQuery = {
             isExtension: boolean;
             isMat: boolean;
             isSubmodule: boolean;
+            isEdge: boolean;
             partNumber: string;
             thumbnailUrl?: string | null | undefined;
             description?: string | null | undefined;
@@ -6413,6 +6435,7 @@ export type GetProjectModuleQuery = {
             isExtension: boolean;
             isMat: boolean;
             isSubmodule: boolean;
+            isEdge: boolean;
             partNumber: string;
             thumbnailUrl?: string | null | undefined;
             description?: string | null | undefined;
@@ -6444,6 +6467,7 @@ export type GetProjectModuleQuery = {
             isExtension: boolean;
             isMat: boolean;
             isSubmodule: boolean;
+            isEdge: boolean;
             partNumber: string;
             thumbnailUrl?: string | null | undefined;
             description?: string | null | undefined;
@@ -6477,6 +6501,7 @@ export type GetProjectModuleQuery = {
           isExtension: boolean;
           isMat: boolean;
           isSubmodule: boolean;
+          isEdge: boolean;
           partNumber: string;
           thumbnailUrl?: string | null | undefined;
           description?: string | null | undefined;
@@ -6541,6 +6566,7 @@ export type CreateProjectModuleMutation = {
       isExtension: boolean;
       isMat: boolean;
       isSubmodule: boolean;
+      isEdge: boolean;
       partNumber: string;
       thumbnailUrl?: string | null | undefined;
       description?: string | null | undefined;
@@ -6554,6 +6580,7 @@ export type CreateProjectModuleMutation = {
             isExtension: boolean;
             isMat: boolean;
             isSubmodule: boolean;
+            isEdge: boolean;
             partNumber: string;
             thumbnailUrl?: string | null | undefined;
             description?: string | null | undefined;
@@ -6585,6 +6612,7 @@ export type CreateProjectModuleMutation = {
             isExtension: boolean;
             isMat: boolean;
             isSubmodule: boolean;
+            isEdge: boolean;
             partNumber: string;
             thumbnailUrl?: string | null | undefined;
             description?: string | null | undefined;
@@ -6616,6 +6644,7 @@ export type CreateProjectModuleMutation = {
             isExtension: boolean;
             isMat: boolean;
             isSubmodule: boolean;
+            isEdge: boolean;
             partNumber: string;
             thumbnailUrl?: string | null | undefined;
             description?: string | null | undefined;
@@ -6649,6 +6678,7 @@ export type CreateProjectModuleMutation = {
           isExtension: boolean;
           isMat: boolean;
           isSubmodule: boolean;
+          isEdge: boolean;
           partNumber: string;
           thumbnailUrl?: string | null | undefined;
           description?: string | null | undefined;
@@ -6715,6 +6745,7 @@ export type UpdateProjectModuleMutation = {
           isExtension: boolean;
           isMat: boolean;
           isSubmodule: boolean;
+          isEdge: boolean;
           partNumber: string;
           thumbnailUrl?: string | null | undefined;
           description?: string | null | undefined;
@@ -6728,6 +6759,7 @@ export type UpdateProjectModuleMutation = {
                 isExtension: boolean;
                 isMat: boolean;
                 isSubmodule: boolean;
+                isEdge: boolean;
                 partNumber: string;
                 thumbnailUrl?: string | null | undefined;
                 description?: string | null | undefined;
@@ -6759,6 +6791,7 @@ export type UpdateProjectModuleMutation = {
                 isExtension: boolean;
                 isMat: boolean;
                 isSubmodule: boolean;
+                isEdge: boolean;
                 partNumber: string;
                 thumbnailUrl?: string | null | undefined;
                 description?: string | null | undefined;
@@ -6790,6 +6823,7 @@ export type UpdateProjectModuleMutation = {
                 isExtension: boolean;
                 isMat: boolean;
                 isSubmodule: boolean;
+                isEdge: boolean;
                 partNumber: string;
                 thumbnailUrl?: string | null | undefined;
                 description?: string | null | undefined;
@@ -6823,6 +6857,7 @@ export type UpdateProjectModuleMutation = {
               isExtension: boolean;
               isMat: boolean;
               isSubmodule: boolean;
+              isEdge: boolean;
               partNumber: string;
               thumbnailUrl?: string | null | undefined;
               description?: string | null | undefined;
@@ -6871,6 +6906,17 @@ export type DeleteProjectModuleMutationVariables = Exact<{
 export type DeleteProjectModuleMutation = {
   __typename?: 'Mutation';
   deleteManyProjectModule: { __typename?: 'AffectedRowsOutput'; count: number };
+};
+
+export type ProjectDataFragment = {
+  __typename?: 'Project';
+  id: number;
+  title: string;
+  slug: string;
+  cabinetWidth?: number | null | undefined;
+  gable: number;
+  type: { __typename?: 'Type'; id: number; slug: string };
+  collection: { __typename?: 'Collection'; id: number; slug: string };
 };
 
 export type ProjectCartQueryVariables = Exact<{
@@ -7033,6 +7079,7 @@ export const ModuleDataWithoutExtensionsFragmentDoc = gql`
     isExtension
     isMat
     isSubmodule
+    isEdge
     partNumber
     rules {
       rules {

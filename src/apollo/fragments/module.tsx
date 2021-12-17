@@ -8,6 +8,7 @@ const MODULE_DATA_WITHOUT_EXTENSIONS = gql`
     isExtension
     isMat
     isSubmodule
+    isEdge
     partNumber
     rules {
       rules {
