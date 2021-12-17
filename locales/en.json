@@ -27,6 +27,7 @@
     "addOns": "Available Add-ons",
     "tray": {
       "delete": "Delete",
+      "deleteEdge": "Remove Edge Finish",
       "move": "Move",
       "rotateLeft": "Rotate Left",
       "rotateRight": "Rotate Right",

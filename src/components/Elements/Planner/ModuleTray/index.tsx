@@ -18,7 +18,17 @@ const ModuleTray: React.FC = () => {
   // ***********
   // ** Misc
   // ***********
-  const { state, trayDone, trayDelete, trayEdit, trayRotateRight, trayRotateLeft, projectModule } = usePlannerContext();
+  const {
+    state,
+    trayDone,
+    trayDelete,
+    trayDeleteEdge,
+    trayEdit,
+    trayRotateRight,
+    trayRotateLeft,
+    projectModule,
+    childrenModules
+  } = usePlannerContext();
 
   // ***********
   // ** Grapqhl declarations
@@ -36,6 +46,7 @@ const ModuleTray: React.FC = () => {
   // ***********
 
   const isOpen = useMemo(() => ['AddingSubModule', 'Editing', 'Selected'].includes(state), [state]);
+  const hasEdge = useMemo(() => childrenModules?.some((x) => x.module.isEdge), [childrenModules]);
 
   // ** Effects
   useEffect(() => {
@@ -62,6 +73,20 @@ const ModuleTray: React.FC = () => {
           <TrayButton className="text-mui-error" iconPosition="left" icon={() => <Trash2 />} onClick={trayDelete}>
             <FormattedMessage id="build.tray.delete" />
           </TrayButton>
+
+          {hasEdge && (
+            <>
+              <VerticalDivider />
+              <TrayButton
+                className="text-mui-error"
+                iconPosition="left"
+                icon={() => <Trash2 />}
+                onClick={trayDeleteEdge}
+              >
+                <FormattedMessage id="build.tray.deleteEdge" />
+              </TrayButton>
+            </>
+          )}
 
           <VerticalDivider />
 
@@ -97,7 +122,8 @@ const ModuleTray: React.FC = () => {
           </TrayButton>
         </div>
         {/*Right*/}
-        <div>
+        <div className="flex items-center justify-center">
+          <p>{projectModule?.module.partNumber}</p>
           <Button className="m-2 bg-mui-success" onClick={trayDone}>
             <FormattedMessage id="build.tray.done" />
             <Check />

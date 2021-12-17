@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useUnityPlayerContext } from '../UnityPlayerProvider';
 import logging from '../../../lib/logging';
 import { UNITY_GAME_OBJECT } from '../../../constraints';
@@ -16,6 +16,7 @@ import {
 import { nanoid } from 'nanoid';
 import { useApolloClient } from '@apollo/client';
 import { GET_PROJECT_MODULE } from '../../../apollo/projectModules';
+import { useQueueCallback } from '../../../utils/queueCallback';
 
 export type PieceBuilderState = 'None' | 'Created' | 'Selected' | 'Editing' | 'Placed' | 'AddingSubModule' | 'Deleted';
 
@@ -26,6 +27,7 @@ export type UnityModuleJson = {
   isSubmodule: boolean;
   isExtension: boolean;
   isMat: boolean;
+  isEdge: boolean;
 
   // Parsed rules json
   rules?: Record<string, unknown>;
@@ -59,7 +61,7 @@ export type UnityProjectModuleJsonChildren = {
 const makeModuleJson = (
   module: Pick<
     ModuleDataFragment,
-    'id' | 'partNumber' | 'bundleUrl' | 'isSubmodule' | 'isExtension' | 'isMat' | 'rules'
+    'id' | 'partNumber' | 'bundleUrl' | 'isSubmodule' | 'isExtension' | 'isMat' | 'rules' | 'isEdge'
   > & {
     rulesJson?: Record<string, unknown>;
   },
@@ -76,6 +78,7 @@ const makeModuleJson = (
     isSubmodule: module.isSubmodule,
     isExtension: module.isExtension,
     isMat: module.isMat,
+    isEdge: module.isEdge,
     rules
   };
 };
@@ -90,6 +93,7 @@ type PlannerContextType = {
   state: PieceBuilderState;
   isPending: boolean;
   projectModule?: UnityProjectModuleJson;
+  childrenModules?: UnityProjectModuleJsonChildren['children'];
   error?: string;
   cartAmount: number;
   didFinishSetup: boolean;
@@ -100,6 +104,7 @@ type PlannerContextType = {
   // Interaction Methods
   trayDone: () => void;
   trayDelete: () => void;
+  trayDeleteEdge: () => void;
   trayEdit: () => void;
   trayRotateLeft: () => void;
   trayRotateRight: () => void;
@@ -130,6 +135,9 @@ const initialState: PlannerContextType = {
   },
   trayDelete: () => {
     throw new Error('trayDelete is not implemented');
+  },
+  trayDeleteEdge: () => {
+    throw new Error('trayDeleteEdge is not implemented');
   },
   trayEdit: () => {
     throw new Error('trayEdit is not implemented');
@@ -198,10 +206,13 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   const [isPending, setIsPending] = useState(initialState.isPending);
 
   const [error, setError] = useState<string | undefined>(initialState.error);
-  const [, setShouldCreateOrUpdate] = useState(false);
+  const shouldCreateOrUpdate = useRef(false);
 
   const [state, setState] = useState(initialState.state);
   const [projectModule, setProjectModule] = useState<UnityProjectModuleJson | undefined>(initialState.projectModule);
+  const [childrenModules, setChildrenModules] = useState<UnityProjectModuleJsonChildren['children'] | undefined>(
+    initialState.childrenModules
+  );
 
   /*
    * React -> Unity
@@ -213,6 +224,10 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   const trayDelete = useCallback(() => {
     unityInstance.current?.SendMessage(UNITY_GAME_OBJECT, 'TrayDelete');
+  }, [unityInstance]);
+
+  const trayDeleteEdge = useCallback(() => {
+    unityInstance.current?.SendMessage(UNITY_GAME_OBJECT, 'TrayDeleteEdge');
   }, [unityInstance]);
 
   const trayEdit = useCallback(() => {
@@ -328,41 +343,41 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
   // ** Unity <-> React logic
   // ***********+
 
-  const handleUpsertProjectModule = useCallback(
+  const handleUpsertProjectModuleCallback = useCallback(
     async (projectModuleToCreate: UnityProjectModuleJson, children: UnityProjectModuleJson[]) => {
       if (projectModuleToCreate.module.isExtension) return;
 
-      try {
-        setIsPending(true);
-        const { data: existingProjectModules } = await apolloClient.query<
-          GetProjectModuleQuery,
-          GetProjectModuleQueryVariables
-        >({
+      // setIsPending(true);
+      const { data: existingProjectModules } = await apolloClient.query<
+        GetProjectModuleQuery,
+        GetProjectModuleQueryVariables
+      >({
+        query: GET_PROJECT_MODULE,
+        variables: {
+          nanoIds: [projectModuleToCreate.nanoId, ...children.map((x) => x.nanoId)]
+        },
+        fetchPolicy: 'network-only'
+      });
+
+      let parentId = projectModuleToCreate.parentId || -1;
+
+      if ((!parentId || parentId < 0) && projectModuleToCreate?.parentNanoId) {
+        const { data: parentData } = await apolloClient.query<GetProjectModuleQuery, GetProjectModuleQueryVariables>({
           query: GET_PROJECT_MODULE,
           variables: {
-            nanoIds: [projectModuleToCreate.nanoId, ...children.map((x) => x.nanoId)]
-          },
-          fetchPolicy: 'network-only'
+            nanoIds: [projectModuleToCreate.parentNanoId]
+          }
         });
 
-        let parentId = projectModuleToCreate.parentId || -1;
+        parentId = parentData?.projectModules[0]?.id || -1;
+      }
 
-        if ((!parentId || parentId < 0) && projectModuleToCreate?.parentNanoId) {
-          const { data: parentData } = await apolloClient.query<GetProjectModuleQuery, GetProjectModuleQueryVariables>({
-            query: GET_PROJECT_MODULE,
-            variables: {
-              nanoIds: [projectModuleToCreate.parentNanoId]
-            }
-          });
+      const currentProjectModule = existingProjectModules?.projectModules.find(
+        (x) => x.nanoId === projectModuleToCreate.nanoId
+      );
 
-          parentId = parentData?.projectModules[0]?.id || -1;
-        }
-
-        const currentProjectModule = existingProjectModules?.projectModules.find(
-          (x) => x.nanoId === projectModuleToCreate.nanoId
-        );
-
-        if (!currentProjectModule) {
+      if (!currentProjectModule) {
+        try {
           const { data } = await doCreateProjectModule({
             variables: {
               data: {
@@ -399,17 +414,25 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
           if (!data) {
             logging.warn(`Created project module but it did not return any data`, { projectModuleToCreate });
           }
-        } else {
-          // All children where it doesn't exist
-          const childrenToCreate = children.filter(
-            (x) => !existingProjectModules?.projectModules.some((y) => y.nanoId === x.nanoId)
-          );
+        } catch (err) {
+          logging.error(err as Error, `Failed CREATING project module`, {
+            projectModuleToCreate,
+            children,
+            projectId
+          });
+        }
+      } else {
+        // All children where it doesn't exist
+        const childrenToCreate = children.filter(
+          (x) => !existingProjectModules?.projectModules.some((y) => y.nanoId === x.nanoId)
+        );
 
-          // All children where does exist
-          const childrenToUpdate = children.filter((x) =>
-            existingProjectModules?.projectModules.some((y) => y.nanoId === x.nanoId)
-          );
+        // All children where does exist
+        const childrenToUpdate = children.filter((x) =>
+          existingProjectModules?.projectModules.some((y) => y.nanoId === x.nanoId)
+        );
 
+        try {
           const { data } = await doUpdateProjectModule({
             variables: {
               id: currentProjectModule.id,
@@ -428,7 +451,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
                         createMany:
                           childrenToCreate && childrenToCreate.length > 0
                             ? {
-                                data: children.map((childToCreate) => ({
+                                data: childrenToCreate.map((childToCreate) => ({
                                   nanoId: childToCreate.nanoId,
                                   posX: childToCreate.posX,
                                   posY: childToCreate.posY,
@@ -446,42 +469,46 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
             }
           });
 
-          for (const childToUpdate of childrenToUpdate) {
-            const existingProjectModule = existingProjectModules?.projectModules?.find(
-              (x) => x.nanoId === childToUpdate.nanoId
-            );
-            if (existingProjectModule) {
-              // Don't await, fire and forget
-              doUpdateProjectModule({
-                variables: {
-                  id: existingProjectModule.id,
-                  data: {
-                    posX: { set: childToUpdate.posX },
-                    posY: { set: childToUpdate.posY },
-                    posZ: { set: childToUpdate.posZ },
-                    rotY: { set: childToUpdate.rotY }
-                  }
-                }
-              });
-            }
-          }
-
           if (!data) {
-            logging.warn(`Updated project module but it did not return any data`, {
-              projectModuleToCreate,
-              existingProjectModule: existingProjectModules
+            logging.warn(`Updated project module but it did not return any data`, { projectModuleToCreate });
+          }
+        } catch (err) {
+          logging.error(err as Error, `Failed UPDATING project module`, {
+            projectModuleToCreate,
+            currentProjectModule,
+            children,
+            childrenToCreate,
+            childrenToUpdate,
+            projectId
+          });
+        }
+
+        for (const childToUpdate of childrenToUpdate) {
+          const existingProjectModule = existingProjectModules?.projectModules?.find(
+            (x) => x.nanoId === childToUpdate.nanoId
+          );
+          if (existingProjectModule) {
+            // Don't await, fire and forget
+            doUpdateProjectModule({
+              variables: {
+                id: existingProjectModule.id,
+                data: {
+                  posX: { set: childToUpdate.posX },
+                  posY: { set: childToUpdate.posY },
+                  posZ: { set: childToUpdate.posZ },
+                  rotY: { set: childToUpdate.rotY }
+                }
+              }
             });
           }
         }
-        setIsPending(false);
-      } catch (err) {
-        logging.error(err as Error, `Failed upserting project module`, { projectModuleToCreate, children, projectId });
-        setIsPending(false);
       }
+      // setIsPending(false);
     },
     // DO NOT add more dependencies to this method. Receive them as arguments
     [apolloClient, doCreateProjectModule, doUpdateProjectModule, projectId]
   );
+  const handleUpsertProjectModule = useQueueCallback(handleUpsertProjectModuleCallback);
 
   const handleDeleteProjectModule = useCallback(
     async (projectModuleToDelete: UnityProjectModuleJson, children?: UnityProjectModuleJson[]) => {
@@ -590,6 +617,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         setIsPending(false);
         setProjectModule(projectModule);
+        setChildrenModules(childrenModules?.children);
         setState('Created');
 
         if (projectModule.module.isMat) {
@@ -607,17 +635,19 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         setProjectModule((prevProjectModule) => {
           // Only calls upsertModule if the selected module has been moved
           if (
-            prevProjectModule &&
-            prevProjectModule.nanoId === projectModule.nanoId &&
-            (prevProjectModule?.posX !== projectModule.posX ||
-              prevProjectModule?.posY !== projectModule.posY ||
-              prevProjectModule?.posZ !== projectModule.posZ ||
-              prevProjectModule?.rotY !== projectModule.rotY)
+            (prevProjectModule &&
+              prevProjectModule.nanoId === projectModule.nanoId &&
+              (prevProjectModule?.posX !== projectModule.posX ||
+                prevProjectModule?.posY !== projectModule.posY ||
+                prevProjectModule?.posZ !== projectModule.posZ ||
+                prevProjectModule?.rotY !== projectModule.rotY)) ||
+            childrenModules?.children.some((x) => x.module.isEdge)
           ) {
-            setShouldCreateOrUpdate(true);
+            shouldCreateOrUpdate.current = true;
           }
           return projectModule;
         });
+        setChildrenModules(childrenModules?.children);
         setState('Selected');
       },
       editedModule: (projectModuleJson: string, childrenJson: string) => {
@@ -628,6 +658,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         console.log('editedModule: ', projectModule, childrenModules);
 
         setProjectModule(projectModule);
+        setChildrenModules(childrenModules?.children);
         setState('Editing');
       },
       placedModule: async (projectModuleJson: string, childrenJson: string) => {
@@ -639,16 +670,13 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         setState('Placed');
 
         // Using this because putting the variable on the dependencies make the entire code not run.
-        let updateOrCreate = false;
-        setShouldCreateOrUpdate((should) => {
-          updateOrCreate = should;
-          return false;
-        });
-
-        if (!projectModule.module.isMat && updateOrCreate) {
+        if (!projectModule.module.isMat && shouldCreateOrUpdate.current) {
           await handleUpsertProjectModule(projectModule, childrenModules?.children || []);
           setProjectModule(undefined);
+          setChildrenModules(undefined);
         }
+
+        shouldCreateOrUpdate.current = false;
       },
       deletedModule: async (projectModuleJson: string, childrenJson?: string) => {
         if (!finishedSetup) return;
@@ -657,8 +685,20 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('deletedModule: ', projectModule, childrenModules);
 
-        setProjectModule(undefined);
-        setState('Deleted');
+        setProjectModule((currProjectModule) => {
+          // Only deselect if current project module is the same that it's deleting
+          if (projectModule.id === currProjectModule?.id) {
+            setState('Deleted');
+            return undefined;
+          } else {
+            return currProjectModule;
+          }
+        });
+        setChildrenModules((currChildrenModules) =>
+          currChildrenModules?.filter(
+            (x) => x.id !== projectModule.id || (childrenModules?.children || []).some((y) => y.id === x.id)
+          )
+        );
         await handleDeleteProjectModule(projectModule, childrenModules?.children);
       },
       recalculatedExtensions: async (projectModuleJson: string, childrenJson: string) => {
@@ -691,13 +731,15 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         cartAmount,
         trayDone,
         trayDelete,
+        trayDeleteEdge,
         trayEdit,
         trayRotateLeft,
         trayRotateRight,
         createModule,
         createChildrenModule,
         setupDrawer,
-        didFinishSetup
+        didFinishSetup,
+        childrenModules
       }}
     >
       {children}
