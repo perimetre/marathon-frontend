@@ -91,6 +91,7 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
                       <Card
                         key={`collection-card-${collection.id}`}
                         category={collection.subtitle}
+                        isComingSoon={collection.isComingSoon}
                         active={values.collection === collection.id}
                         onClick={() => {
                           setFieldValue('collection', collection.id);

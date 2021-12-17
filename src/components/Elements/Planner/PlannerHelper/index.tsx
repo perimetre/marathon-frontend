@@ -30,7 +30,7 @@ const PlannerHelper: React.FC<PlannerHelperProps> = ({ state, canRotate }) => {
       variants={trayVariants}
       initial="closed"
       animate={isOpen ? 'open' : 'closed'}
-      className="flex w-full h-10 px-8 bg-black select-none opacity-80"
+      className="hidden w-full h-10 px-8 bg-black select-none opacity-80 md:flex"
     >
       <div className="container flex w-full mx-auto gap-2">
         <div className="flex flex-row items-center text-sm text-white gap-1">
