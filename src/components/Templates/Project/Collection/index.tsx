@@ -87,29 +87,32 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
               ) : (
                 <div className="container mx-auto">
                   <div className="flex flex-wrap justify-center mt-16 mb-8 gap-16">
-                    {data?.collections.map((collection) => (
-                      <Card
-                        key={`collection-card-${collection.id}`}
-                        category={collection.subtitle}
-                        active={values.collection === collection.id}
-                        onClick={() => {
-                          setFieldValue('collection', collection.id);
-                          setEnablePegs(collection.hasPegs);
-                          setFieldValue('hasPegs', false);
-                        }}
-                        image={collection.thumbnailUrl}
-                        title={collection.name}
-                        description={collection.description}
-                        footer={
-                          collection.footer && (
-                            <p className="flex items-center text-sm font-semibold gap-1">
-                              {collection.footer}
-                              <ChevronRight className="w-5 h-5 text-mui-primary" />
-                            </p>
-                          )
-                        }
-                      />
-                    ))}
+                    {data?.collections
+                      .filter((f) => !f.isComingSoon)
+                      .map((collection) => (
+                        <Card
+                          key={`collection-card-${collection.id}`}
+                          category={collection.subtitle}
+                          isComingSoon={collection.isComingSoon}
+                          active={values.collection === collection.id}
+                          onClick={() => {
+                            setFieldValue('collection', collection.id);
+                            setEnablePegs(collection.hasPegs);
+                            setFieldValue('hasPegs', false);
+                          }}
+                          image={collection.thumbnailUrl}
+                          title={collection.name}
+                          description={collection.description}
+                          footer={
+                            collection.footer && (
+                              <p className="flex items-center text-sm font-semibold gap-1">
+                                {collection.footer}
+                                <ChevronRight className="w-5 h-5 text-mui-primary" />
+                              </p>
+                            )
+                          }
+                        />
+                      ))}
                   </div>
                   {displayPegs && (
                     <div className="flex items-center justify-center mb-12">

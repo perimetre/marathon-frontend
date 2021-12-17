@@ -5280,6 +5280,7 @@ export type GetCollectionsQuery = {
     name: string;
     slug: string;
     hasPegs: boolean;
+    isComingSoon: boolean;
     subtitle?: string | null | undefined;
     description?: string | null | undefined;
     footer?: string | null | undefined;
@@ -7211,6 +7212,7 @@ export const GetCollectionsDocument = gql`
       name
       slug
       hasPegs
+      isComingSoon
       subtitle
       description
       footer

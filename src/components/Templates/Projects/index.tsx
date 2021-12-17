@@ -174,59 +174,63 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
                   )}
                 </Expander>
               </div>
-              <div>
-                {loading ? (
-                  <div className="w-56 h-7 mui-skeleton grid" />
-                ) : (
-                  <button className="flex w-full mb-2 text-left" onClick={() => handleAccordion('ac-kits')}>
-                    <h3 className="flex items-center flex-1 text-xl font-bold uppercase gap-2">
-                      <FormattedMessage id="projects.kitPortfolio" />
-                    </h3>
-                    <ChevronDown
-                      className={classNames(
-                        'text-mui-primary transition-all',
-                        expanded.includes('ac-kits') && 'rotate-180'
-                      )}
-                    />
-                  </button>
-                )}
-                <Expander isExpanded={expanded.includes('ac-kits')}>
+              {false && (
+                <div>
                   {loading ? (
-                    <div className="flex flex-col items-center gap-2">
-                      <div className="w-full h-10 mui-skeleton grid" />
-                      <div className="w-full h-10 mui-skeleton grid" />
-                      <div className="w-full h-10 mui-skeleton grid" />
-                    </div>
+                    <div className="w-56 h-7 mui-skeleton grid" />
                   ) : (
-                    data?.portfolio.map((project) => (
-                      <div key={project.id} className="flex items-center gap-6">
-                        <a className="w-full py-3">
-                          <h3 className="flex items-center flex-1 pl-4 text-lg font-semibold gap-2">{project.title}</h3>
-                        </a>
-                        <Dropdown
-                          content={[
-                            {
-                              id: 'key-clone',
-                              content: (
-                                <button
-                                  className="text-left"
-                                  onClick={() => setModalProject({ openClone: true, project: project as Project })}
-                                >
-                                  <FormattedMessage id="projects.duplicate" />
-                                </button>
-                              )
-                            }
-                          ]}
-                        >
-                          <div className="py-3">
-                            <Settings className="text-gray-400 hover:text-mui-primary" />
-                          </div>
-                        </Dropdown>
-                      </div>
-                    ))
+                    <button className="flex w-full mb-2 text-left" onClick={() => handleAccordion('ac-kits')}>
+                      <h3 className="flex items-center flex-1 text-xl font-bold uppercase gap-2">
+                        <FormattedMessage id="projects.kitPortfolio" />
+                      </h3>
+                      <ChevronDown
+                        className={classNames(
+                          'text-mui-primary transition-all',
+                          expanded.includes('ac-kits') && 'rotate-180'
+                        )}
+                      />
+                    </button>
                   )}
-                </Expander>
-              </div>
+                  <Expander isExpanded={expanded.includes('ac-kits')}>
+                    {loading ? (
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="w-full h-10 mui-skeleton grid" />
+                        <div className="w-full h-10 mui-skeleton grid" />
+                        <div className="w-full h-10 mui-skeleton grid" />
+                      </div>
+                    ) : (
+                      data?.portfolio.map((project) => (
+                        <div key={project.id} className="flex items-center gap-6">
+                          <a className="w-full py-3">
+                            <h3 className="flex items-center flex-1 pl-4 text-lg font-semibold gap-2">
+                              {project.title}
+                            </h3>
+                          </a>
+                          <Dropdown
+                            content={[
+                              {
+                                id: 'key-clone',
+                                content: (
+                                  <button
+                                    className="text-left"
+                                    onClick={() => setModalProject({ openClone: true, project: project as Project })}
+                                  >
+                                    <FormattedMessage id="projects.duplicate" />
+                                  </button>
+                                )
+                              }
+                            ]}
+                          >
+                            <div className="py-3">
+                              <Settings className="text-gray-400 hover:text-mui-primary" />
+                            </div>
+                          </Dropdown>
+                        </div>
+                      ))
+                    )}
+                  </Expander>
+                </div>
+              )}
             </div>
             {loading && <div className="h-10 w-44 mui-skeleton grid" />}
           </div>
