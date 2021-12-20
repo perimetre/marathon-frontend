@@ -50,6 +50,10 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
     [intl]
   );
 
+  const validCollectionWithPegs = useMemo(() => {
+    return data?.collections.filter((f) => !f.isComingSoon).find((f) => f.hasPegs);
+  }, [data]);
+
   return (
     <>
       <Head>
@@ -114,7 +118,7 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
                         />
                       ))}
                   </div>
-                  {displayPegs && (
+                  {!!(validCollectionWithPegs && displayPegs) && (
                     <div className="flex items-center justify-center mb-12">
                       <Switch name="hasPegs" disabled={!enablePegs} />
                       <FormattedMessage id="project.usePegboard" />
