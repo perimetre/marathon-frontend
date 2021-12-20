@@ -17,6 +17,7 @@ import { nanoid } from 'nanoid';
 import { useApolloClient } from '@apollo/client';
 import { GET_PROJECT_MODULE } from '../../../apollo/projectModules';
 import { useQueueCallback } from '../../../utils/queueCallback';
+import env from '../../../env';
 
 export type PieceBuilderState = 'None' | 'Created' | 'Selected' | 'Editing' | 'Placed' | 'AddingSubModule' | 'Deleted';
 
@@ -321,6 +322,14 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       initialModules?: UnityProjectModuleJson[],
       children?: UnityProjectModuleJson[]
     ) => {
+      const {
+        NEXT_PUBLIC_UNITY_PUBLIC_MEDIA_URI,
+        NEXT_PUBLIC_UNITY_ASSET_BUNDLE_FOLDER,
+        NEXT_PUBLIC_UNITY_DEFAULT_PLATFORM,
+        NEXT_PUBLIC_UNITY_MODULE_MATERIALS_FOLDER,
+        NEXT_PUBLIC_UNITY_MANIFEST_ASSET_NAME
+      } = env();
+
       const json = JSON.stringify({
         width,
         depth,
@@ -329,7 +338,14 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         isPegboard,
         drawerType: drawerTypeSlug,
         initialModules,
-        children
+        children,
+        env: {
+          PUBLIC_MEDIA_URI: NEXT_PUBLIC_UNITY_PUBLIC_MEDIA_URI,
+          ASSET_BUNDLE_FOLDER: NEXT_PUBLIC_UNITY_ASSET_BUNDLE_FOLDER,
+          DEFAULT_PLATFORM: NEXT_PUBLIC_UNITY_DEFAULT_PLATFORM,
+          MODULE_MATERIALS_FOLDER: NEXT_PUBLIC_UNITY_MODULE_MATERIALS_FOLDER,
+          MANIFEST_ASSET_NAME: NEXT_PUBLIC_UNITY_MANIFEST_ASSET_NAME
+        }
       });
 
       console.log('setupDrawer', json);
