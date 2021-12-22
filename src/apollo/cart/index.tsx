@@ -7,13 +7,26 @@ export const CART_QUERY = gql`
       id
       slug
       title
-      projectModules(where: { parentId: { equals: null } }) {
+      cartAmount
+      cart {
         ...CartData
-        children(where: { module: { partNumber: { not: { contains: "EXTENSION" } } } }) {
+        children {
           ...CartData
         }
       }
     }
   }
   ${CART_DATA}
+`;
+
+export const CREATE_LIST = gql`
+  mutation CreateList($projectId: Int!) {
+    createList(id: $projectId) {
+      id
+      name
+      project {
+        id
+      }
+    }
+  }
 `;

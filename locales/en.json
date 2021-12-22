@@ -115,6 +115,7 @@
     "title": "Cart",
     "review": "Review your items",
     "print": "Print",
+    "createList": "Create List",
     "headers": {
       "product": "Product",
       "quantity": "Qty"
