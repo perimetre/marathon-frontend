@@ -12,6 +12,7 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  DateTime: any;
   Json: any;
 };
 
@@ -31,6 +32,7 @@ export type BoolFilter = {
 
 export type Category = {
   __typename?: 'Category';
+  externalId?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   modules: Array<Module>;
   name: Scalars['String'];
@@ -53,11 +55,13 @@ export type CategoryCreateOrConnectWithoutModuleCategoriesInput = {
 };
 
 export type CategoryCreateWithoutModuleCategoriesInput = {
+  externalId?: Maybe<Scalars['String']>;
   name: Scalars['String'];
   slug: Scalars['String'];
 };
 
 export type CategoryOrderByInput = {
+  externalId?: Maybe<SortOrder>;
   id?: Maybe<SortOrder>;
   name?: Maybe<SortOrder>;
   slug?: Maybe<SortOrder>;
@@ -72,6 +76,7 @@ export type CategoryUpdateOneRequiredWithoutModuleCategoriesInput = {
 };
 
 export type CategoryUpdateWithoutModuleCategoriesInput = {
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   name?: Maybe<StringFieldUpdateOperationsInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
 };
@@ -85,6 +90,7 @@ export type CategoryWhereInput = {
   AND?: Maybe<Array<CategoryWhereInput>>;
   NOT?: Maybe<Array<CategoryWhereInput>>;
   OR?: Maybe<Array<CategoryWhereInput>>;
+  externalId?: Maybe<StringNullableFilter>;
   id?: Maybe<IntFilter>;
   moduleCategories?: Maybe<ModuleCategoryListRelationFilter>;
   name?: Maybe<StringFilter>;
@@ -92,6 +98,7 @@ export type CategoryWhereInput = {
 };
 
 export type CategoryWhereUniqueInput = {
+  externalId?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   slug?: Maybe<Scalars['String']>;
 };
@@ -100,6 +107,7 @@ export type Collection = {
   __typename?: 'Collection';
   collectionFinishes: Array<CollectionFinishes>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   footer?: Maybe<Scalars['String']>;
   hasPegs: Scalars['Boolean'];
   id: Scalars['Int'];
@@ -190,6 +198,7 @@ export type CollectionCreateOrConnectWithoutSlidesInput = {
 };
 
 export type CollectionCreateWithoutCollectionFinishesInput = {
+  externalId?: Maybe<Scalars['String']>;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isComingSoon?: Maybe<Scalars['Boolean']>;
   modules?: Maybe<ModuleCreateNestedManyWithoutCollectionInput>;
@@ -202,6 +211,7 @@ export type CollectionCreateWithoutCollectionFinishesInput = {
 
 export type CollectionCreateWithoutModulesInput = {
   collectionFinishes?: Maybe<CollectionFinishesCreateNestedManyWithoutCollectionInput>;
+  externalId?: Maybe<Scalars['String']>;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isComingSoon?: Maybe<Scalars['Boolean']>;
   projects?: Maybe<ProjectCreateNestedManyWithoutCollectionInput>;
@@ -213,6 +223,7 @@ export type CollectionCreateWithoutModulesInput = {
 
 export type CollectionCreateWithoutProjectsInput = {
   collectionFinishes?: Maybe<CollectionFinishesCreateNestedManyWithoutCollectionInput>;
+  externalId?: Maybe<Scalars['String']>;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isComingSoon?: Maybe<Scalars['Boolean']>;
   modules?: Maybe<ModuleCreateNestedManyWithoutCollectionInput>;
@@ -224,6 +235,7 @@ export type CollectionCreateWithoutProjectsInput = {
 
 export type CollectionCreateWithoutSlidesInput = {
   collectionFinishes?: Maybe<CollectionFinishesCreateNestedManyWithoutCollectionInput>;
+  externalId?: Maybe<Scalars['String']>;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isComingSoon?: Maybe<Scalars['Boolean']>;
   modules?: Maybe<ModuleCreateNestedManyWithoutCollectionInput>;
@@ -403,6 +415,7 @@ export type CollectionFinishesWhereUniqueInput = {
 };
 
 export type CollectionOrderByInput = {
+  externalId?: Maybe<SortOrder>;
   hasPegs?: Maybe<SortOrder>;
   id?: Maybe<SortOrder>;
   isComingSoon?: Maybe<SortOrder>;
@@ -572,6 +585,7 @@ export type CollectionUpdateOneRequiredWithoutSlidesInput = {
 };
 
 export type CollectionUpdateWithoutCollectionFinishesInput = {
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isComingSoon?: Maybe<BoolFieldUpdateOperationsInput>;
   modules?: Maybe<ModuleUpdateManyWithoutCollectionInput>;
@@ -584,6 +598,7 @@ export type CollectionUpdateWithoutCollectionFinishesInput = {
 
 export type CollectionUpdateWithoutModulesInput = {
   collectionFinishes?: Maybe<CollectionFinishesUpdateManyWithoutCollectionInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isComingSoon?: Maybe<BoolFieldUpdateOperationsInput>;
   projects?: Maybe<ProjectUpdateManyWithoutCollectionInput>;
@@ -595,6 +610,7 @@ export type CollectionUpdateWithoutModulesInput = {
 
 export type CollectionUpdateWithoutProjectsInput = {
   collectionFinishes?: Maybe<CollectionFinishesUpdateManyWithoutCollectionInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isComingSoon?: Maybe<BoolFieldUpdateOperationsInput>;
   modules?: Maybe<ModuleUpdateManyWithoutCollectionInput>;
@@ -606,6 +622,7 @@ export type CollectionUpdateWithoutProjectsInput = {
 
 export type CollectionUpdateWithoutSlidesInput = {
   collectionFinishes?: Maybe<CollectionFinishesUpdateManyWithoutCollectionInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isComingSoon?: Maybe<BoolFieldUpdateOperationsInput>;
   modules?: Maybe<ModuleUpdateManyWithoutCollectionInput>;
@@ -640,6 +657,7 @@ export type CollectionWhereInput = {
   NOT?: Maybe<Array<CollectionWhereInput>>;
   OR?: Maybe<Array<CollectionWhereInput>>;
   collectionFinishes?: Maybe<CollectionFinishesListRelationFilter>;
+  externalId?: Maybe<StringNullableFilter>;
   hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
   isComingSoon?: Maybe<BoolFilter>;
@@ -652,8 +670,24 @@ export type CollectionWhereInput = {
 };
 
 export type CollectionWhereUniqueInput = {
+  externalId?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   slug?: Maybe<Scalars['String']>;
+};
+
+export type DateTimeFieldUpdateOperationsInput = {
+  set?: Maybe<Scalars['DateTime']>;
+};
+
+export type DateTimeFilter = {
+  equals?: Maybe<Scalars['DateTime']>;
+  gt?: Maybe<Scalars['DateTime']>;
+  gte?: Maybe<Scalars['DateTime']>;
+  in?: Maybe<Array<Scalars['DateTime']>>;
+  lt?: Maybe<Scalars['DateTime']>;
+  lte?: Maybe<Scalars['DateTime']>;
+  not?: Maybe<NestedDateTimeFilter>;
+  notIn?: Maybe<Array<Scalars['DateTime']>>;
 };
 
 export type EnumLocaleFieldUpdateOperationsInput = {
@@ -671,6 +705,7 @@ export type Finish = {
   __typename?: 'Finish';
   collectionFinishes: Array<CollectionFinishes>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   modules: Array<Module>;
   name: Scalars['String'];
@@ -737,6 +772,7 @@ export type FinishCreateOrConnectWithoutProjectsInput = {
 };
 
 export type FinishCreateWithoutCollectionFinishesInput = {
+  externalId?: Maybe<Scalars['String']>;
   modules?: Maybe<ModuleCreateNestedManyWithoutFinishInput>;
   projects?: Maybe<ProjectCreateNestedManyWithoutFinishInput>;
   slug: Scalars['String'];
@@ -746,6 +782,7 @@ export type FinishCreateWithoutCollectionFinishesInput = {
 
 export type FinishCreateWithoutModulesInput = {
   collectionFinishes?: Maybe<CollectionFinishesCreateNestedManyWithoutFinishInput>;
+  externalId?: Maybe<Scalars['String']>;
   projects?: Maybe<ProjectCreateNestedManyWithoutFinishInput>;
   slug: Scalars['String'];
   thumbnailUrl?: Maybe<Scalars['String']>;
@@ -754,6 +791,7 @@ export type FinishCreateWithoutModulesInput = {
 
 export type FinishCreateWithoutProjectsInput = {
   collectionFinishes?: Maybe<CollectionFinishesCreateNestedManyWithoutFinishInput>;
+  externalId?: Maybe<Scalars['String']>;
   modules?: Maybe<ModuleCreateNestedManyWithoutFinishInput>;
   slug: Scalars['String'];
   thumbnailUrl?: Maybe<Scalars['String']>;
@@ -761,6 +799,7 @@ export type FinishCreateWithoutProjectsInput = {
 };
 
 export type FinishOrderByInput = {
+  externalId?: Maybe<SortOrder>;
   id?: Maybe<SortOrder>;
   slug?: Maybe<SortOrder>;
   thumbnailUrl?: Maybe<SortOrder>;
@@ -906,6 +945,7 @@ export type FinishUpdateOneRequiredWithoutProjectsInput = {
 };
 
 export type FinishUpdateWithoutCollectionFinishesInput = {
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   modules?: Maybe<ModuleUpdateManyWithoutFinishInput>;
   projects?: Maybe<ProjectUpdateManyWithoutFinishInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -915,6 +955,7 @@ export type FinishUpdateWithoutCollectionFinishesInput = {
 
 export type FinishUpdateWithoutModulesInput = {
   collectionFinishes?: Maybe<CollectionFinishesUpdateManyWithoutFinishInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   projects?: Maybe<ProjectUpdateManyWithoutFinishInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
@@ -923,6 +964,7 @@ export type FinishUpdateWithoutModulesInput = {
 
 export type FinishUpdateWithoutProjectsInput = {
   collectionFinishes?: Maybe<CollectionFinishesUpdateManyWithoutFinishInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   modules?: Maybe<ModuleUpdateManyWithoutFinishInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
@@ -949,6 +991,7 @@ export type FinishWhereInput = {
   NOT?: Maybe<Array<FinishWhereInput>>;
   OR?: Maybe<Array<FinishWhereInput>>;
   collectionFinishes?: Maybe<CollectionFinishesListRelationFilter>;
+  externalId?: Maybe<StringNullableFilter>;
   id?: Maybe<IntFilter>;
   modules?: Maybe<ModuleListRelationFilter>;
   projects?: Maybe<ProjectListRelationFilter>;
@@ -958,6 +1001,7 @@ export type FinishWhereInput = {
 };
 
 export type FinishWhereUniqueInput = {
+  externalId?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   slug?: Maybe<Scalars['String']>;
 };
@@ -1027,6 +1071,115 @@ export type JsonNullableFilter = {
   not?: Maybe<Scalars['Json']>;
 };
 
+export type List = {
+  __typename?: 'List';
+  externalId?: Maybe<Scalars['String']>;
+  id: Scalars['Int'];
+  name?: Maybe<Scalars['String']>;
+  project?: Maybe<Project>;
+  projectId?: Maybe<Scalars['Int']>;
+};
+
+export type ListCreateManyProjectInput = {
+  externalId?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type ListCreateManyProjectInputEnvelope = {
+  data?: Maybe<Array<ListCreateManyProjectInput>>;
+  skipDuplicates?: Maybe<Scalars['Boolean']>;
+};
+
+export type ListCreateNestedManyWithoutProjectInput = {
+  connect?: Maybe<Array<ListWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ListCreateOrConnectWithoutProjectInput>>;
+  create?: Maybe<Array<ListCreateWithoutProjectInput>>;
+  createMany?: Maybe<ListCreateManyProjectInputEnvelope>;
+};
+
+export type ListCreateOrConnectWithoutProjectInput = {
+  create: ListCreateWithoutProjectInput;
+  where: ListWhereUniqueInput;
+};
+
+export type ListCreateWithoutProjectInput = {
+  externalId?: Maybe<Scalars['String']>;
+  name?: Maybe<Scalars['String']>;
+};
+
+export type ListListRelationFilter = {
+  every?: Maybe<ListWhereInput>;
+  none?: Maybe<ListWhereInput>;
+  some?: Maybe<ListWhereInput>;
+};
+
+export type ListScalarWhereInput = {
+  AND?: Maybe<Array<ListScalarWhereInput>>;
+  NOT?: Maybe<Array<ListScalarWhereInput>>;
+  OR?: Maybe<Array<ListScalarWhereInput>>;
+  externalId?: Maybe<StringNullableFilter>;
+  id?: Maybe<IntFilter>;
+  name?: Maybe<StringNullableFilter>;
+  projectId?: Maybe<IntNullableFilter>;
+};
+
+export type ListUpdateManyMutationInput = {
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  name?: Maybe<NullableStringFieldUpdateOperationsInput>;
+};
+
+export type ListUpdateManyWithWhereWithoutProjectInput = {
+  data: ListUpdateManyMutationInput;
+  where: ListScalarWhereInput;
+};
+
+export type ListUpdateManyWithoutProjectInput = {
+  connect?: Maybe<Array<ListWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ListCreateOrConnectWithoutProjectInput>>;
+  create?: Maybe<Array<ListCreateWithoutProjectInput>>;
+  createMany?: Maybe<ListCreateManyProjectInputEnvelope>;
+  delete?: Maybe<Array<ListWhereUniqueInput>>;
+  deleteMany?: Maybe<Array<ListScalarWhereInput>>;
+  disconnect?: Maybe<Array<ListWhereUniqueInput>>;
+  set?: Maybe<Array<ListWhereUniqueInput>>;
+  update?: Maybe<Array<ListUpdateWithWhereUniqueWithoutProjectInput>>;
+  updateMany?: Maybe<Array<ListUpdateManyWithWhereWithoutProjectInput>>;
+  upsert?: Maybe<Array<ListUpsertWithWhereUniqueWithoutProjectInput>>;
+};
+
+export type ListUpdateWithWhereUniqueWithoutProjectInput = {
+  data: ListUpdateWithoutProjectInput;
+  where: ListWhereUniqueInput;
+};
+
+export type ListUpdateWithoutProjectInput = {
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  name?: Maybe<NullableStringFieldUpdateOperationsInput>;
+};
+
+export type ListUpsertWithWhereUniqueWithoutProjectInput = {
+  create: ListCreateWithoutProjectInput;
+  update: ListUpdateWithoutProjectInput;
+  where: ListWhereUniqueInput;
+};
+
+export type ListWhereInput = {
+  AND?: Maybe<Array<ListWhereInput>>;
+  NOT?: Maybe<Array<ListWhereInput>>;
+  OR?: Maybe<Array<ListWhereInput>>;
+  externalId?: Maybe<StringNullableFilter>;
+  id?: Maybe<IntFilter>;
+  name?: Maybe<StringNullableFilter>;
+  project?: Maybe<ProjectWhereInput>;
+  projectId?: Maybe<IntNullableFilter>;
+};
+
+export type ListWhereUniqueInput = {
+  externalId?: Maybe<Scalars['String']>;
+  id?: Maybe<Scalars['Int']>;
+};
+
 export enum Locale {
   En = 'en',
   Fr = 'fr'
@@ -1042,6 +1195,7 @@ export type Module = {
   categories: Array<Category>;
   collection: Collection;
   collectionId: Scalars['Int'];
+  createdAt: Scalars['DateTime'];
   defaultLeftExtension?: Maybe<Module>;
   defaultLeftExtensionId?: Maybe<Scalars['Int']>;
   defaultLeftExtensionParents: Array<Module>;
@@ -1049,6 +1203,7 @@ export type Module = {
   defaultRightExtensionId?: Maybe<Scalars['Int']>;
   defaultRightExtensionParents: Array<Module>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finish: Finish;
   finishId: Scalars['Int'];
   hasPegs: Scalars['Boolean'];
@@ -1066,6 +1221,7 @@ export type Module = {
   rulesJson?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth: Scalars['Boolean'];
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt: Scalars['DateTime'];
 };
 
 export type ModuleAttachmentToAppendParentsArgs = {
@@ -1392,9 +1548,11 @@ export type ModuleCreateManyAttachmentToAppendInput = {
   alwaysDisplay?: Maybe<Scalars['Boolean']>;
   bundleUrl?: Maybe<Scalars['String']>;
   collectionId: Scalars['Int'];
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtensionId?: Maybe<Scalars['Int']>;
   defaultRightExtensionId?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finishId: Scalars['Int'];
   hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
@@ -1406,6 +1564,7 @@ export type ModuleCreateManyAttachmentToAppendInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateManyAttachmentToAppendInputEnvelope = {
@@ -1417,9 +1576,11 @@ export type ModuleCreateManyCollectionInput = {
   alwaysDisplay?: Maybe<Scalars['Boolean']>;
   attachmentToAppendId?: Maybe<Scalars['Int']>;
   bundleUrl?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtensionId?: Maybe<Scalars['Int']>;
   defaultRightExtensionId?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finishId: Scalars['Int'];
   hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
@@ -1431,6 +1592,7 @@ export type ModuleCreateManyCollectionInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateManyCollectionInputEnvelope = {
@@ -1443,8 +1605,10 @@ export type ModuleCreateManyDefaultLeftExtensionInput = {
   attachmentToAppendId?: Maybe<Scalars['Int']>;
   bundleUrl?: Maybe<Scalars['String']>;
   collectionId: Scalars['Int'];
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultRightExtensionId?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finishId: Scalars['Int'];
   hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
@@ -1456,6 +1620,7 @@ export type ModuleCreateManyDefaultLeftExtensionInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateManyDefaultLeftExtensionInputEnvelope = {
@@ -1468,8 +1633,10 @@ export type ModuleCreateManyDefaultRightExtensionInput = {
   attachmentToAppendId?: Maybe<Scalars['Int']>;
   bundleUrl?: Maybe<Scalars['String']>;
   collectionId: Scalars['Int'];
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtensionId?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finishId: Scalars['Int'];
   hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
@@ -1481,6 +1648,7 @@ export type ModuleCreateManyDefaultRightExtensionInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateManyDefaultRightExtensionInputEnvelope = {
@@ -1493,9 +1661,11 @@ export type ModuleCreateManyFinishInput = {
   attachmentToAppendId?: Maybe<Scalars['Int']>;
   bundleUrl?: Maybe<Scalars['String']>;
   collectionId: Scalars['Int'];
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtensionId?: Maybe<Scalars['Int']>;
   defaultRightExtensionId?: Maybe<Scalars['Int']>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   hasPegs?: Maybe<Scalars['Boolean']>;
   id?: Maybe<Scalars['Int']>;
   isEdge?: Maybe<Scalars['Boolean']>;
@@ -1506,6 +1676,7 @@ export type ModuleCreateManyFinishInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateManyFinishInputEnvelope = {
@@ -1655,11 +1826,13 @@ export type ModuleCreateWithoutAttachmentToAppendInput = {
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isEdge?: Maybe<Scalars['Boolean']>;
@@ -1675,6 +1848,7 @@ export type ModuleCreateWithoutAttachmentToAppendInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateWithoutAttachmentToAppendParentsInput = {
@@ -1682,11 +1856,13 @@ export type ModuleCreateWithoutAttachmentToAppendParentsInput = {
   attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isEdge?: Maybe<Scalars['Boolean']>;
@@ -1702,6 +1878,7 @@ export type ModuleCreateWithoutAttachmentToAppendParentsInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateWithoutCollectionInput = {
@@ -1709,11 +1886,13 @@ export type ModuleCreateWithoutCollectionInput = {
   attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isEdge?: Maybe<Scalars['Boolean']>;
@@ -1729,6 +1908,7 @@ export type ModuleCreateWithoutCollectionInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateWithoutDefaultLeftExtensionInput = {
@@ -1737,10 +1917,12 @@ export type ModuleCreateWithoutDefaultLeftExtensionInput = {
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isEdge?: Maybe<Scalars['Boolean']>;
@@ -1756,6 +1938,7 @@ export type ModuleCreateWithoutDefaultLeftExtensionInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateWithoutDefaultLeftExtensionParentsInput = {
@@ -1764,10 +1947,12 @@ export type ModuleCreateWithoutDefaultLeftExtensionParentsInput = {
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
   defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isEdge?: Maybe<Scalars['Boolean']>;
@@ -1783,6 +1968,7 @@ export type ModuleCreateWithoutDefaultLeftExtensionParentsInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateWithoutDefaultRightExtensionInput = {
@@ -1791,10 +1977,12 @@ export type ModuleCreateWithoutDefaultRightExtensionInput = {
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isEdge?: Maybe<Scalars['Boolean']>;
@@ -1810,6 +1998,7 @@ export type ModuleCreateWithoutDefaultRightExtensionInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateWithoutDefaultRightExtensionParentsInput = {
@@ -1818,10 +2007,12 @@ export type ModuleCreateWithoutDefaultRightExtensionParentsInput = {
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isEdge?: Maybe<Scalars['Boolean']>;
@@ -1837,6 +2028,7 @@ export type ModuleCreateWithoutDefaultRightExtensionParentsInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateWithoutFinishInput = {
@@ -1845,11 +2037,13 @@ export type ModuleCreateWithoutFinishInput = {
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isEdge?: Maybe<Scalars['Boolean']>;
   isExtension?: Maybe<Scalars['Boolean']>;
@@ -1864,6 +2058,7 @@ export type ModuleCreateWithoutFinishInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateWithoutModuleAttachedToInput = {
@@ -1872,11 +2067,13 @@ export type ModuleCreateWithoutModuleAttachedToInput = {
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isEdge?: Maybe<Scalars['Boolean']>;
@@ -1891,6 +2088,7 @@ export type ModuleCreateWithoutModuleAttachedToInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateWithoutModuleAttachmentsInput = {
@@ -1899,11 +2097,13 @@ export type ModuleCreateWithoutModuleAttachmentsInput = {
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isEdge?: Maybe<Scalars['Boolean']>;
@@ -1918,6 +2118,7 @@ export type ModuleCreateWithoutModuleAttachmentsInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateWithoutModuleTypeInput = {
@@ -1926,11 +2127,13 @@ export type ModuleCreateWithoutModuleTypeInput = {
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isEdge?: Maybe<Scalars['Boolean']>;
@@ -1945,6 +2148,7 @@ export type ModuleCreateWithoutModuleTypeInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleCreateWithoutProjectModulesInput = {
@@ -1953,11 +2157,13 @@ export type ModuleCreateWithoutProjectModulesInput = {
   attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<Scalars['String']>;
   collection: CollectionCreateNestedOneWithoutModulesInput;
+  createdAt?: Maybe<Scalars['DateTime']>;
   defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   finish: FinishCreateNestedOneWithoutModulesInput;
   hasPegs?: Maybe<Scalars['Boolean']>;
   isEdge?: Maybe<Scalars['Boolean']>;
@@ -1972,6 +2178,7 @@ export type ModuleCreateWithoutProjectModulesInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
   thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ModuleDimension = {
@@ -2005,9 +2212,11 @@ export type ModuleOrderByInput = {
   attachmentToAppendId?: Maybe<SortOrder>;
   bundleUrl?: Maybe<SortOrder>;
   collectionId?: Maybe<SortOrder>;
+  createdAt?: Maybe<SortOrder>;
   defaultLeftExtensionId?: Maybe<SortOrder>;
   defaultRightExtensionId?: Maybe<SortOrder>;
   description?: Maybe<SortOrder>;
+  externalId?: Maybe<SortOrder>;
   finishId?: Maybe<SortOrder>;
   hasPegs?: Maybe<SortOrder>;
   id?: Maybe<SortOrder>;
@@ -2019,15 +2228,18 @@ export type ModuleOrderByInput = {
   rules?: Maybe<SortOrder>;
   shouldHideBasedOnWidth?: Maybe<SortOrder>;
   thumbnailUrl?: Maybe<SortOrder>;
+  updatedAt?: Maybe<SortOrder>;
 };
 
 export type ModuleRules = {
   __typename?: 'ModuleRules';
+  bundleUrl?: Maybe<Scalars['String']>;
   dimensions?: Maybe<ModuleDimension>;
   /** Extensions are sub pieces that MUST BE CONNECTED to the main product or other extension. */
   extensions?: Maybe<ModuleExtensionsMetadata>;
   /** Modules that are basically this module but in a different finish(color), to allow the ui to easily switch between them */
   finishes?: Maybe<Array<Scalars['String']>>;
+  isImprintExtension: Scalars['Boolean'];
   /** The module part number, probably equivalent to the module id */
   partNumber: Scalars['String'];
   rules?: Maybe<ModuleRulesMetadata>;
@@ -2041,6 +2253,8 @@ export type ModuleRulesMetadata = {
   fullDepth?: Maybe<Scalars['Boolean']>;
   /** Options are which other modules can be put IN modules */
   options?: Maybe<Array<Scalars['String']>>;
+  /** Queue info */
+  queue?: Maybe<QueueInfoMetadata>;
   /** The product can only be put inside the drawer, if the current net interior of the drawer belongs to the range of the piece */
   requiredNetInterior?: Maybe<ModuleMinMax>;
   /** The amount (in degrees) that the product can be rotated */
@@ -2058,9 +2272,11 @@ export type ModuleScalarWhereInput = {
   attachmentToAppendId?: Maybe<IntNullableFilter>;
   bundleUrl?: Maybe<StringNullableFilter>;
   collectionId?: Maybe<IntFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
   defaultLeftExtensionId?: Maybe<IntNullableFilter>;
   defaultRightExtensionId?: Maybe<IntNullableFilter>;
   description?: Maybe<StringNullableFilter>;
+  externalId?: Maybe<StringNullableFilter>;
   finishId?: Maybe<IntFilter>;
   hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
@@ -2072,6 +2288,7 @@ export type ModuleScalarWhereInput = {
   rules?: Maybe<JsonNullableFilter>;
   shouldHideBasedOnWidth?: Maybe<BoolFilter>;
   thumbnailUrl?: Maybe<StringNullableFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
 };
 
 export type ModuleType = {
@@ -2246,7 +2463,9 @@ export type ModuleUnit = {
 export type ModuleUpdateManyMutationInput = {
   alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2256,6 +2475,7 @@ export type ModuleUpdateManyMutationInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type ModuleUpdateManyWithWhereWithoutAttachmentToAppendInput = {
@@ -2445,11 +2665,13 @@ export type ModuleUpdateWithoutAttachmentToAppendInput = {
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2465,6 +2687,7 @@ export type ModuleUpdateWithoutAttachmentToAppendInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type ModuleUpdateWithoutAttachmentToAppendParentsInput = {
@@ -2472,11 +2695,13 @@ export type ModuleUpdateWithoutAttachmentToAppendParentsInput = {
   attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2492,6 +2717,7 @@ export type ModuleUpdateWithoutAttachmentToAppendParentsInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type ModuleUpdateWithoutCollectionInput = {
@@ -2499,11 +2725,13 @@ export type ModuleUpdateWithoutCollectionInput = {
   attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2519,6 +2747,7 @@ export type ModuleUpdateWithoutCollectionInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type ModuleUpdateWithoutDefaultLeftExtensionInput = {
@@ -2527,10 +2756,12 @@ export type ModuleUpdateWithoutDefaultLeftExtensionInput = {
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2546,6 +2777,7 @@ export type ModuleUpdateWithoutDefaultLeftExtensionInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type ModuleUpdateWithoutDefaultLeftExtensionParentsInput = {
@@ -2554,10 +2786,12 @@ export type ModuleUpdateWithoutDefaultLeftExtensionParentsInput = {
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
   defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2573,6 +2807,7 @@ export type ModuleUpdateWithoutDefaultLeftExtensionParentsInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type ModuleUpdateWithoutDefaultRightExtensionInput = {
@@ -2581,10 +2816,12 @@ export type ModuleUpdateWithoutDefaultRightExtensionInput = {
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2600,6 +2837,7 @@ export type ModuleUpdateWithoutDefaultRightExtensionInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type ModuleUpdateWithoutDefaultRightExtensionParentsInput = {
@@ -2608,10 +2846,12 @@ export type ModuleUpdateWithoutDefaultRightExtensionParentsInput = {
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2627,6 +2867,7 @@ export type ModuleUpdateWithoutDefaultRightExtensionParentsInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type ModuleUpdateWithoutFinishInput = {
@@ -2635,11 +2876,13 @@ export type ModuleUpdateWithoutFinishInput = {
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2654,6 +2897,7 @@ export type ModuleUpdateWithoutFinishInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type ModuleUpdateWithoutModuleAttachedToInput = {
@@ -2662,11 +2906,13 @@ export type ModuleUpdateWithoutModuleAttachedToInput = {
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2681,6 +2927,7 @@ export type ModuleUpdateWithoutModuleAttachedToInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type ModuleUpdateWithoutModuleAttachmentsInput = {
@@ -2689,11 +2936,13 @@ export type ModuleUpdateWithoutModuleAttachmentsInput = {
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2708,6 +2957,7 @@ export type ModuleUpdateWithoutModuleAttachmentsInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type ModuleUpdateWithoutModuleTypeInput = {
@@ -2716,11 +2966,13 @@ export type ModuleUpdateWithoutModuleTypeInput = {
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2735,6 +2987,7 @@ export type ModuleUpdateWithoutModuleTypeInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type ModuleUpdateWithoutProjectModulesInput = {
@@ -2743,11 +2996,13 @@ export type ModuleUpdateWithoutProjectModulesInput = {
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
   bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
   collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
   defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
   defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
   defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
   defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
   description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2762,6 +3017,7 @@ export type ModuleUpdateWithoutProjectModulesInput = {
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
   thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
 };
 
 export type ModuleUpsertWithWhereUniqueWithoutAttachmentToAppendInput = {
@@ -2840,6 +3096,7 @@ export type ModuleWhereInput = {
   bundleUrl?: Maybe<StringNullableFilter>;
   collection?: Maybe<CollectionWhereInput>;
   collectionId?: Maybe<IntFilter>;
+  createdAt?: Maybe<DateTimeFilter>;
   defaultLeftExtension?: Maybe<ModuleWhereInput>;
   defaultLeftExtensionId?: Maybe<IntNullableFilter>;
   defaultLeftExtensionParents?: Maybe<ModuleListRelationFilter>;
@@ -2847,6 +3104,7 @@ export type ModuleWhereInput = {
   defaultRightExtensionId?: Maybe<IntNullableFilter>;
   defaultRightExtensionParents?: Maybe<ModuleListRelationFilter>;
   description?: Maybe<StringNullableFilter>;
+  externalId?: Maybe<StringNullableFilter>;
   finish?: Maybe<FinishWhereInput>;
   finishId?: Maybe<IntFilter>;
   hasPegs?: Maybe<BoolFilter>;
@@ -2864,9 +3122,11 @@ export type ModuleWhereInput = {
   rules?: Maybe<JsonNullableFilter>;
   shouldHideBasedOnWidth?: Maybe<BoolFilter>;
   thumbnailUrl?: Maybe<StringNullableFilter>;
+  updatedAt?: Maybe<DateTimeFilter>;
 };
 
 export type ModuleWhereUniqueInput = {
+  externalId?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   partNumber?: Maybe<Scalars['String']>;
 };
@@ -2874,6 +3134,7 @@ export type ModuleWhereUniqueInput = {
 export type Mutation = {
   __typename?: 'Mutation';
   cloneOneProject: Project;
+  createList?: Maybe<List>;
   createOneProject: Project;
   createOneProjectModule: ProjectModule;
   deleteManyProjectModule: AffectedRowsOutput;
@@ -2886,6 +3147,10 @@ export type Mutation = {
 };
 
 export type MutationCloneOneProjectArgs = {
+  id: Scalars['Int'];
+};
+
+export type MutationCreateListArgs = {
   id: Scalars['Int'];
 };
 
@@ -2931,6 +3196,17 @@ export type MutationUpdateOneProjectModuleArgs = {
 export type NestedBoolFilter = {
   equals?: Maybe<Scalars['Boolean']>;
   not?: Maybe<NestedBoolFilter>;
+};
+
+export type NestedDateTimeFilter = {
+  equals?: Maybe<Scalars['DateTime']>;
+  gt?: Maybe<Scalars['DateTime']>;
+  gte?: Maybe<Scalars['DateTime']>;
+  in?: Maybe<Array<Scalars['DateTime']>>;
+  lt?: Maybe<Scalars['DateTime']>;
+  lte?: Maybe<Scalars['DateTime']>;
+  not?: Maybe<NestedDateTimeFilter>;
+  notIn?: Maybe<Array<Scalars['DateTime']>>;
 };
 
 export type NestedEnumLocaleFilter = {
@@ -3028,6 +3304,7 @@ export type Project = {
   __typename?: 'Project';
   cabinetWidth?: Maybe<Scalars['Float']>;
   calculatedWidth?: Maybe<Scalars['Float']>;
+  cart: Array<ProjectCart>;
   cartAmount: Scalars['Int'];
   collection: Collection;
   collectionId: Scalars['Int'];
@@ -3036,6 +3313,7 @@ export type Project = {
   gable: Scalars['Float'];
   hasPegs: Scalars['Boolean'];
   id: Scalars['Int'];
+  lists: Array<List>;
   modules: Array<Module>;
   projectModules: Array<ProjectModule>;
   slide: Slide;
@@ -3050,12 +3328,26 @@ export type Project = {
   userId?: Maybe<Scalars['Int']>;
 };
 
+export type ProjectListsArgs = {
+  cursor?: Maybe<ListWhereUniqueInput>;
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
+};
+
 export type ProjectProjectModulesArgs = {
   cursor?: Maybe<ProjectModuleWhereUniqueInput>;
   orderBy?: Maybe<Array<ProjectModuleOrderByInput>>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
   where?: Maybe<ProjectModuleWhereInput>;
+};
+
+export type ProjectCart = {
+  __typename?: 'ProjectCart';
+  children?: Maybe<Array<ProjectCart>>;
+  id: Scalars['Int'];
+  projectModule: ProjectModule;
+  quantity: Scalars['Int'];
 };
 
 export type ProjectCreateInput = {
@@ -3065,6 +3357,7 @@ export type ProjectCreateInput = {
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
   hasPegs?: Maybe<Scalars['Boolean']>;
+  lists?: Maybe<ListCreateNestedManyWithoutProjectInput>;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
@@ -3251,6 +3544,7 @@ export type ProjectCreateWithoutCollectionInput = {
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
   hasPegs?: Maybe<Scalars['Boolean']>;
+  lists?: Maybe<ListCreateNestedManyWithoutProjectInput>;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
@@ -3266,6 +3560,7 @@ export type ProjectCreateWithoutFinishInput = {
   collection: CollectionCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
   hasPegs?: Maybe<Scalars['Boolean']>;
+  lists?: Maybe<ListCreateNestedManyWithoutProjectInput>;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
@@ -3282,6 +3577,7 @@ export type ProjectCreateWithoutProjectModulesInput = {
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
   hasPegs?: Maybe<Scalars['Boolean']>;
+  lists?: Maybe<ListCreateNestedManyWithoutProjectInput>;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
   slug: Scalars['String'];
@@ -3297,6 +3593,7 @@ export type ProjectCreateWithoutSlideDepthInput = {
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
   hasPegs?: Maybe<Scalars['Boolean']>;
+  lists?: Maybe<ListCreateNestedManyWithoutProjectInput>;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slug: Scalars['String'];
@@ -3312,6 +3609,7 @@ export type ProjectCreateWithoutSlideInput = {
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
   hasPegs?: Maybe<Scalars['Boolean']>;
+  lists?: Maybe<ListCreateNestedManyWithoutProjectInput>;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
   slug: Scalars['String'];
@@ -3327,6 +3625,7 @@ export type ProjectCreateWithoutTypeInput = {
   finish: FinishCreateNestedOneWithoutProjectsInput;
   gable: Scalars['Float'];
   hasPegs?: Maybe<Scalars['Boolean']>;
+  lists?: Maybe<ListCreateNestedManyWithoutProjectInput>;
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutProjectInput>;
   slide: SlideCreateNestedOneWithoutProjectsInput;
   slideDepth: SlideDepthCreateNestedOneWithoutProjectsInput;
@@ -3803,6 +4102,7 @@ export type ProjectUpdateInput = {
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  lists?: Maybe<ListUpdateManyWithoutProjectInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
@@ -3957,6 +4257,7 @@ export type ProjectUpdateWithoutCollectionInput = {
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  lists?: Maybe<ListUpdateManyWithoutProjectInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
@@ -3972,6 +4273,7 @@ export type ProjectUpdateWithoutFinishInput = {
   collection?: Maybe<CollectionUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  lists?: Maybe<ListUpdateManyWithoutProjectInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
@@ -3988,6 +4290,7 @@ export type ProjectUpdateWithoutProjectModulesInput = {
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  lists?: Maybe<ListUpdateManyWithoutProjectInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -4003,6 +4306,7 @@ export type ProjectUpdateWithoutSlideDepthInput = {
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  lists?: Maybe<ListUpdateManyWithoutProjectInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -4018,6 +4322,7 @@ export type ProjectUpdateWithoutSlideInput = {
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  lists?: Maybe<ListUpdateManyWithoutProjectInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -4033,6 +4338,7 @@ export type ProjectUpdateWithoutTypeInput = {
   finish?: Maybe<FinishUpdateOneRequiredWithoutProjectsInput>;
   gable?: Maybe<FloatFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  lists?: Maybe<ListUpdateManyWithoutProjectInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutProjectInput>;
   slide?: Maybe<SlideUpdateOneRequiredWithoutProjectsInput>;
   slideDepth?: Maybe<SlideDepthUpdateOneRequiredWithoutProjectsInput>;
@@ -4089,6 +4395,7 @@ export type ProjectWhereInput = {
   gable?: Maybe<FloatFilter>;
   hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
+  lists?: Maybe<ListListRelationFilter>;
   projectModules?: Maybe<ProjectModuleListRelationFilter>;
   slide?: Maybe<SlideWhereInput>;
   slideDepth?: Maybe<SlideDepthWhereInput>;
@@ -4272,6 +4579,14 @@ export type QueryTypesArgs = {
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
   where?: Maybe<TypeWhereInput>;
+};
+
+export type QueueInfoMetadata = {
+  __typename?: 'QueueInfoMetadata';
+  /** Repeat models */
+  append?: Maybe<Scalars['String']>;
+  /** Last model after repeat */
+  modules: Array<Scalars['String']>;
 };
 
 export type Session = {
@@ -4903,6 +5218,7 @@ export type TrimOffsetMetadata = {
 export type Type = {
   __typename?: 'Type';
   description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
   hasPegs: Scalars['Boolean'];
   id: Scalars['Int'];
   moduleType: Array<ModuleType>;
@@ -4949,6 +5265,7 @@ export type TypeCreateOrConnectWithoutProjectsInput = {
 };
 
 export type TypeCreateWithoutModuleTypeInput = {
+  externalId?: Maybe<Scalars['String']>;
   hasPegs?: Maybe<Scalars['Boolean']>;
   projects?: Maybe<ProjectCreateNestedManyWithoutTypeInput>;
   slug: Scalars['String'];
@@ -4957,6 +5274,7 @@ export type TypeCreateWithoutModuleTypeInput = {
 };
 
 export type TypeCreateWithoutProjectsInput = {
+  externalId?: Maybe<Scalars['String']>;
   hasPegs?: Maybe<Scalars['Boolean']>;
   moduleType?: Maybe<ModuleTypeCreateNestedManyWithoutTypeInput>;
   slug: Scalars['String'];
@@ -4965,6 +5283,7 @@ export type TypeCreateWithoutProjectsInput = {
 };
 
 export type TypeOrderByInput = {
+  externalId?: Maybe<SortOrder>;
   hasPegs?: Maybe<SortOrder>;
   id?: Maybe<SortOrder>;
   slug?: Maybe<SortOrder>;
@@ -5103,6 +5422,7 @@ export type TypeUpdateOneRequiredWithoutProjectsInput = {
 };
 
 export type TypeUpdateWithoutModuleTypeInput = {
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   projects?: Maybe<ProjectUpdateManyWithoutTypeInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -5111,6 +5431,7 @@ export type TypeUpdateWithoutModuleTypeInput = {
 };
 
 export type TypeUpdateWithoutProjectsInput = {
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleType?: Maybe<ModuleTypeUpdateManyWithoutTypeInput>;
   slug?: Maybe<StringFieldUpdateOperationsInput>;
@@ -5132,6 +5453,7 @@ export type TypeWhereInput = {
   AND?: Maybe<Array<TypeWhereInput>>;
   NOT?: Maybe<Array<TypeWhereInput>>;
   OR?: Maybe<Array<TypeWhereInput>>;
+  externalId?: Maybe<StringNullableFilter>;
   hasPegs?: Maybe<BoolFilter>;
   id?: Maybe<IntFilter>;
   moduleType?: Maybe<ModuleTypeListRelationFilter>;
@@ -5142,6 +5464,7 @@ export type TypeWhereInput = {
 };
 
 export type TypeWhereUniqueInput = {
+  externalId?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   slug?: Maybe<Scalars['String']>;
 };
@@ -5238,11 +5561,32 @@ export type CartQuery = {
         id: number;
         slug: string;
         title: string;
-        projectModules: Array<{
-          __typename?: 'ProjectModule';
+        cartAmount: number;
+        cart: Array<{
+          __typename?: 'ProjectCart';
           id: number;
-          moduleId: number;
-          children: Array<{
+          quantity: number;
+          children?:
+            | Array<{
+                __typename?: 'ProjectCart';
+                id: number;
+                quantity: number;
+                projectModule: {
+                  __typename?: 'ProjectModule';
+                  id: number;
+                  moduleId: number;
+                  module: {
+                    __typename?: 'Module';
+                    id: number;
+                    partNumber: string;
+                    description?: string | null | undefined;
+                    thumbnailUrl?: string | null | undefined;
+                  };
+                };
+              }>
+            | null
+            | undefined;
+          projectModule: {
             __typename?: 'ProjectModule';
             id: number;
             moduleId: number;
@@ -5253,15 +5597,25 @@ export type CartQuery = {
               description?: string | null | undefined;
               thumbnailUrl?: string | null | undefined;
             };
-          }>;
-          module: {
-            __typename?: 'Module';
-            id: number;
-            partNumber: string;
-            description?: string | null | undefined;
-            thumbnailUrl?: string | null | undefined;
           };
         }>;
+      }
+    | null
+    | undefined;
+};
+
+export type CreateListMutationVariables = Exact<{
+  projectId: Scalars['Int'];
+}>;
+
+export type CreateListMutation = {
+  __typename?: 'Mutation';
+  createList?:
+    | {
+        __typename?: 'List';
+        id: number;
+        name?: string | null | undefined;
+        project?: { __typename?: 'Project'; id: number } | null | undefined;
       }
     | null
     | undefined;
@@ -5305,15 +5659,20 @@ export type GetFinishByCollectionQuery = {
 };
 
 export type CartDataFragment = {
-  __typename?: 'ProjectModule';
+  __typename?: 'ProjectCart';
   id: number;
-  moduleId: number;
-  module: {
-    __typename?: 'Module';
+  quantity: number;
+  projectModule: {
+    __typename?: 'ProjectModule';
     id: number;
-    partNumber: string;
-    description?: string | null | undefined;
-    thumbnailUrl?: string | null | undefined;
+    moduleId: number;
+    module: {
+      __typename?: 'Module';
+      id: number;
+      partNumber: string;
+      description?: string | null | undefined;
+      thumbnailUrl?: string | null | undefined;
+    };
   };
 };
 
@@ -5663,17 +6022,6 @@ export type ProjectModuleDataFragment = {
       | undefined;
     categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
   };
-};
-
-export type ProjectDataFragment = {
-  __typename?: 'Project';
-  id: number;
-  title: string;
-  slug: string;
-  cabinetWidth?: number | null | undefined;
-  gable: number;
-  type: { __typename?: 'Type'; id: number; slug: string };
-  collection: { __typename?: 'Collection'; id: number; slug: string };
 };
 
 export type LoginMutationVariables = Exact<{
@@ -6919,6 +7267,17 @@ export type DeleteProjectModuleMutation = {
   deleteManyProjectModule: { __typename?: 'AffectedRowsOutput'; count: number };
 };
 
+export type ProjectDataFragment = {
+  __typename?: 'Project';
+  id: number;
+  title: string;
+  slug: string;
+  cabinetWidth?: number | null | undefined;
+  gable: number;
+  type: { __typename?: 'Type'; id: number; slug: string };
+  collection: { __typename?: 'Collection'; id: number; slug: string };
+};
+
 export type ProjectCartQueryVariables = Exact<{
   slug: Scalars['String'];
 }>;
@@ -7060,14 +7419,18 @@ export type GetTypeQuery = {
 };
 
 export const CartDataFragmentDoc = gql`
-  fragment CartData on ProjectModule {
+  fragment CartData on ProjectCart {
     id
-    moduleId
-    module {
+    quantity
+    projectModule {
       id
-      partNumber
-      description
-      thumbnailUrl
+      moduleId
+      module {
+        id
+        partNumber
+        description
+        thumbnailUrl
+      }
     }
   }
 `;
@@ -7163,9 +7526,10 @@ export const CartDocument = gql`
       id
       slug
       title
-      projectModules(where: { parentId: { equals: null } }) {
+      cartAmount
+      cart {
         ...CartData
-        children(where: { module: { partNumber: { not: { contains: "EXTENSION" } } } }) {
+        children {
           ...CartData
         }
       }
@@ -7201,6 +7565,45 @@ export function useCartLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<CartQ
 export type CartQueryHookResult = ReturnType<typeof useCartQuery>;
 export type CartLazyQueryHookResult = ReturnType<typeof useCartLazyQuery>;
 export type CartQueryResult = Apollo.QueryResult<CartQuery, CartQueryVariables>;
+export const CreateListDocument = gql`
+  mutation CreateList($projectId: Int!) {
+    createList(id: $projectId) {
+      id
+      name
+      project {
+        id
+      }
+    }
+  }
+`;
+export type CreateListMutationFn = Apollo.MutationFunction<CreateListMutation, CreateListMutationVariables>;
+
+/**
+ * __useCreateListMutation__
+ *
+ * To run a mutation, you first call `useCreateListMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useCreateListMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [createListMutation, { data, loading, error }] = useCreateListMutation({
+ *   variables: {
+ *      projectId: // value for 'projectId'
+ *   },
+ * });
+ */
+export function useCreateListMutation(
+  baseOptions?: Apollo.MutationHookOptions<CreateListMutation, CreateListMutationVariables>
+) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useMutation<CreateListMutation, CreateListMutationVariables>(CreateListDocument, options);
+}
+export type CreateListMutationHookResult = ReturnType<typeof useCreateListMutation>;
+export type CreateListMutationResult = Apollo.MutationResult<CreateListMutation>;
+export type CreateListMutationOptions = Apollo.BaseMutationOptions<CreateListMutation, CreateListMutationVariables>;
 export const GetCollectionsDocument = gql`
   query GetCollections($typeId: Int!) {
     type(where: { id: $typeId }) {

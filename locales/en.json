@@ -17,7 +17,8 @@
     "connectionRefused": "Could not contact the server. The server might be down or your internet is turned off. Please try again later.",
     "ECONNREFUSED": "Could not contact the server. The server might be down or your internet is turned off. Please try again later.",
     "unauthorized": "You are not permitted to do this action",
-    "wrongCredentials": "Email or password is incorrect"
+    "wrongCredentials": "Email or password is incorrect",
+    "unreachableService": "An error has occurred. Please try again later. (Unreachable service)"
   },
   "build": {
     "loadingModule": "Please wait...",
@@ -115,6 +116,7 @@
     "title": "Cart",
     "review": "Review your items",
     "print": "Print",
+    "createList": "Create List",
     "headers": {
       "product": "Product",
       "quantity": "Qty"

@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { CartDataFragment, CartQuery } from '../../../apollo/generated/graphql';
+import React from 'react';
+import { CartQuery } from '../../../apollo/generated/graphql';
 import AppLayout from '../../Layouts/AppLayout';
 import Head from 'next/head';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -10,32 +10,26 @@ import Link from 'next/link';
 import ErrorMessage from '../../UI/ErrorMessage';
 import Skeleton from '../../UI/Skeleton';
 import { ChevronLeft, File } from 'react-feather';
-import { groupBy, values } from 'lodash';
 import NavbarButton from '../../UI/NavbarButton';
 
-type ProjectModules = (CartDataFragment & {
-  children?: (CartDataFragment & { quantity?: number })[];
-  quantity?: number;
-})[];
-
 type CartProjectModulesProps = {
-  projectModules: ProjectModules;
+  cart: NonNullable<NonNullable<CartQuery['project']>['cart']>;
   isChildren?: boolean;
 };
 
-const CartProjectModules: React.FC<CartProjectModulesProps> = ({ projectModules, isChildren }) => {
+const CartProjectModules: React.FC<CartProjectModulesProps> = ({ cart, isChildren }) => {
   return (
     <>
-      {projectModules.map((projectModule, i) => (
-        <React.Fragment key={projectModule.id}>
+      {cart.map((cartItem, i) => (
+        <React.Fragment key={cartItem.id}>
           <div className="grid grid-cols-12 gap-y-4 page-break-inside-avoid">
             {(isChildren || i !== 0) && <hr className={classNames('col-span-12', { 'col-start-2': isChildren })} />}
             <div className={classNames('relative h-44 mui-border-radius col-span-2', { 'col-start-2': isChildren })}>
-              {projectModule.module.thumbnailUrl && (
+              {cartItem.projectModule.module.thumbnailUrl && (
                 <SkeletonImage
-                  key={projectModule.id}
-                  src={projectModule.module.thumbnailUrl}
-                  alt={projectModule.module.partNumber}
+                  key={cartItem.id}
+                  src={cartItem.projectModule.module.thumbnailUrl}
+                  alt={cartItem.projectModule.module.partNumber}
                   layout="fill"
                   objectFit="contain"
                 />
@@ -47,21 +41,23 @@ const CartProjectModules: React.FC<CartProjectModulesProps> = ({ projectModules,
                 isChildren ? 'col-span-8' : 'col-span-9'
               )}
             >
-              <h4 className="text-lg font-bold">{projectModule.module.partNumber}</h4>
+              <h4 className="text-lg font-bold">{cartItem.projectModule.module.partNumber}</h4>
               {/*<p className="h-full">*/}
               {/*  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et*/}
               {/*  dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex*/}
               {/*  ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu*/}
               {/*  fugiat nulla pariatur.*/}
               {/*</p>*/}
-              {projectModule.module.description && <p className="h-full">{projectModule.module.description}</p>}
+              {cartItem.projectModule.module.description && (
+                <p className="h-full">{cartItem.projectModule.module.description}</p>
+              )}
             </div>
             <p className="flex items-center justify-center font-bold text-center col-span-1">
-              {projectModule.quantity || 1}
+              {cartItem.quantity || 1}
             </p>
           </div>
 
-          {projectModule.children && <CartProjectModules projectModules={projectModule.children} isChildren />}
+          {cartItem.children && <CartProjectModules cart={cartItem.children} isChildren />}
         </React.Fragment>
       ))}
     </>
@@ -74,30 +70,18 @@ type CartTemplateProps = {
   loading: boolean;
   error?: string;
   handleTryAgain: () => void;
+  handleCreateList: () => void;
 };
 
-const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading, handleTryAgain }) => {
+const CartTemplate: React.FC<CartTemplateProps> = ({
+  data,
+  slug,
+  error,
+  loading,
+  handleTryAgain
+  // handleCreateList
+}) => {
   const intl = useIntl();
-
-  const projectModules = useMemo(() => {
-    if (data?.project?.projectModules && data?.project.projectModules.length > 0) {
-      // This method groups similar modules and returns the amount as quantity, then does the same for the children.
-      // So if the user has two of the same modules. We show "quantity:2" instead of showing the module twice
-      return values(groupBy(data?.project?.projectModules, 'moduleId')).map((group) => ({
-        ...group[0],
-        quantity: group.length,
-        children: values(
-          groupBy(
-            data.project?.projectModules.filter((x) => x.moduleId === group[0].moduleId).flatMap((x) => x.children) ||
-              [],
-            'moduleId'
-          )
-        ).map((childGroup) => ({ ...childGroup[0], quantity: childGroup.length }))
-      }));
-    }
-
-    return undefined;
-  }, [data]);
 
   return (
     <AppLayout
@@ -131,7 +115,7 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading,
           {!error ? (
             !loading ? (
               <>
-                <div className="flex">
+                <div className="flex gap-4">
                   <div className="w-full">
                     <h2 className="mb-4 text-3xl text-black print:hidden">
                       <FormattedMessage id="cart.review" />
@@ -146,9 +130,17 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading,
                       <File className="text-2xl" />
                     </Button>
                   </div>
+                  {/*<div className="print:hidden">*/}
+                  {/*  <Button className="whitespace-pre group" onClick={handleCreateList}>*/}
+                  {/*    <span>*/}
+                  {/*      <FormattedMessage id="cart.createList" />*/}
+                  {/*    </span>*/}
+                  {/*    <FilePlus className="text-2xl" />*/}
+                  {/*  </Button>*/}
+                  {/*</div>*/}
                 </div>
                 <hr className="my-4" />
-                {projectModules && (
+                {data?.project?.cart && (
                   <>
                     <div className="py-2 mb-4 grid grid-cols-12 gap-y-4 bg-mui-gray-300">
                       <p className="ml-4 font-bold col-span-9 col-start-3">
@@ -158,7 +150,7 @@ const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading,
                         <FormattedMessage id="cart.headers.quantity" />
                       </p>
                     </div>
-                    <CartProjectModules projectModules={projectModules} />
+                    <CartProjectModules cart={data.project.cart} />
                   </>
                 )}
               </>

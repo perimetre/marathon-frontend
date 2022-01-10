@@ -4,9 +4,9 @@ import { Extras } from '@sentry/types';
 
 const error = (error: unknown, message?: string, extra: Extras = {}) => {
   if (message) {
-    console.error(message, error, extra);
+    console.error(message, error, extra, JSON.stringify(error, null, 2));
   } else {
-    console.error(error, extra);
+    console.error(error, extra, JSON.stringify(error, null, 2));
   }
 
   return Sentry.captureException(error, {
@@ -17,9 +17,9 @@ const error = (error: unknown, message?: string, extra: Extras = {}) => {
 
 const fatal = (error: unknown, message?: string, extra: Extras = {}) => {
   if (message) {
-    console.error(message, error, extra);
+    console.error(message, error, extra, JSON.stringify(error, null, 2));
   } else {
-    console.error(error, extra);
+    console.error(error, extra, JSON.stringify(error, null, 2));
   }
 
   return Sentry.captureException(error, {
