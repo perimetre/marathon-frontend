@@ -9,7 +9,7 @@ import Button from '../../UI/Button';
 import Link from 'next/link';
 import ErrorMessage from '../../UI/ErrorMessage';
 import Skeleton from '../../UI/Skeleton';
-import { ChevronLeft, File, FilePlus } from 'react-feather';
+import { ChevronLeft, File } from 'react-feather';
 import NavbarButton from '../../UI/NavbarButton';
 
 type CartProjectModulesProps = {
@@ -78,8 +78,8 @@ const CartTemplate: React.FC<CartTemplateProps> = ({
   slug,
   error,
   loading,
-  handleTryAgain,
-  handleCreateList
+  handleTryAgain
+  // handleCreateList
 }) => {
   const intl = useIntl();
 
@@ -130,14 +130,14 @@ const CartTemplate: React.FC<CartTemplateProps> = ({
                       <File className="text-2xl" />
                     </Button>
                   </div>
-                  <div className="print:hidden">
-                    <Button className="whitespace-pre group" onClick={handleCreateList}>
-                      <span>
-                        <FormattedMessage id="cart.createList" />
-                      </span>
-                      <FilePlus className="text-2xl" />
-                    </Button>
-                  </div>
+                  {/*<div className="print:hidden">*/}
+                  {/*  <Button className="whitespace-pre group" onClick={handleCreateList}>*/}
+                  {/*    <span>*/}
+                  {/*      <FormattedMessage id="cart.createList" />*/}
+                  {/*    </span>*/}
+                  {/*    <FilePlus className="text-2xl" />*/}
+                  {/*  </Button>*/}
+                  {/*</div>*/}
                 </div>
                 <hr className="my-4" />
                 {data?.project?.cart && (

@@ -2233,11 +2233,13 @@ export type ModuleOrderByInput = {
 
 export type ModuleRules = {
   __typename?: 'ModuleRules';
+  bundleUrl?: Maybe<Scalars['String']>;
   dimensions?: Maybe<ModuleDimension>;
   /** Extensions are sub pieces that MUST BE CONNECTED to the main product or other extension. */
   extensions?: Maybe<ModuleExtensionsMetadata>;
   /** Modules that are basically this module but in a different finish(color), to allow the ui to easily switch between them */
   finishes?: Maybe<Array<Scalars['String']>>;
+  isImprintExtension: Scalars['Boolean'];
   /** The module part number, probably equivalent to the module id */
   partNumber: Scalars['String'];
   rules?: Maybe<ModuleRulesMetadata>;
@@ -2251,6 +2253,8 @@ export type ModuleRulesMetadata = {
   fullDepth?: Maybe<Scalars['Boolean']>;
   /** Options are which other modules can be put IN modules */
   options?: Maybe<Array<Scalars['String']>>;
+  /** Queue info */
+  queue?: Maybe<QueueInfoMetadata>;
   /** The product can only be put inside the drawer, if the current net interior of the drawer belongs to the range of the piece */
   requiredNetInterior?: Maybe<ModuleMinMax>;
   /** The amount (in degrees) that the product can be rotated */
@@ -4577,6 +4581,14 @@ export type QueryTypesArgs = {
   where?: Maybe<TypeWhereInput>;
 };
 
+export type QueueInfoMetadata = {
+  __typename?: 'QueueInfoMetadata';
+  /** Repeat models */
+  append?: Maybe<Scalars['String']>;
+  /** Last model after repeat */
+  modules: Array<Scalars['String']>;
+};
+
 export type Session = {
   __typename?: 'Session';
   id: Scalars['Int'];
@@ -6012,17 +6024,6 @@ export type ProjectModuleDataFragment = {
   };
 };
 
-export type ProjectDataFragment = {
-  __typename?: 'Project';
-  id: number;
-  title: string;
-  slug: string;
-  cabinetWidth?: number | null | undefined;
-  gable: number;
-  type: { __typename?: 'Type'; id: number; slug: string };
-  collection: { __typename?: 'Collection'; id: number; slug: string };
-};
-
 export type LoginMutationVariables = Exact<{
   user: UserSingIn;
 }>;
@@ -7264,6 +7265,17 @@ export type DeleteProjectModuleMutationVariables = Exact<{
 export type DeleteProjectModuleMutation = {
   __typename?: 'Mutation';
   deleteManyProjectModule: { __typename?: 'AffectedRowsOutput'; count: number };
+};
+
+export type ProjectDataFragment = {
+  __typename?: 'Project';
+  id: number;
+  title: string;
+  slug: string;
+  cabinetWidth?: number | null | undefined;
+  gable: number;
+  type: { __typename?: 'Type'; id: number; slug: string };
+  collection: { __typename?: 'Collection'; id: number; slug: string };
 };
 
 export type ProjectCartQueryVariables = Exact<{
