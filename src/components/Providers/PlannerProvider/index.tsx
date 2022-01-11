@@ -363,7 +363,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
     async (projectModuleToCreate: UnityProjectModuleJson, children: UnityProjectModuleJson[]) => {
       if (projectModuleToCreate.module.isExtension) return;
 
-      // setIsPending(true);
+      setIsPending(true);
       const { data: existingProjectModules } = await apolloClient.query<
         GetProjectModuleQuery,
         GetProjectModuleQueryVariables
@@ -374,19 +374,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         },
         fetchPolicy: 'network-only'
       });
-
-      let parentId = projectModuleToCreate.parentId || -1;
-
-      if ((!parentId || parentId < 0) && projectModuleToCreate?.parentNanoId) {
-        const { data: parentData } = await apolloClient.query<GetProjectModuleQuery, GetProjectModuleQueryVariables>({
-          query: GET_PROJECT_MODULE,
-          variables: {
-            nanoIds: [projectModuleToCreate.parentNanoId]
-          }
-        });
-
-        parentId = parentData?.projectModules[0]?.id || -1;
-      }
 
       const currentProjectModule = existingProjectModules?.projectModules.find(
         (x) => x.nanoId === projectModuleToCreate.nanoId
@@ -405,7 +392,11 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
                 parentNanoId: projectModuleToCreate.parentNanoId || undefined,
                 project: { connect: { id: projectId } },
                 module: { connect: { id: projectModuleToCreate.module.id } },
-                parent: parentId !== undefined && parentId > 0 ? { connect: { id: parentId } } : undefined,
+                parent: projectModuleToCreate?.parentNanoId
+                  ? {
+                      connect: { nanoId: projectModuleToCreate.parentNanoId }
+                    }
+                  : undefined,
                 children:
                   children && children.length > 0
                     ? {
@@ -460,7 +451,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
                 parentNanoId: projectModuleToCreate.parentNanoId
                   ? { set: projectModuleToCreate.parentNanoId }
                   : undefined,
-                parent: parentId !== undefined && parentId > 0 ? { connect: { id: parentId } } : undefined,
                 children:
                   (childrenToCreate && childrenToCreate.length > 0) || (childrenToUpdate && childrenToUpdate.length > 0)
                     ? {
@@ -519,7 +509,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
           }
         }
       }
-      // setIsPending(false);
+      setIsPending(false);
     },
     // DO NOT add more dependencies to this method. Receive them as arguments
     [apolloClient, doCreateProjectModule, doUpdateProjectModule, projectId]
