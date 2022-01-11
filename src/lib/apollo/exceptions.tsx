@@ -34,10 +34,10 @@ export const getLocaleIdFromGraphqlError = (
     return `serverErrors.${code}`;
   } else if (networkError?.message) {
     // If there's a message in the network error and it's not one that we handled until this point
-    return `Not handled: ${networkError.message}`;
+    return `serverErrors.unknownError` /* `Not handled: ${networkError.message}` */;
   } else if (graphQLErrors && graphQLErrors.length > 0 && graphQLErrors[0].message) {
     // If there's a message in the graphql error and it's not one that we handled until this point
-    return `Not handled: ${graphQLErrors[0].message}`;
+    return `serverErrors.unknownError` /*`Not handled: ${graphQLErrors[0].message}`*/;
   } else {
     // Unknown error
     return 'serverErrors.unknownError';
