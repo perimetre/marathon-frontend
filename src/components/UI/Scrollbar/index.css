@@ -1,0 +1,26 @@
+@layer components {
+  .mui-scrollbar {
+    /* width */
+    ::-webkit-scrollbar {
+      @apply h-1 w-2 ml-3;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+      @apply bg-gray-200 mui-border-radius;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      @apply bg-mui-placeholder-color mui-border-radius transition-colors;
+
+      &:hover {
+        @apply bg-gray-800;
+      }
+
+      &:active {
+        @apply bg-gray-600;
+      }
+    }
+  }
+}

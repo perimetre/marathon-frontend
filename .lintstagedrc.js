@@ -1,8 +1,8 @@
 const path = require('path');
 
 module.exports = {
-  '*': 'prettier --ignore-unknown --write',
-  '**/*.{js,jsx,ts,tsx,html,md,mdx}': (filenames) => {
+  'src/**/*': 'prettier --ignore-unknown --write',
+  'src/**/*.+(js|jsx|ts|tsx)': (filenames) => {
     const relativeFilenames = filenames
       // Completely removes the current path(at __dirname) to an absolute path
       // By replacing the initial part of the string to nothing
@@ -11,6 +11,6 @@ module.exports = {
     return `next lint --fix --file ${relativeFilenames}`;
   },
   // Make sure to keep forward slash on stylelint
-  '/**/*.{js,jsx,ts,tsx,css}': 'stylelint --fix',
-  '**/*.ts?(x)': 'eslint --fix --plugin tsc --rule \'tsc/config: [2, {configFile: "./tsconfig.json"}]\''
+  'src/**/*.+(css|scss)': 'stylelint --fix',
+  'src/**/*.ts?(x)': 'eslint --fix --plugin tsc --rule \'tsc/config: [2, {configFile: "./tsconfig.json"}]\''
 };

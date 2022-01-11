@@ -1,0 +1,17 @@
+@layer components {
+  .btn-default {
+    @apply flex px-6 py-2 font-semibold text-white bg-mui-primary mui-border-radius gap-2 hover:bg-mui-dark transition-all duration-75;
+
+    &:disabled {
+      @apply cursor-default bg-gray-300;
+    }
+  }
+
+  .btn-text {
+    @apply flex px-6 py-2 gap-2 font-semibold;
+
+    &:disabled {
+      @apply cursor-default bg-gray-200;
+    }
+  }
+}

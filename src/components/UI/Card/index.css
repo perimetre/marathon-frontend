@@ -1,0 +1,9 @@
+@layer components {
+  .card {
+    @apply overflow-hidden bg-white rounded-md cursor-pointer w-96 transition-all border-2 hover:shadow-lg hover:-translate-y-1 duration-75;
+  }
+
+  .card.active {
+    @apply border-mui-primary border-2;
+  }
+}

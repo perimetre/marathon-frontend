@@ -1,0 +1,22 @@
+{
+  "name": "Marathon Schema",
+  "schemaPath": "graphql.schema.json",
+  "extensions": {
+    "endpoints": {
+      "Localhost": {
+        "url": "http://localhost:3001/graphql",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": false
+      },
+      "Dev": {
+        "url": "https://dev.api.marathon.perimetre.co/graphql",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": false
+      }
+    }
+  }
+}

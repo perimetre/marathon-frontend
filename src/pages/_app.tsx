@@ -1,12 +1,14 @@
+import React from 'react';
 import type { AppProps } from 'next/app';
-import { config } from '@fortawesome/fontawesome-svg-core';
-import '../../node_modules/@fortawesome/fontawesome-svg-core/styles.css';
+import AppProvider from '../components/Providers/AppProvider';
+
 import '../styles/globals.css';
 
-config.autoAddCss = false;
-
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />;
-}
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MyApp: React.FC<AppProps & { err: any }> = ({ Component, pageProps, err }) => (
+  <AppProvider {...pageProps}>
+    <Component {...pageProps} err={err || pageProps?.err} />
+  </AppProvider>
+);
 
 export default MyApp;

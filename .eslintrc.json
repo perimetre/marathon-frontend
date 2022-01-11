@@ -18,6 +18,8 @@
     "react-hooks/exhaustive-deps": "error",
     "@typescript-eslint/no-unused-vars": "error",
     "tailwind/class-order": "error",
+    "jsx-a11y/no-onchange": "off",
+    "jsx-a11y/anchor-is-valid": "off",
     "prettier/prettier": [
       "error",
       {

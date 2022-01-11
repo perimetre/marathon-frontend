@@ -1,0 +1,67 @@
+@layer components {
+  .mui-badge {
+    @apply relative inline-flex align-middle flex-shrink-0;
+  }
+
+  .mui-badge-content {
+    @apply absolute z-10 pointer-events-none select-none flex flex-row flex-wrap items-center justify-center text-center text-white bg-mui-placeholder-color;
+
+    transform-origin: 100% 0%;
+
+    &.mui-badge-placement-top-right {
+      @apply top-0 right-0;
+      transform: translate(50%, -50%);
+    }
+
+    &.mui-badge-placement-bottom-right {
+      @apply bottom-0 right-0;
+      transform: translate(50%, 50%);
+    }
+
+    &.mui-badge-placement-bottom-left {
+      @apply bottom-0 left-0;
+      transform: translate(-50%, 50%);
+    }
+
+    &.mui-badge-placement-top-left {
+      @apply top-0 left-0;
+      transform: translate(-50%, -50%);
+    }
+
+    &.pulse {
+      &::before {
+        @apply animate-ping opacity-75 bg-mui-placeholder-color absolute inset-0 rounded-full;
+        z-index: -1;
+
+        /* Displays the before pseudoelement */
+        content: '';
+      }
+    }
+  }
+
+  .mui-badge-default {
+    @apply mui-badge-content h-5 min-w-5 text-xs;
+
+    padding: 0 6px;
+    border-radius: 10px;
+  }
+
+  .mui-badge-mini {
+    @apply mui-badge-content;
+    height: 14px;
+    min-width: 14px;
+
+    /* Styles the text */
+    font-size: 0.65rem;
+    line-height: 0.8rem;
+
+    padding: 0 3px;
+    border-radius: 10px;
+  }
+
+  .mui-badge-dot {
+    @apply mui-badge-content h-2 min-w-2 p-0;
+
+    border-radius: 4px;
+  }
+}

@@ -1,3 +1,133 @@
 {
-  "locale": "en"
+  "locale": "en",
+  "title": "Space Planner",
+  "description": "Marathon space planner",
+  "common": {
+    "tryAgain": "Try again",
+    "close": "Close",
+    "add": "Add",
+    "back": "Back",
+    "exit": "Exit",
+    "logout": "Logout"
+  },
+  "serverErrors": {
+    "unknownError": "An error has occurred. Please try again later.",
+    "Error": "An unexpected error occurred in our server.",
+    "TypeError": "An unexpected error occurred in our server. (TypeError)",
+    "connectionRefused": "Could not contact the server. The server might be down or your internet is turned off. Please try again later.",
+    "ECONNREFUSED": "Could not contact the server. The server might be down or your internet is turned off. Please try again later.",
+    "unauthorized": "You are not permitted to do this action",
+    "wrongCredentials": "Email or password is incorrect",
+    "unreachableService": "An error has occurred. Please try again later. (Unreachable service)"
+  },
+  "build": {
+    "loadingModule": "Please wait...",
+    "title": "Planner",
+    "error": "Unable to load the {appTitle} app: \r\n <error>{errorMessage}</error>",
+    "projectsPageNav": "Projects",
+    "addOns": "Available Add-ons",
+    "tray": {
+      "delete": "Delete",
+      "deleteEdge": "Remove Edge Finish",
+      "move": "Move",
+      "rotateLeft": "Rotate Left",
+      "rotateRight": "Rotate Right",
+      "done": "Done"
+    }
+  },
+  "home": {
+    "title": "Drawers that fit your lifestyle",
+    "accordion": {
+      "startNow": "Start now",
+      "choosePortfolio": "CHOOSE FROM OUR PORTFOLIO",
+      "portfolioDescription": "Headstart your project by selecting one of our preconfigured drawers",
+      "firstProject": "MY FIRST PROJECT",
+      "projectDescription": "Browse our drawer collections, pick the one that fits your need and customize it to fit your lifestyle",
+      "pickWhereLeft": "PICK UP WHERE YOU LEFT OFF",
+      "leftDescription": "Already started a project ? {message} to continue editing it."
+    }
+  },
+  "unit": {
+    "millimeter": "mm",
+    "inches": "in"
+  },
+  "login": {
+    "title": "Sign in",
+    "header": "Sign in and start designing",
+    "emailPlaceholder": "Email",
+    "passwordPlaceholder": "Password",
+    "signInButton": "Sign in",
+    "forgotPass": "Forgot password?",
+    "dontHaveAccount": "Dont have an account ? {message}",
+    "startDesigning": "Start designing"
+  },
+  "project": {
+    "comingSoon": "Coming Soon",
+    "collectionTitle": "Collection",
+    "collectionHeader": "Which collection would you like?",
+    "finishTitle": "Finish",
+    "finishHeader": "What type of finish would look the best?",
+    "sizeAssistantTitle": "Size Assistant",
+    "sizeAssistantHeader": "Starting measurement for this drawer",
+    "supplierTitle": "Supplier",
+    "supplierHeader": "What slides will be used?",
+    "typeTitle": "Type",
+    "typeHeader": "What kind of drawer will you be designing?",
+    "usePegboard": "Use Pegboard",
+    "type": "Type",
+    "supplier": "Supplier",
+    "model": "Model",
+    "depth": "Depth",
+    "gable": "Gable",
+    "width": "Width",
+    "finish": "Finish",
+    "collection": "Collection",
+    "reloadPage": "Reload Page",
+    "unityError": "Error!"
+  },
+  "projects": {
+    "title": "My projects",
+    "description": "Organize your work by projects. To keep your workspace clean, you can archive projects you're not working on anymore",
+    "myProjects": "My Projects",
+    "kitPortfolio": "Kit Portfolio",
+    "activeProjects": "Active Projects",
+    "addProject": "Add a project",
+    "addDrawer": "Add a drawer",
+    "editButton": "Edit",
+    "modalTitle": "Project name",
+    "modalRenameTitle": "Rename project",
+    "modalBody": "First provide the project name",
+    "modalInputPlaceholder": "The pots and pan drawer (example)",
+    "continue": "Continue",
+    "rename": "Rename",
+    "delete": "Delete",
+    "duplicate": "Duplicate",
+    "clone": "Clone",
+    "modalDeleteTitle": "Delete project",
+    "modalDeleteBody": "Are you sure you want do delete the project"
+  },
+  "sizeAssistant": {
+    "cabinetWidth": "Cabinet width",
+    "cabinetWidthDescription": "Enter the size of your cabinet",
+    "boardThickness": "Board thickness",
+    "boardThicknessDescription": "Gable thickness"
+  },
+  "cart": {
+    "title": "Cart",
+    "review": "Review your items",
+    "print": "Print",
+    "createList": "Create List",
+    "headers": {
+      "product": "Product",
+      "quantity": "Qty"
+    }
+  },
+  "help": {
+    "selectModule": "Select module",
+    "placeModule": "Place module",
+    "editModule": "Edit module",
+    "deleteModule": "Delete module",
+    "rotateModule": "Rotate module",
+    "moveModule": "Move module"
+  }
 }
