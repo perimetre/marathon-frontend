@@ -363,7 +363,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
     async (projectModuleToCreate: UnityProjectModuleJson, children: UnityProjectModuleJson[]) => {
       if (projectModuleToCreate.module.isExtension) return;
 
-      // setIsPending(true);
+      setIsPending(true);
       const { data: existingProjectModules } = await apolloClient.query<
         GetProjectModuleQuery,
         GetProjectModuleQueryVariables
@@ -382,7 +382,8 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
           query: GET_PROJECT_MODULE,
           variables: {
             nanoIds: [projectModuleToCreate.parentNanoId]
-          }
+          },
+          fetchPolicy: 'network-only'
         });
 
         parentId = parentData?.projectModules[0]?.id || -1;
@@ -405,7 +406,15 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
                 parentNanoId: projectModuleToCreate.parentNanoId || undefined,
                 project: { connect: { id: projectId } },
                 module: { connect: { id: projectModuleToCreate.module.id } },
-                parent: parentId !== undefined && parentId > 0 ? { connect: { id: parentId } } : undefined,
+                parent:
+                  (parentId !== undefined && parentId > 0) || projectModuleToCreate?.parentNanoId
+                    ? {
+                        connect:
+                          parentId !== undefined && parentId > 0
+                            ? { id: parentId }
+                            : { nanoId: projectModuleToCreate.parentNanoId }
+                      }
+                    : undefined,
                 children:
                   children && children.length > 0
                     ? {
@@ -519,7 +528,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
           }
         }
       }
-      // setIsPending(false);
+      setIsPending(false);
     },
     // DO NOT add more dependencies to this method. Receive them as arguments
     [apolloClient, doCreateProjectModule, doUpdateProjectModule, projectId]
