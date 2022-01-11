@@ -375,20 +375,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         fetchPolicy: 'network-only'
       });
 
-      let parentId = projectModuleToCreate.parentId || -1;
-
-      if ((!parentId || parentId < 0) && projectModuleToCreate?.parentNanoId) {
-        const { data: parentData } = await apolloClient.query<GetProjectModuleQuery, GetProjectModuleQueryVariables>({
-          query: GET_PROJECT_MODULE,
-          variables: {
-            nanoIds: [projectModuleToCreate.parentNanoId]
-          },
-          fetchPolicy: 'network-only'
-        });
-
-        parentId = parentData?.projectModules[0]?.id || -1;
-      }
-
       const currentProjectModule = existingProjectModules?.projectModules.find(
         (x) => x.nanoId === projectModuleToCreate.nanoId
       );
@@ -406,15 +392,11 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
                 parentNanoId: projectModuleToCreate.parentNanoId || undefined,
                 project: { connect: { id: projectId } },
                 module: { connect: { id: projectModuleToCreate.module.id } },
-                parent:
-                  (parentId !== undefined && parentId > 0) || projectModuleToCreate?.parentNanoId
-                    ? {
-                        connect:
-                          parentId !== undefined && parentId > 0
-                            ? { id: parentId }
-                            : { nanoId: projectModuleToCreate.parentNanoId }
-                      }
-                    : undefined,
+                parent: projectModuleToCreate?.parentNanoId
+                  ? {
+                      connect: { nanoId: projectModuleToCreate.parentNanoId }
+                    }
+                  : undefined,
                 children:
                   children && children.length > 0
                     ? {
@@ -469,7 +451,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
                 parentNanoId: projectModuleToCreate.parentNanoId
                   ? { set: projectModuleToCreate.parentNanoId }
                   : undefined,
-                parent: parentId !== undefined && parentId > 0 ? { connect: { id: parentId } } : undefined,
                 children:
                   (childrenToCreate && childrenToCreate.length > 0) || (childrenToUpdate && childrenToUpdate.length > 0)
                     ? {
