@@ -98,7 +98,7 @@ const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = ({
         >
           {children}
         </motion.div>
-        <div className="container flex justify-end p-6 mx-auto mt-12 border-t border-gray-300 gap-8">
+        <div className="container sticky bottom-0 flex justify-end p-6 mx-auto border-t border-gray-300 bg-mui-gray-50 gap-8">
           {step !== 1 && (
             <Button
               disabled={disablePrev || loading}

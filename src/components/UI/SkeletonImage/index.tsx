@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import Image, { ImageProps } from 'next/image';
 import classNames from 'classnames';
+import { customImageLoader } from '../../../lib/next';
 
 type SkeletonImageProps = ImageProps & {
   alt: string; // Never make "alt" optional.
@@ -25,6 +26,8 @@ const SkeletonImage: React.FC<SkeletonImageProps> = ({ className, ...props }) =>
       onLoadingComplete={() => {
         if (mountRef.current) setImageLoaded(true);
       }}
+      loader={customImageLoader}
+      unoptimized
       className={classNames({ 'mui-skeleton': !imageLoaded }, className)}
     />
   );

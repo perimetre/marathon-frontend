@@ -1,4 +1,5 @@
 import { IncomingMessage, ServerResponse } from 'http';
+import { ImageLoaderProps } from 'next/image';
 import Router from 'next/router';
 
 /**
@@ -38,3 +39,5 @@ export const redirectServerOrClient = (
     }
   }
 };
+
+export const customImageLoader = (props: ImageLoaderProps) => props.src;

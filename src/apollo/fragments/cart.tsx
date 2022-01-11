@@ -1,14 +1,18 @@
 import { gql } from '@apollo/client';
 
 export const CART_DATA = gql`
-  fragment CartData on ProjectModule {
+  fragment CartData on ProjectCart {
     id
-    moduleId
-    module {
+    quantity
+    projectModule {
       id
-      partNumber
-      description
-      thumbnailUrl
+      moduleId
+      module {
+        id
+        partNumber
+        description
+        thumbnailUrl
+      }
     }
   }
 `;

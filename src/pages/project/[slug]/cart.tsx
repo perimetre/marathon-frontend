@@ -1,6 +1,6 @@
 import type { GetServerSideProps, InferGetServerSidePropsType, NextPage } from 'next';
 import React, { useCallback, useMemo } from 'react';
-import { CartQuery, CartQueryVariables, useCartQuery } from '../../../apollo/generated/graphql';
+import { CartQuery, CartQueryVariables, useCartQuery, useCreateListMutation } from '../../../apollo/generated/graphql';
 import { addApolloState, initializeApollo, WithApolloProps } from '../../../lib/apollo';
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
 import { CART_QUERY } from '../../../apollo/cart';
@@ -36,6 +36,9 @@ const CartContainer: NextPage<CartContainerProps> = ({ slug }) => {
     }
   });
 
+  // ** Mutations
+  const [createList] = useCreateListMutation();
+
   // ***********
   // ** Business logic
   // ***********
@@ -54,8 +57,25 @@ const CartContainer: NextPage<CartContainerProps> = ({ slug }) => {
     }
   }, [refetch]);
 
+  const handleCreateList = useCallback(async () => {
+    if (data?.project?.id) {
+      await createList({
+        variables: {
+          projectId: data.project.id
+        }
+      });
+    }
+  }, [createList, data]);
+
   return (
-    <CartTemplate slug={slug as string} data={data} loading={loading} error={error} handleTryAgain={handleTryAgain} />
+    <CartTemplate
+      slug={slug as string}
+      data={data}
+      loading={loading}
+      error={error}
+      handleTryAgain={handleTryAgain}
+      handleCreateList={handleCreateList}
+    />
   );
 };
 

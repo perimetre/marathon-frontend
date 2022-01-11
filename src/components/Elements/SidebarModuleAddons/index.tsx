@@ -19,7 +19,7 @@ const SidebarModuleAddons: React.FC<SidebarModuleAddonsProps> = ({ options, pare
   const { state, projectModule } = usePlannerContext();
 
   const isBlockedToAddSubmodule = useMemo(
-    () => projectModule?.partNumber !== parentPartNumber || state !== 'Selected',
+    () => projectModule?.module.partNumber !== parentPartNumber || state !== 'Selected',
     [parentPartNumber, projectModule, state]
   );
 
@@ -62,7 +62,7 @@ const SidebarModuleAddons: React.FC<SidebarModuleAddonsProps> = ({ options, pare
       </div>
       <div className="flex-grow h-full my-4 overflow-auto">
         {!error ? (
-          <div className="flex flex-col h-full ml-8 mr-4 gap-4">
+          <div className="flex flex-col h-full ml-0 mr-2 gap-4">
             {!loading
               ? data?.modules.map((moduleOption, i) => (
                   <React.Fragment key={moduleOption.id}>

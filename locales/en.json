@@ -17,7 +17,8 @@
     "connectionRefused": "Could not contact the server. The server might be down or your internet is turned off. Please try again later.",
     "ECONNREFUSED": "Could not contact the server. The server might be down or your internet is turned off. Please try again later.",
     "unauthorized": "You are not permitted to do this action",
-    "wrongCredentials": "Email or password is incorrect"
+    "wrongCredentials": "Email or password is incorrect",
+    "unreachableService": "An error has occurred. Please try again later. (Unreachable service)"
   },
   "build": {
     "loadingModule": "Please wait...",
@@ -27,6 +28,7 @@
     "addOns": "Available Add-ons",
     "tray": {
       "delete": "Delete",
+      "deleteEdge": "Remove Edge Finish",
       "move": "Move",
       "rotateLeft": "Rotate Left",
       "rotateRight": "Rotate Right",
@@ -60,6 +62,7 @@
     "startDesigning": "Start designing"
   },
   "project": {
+    "comingSoon": "Coming Soon",
     "collectionTitle": "Collection",
     "collectionHeader": "Which collection would you like?",
     "finishTitle": "Finish",
@@ -78,7 +81,9 @@
     "gable": "Gable",
     "width": "Width",
     "finish": "Finish",
-    "collection": "Collection"
+    "collection": "Collection",
+    "reloadPage": "Reload Page",
+    "unityError": "Error!"
   },
   "projects": {
     "title": "My projects",
@@ -96,6 +101,8 @@
     "continue": "Continue",
     "rename": "Rename",
     "delete": "Delete",
+    "duplicate": "Duplicate",
+    "clone": "Clone",
     "modalDeleteTitle": "Delete project",
     "modalDeleteBody": "Are you sure you want do delete the project"
   },
@@ -109,9 +116,18 @@
     "title": "Cart",
     "review": "Review your items",
     "print": "Print",
+    "createList": "Create List",
     "headers": {
       "product": "Product",
       "quantity": "Qty"
     }
+  },
+  "help": {
+    "selectModule": "Select module",
+    "placeModule": "Place module",
+    "editModule": "Edit module",
+    "deleteModule": "Delete module",
+    "rotateModule": "Rotate module",
+    "moveModule": "Move module"
   }
 }

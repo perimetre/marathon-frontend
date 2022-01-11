@@ -1,13 +1,14 @@
 import { gql } from '@apollo/client';
 
-export const MODULE_DATA = gql`
-  fragment ModuleData on Module {
+const MODULE_DATA_WITHOUT_EXTENSIONS = gql`
+  fragment ModuleDataWithoutExtensions on Module {
     id
     bundleUrl
     hasPegs
-    isImprintExtension
+    isExtension
     isMat
     isSubmodule
+    isEdge
     partNumber
     rules {
       rules {
@@ -25,4 +26,30 @@ export const MODULE_DATA = gql`
       name
     }
   }
+`;
+
+export const MODULE_DATA = gql`
+  fragment ModuleData on Module {
+    ...ModuleDataWithoutExtensions
+    defaultLeftExtension {
+      ...ModuleDataWithoutExtensions
+      rulesJson
+    }
+    defaultRightExtension {
+      ...ModuleDataWithoutExtensions
+      rulesJson
+    }
+    attachmentToAppend {
+      ...ModuleDataWithoutExtensions
+      rulesJson
+    }
+    moduleAttachments {
+      id
+      attachment {
+        ...ModuleDataWithoutExtensions
+        rulesJson
+      }
+    }
+  }
+  ${MODULE_DATA_WITHOUT_EXTENSIONS}
 `;

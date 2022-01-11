@@ -1,7 +1,9 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Project, useDeleteProjectMutation } from '../../../apollo/generated/graphql';
+import { getLocaleIdFromGraphqlError } from '../../../lib/apollo/exceptions';
 import Button from '../../UI/Button';
+import ErrorMessage from '../../UI/ErrorMessage';
 import Modal from '../../UI/Modal';
 import Spinner from '../../UI/Spinner';
 
@@ -12,7 +14,7 @@ export type ModalDeleteProjectProps = {
 };
 
 const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({ open, onClose, project }) => {
-  const [deleteProject, { loading }] = useDeleteProjectMutation();
+  const [deleteProject, { loading, error: mutationError }] = useDeleteProjectMutation();
 
   const handleDelete = useCallback(async () => {
     if (project) {
@@ -25,6 +27,12 @@ const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({ open, onClose, 
       onClose();
     }
   }, [deleteProject, onClose, project]);
+
+  const error = useMemo(
+    () =>
+      mutationError ? getLocaleIdFromGraphqlError(mutationError.graphQLErrors, mutationError.networkError) : undefined,
+    [mutationError]
+  );
 
   return (
     <Modal
@@ -46,6 +54,7 @@ const ModalDeleteProject: React.FC<ModalDeleteProjectProps> = ({ open, onClose, 
             <FormattedMessage id="projects.modalDeleteBody" />
           </p>
           <strong>{project?.title}</strong>
+          {error && <ErrorMessage error={error} />}
         </div>
       </div>
     </Modal>

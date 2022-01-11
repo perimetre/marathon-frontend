@@ -9,6 +9,7 @@ import Image from 'next/image';
 import Head from 'next/head';
 import Spinner from '../../UI/Spinner';
 import ErrorMessage from '../../UI/ErrorMessage';
+import { customImageLoader } from '../../../lib/next';
 
 export type LoginTemplateProps = {
   loading?: boolean;
@@ -51,6 +52,8 @@ const LoginTemplate: React.FC<LoginTemplateProps> = ({ loading, error, onSubmit 
           src="/images/Background/7px.Kemsley Color Palette 3 Angle.png"
           layout="fill"
           objectFit="cover"
+          loader={customImageLoader}
+          unoptimized
           quality={100}
         />
       </div>

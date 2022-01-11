@@ -5,7 +5,6 @@ import SkeletonImage from '../../UI/SkeletonImage';
 import Button from '../../UI/Button';
 import { FormattedMessage } from 'react-intl';
 import { PlusCircle } from 'react-feather';
-import { nanoid } from 'nanoid';
 import Spinner from '../../UI/Spinner';
 import logging from '../../../lib/logging';
 import { useIntersection } from 'next/dist/client/use-intersection';
@@ -16,8 +15,8 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
   // ***********
   // ** Misc
   // ***********
-  const { createModule, createChildrenModule, setIsPending, isPending } = usePlannerContext();
-  const { id, partNumber, bundleUrl } = module;
+  const { createModule, createChildrenModule, isPending } = usePlannerContext();
+  const { partNumber } = module;
 
   // A hook that check is the element is visible, so we run logic only when it is
   // Ref: https://github.com/vercel/next.js/blob/0c04f96e9be0a78c1b3a77e8d2788afc0822ba1a/packages/next/client/image.tsx#L505
@@ -57,22 +56,18 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
 
   // ** Handlers
   const onAddClick = useCallback(() => {
-    setIsPending(true);
-
-    const projectModuleId = nanoid();
-
-    if (data?.module && bundleUrl) {
+    if (data?.module) {
       if (!isChild) {
-        createModule(partNumber, id, projectModuleId, data.module.rulesJson, bundleUrl);
+        createModule(module, data.module.rulesJson);
       } else {
-        createChildrenModule(partNumber, id, projectModuleId, data.module.rulesJson, bundleUrl);
+        createChildrenModule(module, data.module.rulesJson);
       }
     }
-  }, [bundleUrl, createChildrenModule, createModule, id, isChild, partNumber, setIsPending, data]);
+  }, [createChildrenModule, createModule, data, isChild, module]);
 
   return (
     <div>
-      <div className="relative w-full h-48 bg-white mui-border-radius" ref={ref}>
+      <div className="relative w-full bg-white h-44 xl:h-48 mui-border-radius" ref={ref}>
         {module.thumbnailUrl && (
           <SkeletonImage
             key={partNumber}
@@ -88,7 +83,9 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
             <Button
               className="items-center justify-center group gap-2"
               onClick={!!queryError ? (refetch ? () => refetch() : undefined) : onAddClick}
-              disabled={!data?.module?.rulesJson || loading || isBlockedToAddSubmodule || isPending}
+              disabled={
+                isPending || loading ? true : module.isMat ? false : !data?.module?.rulesJson || isBlockedToAddSubmodule
+              }
             >
               {!!(loading || isPending) ? (
                 <Spinner />
@@ -108,7 +105,7 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
           </div>
         </div>
       </div>
-      <p className="mt-2 text-lg font-bold">{partNumber}</p>
+      <p className="mt-2 text-base font-bold">{partNumber}</p>
       {module.description && <p className="mt-4 text-base">{module.description}</p>}
     </div>
   );

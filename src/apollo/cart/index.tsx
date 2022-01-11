@@ -7,7 +7,8 @@ export const CART_QUERY = gql`
       id
       slug
       title
-      projectModules {
+      cartAmount
+      cart {
         ...CartData
         children {
           ...CartData
@@ -16,4 +17,16 @@ export const CART_QUERY = gql`
     }
   }
   ${CART_DATA}
+`;
+
+export const CREATE_LIST = gql`
+  mutation CreateList($projectId: Int!) {
+    createList(id: $projectId) {
+      id
+      name
+      project {
+        id
+      }
+    }
+  }
 `;

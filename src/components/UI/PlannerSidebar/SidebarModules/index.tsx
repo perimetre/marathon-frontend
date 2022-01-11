@@ -28,7 +28,7 @@ type SidebarModulesProps = Pick<NonNullable<PlannerSidebarProps['project']>, 'mo
 };
 
 const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, category, onCloseClick }) => {
-  const { state: projectState, projectModule } = usePlannerContext();
+  const { state: projectState, projectModule, didFinishSetup } = usePlannerContext();
 
   const modules = useMemo(
     () => modulesProps?.filter((module) => module.categories.some((cat) => cat.slug === category?.slug)),
@@ -39,19 +39,25 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
   const selectedModule = useMemo(() => modules?.find((x) => x.id === selectedModuleId), [selectedModuleId, modules]);
 
   useEffect(() => {
-    if (projectState === 'Selected' && projectModule) {
-      setSelectedModuleId(projectModule.moduleId);
-      const element = document.getElementById(`module-${projectModule.moduleId}`);
-      const divElement = document.getElementById('sidebar-scrollbar');
-      if (divElement && element) {
-        divElement.scrollTo({
-          // 138px Is the size of the distance from the top to the scroll
-          top: Number(element.offsetTop - divElement.getBoundingClientRect().top - 138),
-          behavior: 'smooth'
-        });
+    if (didFinishSetup && projectState === 'Selected' && projectModule) {
+      const moduleId = projectModule.module.id;
+
+      const isSub = modules?.find((module) => module.rules?.rules?.options?.includes(projectModule.module.partNumber));
+
+      if (modules?.some((x) => x.id === moduleId) || isSub) {
+        setSelectedModuleId(isSub ? isSub.id : moduleId);
+        const element = document.getElementById(`module-${isSub ? isSub.id : moduleId}`);
+        const divElement = document.getElementById('sidebar-scrollbar');
+        if (divElement && element) {
+          divElement.scrollTo({
+            // 138px Is the size of the distance from the top to the scroll
+            top: Number(element.offsetTop - divElement.getBoundingClientRect().top - 138),
+            behavior: 'smooth'
+          });
+        }
       }
     }
-  }, [projectState, projectModule]);
+  }, [projectModule, projectState, didFinishSetup, modules]);
 
   return (
     <motion.div
@@ -91,16 +97,17 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
                     onClick={module.id !== selectedModuleId ? () => setSelectedModuleId(module.id) : undefined}
                   >
                     {module.thumbnailUrl ? (
-                      <div className="relative w-36 h-36">
+                      <div className="relative w-full h-24 xl:h-36">
                         <SkeletonImage
                           key={module.partNumber}
                           src={module.thumbnailUrl}
                           alt={module.partNumber}
                           layout="fill"
+                          objectFit="contain"
                         />
                       </div>
                     ) : (
-                      <div className="w-36 h-36" />
+                      <div className="w-full h-36" />
                     )}
                     <p className="mt-2 text-sm font-bold text-center">{module.partNumber}</p>
                   </button>

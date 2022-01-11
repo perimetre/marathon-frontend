@@ -6,10 +6,12 @@ export const PLANNER_QUERY = gql`
   query Planner($slug: String!) {
     project(where: { slug: $slug }) {
       id
+      slug
       title
       gable
       calculatedWidth
       hasPegs
+      cartAmount
       type {
         id
         slug
@@ -25,7 +27,7 @@ export const PLANNER_QUERY = gql`
       modules {
         ...ModuleData
       }
-      projectModules {
+      projectModules(where: { parentId: { equals: null } }) {
         ...ProjectModuleData
         children {
           ...ProjectModuleData
