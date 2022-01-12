@@ -18,6 +18,8 @@ const UnityPlayer: React.FC<UnityPlayerProps> = ({ className }) => {
     throw 'Called UnityPlayer. But no UnityPlayerProvider was found. Wrap your UnityPlayer with the UnityPlayerProvider component';
   }
 
+  const [timestamp] = useState(Date.now());
+
   const { buildName, buildUrl, loaderUrl, companyName, productName, productVersion } = useMemo(() => {
     const {
       NEXT_PUBLIC_UNITY_BUILD_NAME,
@@ -31,7 +33,7 @@ const UnityPlayer: React.FC<UnityPlayerProps> = ({ className }) => {
     const buildName = NEXT_PUBLIC_UNITY_BUILD_NAME;
 
     const buildUrl = `${unityPublicServePath}/Build`;
-    const loaderUrl = `/${buildUrl}/${buildName}.loader.js`;
+    const loaderUrl = `/${buildUrl}/${buildName}.loader.js?t=${timestamp}`;
 
     return {
       unityPublicServePath,
@@ -42,7 +44,7 @@ const UnityPlayer: React.FC<UnityPlayerProps> = ({ className }) => {
       productName: NEXT_PUBLIC_UNITY_PRODUCT_NAME,
       productVersion: NEXT_PUBLIC_UNITY_PRODUCT_VERSION
     };
-  }, []);
+  }, [timestamp]);
 
   /*
    * Initialization
@@ -127,9 +129,21 @@ const UnityPlayer: React.FC<UnityPlayerProps> = ({ className }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isScriptLoaded]);
 
+  useEffect(() => {
+    return () => {
+      console.log('Disposing unity player');
+      unityInstance.current.Quit(function () {
+        console.log('Unity player exited successfully');
+      });
+      unityInstance.current = null;
+    };
+    // We really only want this to run once
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   return (
     <div className={classNames('w-full h-full', className)}>
-      <canvas ref={unityCanvas} width={960} height={600} />{' '}
+      <canvas ref={unityCanvas} width={960} height={600} />
       <Script src={loaderUrl} strategy="afterInteractive" onLoad={() => setIsScriptLoaded(true)} />
     </div>
   );
