@@ -45,7 +45,7 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
 
         const slug = slugify(drawerTitle);
 
-        await doCreateProject({
+        const response = await doCreateProject({
           variables: {
             data: {
               slug,
@@ -88,9 +88,10 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
           }
         });
 
-        clear();
-
-        router.push('/project/[slug]/planner', `/project/${slug}/planner`);
+        if (!response.errors && response.data?.createOneProject.id) {
+          clear();
+          router.push('/project/[slug]/planner', `/project/${response.data.createOneProject.slug}/planner`);
+        }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {
         logging.error(err, 'Error creating project:', { data });
