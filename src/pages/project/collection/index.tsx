@@ -8,18 +8,23 @@ import {
 } from '../../../components/Providers/ProjectCreationProvider';
 import { addApolloState, initializeApollo } from '../../../lib/apollo';
 import { COLLECTION_QUERY } from '../../../apollo/collection';
-import { useGetCollectionsQuery } from '../../../apollo/generated/graphql';
+import { useGetCollectionsQuery, User } from '../../../apollo/generated/graphql';
 import CollectionTemplate from '../../../components/Templates/Project/Collection';
 import { useCallback, useMemo } from 'react';
 import { getLocaleIdFromGraphqlError, hasGraphqlUnauthorizedError } from '../../../lib/apollo/exceptions';
 import { requiredAuthWithRedirectProp } from '../../../utils/auth';
 import logging from '../../../lib/logging';
 
-type CollectionContainerGetServerProps = ProjectCreationProviderProps;
+type CollectionContainerGetServerProps = ProjectCreationProviderProps & { user?: User };
 
 type CollectionContainerProps = InferGetServerSidePropsType<typeof getServerSideProps>;
 
-const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollection, drawerType, drawerPegs }) => {
+const CollectionContainer: NextPage<CollectionContainerProps> = ({
+  drawerCollection,
+  drawerType,
+  drawerPegs,
+  user
+}) => {
   const { setDrawerCollection, setDrawerPegs } = useProjectCreationContext();
 
   const router = useRouter();
@@ -54,6 +59,7 @@ const CollectionContainer: NextPage<CollectionContainerProps> = ({ drawerCollect
 
   return (
     <CollectionTemplate
+      user={user}
       data={data}
       loading={loading}
       error={error}
@@ -75,11 +81,15 @@ export const getServerSideProps: GetServerSideProps<CollectionContainerGetServer
     ...(query || {})
   };
 
-  const { redirect } = await requiredAuthWithRedirectProp(ctx);
+  const { auth, redirect } = await requiredAuthWithRedirectProp(ctx);
   if (redirect) {
     return {
       redirect
     };
+  }
+
+  if (auth?.user) {
+    props.user = auth?.user;
   }
 
   const projectData = requiredProjectData(ctx);
