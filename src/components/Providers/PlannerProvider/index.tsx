@@ -520,6 +520,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
     async (projectModuleToDelete: UnityProjectModuleJson, children?: UnityProjectModuleJson[]) => {
       try {
         setIsPending(true);
+        debugger;
         await doDeleteProjectModule({
           variables: {
             nanoIds: [projectModuleToDelete.nanoId, ...(children || []).map((child) => child.nanoId)]
@@ -688,6 +689,8 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         if (!finishedSetup) return;
         const projectModule = JSON.parse(projectModuleJson) as UnityProjectModuleJson;
         const childrenModules = childrenJson ? (JSON.parse(childrenJson) as UnityProjectModuleJsonChildren) : undefined;
+
+        debugger;
 
         console.log('deletedModule: ', projectModule, childrenModules);
 
