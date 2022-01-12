@@ -1,10 +1,8 @@
 import classNames from 'classnames';
-import { FormattedMessage } from 'react-intl';
 import SkeletonImage from '../SkeletonImage';
 
 export type CardProps = {
   onClick?: () => void;
-  isComingSoon?: boolean;
   active?: boolean;
   image?: string | null;
   title?: string;
@@ -18,7 +16,6 @@ const Card: React.FC<CardProps> = ({
   title,
   image,
   description,
-  isComingSoon,
   imageClassName,
   active,
   category,
@@ -27,7 +24,7 @@ const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <div
-      onClick={() => !isComingSoon && onClick && onClick()}
+      onClick={() => onClick && onClick()}
       aria-hidden="true"
       className={classNames('card relative overflow-hidden', active && 'active')}
     >
@@ -52,14 +49,6 @@ const Card: React.FC<CardProps> = ({
         {description && <p className="my-4">{description}</p>}
         {footer}
       </div>
-      {isComingSoon && (
-        <div className="absolute inset-0 flex items-center justify-center w-full h-full">
-          <div className="absolute w-full h-full bg-black opacity-30"></div>
-          <h2 className="absolute text-2xl font-black text-white uppercase top-1/4">
-            <FormattedMessage id="project.comingSoon" />
-          </h2>
-        </div>
-      )}
     </div>
   );
 };
