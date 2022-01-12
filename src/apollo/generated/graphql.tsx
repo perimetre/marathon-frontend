@@ -6024,6 +6024,17 @@ export type ProjectModuleDataFragment = {
   };
 };
 
+export type ProjectDataFragment = {
+  __typename?: 'Project';
+  id: number;
+  title: string;
+  slug: string;
+  cabinetWidth?: number | null | undefined;
+  gable: number;
+  type: { __typename?: 'Type'; id: number; slug: string };
+  collection: { __typename?: 'Collection'; id: number; slug: string };
+};
+
 export type LoginMutationVariables = Exact<{
   user: UserSingIn;
 }>;
@@ -7265,17 +7276,6 @@ export type DeleteProjectModuleMutationVariables = Exact<{
 export type DeleteProjectModuleMutation = {
   __typename?: 'Mutation';
   deleteManyProjectModule: { __typename?: 'AffectedRowsOutput'; count: number };
-};
-
-export type ProjectDataFragment = {
-  __typename?: 'Project';
-  id: number;
-  title: string;
-  slug: string;
-  cabinetWidth?: number | null | undefined;
-  gable: number;
-  type: { __typename?: 'Type'; id: number; slug: string };
-  collection: { __typename?: 'Collection'; id: number; slug: string };
 };
 
 export type ProjectCartQueryVariables = Exact<{
