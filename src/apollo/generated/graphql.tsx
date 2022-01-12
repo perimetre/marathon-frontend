@@ -5473,6 +5473,7 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String'];
   id: Scalars['Int'];
+  isAdminUser: Scalars['Boolean'];
   marathonUserId: Scalars['Int'];
   project: Array<Project>;
   session: Array<Session>;
@@ -5503,6 +5504,7 @@ export type UserCreateOrConnectWithoutProjectInput = {
 
 export type UserCreateWithoutProjectInput = {
   email: Scalars['String'];
+  isAdminUser?: Maybe<Scalars['Boolean']>;
   marathonUserId: Scalars['Int'];
   session?: Maybe<SessionCreateNestedManyWithoutUserInput>;
 };
@@ -5524,6 +5526,7 @@ export type UserUpdateOneWithoutProjectInput = {
 
 export type UserUpdateWithoutProjectInput = {
   email?: Maybe<StringFieldUpdateOperationsInput>;
+  isAdminUser?: Maybe<BoolFieldUpdateOperationsInput>;
   marathonUserId?: Maybe<IntFieldUpdateOperationsInput>;
   session?: Maybe<SessionUpdateManyWithoutUserInput>;
 };
@@ -5539,6 +5542,7 @@ export type UserWhereInput = {
   OR?: Maybe<Array<UserWhereInput>>;
   email?: Maybe<StringFilter>;
   id?: Maybe<IntFilter>;
+  isAdminUser?: Maybe<BoolFilter>;
   marathonUserId?: Maybe<IntFilter>;
   project?: Maybe<ProjectListRelationFilter>;
   session?: Maybe<SessionListRelationFilter>;
@@ -6022,6 +6026,17 @@ export type ProjectModuleDataFragment = {
       | undefined;
     categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
   };
+};
+
+export type ProjectDataFragment = {
+  __typename?: 'Project';
+  id: number;
+  title: string;
+  slug: string;
+  cabinetWidth?: number | null | undefined;
+  gable: number;
+  type: { __typename?: 'Type'; id: number; slug: string };
+  collection: { __typename?: 'Collection'; id: number; slug: string };
 };
 
 export type LoginMutationVariables = Exact<{
@@ -7265,17 +7280,6 @@ export type DeleteProjectModuleMutationVariables = Exact<{
 export type DeleteProjectModuleMutation = {
   __typename?: 'Mutation';
   deleteManyProjectModule: { __typename?: 'AffectedRowsOutput'; count: number };
-};
-
-export type ProjectDataFragment = {
-  __typename?: 'Project';
-  id: number;
-  title: string;
-  slug: string;
-  cabinetWidth?: number | null | undefined;
-  gable: number;
-  type: { __typename?: 'Type'; id: number; slug: string };
-  collection: { __typename?: 'Collection'; id: number; slug: string };
 };
 
 export type ProjectCartQueryVariables = Exact<{
