@@ -5473,6 +5473,7 @@ export type User = {
   __typename?: 'User';
   email: Scalars['String'];
   id: Scalars['Int'];
+  isAdminUser: Scalars['Boolean'];
   marathonUserId: Scalars['Int'];
   project: Array<Project>;
   session: Array<Session>;
@@ -5503,6 +5504,7 @@ export type UserCreateOrConnectWithoutProjectInput = {
 
 export type UserCreateWithoutProjectInput = {
   email: Scalars['String'];
+  isAdminUser?: Maybe<Scalars['Boolean']>;
   marathonUserId: Scalars['Int'];
   session?: Maybe<SessionCreateNestedManyWithoutUserInput>;
 };
@@ -5524,6 +5526,7 @@ export type UserUpdateOneWithoutProjectInput = {
 
 export type UserUpdateWithoutProjectInput = {
   email?: Maybe<StringFieldUpdateOperationsInput>;
+  isAdminUser?: Maybe<BoolFieldUpdateOperationsInput>;
   marathonUserId?: Maybe<IntFieldUpdateOperationsInput>;
   session?: Maybe<SessionUpdateManyWithoutUserInput>;
 };
@@ -5539,6 +5542,7 @@ export type UserWhereInput = {
   OR?: Maybe<Array<UserWhereInput>>;
   email?: Maybe<StringFilter>;
   id?: Maybe<IntFilter>;
+  isAdminUser?: Maybe<BoolFilter>;
   marathonUserId?: Maybe<IntFilter>;
   project?: Maybe<ProjectListRelationFilter>;
   session?: Maybe<SessionListRelationFilter>;

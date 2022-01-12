@@ -1,5 +1,5 @@
 import { Form, Formik } from 'formik';
-import { GetCollectionsQuery } from '../../../../apollo/generated/graphql';
+import { GetCollectionsQuery, User } from '../../../../apollo/generated/graphql';
 import Card from '../../../UI/Card';
 import * as yup from 'yup';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -13,6 +13,8 @@ import Head from 'next/head';
 import { ChevronRight } from 'react-feather';
 
 export type CollectionTemplateProps = {
+  user?: User;
+
   data?: GetCollectionsQuery;
   onSubmit: (form: { collection: number | null; hasPegs?: boolean }) => void;
   initialValue: { collection?: number; hasPegs?: boolean };
@@ -24,6 +26,7 @@ export type CollectionTemplateProps = {
 };
 
 const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
+  user,
   data,
   loading,
   displayPegs,
@@ -92,12 +95,11 @@ const CollectionTemplate: React.FC<CollectionTemplateProps> = ({
                 <div className="container mx-auto">
                   <div className="flex flex-wrap justify-center mt-16 mb-8 gap-16">
                     {data?.collections
-                      .filter((f) => !f.isComingSoon)
+                      .filter((f) => (user?.isAdminUser ? true : !f.isComingSoon))
                       .map((collection) => (
                         <Card
                           key={`collection-card-${collection.id}`}
                           category={collection.subtitle}
-                          isComingSoon={collection.isComingSoon}
                           active={values.collection === collection.id}
                           onClick={() => {
                             setFieldValue('collection', collection.id);
