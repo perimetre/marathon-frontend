@@ -77,7 +77,7 @@ const ProjectsTemplate: React.FC<ProjectsTemplateProps> = ({ data, loading, erro
         </div>
         <div>
           <div className="max-w-3xl px-10 py-16 lg:px-16">
-            {error && <ErrorMessage error={`serverErrors.${error}`} handleTryAgain={handleTryAgain} />}
+            {error && <ErrorMessage error={error} handleTryAgain={handleTryAgain} />}
             <div className="w-full h-11 grid grid-cols-2 gap-4">
               {loading ? (
                 <div className="w-full h-full mui-skeleton grid" />

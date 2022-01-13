@@ -120,7 +120,7 @@ const SizeAssistantTemplate: React.FC<SizeAssistantTemplateProps> = ({
                 </div>
                 {error && (
                   <div className="mt-8">
-                    <ErrorMessage error={`serverError.${error}`} />
+                    <ErrorMessage error={error} />
                   </div>
                 )}
               </div>
