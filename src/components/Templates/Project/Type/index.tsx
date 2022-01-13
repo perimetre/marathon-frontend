@@ -66,7 +66,7 @@ const TypeTemplate: React.FC<TypeTemplateProps> = ({
             >
               {error && (
                 <div className="container flex items-center justify-center mx-auto mt-8">
-                  <ErrorMessage error={`serverErrors.${error}`} handleTryAgain={handleTryAgain} />
+                  <ErrorMessage error={error} handleTryAgain={handleTryAgain} />
                 </div>
               )}
               {loading ? (

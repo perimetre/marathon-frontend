@@ -86,7 +86,7 @@ const SidebarModuleAddons: React.FC<SidebarModuleAddonsProps> = ({ options, pare
                   ))}
           </div>
         ) : (
-          <ErrorMessage error={`serverErrors.${error}`} handleTryAgain={refetch} />
+          <ErrorMessage error={error} handleTryAgain={refetch} />
         )}
       </div>
     </div>
