@@ -8,7 +8,7 @@ type ErrorMessageProps = {
 };
 
 const ErrorMessage: React.FC<ErrorMessageProps> = ({ error, handleTryAgain }) => (
-  <div className="flex flex-col items-center justify-center h-full p-8 border border-red-200 rounded-md">
+  <div className="flex flex-col items-center justify-center h-full p-8 m-4 border border-red-200 rounded-md">
     <p className="text-lg font-semibold text-center text-red-500">
       {typeof error === 'string' ? <FormattedMessage id={error} /> : error}
     </p>
