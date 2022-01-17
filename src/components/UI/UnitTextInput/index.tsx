@@ -7,7 +7,7 @@ import { convertInToMmFormatted, convertMmToInFormatted } from '../../../utils/c
 const UnitTextInput: React.FC<
   React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> & {
     name: string;
-    unit: Unit;
+    unit?: Unit;
   }
 > = ({ name, unit, className, children, ...props }) => {
   const [field, meta, helper] = useField(name);
