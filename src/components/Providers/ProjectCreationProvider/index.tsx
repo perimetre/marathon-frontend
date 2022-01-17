@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext, NextPageContext } from 'next';
 import { ParsedUrlQuery } from 'querystring';
-import React, { useCallback, useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useState } from 'react';
 import {
   PROJECT_DRAWER_COLLECTION,
   PROJECT_DRAWER_FINISH,
@@ -17,8 +17,8 @@ import { stripUndefined } from '../../../utils/object';
 
 type ProjectCreationType = {
   hasProvider: boolean;
-  unit: Unit;
-  setUnit: (unit: Unit) => void;
+  unit?: Unit;
+  setUnit: (unit?: Unit) => void;
   clear: () => void;
 
   drawerType?: number;
@@ -36,11 +36,11 @@ type ProjectCreationType = {
   drawerFinish?: number;
   setDrawerFinish: (finish: number) => void;
 
-  drawerSlide: { slide?: number; model?: string; depth?: string } | null;
-  setDrawerSlide: (slide: { slide?: number; model?: string; depth?: string }) => void;
+  drawerSlide?: { slide?: number; model?: string; depth?: string } | null;
+  setDrawerSlide: (slide?: { slide?: number; model?: string; depth?: string }) => void;
 
-  drawerSize: { cabinetWidth?: string; gable?: string } | null;
-  setDrawerSize: (size: { cabinetWidth?: string; gable?: string }) => void;
+  drawerSize?: { cabinetWidth?: string; gable?: string } | null;
+  setDrawerSize: (size?: { cabinetWidth?: string; gable?: string }) => void;
 };
 
 const initialState: ProjectCreationType = {
@@ -93,6 +93,23 @@ export type ProjectCreationProviderProps = {
   drawerSize?: ProjectCreationType['drawerSize'];
 };
 
+const useCookieHook = <T,>(
+  name: string,
+  initialState: T | undefined,
+  serialize: (value?: T) => string | undefined
+): [T | undefined, (nextState?: T) => void] => {
+  const [value, setValueOriginal] = useState<T | undefined>(initialState);
+
+  const setValueFinal = useCallback((nextState?: T) => {
+    setCookieOrRemoveIfUndefined(name, serialize(nextState));
+    setValueOriginal(nextState);
+    // Disable because we don't want to reconsider the serialize value
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return [value, setValueFinal];
+};
+
 export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = ({
   children,
   unit: initUnit,
@@ -104,14 +121,42 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
   drawerSlide: slide,
   drawerSize: size
 }) => {
-  const [unit, setUnit] = useState<ProjectCreationType['unit']>(initUnit || 'in');
-  const [drawerType, setDrawerType] = useState<ProjectCreationType['drawerType']>(type);
-  const [drawerTitle, setDrawerTitle] = useState<ProjectCreationType['drawerTitle']>(description);
-  const [drawerCollection, setDrawerCollection] = useState<ProjectCreationType['drawerCollection']>(collection);
-  const [drawerPegs, setDrawerPegs] = useState<ProjectCreationType['drawerPegs']>(pegs);
-  const [drawerFinish, setDrawerFinish] = useState<ProjectCreationType['drawerFinish']>(finish);
-  const [drawerSlide, setDrawerSlide] = useState<ProjectCreationType['drawerSlide']>(slide || null);
-  const [drawerSize, setDrawerSize] = useState<ProjectCreationType['drawerSize']>(size || null);
+  const [unit, setUnit] = useCookieHook<ProjectCreationType['unit']>(PROJECT_UNIT, initUnit || 'in', (unit) => unit);
+  const [drawerType, setDrawerType] = useCookieHook<ProjectCreationType['drawerType']>(
+    PROJECT_DRAWER_TYPE,
+    type,
+    (drawerType) => drawerType?.toString()
+  );
+  const [drawerTitle, setDrawerTitle] = useCookieHook<ProjectCreationType['drawerTitle']>(
+    PROJECT_DRAWER_TITLE,
+    description,
+    (drawerTitle) => drawerTitle
+  );
+  const [drawerCollection, setDrawerCollection] = useCookieHook<ProjectCreationType['drawerCollection']>(
+    PROJECT_DRAWER_COLLECTION,
+    collection,
+    (drawerCollection) => drawerCollection?.toString()
+  );
+  const [drawerPegs, setDrawerPegs] = useCookieHook<ProjectCreationType['drawerPegs']>(
+    PROJECT_DRAWER_PEGS,
+    pegs,
+    (drawerPegs) => (drawerPegs ? 'true' : undefined)
+  );
+  const [drawerFinish, setDrawerFinish] = useCookieHook<ProjectCreationType['drawerFinish']>(
+    PROJECT_DRAWER_FINISH,
+    finish,
+    (drawerFinish) => drawerFinish?.toString()
+  );
+  const [drawerSlide, setDrawerSlide] = useCookieHook<ProjectCreationType['drawerSlide']>(
+    PROJECT_DRAWER_SLIDE,
+    slide || undefined,
+    (drawerSlide) => JSON.stringify(drawerSlide)
+  );
+  const [drawerSize, setDrawerSize] = useCookieHook<ProjectCreationType['drawerSize']>(
+    PROJECT_DRAWER_SIZE,
+    size || undefined,
+    (drawerSize) => JSON.stringify(drawerSize)
+  );
 
   const clear = useCallback(() => {
     setDrawerType(undefined);
@@ -119,20 +164,17 @@ export const ProjectCreationProvider: React.FC<ProjectCreationProviderProps> = (
     setDrawerCollection(undefined);
     setDrawerPegs(undefined);
     setDrawerFinish(undefined);
-    setDrawerSlide(null);
-    setDrawerSize(null);
-  }, []);
-
-  useEffect(() => {
-    setCookieOrRemoveIfUndefined(PROJECT_UNIT, unit);
-    setCookieOrRemoveIfUndefined(PROJECT_DRAWER_TYPE, drawerType?.toString());
-    setCookieOrRemoveIfUndefined(PROJECT_DRAWER_TITLE, drawerTitle);
-    setCookieOrRemoveIfUndefined(PROJECT_DRAWER_COLLECTION, drawerCollection?.toString());
-    setCookieOrRemoveIfUndefined(PROJECT_DRAWER_PEGS, drawerPegs ? 'true' : undefined);
-    setCookieOrRemoveIfUndefined(PROJECT_DRAWER_FINISH, drawerFinish?.toString());
-    setCookieOrRemoveIfUndefined(PROJECT_DRAWER_SLIDE, JSON.stringify(drawerSlide));
-    setCookieOrRemoveIfUndefined(PROJECT_DRAWER_SIZE, JSON.stringify(drawerSize));
-  }, [unit, drawerType, drawerTitle, drawerPegs, drawerCollection, drawerFinish, drawerSlide, drawerSize]);
+    setDrawerSlide(undefined);
+    setDrawerSize(undefined);
+  }, [
+    setDrawerCollection,
+    setDrawerFinish,
+    setDrawerPegs,
+    setDrawerSize,
+    setDrawerSlide,
+    setDrawerTitle,
+    setDrawerType
+  ]);
 
   return (
     <div id="project-provider">

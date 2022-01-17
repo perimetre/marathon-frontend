@@ -11,7 +11,7 @@ import Head from 'next/head';
 import ErrorMessage from '../../../UI/ErrorMessage';
 
 export type SizeAssistantTemplateProps = {
-  unit: Unit;
+  unit?: Unit;
   error?: string;
   gable: { display: string; value: string | number | null }[];
   loading?: boolean;
