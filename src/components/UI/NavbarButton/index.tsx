@@ -9,6 +9,7 @@ type NavbarButtonProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElemen
 const NavbarButton: React.FC<NavbarButtonProps> = ({ icon, iconPosition = 'right', children, ...buttonProps }) => (
   <button
     className="flex items-center justify-center h-full px-4 hover:bg-mui-gray-50 transition-colors duration-75 group gap-2"
+    type="button"
     {...buttonProps}
   >
     {iconPosition === 'left' && icon}
