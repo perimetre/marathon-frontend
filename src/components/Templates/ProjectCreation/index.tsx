@@ -7,6 +7,7 @@ import Spinner from '../../UI/Spinner';
 import SkeletonImage from '../../UI/SkeletonImage';
 import UnitSwitch from '../../Elements/UnitSwitch';
 import { ArrowLeft, ArrowRight } from 'react-feather';
+import { FormattedMessage } from 'react-intl';
 
 export type ProjectCreationTemplateProps = {
   title: string;
@@ -103,6 +104,7 @@ const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = ({
             <Button
               disabled={disablePrev || loading}
               className="px-6 py-2"
+              type="button"
               onClick={(e) => {
                 // Using stopPropagation and preventDefault because this is triggering onsubmit on form for a unknown reason
                 e.preventDefault();
@@ -111,11 +113,11 @@ const ProjectCreationTemplate: React.FC<ProjectCreationTemplateProps> = ({
               }}
             >
               <ArrowLeft />
-              Back
+              <FormattedMessage id="common.back" />
             </Button>
           )}
           <Button disabled={disableNext || loading} className="px-6 py-2" type="submit">
-            Next
+            <FormattedMessage id="common.next" />
             {loading ? <Spinner className="w-5 h-5 ml-2" /> : <ArrowRight />}
           </Button>
         </div>
