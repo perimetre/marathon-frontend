@@ -90,7 +90,7 @@ const SizeAssistantContainer: NextPage<SizeAssistantContainerProps> = ({
 
         if (!response.errors && response.data?.createOneProject.id) {
           clear();
-          router.push('/project/[slug]/planner', `/project/${response.data.createOneProject.slug}/planner`);
+          await router.push('/project/[slug]/planner', `/project/${response.data.createOneProject.slug}/planner`);
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } catch (err: any) {

@@ -14,8 +14,8 @@ import Head from 'next/head';
 
 export type SupplierTemplateProps = {
   data?: GetSlideSupplierByCollectionQuery;
-  onSubmit: (form: { slide: number | null; depth: string; model: string }) => void;
-  initialValue: { slide?: number; depth?: string; model?: string };
+  onSubmit: (form: { supplier: number | null; depth: string; slide: string }) => void;
+  initialValue: { supplier?: number; depth?: string; slide?: string };
 
   loading?: boolean;
   error?: string;
@@ -30,40 +30,40 @@ const SupplierTemplate: React.FC<SupplierTemplateProps> = ({
   onSubmit,
   initialValue
 }) => {
+  const [supplier, setSupplier] = useState(0);
   const [slide, setSlide] = useState(0);
-  const [model, setModel] = useState(0);
 
   const router = useRouter();
 
   const intl = useIntl();
 
-  const models = useMemo(() => {
-    if (data && slide) {
-      const supplier = data.slideSuppliers.find((f) => f.id === slide);
-      return supplier?.slides;
+  const slides = useMemo(() => {
+    if (data && supplier) {
+      const foundSupplier = data.slideSuppliers.find((f) => f.id === supplier);
+      return foundSupplier?.slides;
     }
     return [];
-  }, [data, slide]);
+  }, [data, supplier]);
 
   const depths = useMemo(() => {
-    if (data && slide && model) {
-      const supplier = data.slideSuppliers.find((f) => f.id === slide);
-      const supSlide = supplier?.slides.find((f) => f.id === model);
+    if (data && supplier && slide) {
+      const foundSupplier = data.slideSuppliers.find((f) => f.id === supplier);
+      const supSlide = foundSupplier?.slides.find((f) => f.id === slide);
       return supSlide?.depths;
     }
     return [];
-  }, [model, slide, data]);
+  }, [slide, supplier, data]);
 
   const schema = useMemo(
     () =>
       yup.object().shape({
-        slide: yup
+        supplier: yup
           .number()
           .label(intl.formatMessage({ id: 'project.supplier' }))
           .required(),
-        model: yup
+        slide: yup
           .string()
-          .label(intl.formatMessage({ id: 'project.model' }))
+          .label(intl.formatMessage({ id: 'project.slide' }))
           .required(),
         depth: yup
           .string()
@@ -74,9 +74,9 @@ const SupplierTemplate: React.FC<SupplierTemplateProps> = ({
   );
 
   useEffect(() => {
-    if (data && initialValue.slide && initialValue.model) {
+    if (data && initialValue.supplier && initialValue.slide) {
+      setSupplier(Number(initialValue.supplier));
       setSlide(Number(initialValue.slide));
-      setModel(Number(initialValue.model));
     }
   }, [data, initialValue]);
 
@@ -91,9 +91,9 @@ const SupplierTemplate: React.FC<SupplierTemplateProps> = ({
       </Head>
       <Formik
         initialValues={{
-          slide: initialValue?.slide || null,
+          supplier: initialValue?.supplier || null,
           depth: initialValue?.depth || '',
-          model: initialValue?.model || ''
+          slide: initialValue?.slide || ''
         }}
         onSubmit={onSubmit}
         validationSchema={schema}
@@ -122,11 +122,11 @@ const SupplierTemplate: React.FC<SupplierTemplateProps> = ({
                   </div>
                 ) : (
                   <div className="flex flex-col flex-1 py-6 pr-6 border-r border-gray-300 gap-6">
-                    {data?.slideSuppliers.map((slide) => {
-                      const active = values.slide === slide.id;
+                    {data?.slideSuppliers.map((supplier) => {
+                      const active = values.supplier === supplier.id;
                       return (
                         <div
-                          key={`type-card-${slide.id}`}
+                          key={`type-card-${supplier.id}`}
                           className={classNames(
                             'flex bg-white rounded-md shadow-sm border-2 transition-all hover:-translate-y-1 hover:shadow-lg duration-75',
                             active && 'border-mui-primary'
@@ -134,26 +134,26 @@ const SupplierTemplate: React.FC<SupplierTemplateProps> = ({
                           role="button"
                           aria-hidden="true"
                           onClick={() => {
-                            setFieldValue('model', '');
+                            setFieldValue('slide', '');
                             setFieldValue('depth', '');
-                            setFieldValue('slide', slide.id);
-                            setSlide(slide.id);
+                            setFieldValue('supplier', supplier.id);
+                            setSupplier(supplier.id);
                           }}
                         >
                           <div className="flex items-center justify-center w-64 h-full bg-mui-gray-300">
-                            {slide.thumbnailUrl && (
+                            {supplier.thumbnailUrl && (
                               <SkeletonImage
-                                key={slide.name}
+                                key={supplier.name}
                                 className="object-contain"
                                 width={140}
                                 height={58}
-                                src={slide.thumbnailUrl}
-                                alt={slide.name}
+                                src={supplier.thumbnailUrl}
+                                alt={supplier.name}
                               />
                             )}
                           </div>
                           <div className="flex items-center p-14">
-                            <h2 className="text-xl font-bold uppercase">{slide.name}</h2>
+                            <h2 className="text-xl font-bold uppercase">{supplier.name}</h2>
                           </div>
                         </div>
                       );
@@ -169,17 +169,17 @@ const SupplierTemplate: React.FC<SupplierTemplateProps> = ({
                   <div className="flex flex-col flex-1 pt-6 pl-6 lg:pl-16 gap-6">
                     <label className="block w-full max-w-xl text-left">
                       <Select
-                        name="model"
+                        name="slide"
                         label="Model"
                         onChange={(e) => {
                           setFieldValue('depth', '');
-                          setModel(Number(e.target.value));
+                          setSlide(Number(e.target.value));
                         }}
                       >
                         <option key="">Select Option</option>
-                        {models?.map((model) => (
-                          <option key={model.id} value={model.id}>
-                            {model.product}
+                        {slides?.map((slide) => (
+                          <option key={slide.id} value={slide.id}>
+                            {slide.product}
                           </option>
                         ))}
                       </Select>
