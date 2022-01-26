@@ -44,11 +44,11 @@ const SupplierContainer: NextPage<SupplierContainerProps> = ({ drawerCollection,
   );
 
   const handleSubmit = useCallback(
-    (data: { slide: number | null; model: string; depth: string }) => {
+    (data: { supplier: number | null; slide: string; depth: string }) => {
       setDrawerSlide({
-        slide: Number(data.slide),
+        supplier: Number(data.supplier),
         depth: data.depth,
-        model: data.model
+        slide: data.slide
       });
       router.push('/project/size-assistant', '/project/size-assistant');
     },
@@ -62,7 +62,7 @@ const SupplierContainer: NextPage<SupplierContainerProps> = ({ drawerCollection,
       error={error}
       handleTryAgain={handleTryAgain}
       onSubmit={handleSubmit}
-      initialValue={{ slide: drawerSlide?.slide, model: drawerSlide?.model, depth: drawerSlide?.depth }}
+      initialValue={{ supplier: drawerSlide?.supplier, slide: drawerSlide?.slide, depth: drawerSlide?.depth }}
     />
   );
 };

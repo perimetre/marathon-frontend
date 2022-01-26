@@ -36,8 +36,8 @@ type ProjectCreationType = {
   drawerFinish?: number;
   setDrawerFinish: (finish: number) => void;
 
-  drawerSlide?: { slide?: number; model?: string; depth?: string } | null;
-  setDrawerSlide: (slide?: { slide?: number; model?: string; depth?: string }) => void;
+  drawerSlide?: { supplier?: number; slide?: string; depth?: string } | null;
+  setDrawerSlide: (slide?: { supplier?: number; slide?: string; depth?: string }) => void;
 
   drawerSize?: { cabinetWidth?: string; gable?: string } | null;
   setDrawerSize: (size?: { cabinetWidth?: string; gable?: string }) => void;
