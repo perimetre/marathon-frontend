@@ -16,7 +16,7 @@ const SidebarModuleAddons: React.FC<SidebarModuleAddonsProps> = ({ options, pare
   // ***********
   // ** Misc
   // ***********
-  const { state, projectModule } = usePlannerContext();
+  const { state, projectModule, childrenModules } = usePlannerContext();
 
   const isBlockedToAddSubmodule = useMemo(
     () => projectModule?.module.partNumber !== parentPartNumber || state !== 'Selected',
@@ -71,7 +71,10 @@ const SidebarModuleAddons: React.FC<SidebarModuleAddonsProps> = ({ options, pare
                       <ModuleButtonImage
                         isChild
                         module={moduleOption}
-                        isBlockedToAddSubmodule={isBlockedToAddSubmodule}
+                        isBlockedToAddSubmodule={
+                          isBlockedToAddSubmodule ||
+                          (moduleOption.isEdge && childrenModules?.some((x) => x.module.isEdge))
+                        }
                       />
                     </div>
                   </React.Fragment>
