@@ -218,8 +218,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
     []
   );
 
-  console.log('PENDING', isPending);
-
   const [error, setError] = useState<string | undefined>(initialState.error);
   const shouldCreateOrUpdate = useRef(false);
 
