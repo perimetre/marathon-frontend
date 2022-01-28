@@ -83,11 +83,9 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
             <Button
               className="items-center justify-center group gap-2"
               onClick={!!queryError ? (refetch ? () => refetch() : undefined) : onAddClick}
-              disabled={
-                isPending || loading ? true : module.isMat ? false : !data?.module?.rulesJson || isBlockedToAddSubmodule
-              }
+              disabled={isPending > 0 || loading || module.isMat || !data?.module?.rulesJson || isBlockedToAddSubmodule}
             >
-              {!!(loading || isPending) ? (
+              {loading || isPending > 0 ? (
                 <Spinner />
               ) : !!queryError ? (
                 <>
