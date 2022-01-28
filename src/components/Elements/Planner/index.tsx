@@ -28,7 +28,7 @@ const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTry
 
   return (
     <div className="relative flex max-h-screen">
-      {isPending && (
+      {isPending > 0 && (
         <motion.div
           variants={{
             hidden: { opacity: 0, translateY: 50 },

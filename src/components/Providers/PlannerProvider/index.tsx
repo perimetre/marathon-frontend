@@ -92,7 +92,7 @@ type PlannerContextType = {
   hasProvider: boolean;
   // State variables
   state: PieceBuilderState;
-  isPending: boolean;
+  isPending: number;
   projectModule?: UnityProjectModuleJson;
   childrenModules?: UnityProjectModuleJsonChildren['children'];
   error?: string;
@@ -125,7 +125,7 @@ type PlannerContextType = {
 const initialState: PlannerContextType = {
   hasProvider: false,
   state: 'None',
-  isPending: false,
+  isPending: 0,
   cartAmount: 0,
   didFinishSetup: false,
   setIsPending: () => {
@@ -204,7 +204,19 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   // ** States
   const [didFinishSetup, setFinishSetup] = useState(initialState.didFinishSetup);
-  const [isPending, setIsPending] = useState(initialState.isPending);
+  const [isPending, setIsPendingOriginal] = useState(initialState.isPending);
+  const setIsPending = useCallback(
+    (isPending) =>
+      setIsPendingOriginal((currPending) => {
+        const nextPending = isPending ? currPending + 1 : currPending - 1;
+        if (nextPending <= 0) {
+          return 0;
+        } else {
+          return nextPending;
+        }
+      }),
+    []
+  );
 
   const [error, setError] = useState<string | undefined>(initialState.error);
   const shouldCreateOrUpdate = useRef(false);
@@ -245,7 +257,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   const createModule = useCallback(
     (module: ModuleDataFragment, rulesJson: Record<string, unknown>) => {
-      setIsPending(true);
+      // setIsPending(true);
 
       const parentNanoId = nanoid();
       const moduleJson = {
@@ -293,7 +305,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   const createChildrenModule = useCallback(
     (module: ModuleDataFragment, rulesJson: Record<string, unknown>) => {
-      setIsPending(true);
+      // setIsPending(true);
 
       const moduleJson = {
         nanoId: nanoid(),
@@ -322,6 +334,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       initialModules?: UnityProjectModuleJson[],
       children?: UnityProjectModuleJson[]
     ) => {
+      setIsPending(true);
       const {
         NEXT_PUBLIC_UNITY_PUBLIC_MEDIA_URI,
         NEXT_PUBLIC_UNITY_ASSET_BUNDLE_FOLDER,
@@ -352,7 +365,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
       unityInstance.current?.SendMessage(UNITY_GAME_OBJECT, 'SetupDrawer', json);
     },
-    [unityInstance]
+    [unityInstance, setIsPending]
   );
 
   // ***********
@@ -512,27 +525,25 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       setIsPending(false);
     },
     // DO NOT add more dependencies to this method. Receive them as arguments
-    [apolloClient, doCreateProjectModule, doUpdateProjectModule, projectId]
+    [apolloClient, doCreateProjectModule, doUpdateProjectModule, projectId, setIsPending]
   );
-  const handleUpsertProjectModule = useQueueCallback(handleUpsertProjectModuleCallback);
+  const [handleUpsertProjectModule, queueSize] = useQueueCallback(handleUpsertProjectModuleCallback);
 
   const handleDeleteProjectModule = useCallback(
     async (projectModuleToDelete: UnityProjectModuleJson, children?: UnityProjectModuleJson[]) => {
+      setIsPending(true);
       try {
-        setIsPending(true);
-        debugger;
         await doDeleteProjectModule({
           variables: {
             nanoIds: [projectModuleToDelete.nanoId, ...(children || []).map((child) => child.nanoId)]
           }
         });
-        setIsPending(false);
       } catch (err) {
         logging.error(err as Error, `Failed deleting project module`, { projectModuleToDelete, children });
-        setIsPending(false);
       }
+      setIsPending(false);
     },
-    [doDeleteProjectModule]
+    [doDeleteProjectModule, setIsPending]
   );
 
   const handleUnityReady = useCallback(() => {
@@ -622,7 +633,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('createModule: ', projectModule, childrenModules);
 
-        setIsPending(false);
+        // setIsPending(false);
         setProjectModule(projectModule);
         setChildrenModules(childrenModules?.children);
         setState('Created');
@@ -638,7 +649,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('selectedModule: ', projectModule, childrenModules);
 
-        setIsPending(false);
+        // setIsPending(false);
         setProjectModule((prevProjectModule) => {
           // Only calls upsertModule if the selected module has been moved
           if (
@@ -690,8 +701,6 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         const projectModule = JSON.parse(projectModuleJson) as UnityProjectModuleJson;
         const childrenModules = childrenJson ? (JSON.parse(childrenJson) as UnityProjectModuleJsonChildren) : undefined;
 
-        debugger;
-
         console.log('deletedModule: ', projectModule, childrenModules);
 
         setProjectModule((currProjectModule) => {
@@ -733,7 +742,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
       value={{
         hasProvider: true,
         state,
-        isPending,
+        isPending: isPending + queueSize,
         setIsPending,
         projectModule,
         error,

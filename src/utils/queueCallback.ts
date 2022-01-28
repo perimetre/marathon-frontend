@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useState } from 'react';
 
-export const useQueueCallback = <T extends (...args: any[]) => any>(propsCallback: T) => {
+export const useQueueCallback = <T extends (...args: any[]) => any>(propsCallback: T): [T, number] => {
   const [queue, setQueue] = useState<(() => void)[]>([]);
   const [isRunning, setIsRunning] = useState(false);
 
@@ -34,5 +34,5 @@ export const useQueueCallback = <T extends (...args: any[]) => any>(propsCallbac
     [propsCallback]
   );
 
-  return callback as T;
+  return [callback as T, queue.length];
 };
