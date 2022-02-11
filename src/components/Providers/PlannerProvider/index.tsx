@@ -609,6 +609,28 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   useEffect(() => {
     let finishedSetup = false;
+
+    const updateProjectModuleState = (
+      projectModule: UnityProjectModuleJson,
+      prevProjectModule?: UnityProjectModuleJson,
+      childrenModules?: UnityProjectModuleJsonChildren
+    ) => {
+      const hasModuleMoved =
+        prevProjectModule?.posX !== projectModule.posX ||
+        prevProjectModule?.posY !== projectModule.posY ||
+        prevProjectModule?.posZ !== projectModule.posZ ||
+        prevProjectModule?.rotY !== projectModule.rotY;
+
+      const isSameModule = prevProjectModule?.nanoId === projectModule.nanoId;
+
+      // Only calls upsertModule if the selected module has been moved
+      if (!isSameModule || (isSameModule && hasModuleMoved) || childrenModules?.children.some((x) => x.module.isEdge)) {
+        shouldCreateOrUpdate.current = true;
+      }
+
+      return projectModule;
+    };
+
     /*
      * Unity -> React
      * */
@@ -634,7 +656,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         console.log('createModule: ', projectModule, childrenModules);
 
         // setIsPending(false);
-        setProjectModule(projectModule);
+        setProjectModule((prevProjectModule) => updateProjectModuleState(projectModule, prevProjectModule));
         setChildrenModules(childrenModules?.children);
         setState('Created');
 
@@ -650,21 +672,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         console.log('selectedModule: ', projectModule, childrenModules);
 
         // setIsPending(false);
-        setProjectModule((prevProjectModule) => {
-          // Only calls upsertModule if the selected module has been moved
-          if (
-            (prevProjectModule &&
-              prevProjectModule.nanoId === projectModule.nanoId &&
-              (prevProjectModule?.posX !== projectModule.posX ||
-                prevProjectModule?.posY !== projectModule.posY ||
-                prevProjectModule?.posZ !== projectModule.posZ ||
-                prevProjectModule?.rotY !== projectModule.rotY)) ||
-            childrenModules?.children.some((x) => x.module.isEdge)
-          ) {
-            shouldCreateOrUpdate.current = true;
-          }
-          return projectModule;
-        });
+        setProjectModule((prevProjectModule) => updateProjectModuleState(projectModule, prevProjectModule));
         setChildrenModules(childrenModules?.children);
         setState('Selected');
       },
@@ -675,7 +683,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('editedModule: ', projectModule, childrenModules);
 
-        setProjectModule(projectModule);
+        setProjectModule((prevProjectModule) => updateProjectModuleState(projectModule, prevProjectModule));
         setChildrenModules(childrenModules?.children);
         setState('Editing');
       },
@@ -692,9 +700,8 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
           await handleUpsertProjectModule(projectModule, childrenModules?.children || []);
           setProjectModule(undefined);
           setChildrenModules(undefined);
+          shouldCreateOrUpdate.current = false;
         }
-
-        shouldCreateOrUpdate.current = false;
       },
       deletedModule: async (projectModuleJson: string, childrenJson?: string) => {
         if (!finishedSetup) return;
