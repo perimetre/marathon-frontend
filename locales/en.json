@@ -19,7 +19,9 @@
     "ECONNREFUSED": "Could not contact the server. The server might be down or your internet is turned off. Please try again later.",
     "unauthorized": "You are not permitted to do this action",
     "wrongCredentials": "Email or password is incorrect",
-    "unreachableService": "An error has occurred. Please try again later. (Unreachable service)"
+    "unreachableService": "An error has occurred. Please try again later. (Unreachable service)",
+    "createListNoExternalId": "An error has occurred and a list could not be created (No external id)",
+    "createListCannotComplete": "An error has occurred. Could not complete the request."
   },
   "build": {
     "loadingModule": "Please wait...",
@@ -121,7 +123,8 @@
     "headers": {
       "product": "Product",
       "quantity": "Qty"
-    }
+    },
+    "listCreatedSuccessfully": "Your list <bold>{name}</bold> was successfully created. <url>Click here</url> to open it in a new tab"
   },
   "help": {
     "selectModule": "Select module",
