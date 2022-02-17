@@ -5618,6 +5618,7 @@ export type CreateListMutation = {
     | {
         __typename?: 'List';
         id: number;
+        externalId?: string | null | undefined;
         name?: string | null | undefined;
         project?: { __typename?: 'Project'; id: number } | null | undefined;
       }
@@ -7573,6 +7574,7 @@ export const CreateListDocument = gql`
   mutation CreateList($projectId: Int!) {
     createList(id: $projectId) {
       id
+      externalId
       name
       project {
         id

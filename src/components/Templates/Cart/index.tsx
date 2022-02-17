@@ -1,16 +1,17 @@
-import React from 'react';
-import { CartQuery } from '../../../apollo/generated/graphql';
-import AppLayout from '../../Layouts/AppLayout';
-import Head from 'next/head';
-import { FormattedMessage, useIntl } from 'react-intl';
-import SkeletonImage from '../../UI/SkeletonImage';
 import classNames from 'classnames';
-import Button from '../../UI/Button';
+import Head from 'next/head';
 import Link from 'next/link';
-import ErrorMessage from '../../UI/ErrorMessage';
-import Skeleton from '../../UI/Skeleton';
+import React from 'react';
 import { ChevronLeft, File } from 'react-feather';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { CartQuery } from '../../../apollo/generated/graphql';
+import CreateListButton from '../../Elements/CreateListButton';
+import AppLayout from '../../Layouts/AppLayout';
+import Button from '../../UI/Button';
+import ErrorMessage from '../../UI/ErrorMessage';
 import NavbarButton from '../../UI/NavbarButton';
+import Skeleton from '../../UI/Skeleton';
+import SkeletonImage from '../../UI/SkeletonImage';
 
 type CartProjectModulesProps = {
   cart: NonNullable<NonNullable<CartQuery['project']>['cart']>;
@@ -70,17 +71,9 @@ type CartTemplateProps = {
   loading: boolean;
   error?: string;
   handleTryAgain: () => void;
-  handleCreateList: () => void;
 };
 
-const CartTemplate: React.FC<CartTemplateProps> = ({
-  data,
-  slug,
-  error,
-  loading,
-  handleTryAgain
-  // handleCreateList
-}) => {
+const CartTemplate: React.FC<CartTemplateProps> = ({ data, slug, error, loading, handleTryAgain }) => {
   const intl = useIntl();
 
   return (
@@ -111,6 +104,7 @@ const CartTemplate: React.FC<CartTemplateProps> = ({
         </title>
       </Head>
       <div>
+        <div id="cart-header"></div>
         <div className="no-print:mx-auto no-print:container no-print:my-12 no-print:bg-white no-print:shadow-md no-print:p-8">
           {!error ? (
             !loading ? (
@@ -130,14 +124,9 @@ const CartTemplate: React.FC<CartTemplateProps> = ({
                       <File className="text-2xl" />
                     </Button>
                   </div>
-                  {/*<div className="print:hidden">*/}
-                  {/*  <Button className="whitespace-pre group" onClick={handleCreateList}>*/}
-                  {/*    <span>*/}
-                  {/*      <FormattedMessage id="cart.createList" />*/}
-                  {/*    </span>*/}
-                  {/*    <FilePlus className="text-2xl" />*/}
-                  {/*  </Button>*/}
-                  {/*</div>*/}
+                  <div className="print:hidden">
+                    {data?.project?.id && <CreateListButton projectId={data.project.id} />}
+                  </div>
                 </div>
                 <hr className="my-4" />
                 {data?.project?.cart && (

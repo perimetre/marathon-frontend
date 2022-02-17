@@ -23,6 +23,7 @@ export const CREATE_LIST = gql`
   mutation CreateList($projectId: Int!) {
     createList(id: $projectId) {
       id
+      externalId
       name
       project {
         id

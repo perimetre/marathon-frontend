@@ -5,10 +5,14 @@ import logging from '../logging';
 
 const codesToIgnoreOnLogging: string[] = [];
 
-export const getLocaleIdFromGraphqlError = (
-  graphQLErrors?: readonly GraphQLError[] | null,
-  networkError?: Error | ServerError | ServerParseError | null
-) => {
+export type GraphQLErrors = readonly GraphQLError[] | null | undefined;
+export type NetworkError = Error | ServerError | ServerParseError | null | undefined;
+export type CatchGraphqlError = {
+  graphQLErrors?: GraphQLErrors;
+  networkError?: NetworkError;
+};
+
+export const getLocaleIdFromGraphqlError = (graphQLErrors?: GraphQLErrors, networkError?: NetworkError) => {
   if (
     networkError?.message === 'Failed to fetch' ||
     (networkError as any)?.code === 'ECONNREFUSED' ||
