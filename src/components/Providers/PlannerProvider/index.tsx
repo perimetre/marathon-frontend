@@ -257,7 +257,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   const createModule = useCallback(
     (module: ModuleDataFragment, rulesJson: Record<string, unknown>) => {
-      // setIsPending(true);
+      setIsPending(true);
 
       const parentNanoId = nanoid();
       const moduleJson = {
@@ -300,12 +300,12 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
       unityInstance.current?.SendMessage(UNITY_GAME_OBJECT, 'CreateModule', json);
     },
-    [unityInstance]
+    [unityInstance, setIsPending]
   );
 
   const createChildrenModule = useCallback(
     (module: ModuleDataFragment, rulesJson: Record<string, unknown>) => {
-      // setIsPending(true);
+      setIsPending(true);
 
       const moduleJson = {
         nanoId: nanoid(),
@@ -320,7 +320,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
       unityInstance.current?.SendMessage(UNITY_GAME_OBJECT, 'CreateChildrenModule', json);
     },
-    [unityInstance, projectModule]
+    [unityInstance, projectModule, setIsPending]
   );
 
   const setupDrawer = useCallback(
@@ -655,13 +655,14 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('createModule: ', projectModule, childrenModules);
 
-        // setIsPending(false);
+        setIsPending(false);
         setProjectModule((prevProjectModule) => updateProjectModuleState(projectModule, prevProjectModule));
         setChildrenModules(childrenModules?.children);
         setState('Created');
 
         if (projectModule.module.isMat) {
-          await handleUpsertProjectModule(projectModule, []);
+          // Purposefully do not await as we don't need it as dependency of anything
+          handleUpsertProjectModule(projectModule, []);
         }
       },
       selectedModule: (projectModuleJson: string, childrenJson?: string) => {
@@ -671,7 +672,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('selectedModule: ', projectModule, childrenModules);
 
-        // setIsPending(false);
+        setIsPending(false);
         setProjectModule((prevProjectModule) => updateProjectModuleState(projectModule, prevProjectModule));
         setChildrenModules(childrenModules?.children);
         setState('Selected');
@@ -697,7 +698,8 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         // Using this because putting the variable on the dependencies make the entire code not run.
         if (!projectModule.module.isMat && shouldCreateOrUpdate.current) {
-          await handleUpsertProjectModule(projectModule, childrenModules?.children || []);
+          // Purposefully do not await as we don't need it as dependency of anything
+          handleUpsertProjectModule(projectModule, childrenModules?.children || []);
           setProjectModule(undefined);
           setChildrenModules(undefined);
           shouldCreateOrUpdate.current = false;
@@ -712,7 +714,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         setProjectModule((currProjectModule) => {
           // Only deselect if current project module is the same that it's deleting
-          if (projectModule.id === currProjectModule?.id) {
+          if (!projectModule.module.isEdge && projectModule.id === currProjectModule?.id) {
             setState('Deleted');
             return undefined;
           } else {
@@ -724,7 +726,9 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
             (x) => x.id !== projectModule.id || (childrenModules?.children || []).some((y) => y.id === x.id)
           )
         );
-        await handleDeleteProjectModule(projectModule, childrenModules?.children);
+
+        // Purposefully do not await as we don't need it as dependency of anything
+        handleDeleteProjectModule(projectModule, childrenModules?.children);
       },
       recalculatedExtensions: async (projectModuleJson: string, childrenJson: string) => {
         if (!finishedSetup) return;
@@ -733,7 +737,8 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('recalculatedExtensions: ', projectModule, childrenModules);
 
-        await handleUpsertProjectModule(projectModule, childrenModules.children);
+        // Purposefully do not await as we don't need it as dependency of anything
+        handleUpsertProjectModule(projectModule, childrenModules.children);
       },
       unityReady: () => {
         if (!finishedSetup) {
