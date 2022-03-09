@@ -714,7 +714,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         setProjectModule((currProjectModule) => {
           // Only deselect if current project module is the same that it's deleting
-          if (projectModule.id === currProjectModule?.id) {
+          if (!projectModule.module.isEdge && projectModule.id === currProjectModule?.id) {
             setState('Deleted');
             return undefined;
           } else {
