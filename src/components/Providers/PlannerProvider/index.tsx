@@ -661,7 +661,8 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         setState('Created');
 
         if (projectModule.module.isMat) {
-          await handleUpsertProjectModule(projectModule, []);
+          // Purposefully do not await as we don't need it as dependency of anything
+          handleUpsertProjectModule(projectModule, []);
         }
       },
       selectedModule: (projectModuleJson: string, childrenJson?: string) => {
@@ -697,7 +698,8 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         // Using this because putting the variable on the dependencies make the entire code not run.
         if (!projectModule.module.isMat && shouldCreateOrUpdate.current) {
-          await handleUpsertProjectModule(projectModule, childrenModules?.children || []);
+          // Purposefully do not await as we don't need it as dependency of anything
+          handleUpsertProjectModule(projectModule, childrenModules?.children || []);
           setProjectModule(undefined);
           setChildrenModules(undefined);
           shouldCreateOrUpdate.current = false;
@@ -724,7 +726,9 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
             (x) => x.id !== projectModule.id || (childrenModules?.children || []).some((y) => y.id === x.id)
           )
         );
-        await handleDeleteProjectModule(projectModule, childrenModules?.children);
+
+        // Purposefully do not await as we don't need it as dependency of anything
+        handleDeleteProjectModule(projectModule, childrenModules?.children);
       },
       recalculatedExtensions: async (projectModuleJson: string, childrenJson: string) => {
         if (!finishedSetup) return;
@@ -733,7 +737,8 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('recalculatedExtensions: ', projectModule, childrenModules);
 
-        await handleUpsertProjectModule(projectModule, childrenModules.children);
+        // Purposefully do not await as we don't need it as dependency of anything
+        handleUpsertProjectModule(projectModule, childrenModules.children);
       },
       unityReady: () => {
         if (!finishedSetup) {
