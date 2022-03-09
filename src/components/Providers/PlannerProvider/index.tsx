@@ -257,7 +257,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
   const createModule = useCallback(
     (module: ModuleDataFragment, rulesJson: Record<string, unknown>) => {
-      // setIsPending(true);
+      setIsPending(true);
 
       const parentNanoId = nanoid();
       const moduleJson = {
@@ -300,12 +300,12 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
       unityInstance.current?.SendMessage(UNITY_GAME_OBJECT, 'CreateModule', json);
     },
-    [unityInstance]
+    [unityInstance, setIsPending]
   );
 
   const createChildrenModule = useCallback(
     (module: ModuleDataFragment, rulesJson: Record<string, unknown>) => {
-      // setIsPending(true);
+      setIsPending(true);
 
       const moduleJson = {
         nanoId: nanoid(),
@@ -320,7 +320,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
       unityInstance.current?.SendMessage(UNITY_GAME_OBJECT, 'CreateChildrenModule', json);
     },
-    [unityInstance, projectModule]
+    [unityInstance, projectModule, setIsPending]
   );
 
   const setupDrawer = useCallback(
@@ -655,7 +655,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('createModule: ', projectModule, childrenModules);
 
-        // setIsPending(false);
+        setIsPending(false);
         setProjectModule((prevProjectModule) => updateProjectModuleState(projectModule, prevProjectModule));
         setChildrenModules(childrenModules?.children);
         setState('Created');
@@ -672,7 +672,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
 
         console.log('selectedModule: ', projectModule, childrenModules);
 
-        // setIsPending(false);
+        setIsPending(false);
         setProjectModule((prevProjectModule) => updateProjectModuleState(projectModule, prevProjectModule));
         setChildrenModules(childrenModules?.children);
         setState('Selected');
