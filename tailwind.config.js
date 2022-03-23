@@ -54,6 +54,9 @@ module.exports = {
           }
         }
       },
+      gridTemplateColumns: {
+        sidebarModule: '2fr 3fr'
+      },
       /**
        * Returns the minWidth values
        *
