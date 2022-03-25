@@ -77,7 +77,7 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
           </div>
           {/* Bottom Section */}
           {/* By setting the height value to any value with h-0, we force it to recalculate, which shows the scrollbar */}
-          <div className="h-full grid grid-cols-sidebarModule mui-scrollbar">
+          <div className="flex flex-grow h-0 mui-scrollbar">
             <motion.div
               className="flex flex-col p-4 mr-4 overflow-auto gap-4"
               variants={container}
@@ -114,7 +114,7 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
                 </motion.div>
               ))}
             </motion.div>
-            <div className="flex-grow">{selectedModule && <SidebarModuleDetail module={selectedModule} />}</div>
+            <div className="flex-grow w-min">{selectedModule && <SidebarModuleDetail module={selectedModule} />}</div>
           </div>
         </>
       )}
