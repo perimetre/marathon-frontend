@@ -41,7 +41,7 @@ const PlannerSidebar: React.FC<PlannerSidebarProps> = ({ project, isSidebarOpen,
   }, []);
 
   const handleCategoryOpen = useCallback(() => {
-    if (state === 'categories' && project?.modules && project?.modules[0].categories) {
+    if (state === 'categories' && project?.modules && project.modules.length > 0) {
       const all = project?.modules[0]?.categories.find((f) => f.slug === 'all');
       onCategoryClick(all);
     }
