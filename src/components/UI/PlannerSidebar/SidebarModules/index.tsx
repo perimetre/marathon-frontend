@@ -31,7 +31,11 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
   const { state: projectState, projectModule, didFinishSetup } = usePlannerContext();
 
   const modules = useMemo(
-    () => modulesProps?.filter((module) => module.categories.some((cat) => cat.slug === category?.slug)),
+    () =>
+      modulesProps
+        ?.filter((module) => module.categories.some((cat) => cat.slug === category?.slug))
+        // Sort by category so the ones that doesn't belong to same category show up at the end
+        .sort((a) => (a.categories.some((cat) => cat.slug === category?.slug) ? -1 : 1)),
     [modulesProps, category]
   );
 
@@ -79,7 +83,7 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
           {/* By setting the height value to any value with h-0, we force it to recalculate, which shows the scrollbar */}
           <div className="flex flex-grow h-0 mui-scrollbar">
             <motion.div
-              className="flex flex-col p-4 mr-4 overflow-auto gap-4"
+              className="flex flex-col w-5/12 p-4 mr-4 overflow-auto gap-4"
               variants={container}
               initial="hidden"
               animate="show"
@@ -114,7 +118,7 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
                 </motion.div>
               ))}
             </motion.div>
-            <div className="flex-grow">{selectedModule && <SidebarModuleDetail module={selectedModule} />}</div>
+            <div className="flex-grow w-min">{selectedModule && <SidebarModuleDetail module={selectedModule} />}</div>
           </div>
         </>
       )}
