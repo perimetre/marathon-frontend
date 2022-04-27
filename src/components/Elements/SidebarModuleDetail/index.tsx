@@ -9,7 +9,9 @@ type SidebarModuleDetailProps = {
 
 const SidebarModuleDetail: React.FC<SidebarModuleDetailProps> = ({ module }) => {
   const options = useMemo(() => {
-    return [...(module.rules?.extensions?.options || []), ...(module.rules?.rules?.options || [])];
+    return [...(module.rules?.extensions?.options || []), ...(module.rules?.rules?.options || [])]
+      .filter((x) => !!x)
+      .map((x) => x as string);
   }, [module.rules]);
 
   return (

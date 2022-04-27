@@ -132,7 +132,7 @@ const UnityPlayer: React.FC<UnityPlayerProps> = ({ className }) => {
   useEffect(() => {
     return () => {
       console.log('Disposing unity player');
-      unityInstance.current.Quit(function () {
+      unityInstance?.current?.Quit(function () {
         console.log('Unity player exited successfully');
       });
       unityInstance.current = null;

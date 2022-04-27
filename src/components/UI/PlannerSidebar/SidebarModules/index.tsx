@@ -6,6 +6,7 @@ import { PlannerSidebarCategories, PlannerSidebarProps } from '../index';
 import SidebarModuleDetail from '../../../Elements/SidebarModuleDetail';
 import { ArrowLeft } from 'react-feather';
 import { usePlannerContext } from '../../../Providers/PlannerProvider';
+import AlternativePill from '../../AlternativePill';
 
 const container = {
   hidden: { opacity: 0 },
@@ -113,7 +114,10 @@ const SidebarModules: React.FC<SidebarModulesProps> = ({ modules: modulesProps, 
                     ) : (
                       <div className="w-full h-36" />
                     )}
-                    <p className="mt-2 text-sm font-bold text-center">{module.partNumber}</p>
+                    <p className="mt-2 text-sm font-bold text-center">
+                      {module.owner?.partNumber || module.partNumber}
+                    </p>
+                    <div>{module.owner && <AlternativePill />}</div>
                   </button>
                 </motion.div>
               ))}

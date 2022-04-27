@@ -7,6 +7,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { CartQuery } from '../../../apollo/generated/graphql';
 import CreateListButton from '../../Elements/CreateListButton';
 import AppLayout from '../../Layouts/AppLayout';
+import AlternativePill from '../../UI/AlternativePill';
 import Button from '../../UI/Button';
 import ErrorMessage from '../../UI/ErrorMessage';
 import NavbarButton from '../../UI/NavbarButton';
@@ -29,7 +30,7 @@ const CartProjectModules: React.FC<CartProjectModulesProps> = ({ cart, isChildre
               {cartItem.projectModule.module.thumbnailUrl && (
                 <SkeletonImage
                   key={cartItem.id}
-                  src={cartItem.projectModule.module.thumbnailUrl}
+                  src={cartItem.projectModule.module.thumbnailUrl || '#'}
                   alt={cartItem.projectModule.module.partNumber}
                   layout="fill"
                   objectFit="contain"
@@ -42,15 +43,20 @@ const CartProjectModules: React.FC<CartProjectModulesProps> = ({ cart, isChildre
                 isChildren ? 'col-span-8' : 'col-span-9'
               )}
             >
-              <h4 className="text-lg font-bold">{cartItem.projectModule.module.partNumber}</h4>
+              <h4 className="flex items-center text-lg font-bold">
+                {cartItem.projectModule.module.owner?.partNumber || cartItem.projectModule.module.partNumber}
+                {cartItem.projectModule.module.owner && <AlternativePill />}
+              </h4>
               {/*<p className="h-full">*/}
               {/*  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et*/}
               {/*  dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex*/}
               {/*  ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu*/}
               {/*  fugiat nulla pariatur.*/}
               {/*</p>*/}
-              {cartItem.projectModule.module.description && (
-                <p className="h-full">{cartItem.projectModule.module.description}</p>
+              {(cartItem.projectModule.module.owner?.description || cartItem.projectModule.module.description) && (
+                <p className="h-full">
+                  {cartItem.projectModule.module.owner?.description || cartItem.projectModule.module.description}
+                </p>
               )}
             </div>
             <p className="flex items-center justify-center font-bold text-center col-span-1">

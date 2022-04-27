@@ -50,6 +50,12 @@ export const MODULE_DATA = gql`
         rulesJson
       }
     }
+    owner {
+      id
+      partNumber
+      description
+      thumbnailUrl
+    }
   }
   ${MODULE_DATA_WITHOUT_EXTENSIONS}
 `;
