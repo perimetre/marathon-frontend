@@ -683,7 +683,7 @@ export const PlannerProvider: React.FC<PlannerProviderProps> = ({ children, proj
         const childrenModules = JSON.parse(childrenJson) as UnityProjectModuleJsonChildren;
 
         console.log('editedModule: ', projectModule, childrenModules);
-
+        setIsPending(false);
         setProjectModule((prevProjectModule) => updateProjectModuleState(projectModule, prevProjectModule));
         setChildrenModules(childrenModules?.children);
         setState('Editing');
