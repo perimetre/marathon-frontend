@@ -690,6 +690,17 @@ export type DateTimeFilter = {
   notIn?: Maybe<Array<Scalars['DateTime']>>;
 };
 
+export type DateTimeNullableFilter = {
+  equals?: Maybe<Scalars['DateTime']>;
+  gt?: Maybe<Scalars['DateTime']>;
+  gte?: Maybe<Scalars['DateTime']>;
+  in?: Maybe<Array<Scalars['DateTime']>>;
+  lt?: Maybe<Scalars['DateTime']>;
+  lte?: Maybe<Scalars['DateTime']>;
+  not?: Maybe<NestedDateTimeNullableFilter>;
+  notIn?: Maybe<Array<Scalars['DateTime']>>;
+};
+
 export type EnumLocaleFieldUpdateOperationsInput = {
   set?: Maybe<Locale>;
 };
@@ -1073,17 +1084,21 @@ export type JsonNullableFilter = {
 
 export type List = {
   __typename?: 'List';
+  createdAt?: Maybe<Scalars['DateTime']>;
   externalId?: Maybe<Scalars['String']>;
   id: Scalars['Int'];
   name?: Maybe<Scalars['String']>;
   project?: Maybe<Project>;
   projectId?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ListCreateManyProjectInput = {
+  createdAt?: Maybe<Scalars['DateTime']>;
   externalId?: Maybe<Scalars['String']>;
   id?: Maybe<Scalars['Int']>;
   name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ListCreateManyProjectInputEnvelope = {
@@ -1104,8 +1119,10 @@ export type ListCreateOrConnectWithoutProjectInput = {
 };
 
 export type ListCreateWithoutProjectInput = {
+  createdAt?: Maybe<Scalars['DateTime']>;
   externalId?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
 };
 
 export type ListListRelationFilter = {
@@ -1118,15 +1135,19 @@ export type ListScalarWhereInput = {
   AND?: Maybe<Array<ListScalarWhereInput>>;
   NOT?: Maybe<Array<ListScalarWhereInput>>;
   OR?: Maybe<Array<ListScalarWhereInput>>;
+  createdAt?: Maybe<DateTimeNullableFilter>;
   externalId?: Maybe<StringNullableFilter>;
   id?: Maybe<IntFilter>;
   name?: Maybe<StringNullableFilter>;
   projectId?: Maybe<IntNullableFilter>;
+  updatedAt?: Maybe<DateTimeNullableFilter>;
 };
 
 export type ListUpdateManyMutationInput = {
+  createdAt?: Maybe<NullableDateTimeFieldUpdateOperationsInput>;
   externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   name?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<NullableDateTimeFieldUpdateOperationsInput>;
 };
 
 export type ListUpdateManyWithWhereWithoutProjectInput = {
@@ -1154,8 +1175,10 @@ export type ListUpdateWithWhereUniqueWithoutProjectInput = {
 };
 
 export type ListUpdateWithoutProjectInput = {
+  createdAt?: Maybe<NullableDateTimeFieldUpdateOperationsInput>;
   externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
   name?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<NullableDateTimeFieldUpdateOperationsInput>;
 };
 
 export type ListUpsertWithWhereUniqueWithoutProjectInput = {
@@ -1168,11 +1191,13 @@ export type ListWhereInput = {
   AND?: Maybe<Array<ListWhereInput>>;
   NOT?: Maybe<Array<ListWhereInput>>;
   OR?: Maybe<Array<ListWhereInput>>;
+  createdAt?: Maybe<DateTimeNullableFilter>;
   externalId?: Maybe<StringNullableFilter>;
   id?: Maybe<IntFilter>;
   name?: Maybe<StringNullableFilter>;
   project?: Maybe<ProjectWhereInput>;
   projectId?: Maybe<IntNullableFilter>;
+  updatedAt?: Maybe<DateTimeNullableFilter>;
 };
 
 export type ListWhereUniqueInput = {
@@ -1212,9 +1237,14 @@ export type Module = {
   isExtension: Scalars['Boolean'];
   isMat: Scalars['Boolean'];
   isSubmodule: Scalars['Boolean'];
+  isVirtualProduct: Scalars['Boolean'];
   moduleAttachedTo: Array<ModuleAttachments>;
   moduleAttachments: Array<ModuleAttachments>;
   moduleType: Array<ModuleType>;
+  modulesIOwn: Array<Module>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<Module>;
+  ownerExternalId?: Maybe<Scalars['String']>;
   partNumber: Scalars['String'];
   projectModules: Array<ProjectModule>;
   rules?: Maybe<ModuleRules>;
@@ -1260,6 +1290,12 @@ export type ModuleModuleAttachmentsArgs = {
 
 export type ModuleModuleTypeArgs = {
   cursor?: Maybe<ModuleTypeWhereUniqueInput>;
+  skip?: Maybe<Scalars['Int']>;
+  take?: Maybe<Scalars['Int']>;
+};
+
+export type ModuleModulesIOwnArgs = {
+  cursor?: Maybe<ModuleWhereUniqueInput>;
   skip?: Maybe<Scalars['Int']>;
   take?: Maybe<Scalars['Int']>;
 };
@@ -1476,6 +1512,12 @@ export type ModuleCategoryListRelationFilter = {
   some?: Maybe<ModuleCategoryWhereInput>;
 };
 
+export type ModuleCategoryMetadata = {
+  __typename?: 'ModuleCategoryMetadata';
+  externalId: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
+};
+
 export type ModuleCategoryOrderByInput = {
   categoryId?: Maybe<SortOrder>;
   id?: Maybe<SortOrder>;
@@ -1544,6 +1586,12 @@ export type ModuleCategoryWhereUniqueInput = {
   id?: Maybe<Scalars['Int']>;
 };
 
+export type ModuleCollectionsMetadata = {
+  __typename?: 'ModuleCollectionsMetadata';
+  externalId: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
+};
+
 export type ModuleCreateManyAttachmentToAppendInput = {
   alwaysDisplay?: Maybe<Scalars['Boolean']>;
   bundleUrl?: Maybe<Scalars['String']>;
@@ -1560,6 +1608,9 @@ export type ModuleCreateManyAttachmentToAppendInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  ownerExternalId?: Maybe<Scalars['String']>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
@@ -1588,6 +1639,9 @@ export type ModuleCreateManyCollectionInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  ownerExternalId?: Maybe<Scalars['String']>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
@@ -1616,6 +1670,9 @@ export type ModuleCreateManyDefaultLeftExtensionInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  ownerExternalId?: Maybe<Scalars['String']>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
@@ -1644,6 +1701,9 @@ export type ModuleCreateManyDefaultRightExtensionInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  ownerExternalId?: Maybe<Scalars['String']>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
@@ -1672,6 +1732,9 @@ export type ModuleCreateManyFinishInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  ownerExternalId?: Maybe<Scalars['String']>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
@@ -1681,6 +1744,37 @@ export type ModuleCreateManyFinishInput = {
 
 export type ModuleCreateManyFinishInputEnvelope = {
   data?: Maybe<Array<ModuleCreateManyFinishInput>>;
+  skipDuplicates?: Maybe<Scalars['Boolean']>;
+};
+
+export type ModuleCreateManyOwnerInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
+  attachmentToAppendId?: Maybe<Scalars['Int']>;
+  bundleUrl?: Maybe<Scalars['String']>;
+  collectionId: Scalars['Int'];
+  createdAt?: Maybe<Scalars['DateTime']>;
+  defaultLeftExtensionId?: Maybe<Scalars['Int']>;
+  defaultRightExtensionId?: Maybe<Scalars['Int']>;
+  description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
+  finishId: Scalars['Int'];
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  id?: Maybe<Scalars['Int']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  partNumber: Scalars['String'];
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ModuleCreateManyOwnerInputEnvelope = {
+  data?: Maybe<Array<ModuleCreateManyOwnerInput>>;
   skipDuplicates?: Maybe<Scalars['Boolean']>;
 };
 
@@ -1719,6 +1813,13 @@ export type ModuleCreateNestedManyWithoutFinishInput = {
   createMany?: Maybe<ModuleCreateManyFinishInputEnvelope>;
 };
 
+export type ModuleCreateNestedManyWithoutOwnerInput = {
+  connect?: Maybe<Array<ModuleWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ModuleCreateOrConnectWithoutOwnerInput>>;
+  create?: Maybe<Array<ModuleCreateWithoutOwnerInput>>;
+  createMany?: Maybe<ModuleCreateManyOwnerInputEnvelope>;
+};
+
 export type ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput = {
   connect?: Maybe<ModuleWhereUniqueInput>;
   connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutAttachmentToAppendParentsInput>;
@@ -1753,6 +1854,12 @@ export type ModuleCreateNestedOneWithoutModuleTypeInput = {
   connect?: Maybe<ModuleWhereUniqueInput>;
   connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutModuleTypeInput>;
   create?: Maybe<ModuleCreateWithoutModuleTypeInput>;
+};
+
+export type ModuleCreateNestedOneWithoutModulesIOwnInput = {
+  connect?: Maybe<ModuleWhereUniqueInput>;
+  connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutModulesIOwnInput>;
+  create?: Maybe<ModuleCreateWithoutModulesIOwnInput>;
 };
 
 export type ModuleCreateNestedOneWithoutProjectModulesInput = {
@@ -1816,6 +1923,16 @@ export type ModuleCreateOrConnectWithoutModuleTypeInput = {
   where: ModuleWhereUniqueInput;
 };
 
+export type ModuleCreateOrConnectWithoutModulesIOwnInput = {
+  create: ModuleCreateWithoutModulesIOwnInput;
+  where: ModuleWhereUniqueInput;
+};
+
+export type ModuleCreateOrConnectWithoutOwnerInput = {
+  create: ModuleCreateWithoutOwnerInput;
+  where: ModuleWhereUniqueInput;
+};
+
 export type ModuleCreateOrConnectWithoutProjectModulesInput = {
   create: ModuleCreateWithoutProjectModulesInput;
   where: ModuleWhereUniqueInput;
@@ -1839,10 +1956,14 @@ export type ModuleCreateWithoutAttachmentToAppendInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeCreateNestedManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleCreateNestedManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleCreateNestedOneWithoutModulesIOwnInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1869,10 +1990,14 @@ export type ModuleCreateWithoutAttachmentToAppendParentsInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeCreateNestedManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleCreateNestedManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleCreateNestedOneWithoutModulesIOwnInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1899,10 +2024,14 @@ export type ModuleCreateWithoutCollectionInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeCreateNestedManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleCreateNestedManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleCreateNestedOneWithoutModulesIOwnInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1929,10 +2058,14 @@ export type ModuleCreateWithoutDefaultLeftExtensionInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeCreateNestedManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleCreateNestedManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleCreateNestedOneWithoutModulesIOwnInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1959,10 +2092,14 @@ export type ModuleCreateWithoutDefaultLeftExtensionParentsInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeCreateNestedManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleCreateNestedManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleCreateNestedOneWithoutModulesIOwnInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -1989,10 +2126,14 @@ export type ModuleCreateWithoutDefaultRightExtensionInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeCreateNestedManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleCreateNestedManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleCreateNestedOneWithoutModulesIOwnInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2019,10 +2160,14 @@ export type ModuleCreateWithoutDefaultRightExtensionParentsInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeCreateNestedManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleCreateNestedManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleCreateNestedOneWithoutModulesIOwnInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2049,10 +2194,14 @@ export type ModuleCreateWithoutFinishInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeCreateNestedManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleCreateNestedManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleCreateNestedOneWithoutModulesIOwnInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2080,9 +2229,13 @@ export type ModuleCreateWithoutModuleAttachedToInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
   moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeCreateNestedManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleCreateNestedManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleCreateNestedOneWithoutModulesIOwnInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2110,9 +2263,13 @@ export type ModuleCreateWithoutModuleAttachmentsInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeCreateNestedManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleCreateNestedManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleCreateNestedOneWithoutModulesIOwnInput>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2140,9 +2297,81 @@ export type ModuleCreateWithoutModuleTypeInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleCreateNestedManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleCreateNestedOneWithoutModulesIOwnInput>;
+  partNumber: Scalars['String'];
+  projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ModuleCreateWithoutModulesIOwnInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
+  attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
+  bundleUrl?: Maybe<Scalars['String']>;
+  collection: CollectionCreateNestedOneWithoutModulesInput;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
+  finish: FinishCreateNestedOneWithoutModulesInput;
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
+  moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
+  moduleType?: Maybe<ModuleTypeCreateNestedManyWithoutModuleInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleCreateNestedOneWithoutModulesIOwnInput>;
+  partNumber: Scalars['String'];
+  projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
+  updatedAt?: Maybe<Scalars['DateTime']>;
+};
+
+export type ModuleCreateWithoutOwnerInput = {
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
+  attachmentToAppend?: Maybe<ModuleCreateNestedOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleCreateNestedManyWithoutAttachmentToAppendInput>;
+  bundleUrl?: Maybe<Scalars['String']>;
+  collection: CollectionCreateNestedOneWithoutModulesInput;
+  createdAt?: Maybe<Scalars['DateTime']>;
+  defaultLeftExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleCreateNestedOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleCreateNestedManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<Scalars['String']>;
+  externalId?: Maybe<Scalars['String']>;
+  finish: FinishCreateNestedOneWithoutModulesInput;
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
+  isExtension?: Maybe<Scalars['Boolean']>;
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
+  moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
+  moduleType?: Maybe<ModuleTypeCreateNestedManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleCreateNestedManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
   partNumber: Scalars['String'];
   projectModules?: Maybe<ProjectModuleCreateNestedManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2170,10 +2399,14 @@ export type ModuleCreateWithoutProjectModulesInput = {
   isExtension?: Maybe<Scalars['Boolean']>;
   isMat?: Maybe<Scalars['Boolean']>;
   isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsCreateNestedManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsCreateNestedManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryCreateNestedManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeCreateNestedManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleCreateNestedManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleCreateNestedOneWithoutModulesIOwnInput>;
   partNumber: Scalars['String'];
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
@@ -2188,11 +2421,23 @@ export type ModuleDimension = {
   width?: Maybe<ModuleMinMax>;
 };
 
+export type ModuleDrawerTypesMetadata = {
+  __typename?: 'ModuleDrawerTypesMetadata';
+  externalId: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
+};
+
 export type ModuleExtensionsMetadata = {
   __typename?: 'ModuleExtensionsMetadata';
   left?: Maybe<Scalars['String']>;
-  options?: Maybe<Array<Scalars['String']>>;
+  options?: Maybe<Array<Maybe<Scalars['String']>>>;
   right?: Maybe<Scalars['String']>;
+};
+
+export type ModuleFinishesMetadata = {
+  __typename?: 'ModuleFinishesMetadata';
+  externalId: Scalars['String'];
+  slug?: Maybe<Scalars['String']>;
 };
 
 export type ModuleListRelationFilter = {
@@ -2224,6 +2469,9 @@ export type ModuleOrderByInput = {
   isExtension?: Maybe<SortOrder>;
   isMat?: Maybe<SortOrder>;
   isSubmodule?: Maybe<SortOrder>;
+  isVirtualProduct?: Maybe<SortOrder>;
+  originalMarathonProductJson?: Maybe<SortOrder>;
+  ownerExternalId?: Maybe<SortOrder>;
   partNumber?: Maybe<SortOrder>;
   rules?: Maybe<SortOrder>;
   shouldHideBasedOnWidth?: Maybe<SortOrder>;
@@ -2233,26 +2481,46 @@ export type ModuleOrderByInput = {
 
 export type ModuleRules = {
   __typename?: 'ModuleRules';
+  alwaysDisplay?: Maybe<Scalars['Boolean']>;
   bundleUrl?: Maybe<Scalars['String']>;
-  dimensions?: Maybe<ModuleDimension>;
+  categories?: Maybe<Array<Maybe<ModuleCategoryMetadata>>>;
+  collection: ModuleCollectionsMetadata;
+  description?: Maybe<Scalars['String']>;
+  dimensions: ModuleDimension;
+  drawerTypes?: Maybe<Array<Maybe<ModuleDrawerTypesMetadata>>>;
   /** Extensions are sub pieces that MUST BE CONNECTED to the main product or other extension. */
   extensions?: Maybe<ModuleExtensionsMetadata>;
-  /** Modules that are basically this module but in a different finish(color), to allow the ui to easily switch between them */
-  finishes?: Maybe<Array<Scalars['String']>>;
-  isImprintExtension: Scalars['Boolean'];
+  externalId: Scalars['String'];
+  /** The current finish of this module */
+  finish: ModuleFinishesMetadata;
+  hasPegs?: Maybe<Scalars['Boolean']>;
+  isEdge?: Maybe<Scalars['Boolean']>;
+  isExtension: Scalars['Boolean'];
+  isMat?: Maybe<Scalars['Boolean']>;
+  isSubmodule?: Maybe<Scalars['Boolean']>;
+  isVirtualProduct?: Maybe<Scalars['Boolean']>;
+  /** The equivalent of same module but on other finishes */
+  otherFinishes?: Maybe<Array<Scalars['String']>>;
+  ownerExternalId?: Maybe<Scalars['String']>;
   /** The module part number, probably equivalent to the module id */
   partNumber: Scalars['String'];
   rules?: Maybe<ModuleRulesMetadata>;
+  shouldHideBasedOnWidth?: Maybe<Scalars['Boolean']>;
+  thumbnailUrl?: Maybe<Scalars['String']>;
   /** Different types of edges a module might have */
-  trims?: Maybe<Array<Scalars['String']>>;
+  trims?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type ModuleRulesMetadata = {
   __typename?: 'ModuleRulesMetadata';
+  /** The amount (in degrees) that the product can be angled */
+  angle?: Maybe<Scalars['Float']>;
   /** Whether or not this module is only valid if it's taking the drawer full depth */
   fullDepth?: Maybe<Scalars['Boolean']>;
+  /** Whether or not this module is a filler kind of module */
+  isFiller?: Maybe<Scalars['Boolean']>;
   /** Options are which other modules can be put IN modules */
-  options?: Maybe<Array<Scalars['String']>>;
+  options?: Maybe<Array<Maybe<Scalars['String']>>>;
   /** Queue info */
   queue?: Maybe<QueueInfoMetadata>;
   /** The product can only be put inside the drawer, if the current net interior of the drawer belongs to the range of the piece */
@@ -2261,7 +2529,7 @@ export type ModuleRulesMetadata = {
   rotation?: Maybe<Scalars['Float']>;
   trimOffset?: Maybe<TrimOffsetMetadata>;
   /** Where a module can be cut if there's excess beyond the drawer */
-  trimmable?: Maybe<Array<Scalars['String']>>;
+  trimmable?: Maybe<Array<Maybe<Scalars['String']>>>;
 };
 
 export type ModuleScalarWhereInput = {
@@ -2284,6 +2552,9 @@ export type ModuleScalarWhereInput = {
   isExtension?: Maybe<BoolFilter>;
   isMat?: Maybe<BoolFilter>;
   isSubmodule?: Maybe<BoolFilter>;
+  isVirtualProduct?: Maybe<BoolFilter>;
+  originalMarathonProductJson?: Maybe<JsonNullableFilter>;
+  ownerExternalId?: Maybe<StringNullableFilter>;
   partNumber?: Maybe<StringFilter>;
   rules?: Maybe<JsonNullableFilter>;
   shouldHideBasedOnWidth?: Maybe<BoolFilter>;
@@ -2471,6 +2742,8 @@ export type ModuleUpdateManyMutationInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  isVirtualProduct?: Maybe<BoolFieldUpdateOperationsInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -2499,6 +2772,11 @@ export type ModuleUpdateManyWithWhereWithoutDefaultRightExtensionInput = {
 };
 
 export type ModuleUpdateManyWithWhereWithoutFinishInput = {
+  data: ModuleUpdateManyMutationInput;
+  where: ModuleScalarWhereInput;
+};
+
+export type ModuleUpdateManyWithWhereWithoutOwnerInput = {
   data: ModuleUpdateManyMutationInput;
   where: ModuleScalarWhereInput;
 };
@@ -2573,6 +2851,20 @@ export type ModuleUpdateManyWithoutFinishInput = {
   upsert?: Maybe<Array<ModuleUpsertWithWhereUniqueWithoutFinishInput>>;
 };
 
+export type ModuleUpdateManyWithoutOwnerInput = {
+  connect?: Maybe<Array<ModuleWhereUniqueInput>>;
+  connectOrCreate?: Maybe<Array<ModuleCreateOrConnectWithoutOwnerInput>>;
+  create?: Maybe<Array<ModuleCreateWithoutOwnerInput>>;
+  createMany?: Maybe<ModuleCreateManyOwnerInputEnvelope>;
+  delete?: Maybe<Array<ModuleWhereUniqueInput>>;
+  deleteMany?: Maybe<Array<ModuleScalarWhereInput>>;
+  disconnect?: Maybe<Array<ModuleWhereUniqueInput>>;
+  set?: Maybe<Array<ModuleWhereUniqueInput>>;
+  update?: Maybe<Array<ModuleUpdateWithWhereUniqueWithoutOwnerInput>>;
+  updateMany?: Maybe<Array<ModuleUpdateManyWithWhereWithoutOwnerInput>>;
+  upsert?: Maybe<Array<ModuleUpsertWithWhereUniqueWithoutOwnerInput>>;
+};
+
 export type ModuleUpdateOneRequiredWithoutModuleAttachedToInput = {
   connect?: Maybe<ModuleWhereUniqueInput>;
   connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutModuleAttachedToInput>;
@@ -2635,6 +2927,16 @@ export type ModuleUpdateOneWithoutDefaultRightExtensionParentsInput = {
   upsert?: Maybe<ModuleUpsertWithoutDefaultRightExtensionParentsInput>;
 };
 
+export type ModuleUpdateOneWithoutModulesIOwnInput = {
+  connect?: Maybe<ModuleWhereUniqueInput>;
+  connectOrCreate?: Maybe<ModuleCreateOrConnectWithoutModulesIOwnInput>;
+  create?: Maybe<ModuleCreateWithoutModulesIOwnInput>;
+  delete?: Maybe<Scalars['Boolean']>;
+  disconnect?: Maybe<Scalars['Boolean']>;
+  update?: Maybe<ModuleUpdateWithoutModulesIOwnInput>;
+  upsert?: Maybe<ModuleUpsertWithoutModulesIOwnInput>;
+};
+
 export type ModuleUpdateWithWhereUniqueWithoutAttachmentToAppendInput = {
   data: ModuleUpdateWithoutAttachmentToAppendInput;
   where: ModuleWhereUniqueInput;
@@ -2660,6 +2962,11 @@ export type ModuleUpdateWithWhereUniqueWithoutFinishInput = {
   where: ModuleWhereUniqueInput;
 };
 
+export type ModuleUpdateWithWhereUniqueWithoutOwnerInput = {
+  data: ModuleUpdateWithoutOwnerInput;
+  where: ModuleWhereUniqueInput;
+};
+
 export type ModuleUpdateWithoutAttachmentToAppendInput = {
   alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
   attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
@@ -2678,10 +2985,14 @@ export type ModuleUpdateWithoutAttachmentToAppendInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  isVirtualProduct?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeUpdateManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleUpdateManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleUpdateOneWithoutModulesIOwnInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2708,10 +3019,14 @@ export type ModuleUpdateWithoutAttachmentToAppendParentsInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  isVirtualProduct?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeUpdateManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleUpdateManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleUpdateOneWithoutModulesIOwnInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2738,10 +3053,14 @@ export type ModuleUpdateWithoutCollectionInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  isVirtualProduct?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeUpdateManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleUpdateManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleUpdateOneWithoutModulesIOwnInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2768,10 +3087,14 @@ export type ModuleUpdateWithoutDefaultLeftExtensionInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  isVirtualProduct?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeUpdateManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleUpdateManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleUpdateOneWithoutModulesIOwnInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2798,10 +3121,14 @@ export type ModuleUpdateWithoutDefaultLeftExtensionParentsInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  isVirtualProduct?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeUpdateManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleUpdateManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleUpdateOneWithoutModulesIOwnInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2828,10 +3155,14 @@ export type ModuleUpdateWithoutDefaultRightExtensionInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  isVirtualProduct?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeUpdateManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleUpdateManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleUpdateOneWithoutModulesIOwnInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2858,10 +3189,14 @@ export type ModuleUpdateWithoutDefaultRightExtensionParentsInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  isVirtualProduct?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeUpdateManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleUpdateManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleUpdateOneWithoutModulesIOwnInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2888,10 +3223,14 @@ export type ModuleUpdateWithoutFinishInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  isVirtualProduct?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeUpdateManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleUpdateManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleUpdateOneWithoutModulesIOwnInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2919,9 +3258,13 @@ export type ModuleUpdateWithoutModuleAttachedToInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  isVirtualProduct?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeUpdateManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleUpdateManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleUpdateOneWithoutModulesIOwnInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2949,9 +3292,13 @@ export type ModuleUpdateWithoutModuleAttachmentsInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  isVirtualProduct?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeUpdateManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleUpdateManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleUpdateOneWithoutModulesIOwnInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -2979,9 +3326,81 @@ export type ModuleUpdateWithoutModuleTypeInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  isVirtualProduct?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleUpdateManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleUpdateOneWithoutModulesIOwnInput>;
+  partNumber?: Maybe<StringFieldUpdateOperationsInput>;
+  projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
+  thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type ModuleUpdateWithoutModulesIOwnInput = {
+  alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
+  attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
+  bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
+  isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
+  isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  isVirtualProduct?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
+  moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
+  moduleType?: Maybe<ModuleTypeUpdateManyWithoutModuleInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleUpdateOneWithoutModulesIOwnInput>;
+  partNumber?: Maybe<StringFieldUpdateOperationsInput>;
+  projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
+  rules?: Maybe<Scalars['Json']>;
+  shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
+  thumbnailUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  updatedAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+};
+
+export type ModuleUpdateWithoutOwnerInput = {
+  alwaysDisplay?: Maybe<BoolFieldUpdateOperationsInput>;
+  attachmentToAppend?: Maybe<ModuleUpdateOneWithoutAttachmentToAppendParentsInput>;
+  attachmentToAppendParents?: Maybe<ModuleUpdateManyWithoutAttachmentToAppendInput>;
+  bundleUrl?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  collection?: Maybe<CollectionUpdateOneRequiredWithoutModulesInput>;
+  createdAt?: Maybe<DateTimeFieldUpdateOperationsInput>;
+  defaultLeftExtension?: Maybe<ModuleUpdateOneWithoutDefaultLeftExtensionParentsInput>;
+  defaultLeftExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultLeftExtensionInput>;
+  defaultRightExtension?: Maybe<ModuleUpdateOneWithoutDefaultRightExtensionParentsInput>;
+  defaultRightExtensionParents?: Maybe<ModuleUpdateManyWithoutDefaultRightExtensionInput>;
+  description?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  externalId?: Maybe<NullableStringFieldUpdateOperationsInput>;
+  finish?: Maybe<FinishUpdateOneRequiredWithoutModulesInput>;
+  hasPegs?: Maybe<BoolFieldUpdateOperationsInput>;
+  isEdge?: Maybe<BoolFieldUpdateOperationsInput>;
+  isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
+  isMat?: Maybe<BoolFieldUpdateOperationsInput>;
+  isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  isVirtualProduct?: Maybe<BoolFieldUpdateOperationsInput>;
+  moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
+  moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
+  moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
+  moduleType?: Maybe<ModuleTypeUpdateManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleUpdateManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   projectModules?: Maybe<ProjectModuleUpdateManyWithoutModuleInput>;
   rules?: Maybe<Scalars['Json']>;
@@ -3009,10 +3428,14 @@ export type ModuleUpdateWithoutProjectModulesInput = {
   isExtension?: Maybe<BoolFieldUpdateOperationsInput>;
   isMat?: Maybe<BoolFieldUpdateOperationsInput>;
   isSubmodule?: Maybe<BoolFieldUpdateOperationsInput>;
+  isVirtualProduct?: Maybe<BoolFieldUpdateOperationsInput>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsUpdateManyWithoutAttachmentInput>;
   moduleAttachments?: Maybe<ModuleAttachmentsUpdateManyWithoutModuleInput>;
   moduleCategories?: Maybe<ModuleCategoryUpdateManyWithoutModuleInput>;
   moduleType?: Maybe<ModuleTypeUpdateManyWithoutModuleInput>;
+  modulesIOwn?: Maybe<ModuleUpdateManyWithoutOwnerInput>;
+  originalMarathonProductJson?: Maybe<Scalars['Json']>;
+  owner?: Maybe<ModuleUpdateOneWithoutModulesIOwnInput>;
   partNumber?: Maybe<StringFieldUpdateOperationsInput>;
   rules?: Maybe<Scalars['Json']>;
   shouldHideBasedOnWidth?: Maybe<BoolFieldUpdateOperationsInput>;
@@ -3050,6 +3473,12 @@ export type ModuleUpsertWithWhereUniqueWithoutFinishInput = {
   where: ModuleWhereUniqueInput;
 };
 
+export type ModuleUpsertWithWhereUniqueWithoutOwnerInput = {
+  create: ModuleCreateWithoutOwnerInput;
+  update: ModuleUpdateWithoutOwnerInput;
+  where: ModuleWhereUniqueInput;
+};
+
 export type ModuleUpsertWithoutAttachmentToAppendParentsInput = {
   create: ModuleCreateWithoutAttachmentToAppendParentsInput;
   update: ModuleUpdateWithoutAttachmentToAppendParentsInput;
@@ -3078,6 +3507,11 @@ export type ModuleUpsertWithoutModuleAttachmentsInput = {
 export type ModuleUpsertWithoutModuleTypeInput = {
   create: ModuleCreateWithoutModuleTypeInput;
   update: ModuleUpdateWithoutModuleTypeInput;
+};
+
+export type ModuleUpsertWithoutModulesIOwnInput = {
+  create: ModuleCreateWithoutModulesIOwnInput;
+  update: ModuleUpdateWithoutModulesIOwnInput;
 };
 
 export type ModuleUpsertWithoutProjectModulesInput = {
@@ -3113,10 +3547,15 @@ export type ModuleWhereInput = {
   isExtension?: Maybe<BoolFilter>;
   isMat?: Maybe<BoolFilter>;
   isSubmodule?: Maybe<BoolFilter>;
+  isVirtualProduct?: Maybe<BoolFilter>;
   moduleAttachedTo?: Maybe<ModuleAttachmentsListRelationFilter>;
   moduleAttachments?: Maybe<ModuleAttachmentsListRelationFilter>;
   moduleCategories?: Maybe<ModuleCategoryListRelationFilter>;
   moduleType?: Maybe<ModuleTypeListRelationFilter>;
+  modulesIOwn?: Maybe<ModuleListRelationFilter>;
+  originalMarathonProductJson?: Maybe<JsonNullableFilter>;
+  owner?: Maybe<ModuleWhereInput>;
+  ownerExternalId?: Maybe<StringNullableFilter>;
   partNumber?: Maybe<StringFilter>;
   projectModules?: Maybe<ProjectModuleListRelationFilter>;
   rules?: Maybe<JsonNullableFilter>;
@@ -3209,6 +3648,17 @@ export type NestedDateTimeFilter = {
   notIn?: Maybe<Array<Scalars['DateTime']>>;
 };
 
+export type NestedDateTimeNullableFilter = {
+  equals?: Maybe<Scalars['DateTime']>;
+  gt?: Maybe<Scalars['DateTime']>;
+  gte?: Maybe<Scalars['DateTime']>;
+  in?: Maybe<Array<Scalars['DateTime']>>;
+  lt?: Maybe<Scalars['DateTime']>;
+  lte?: Maybe<Scalars['DateTime']>;
+  not?: Maybe<NestedDateTimeNullableFilter>;
+  notIn?: Maybe<Array<Scalars['DateTime']>>;
+};
+
 export type NestedEnumLocaleFilter = {
   equals?: Maybe<Locale>;
   in?: Maybe<Array<Locale>>;
@@ -3286,6 +3736,10 @@ export type NestedStringNullableFilter = {
   not?: Maybe<NestedStringNullableFilter>;
   notIn?: Maybe<Array<Scalars['String']>>;
   startsWith?: Maybe<Scalars['String']>;
+};
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Maybe<Scalars['DateTime']>;
 };
 
 export type NullableFloatFieldUpdateOperationsInput = {
@@ -5585,6 +6039,17 @@ export type CartQuery = {
                     partNumber: string;
                     description?: string | null | undefined;
                     thumbnailUrl?: string | null | undefined;
+                    isVirtualProduct: boolean;
+                    owner?:
+                      | {
+                          __typename?: 'Module';
+                          id: number;
+                          partNumber: string;
+                          description?: string | null | undefined;
+                          thumbnailUrl?: string | null | undefined;
+                        }
+                      | null
+                      | undefined;
                   };
                 };
               }>
@@ -5600,6 +6065,17 @@ export type CartQuery = {
               partNumber: string;
               description?: string | null | undefined;
               thumbnailUrl?: string | null | undefined;
+              isVirtualProduct: boolean;
+              owner?:
+                | {
+                    __typename?: 'Module';
+                    id: number;
+                    partNumber: string;
+                    description?: string | null | undefined;
+                    thumbnailUrl?: string | null | undefined;
+                  }
+                | null
+                | undefined;
             };
           };
         }>;
@@ -5677,6 +6153,17 @@ export type CartDataFragment = {
       partNumber: string;
       description?: string | null | undefined;
       thumbnailUrl?: string | null | undefined;
+      isVirtualProduct: boolean;
+      owner?:
+        | {
+            __typename?: 'Module';
+            id: number;
+            partNumber: string;
+            description?: string | null | undefined;
+            thumbnailUrl?: string | null | undefined;
+          }
+        | null
+        | undefined;
     };
   };
 };
@@ -5696,9 +6183,12 @@ export type ModuleDataWithoutExtensionsFragment = {
   rules?:
     | {
         __typename?: 'ModuleRules';
-        rules?: { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined } | null | undefined;
+        rules?:
+          | { __typename?: 'ModuleRulesMetadata'; options?: Array<string | null | undefined> | null | undefined }
+          | null
+          | undefined;
         extensions?:
-          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string | null | undefined> | null | undefined }
           | null
           | undefined;
       }
@@ -5737,11 +6227,14 @@ export type ModuleDataFragment = {
           | {
               __typename?: 'ModuleRules';
               rules?:
-                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string | null | undefined> | null | undefined }
                 | null
                 | undefined;
               extensions?:
-                | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                | {
+                    __typename?: 'ModuleExtensionsMetadata';
+                    options?: Array<string | null | undefined> | null | undefined;
+                  }
                 | null
                 | undefined;
             }
@@ -5769,11 +6262,14 @@ export type ModuleDataFragment = {
           | {
               __typename?: 'ModuleRules';
               rules?:
-                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string | null | undefined> | null | undefined }
                 | null
                 | undefined;
               extensions?:
-                | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                | {
+                    __typename?: 'ModuleExtensionsMetadata';
+                    options?: Array<string | null | undefined> | null | undefined;
+                  }
                 | null
                 | undefined;
             }
@@ -5801,11 +6297,14 @@ export type ModuleDataFragment = {
           | {
               __typename?: 'ModuleRules';
               rules?:
-                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string | null | undefined> | null | undefined }
                 | null
                 | undefined;
               extensions?:
-                | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                | {
+                    __typename?: 'ModuleExtensionsMetadata';
+                    options?: Array<string | null | undefined> | null | undefined;
+                  }
                 | null
                 | undefined;
             }
@@ -5835,11 +6334,14 @@ export type ModuleDataFragment = {
         | {
             __typename?: 'ModuleRules';
             rules?:
-              | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+              | { __typename?: 'ModuleRulesMetadata'; options?: Array<string | null | undefined> | null | undefined }
               | null
               | undefined;
             extensions?:
-              | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+              | {
+                  __typename?: 'ModuleExtensionsMetadata';
+                  options?: Array<string | null | undefined> | null | undefined;
+                }
               | null
               | undefined;
           }
@@ -5848,12 +6350,25 @@ export type ModuleDataFragment = {
       categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
     };
   }>;
+  owner?:
+    | {
+        __typename?: 'Module';
+        id: number;
+        partNumber: string;
+        description?: string | null | undefined;
+        thumbnailUrl?: string | null | undefined;
+      }
+    | null
+    | undefined;
   rules?:
     | {
         __typename?: 'ModuleRules';
-        rules?: { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined } | null | undefined;
+        rules?:
+          | { __typename?: 'ModuleRulesMetadata'; options?: Array<string | null | undefined> | null | undefined }
+          | null
+          | undefined;
         extensions?:
-          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string | null | undefined> | null | undefined }
           | null
           | undefined;
       }
@@ -5903,11 +6418,17 @@ export type ProjectModuleDataFragment = {
             | {
                 __typename?: 'ModuleRules';
                 rules?:
-                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleRulesMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
                 extensions?:
-                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleExtensionsMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
               }
@@ -5935,11 +6456,17 @@ export type ProjectModuleDataFragment = {
             | {
                 __typename?: 'ModuleRules';
                 rules?:
-                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleRulesMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
                 extensions?:
-                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleExtensionsMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
               }
@@ -5967,11 +6494,17 @@ export type ProjectModuleDataFragment = {
             | {
                 __typename?: 'ModuleRules';
                 rules?:
-                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleRulesMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
                 extensions?:
-                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleExtensionsMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
               }
@@ -6001,11 +6534,14 @@ export type ProjectModuleDataFragment = {
           | {
               __typename?: 'ModuleRules';
               rules?:
-                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string | null | undefined> | null | undefined }
                 | null
                 | undefined;
               extensions?:
-                | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                | {
+                    __typename?: 'ModuleExtensionsMetadata';
+                    options?: Array<string | null | undefined> | null | undefined;
+                  }
                 | null
                 | undefined;
             }
@@ -6014,12 +6550,25 @@ export type ProjectModuleDataFragment = {
         categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
       };
     }>;
+    owner?:
+      | {
+          __typename?: 'Module';
+          id: number;
+          partNumber: string;
+          description?: string | null | undefined;
+          thumbnailUrl?: string | null | undefined;
+        }
+      | null
+      | undefined;
     rules?:
       | {
           __typename?: 'ModuleRules';
-          rules?: { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined } | null | undefined;
+          rules?:
+            | { __typename?: 'ModuleRulesMetadata'; options?: Array<string | null | undefined> | null | undefined }
+            | null
+            | undefined;
           extensions?:
-            | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+            | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string | null | undefined> | null | undefined }
             | null
             | undefined;
         }
@@ -6074,11 +6623,17 @@ export type ModuleOptionsQuery = {
             | {
                 __typename?: 'ModuleRules';
                 rules?:
-                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleRulesMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
                 extensions?:
-                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleExtensionsMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
               }
@@ -6106,11 +6661,17 @@ export type ModuleOptionsQuery = {
             | {
                 __typename?: 'ModuleRules';
                 rules?:
-                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleRulesMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
                 extensions?:
-                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleExtensionsMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
               }
@@ -6138,11 +6699,17 @@ export type ModuleOptionsQuery = {
             | {
                 __typename?: 'ModuleRules';
                 rules?:
-                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleRulesMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
                 extensions?:
-                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleExtensionsMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
               }
@@ -6172,11 +6739,14 @@ export type ModuleOptionsQuery = {
           | {
               __typename?: 'ModuleRules';
               rules?:
-                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                | { __typename?: 'ModuleRulesMetadata'; options?: Array<string | null | undefined> | null | undefined }
                 | null
                 | undefined;
               extensions?:
-                | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                | {
+                    __typename?: 'ModuleExtensionsMetadata';
+                    options?: Array<string | null | undefined> | null | undefined;
+                  }
                 | null
                 | undefined;
             }
@@ -6185,12 +6755,25 @@ export type ModuleOptionsQuery = {
         categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
       };
     }>;
+    owner?:
+      | {
+          __typename?: 'Module';
+          id: number;
+          partNumber: string;
+          description?: string | null | undefined;
+          thumbnailUrl?: string | null | undefined;
+        }
+      | null
+      | undefined;
     rules?:
       | {
           __typename?: 'ModuleRules';
-          rules?: { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined } | null | undefined;
+          rules?:
+            | { __typename?: 'ModuleRulesMetadata'; options?: Array<string | null | undefined> | null | undefined }
+            | null
+            | undefined;
           extensions?:
-            | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+            | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string | null | undefined> | null | undefined }
             | null
             | undefined;
         }
@@ -6258,11 +6841,17 @@ export type PlannerQuery = {
                   | {
                       __typename?: 'ModuleRules';
                       rules?:
-                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | {
+                            __typename?: 'ModuleRulesMetadata';
+                            options?: Array<string | null | undefined> | null | undefined;
+                          }
                         | null
                         | undefined;
                       extensions?:
-                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | {
+                            __typename?: 'ModuleExtensionsMetadata';
+                            options?: Array<string | null | undefined> | null | undefined;
+                          }
                         | null
                         | undefined;
                     }
@@ -6290,11 +6879,17 @@ export type PlannerQuery = {
                   | {
                       __typename?: 'ModuleRules';
                       rules?:
-                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | {
+                            __typename?: 'ModuleRulesMetadata';
+                            options?: Array<string | null | undefined> | null | undefined;
+                          }
                         | null
                         | undefined;
                       extensions?:
-                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | {
+                            __typename?: 'ModuleExtensionsMetadata';
+                            options?: Array<string | null | undefined> | null | undefined;
+                          }
                         | null
                         | undefined;
                     }
@@ -6322,11 +6917,17 @@ export type PlannerQuery = {
                   | {
                       __typename?: 'ModuleRules';
                       rules?:
-                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | {
+                            __typename?: 'ModuleRulesMetadata';
+                            options?: Array<string | null | undefined> | null | undefined;
+                          }
                         | null
                         | undefined;
                       extensions?:
-                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | {
+                            __typename?: 'ModuleExtensionsMetadata';
+                            options?: Array<string | null | undefined> | null | undefined;
+                          }
                         | null
                         | undefined;
                     }
@@ -6356,11 +6957,17 @@ export type PlannerQuery = {
                 | {
                     __typename?: 'ModuleRules';
                     rules?:
-                      | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                      | {
+                          __typename?: 'ModuleRulesMetadata';
+                          options?: Array<string | null | undefined> | null | undefined;
+                        }
                       | null
                       | undefined;
                     extensions?:
-                      | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                      | {
+                          __typename?: 'ModuleExtensionsMetadata';
+                          options?: Array<string | null | undefined> | null | undefined;
+                        }
                       | null
                       | undefined;
                   }
@@ -6369,15 +6976,31 @@ export type PlannerQuery = {
               categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
             };
           }>;
+          owner?:
+            | {
+                __typename?: 'Module';
+                id: number;
+                partNumber: string;
+                description?: string | null | undefined;
+                thumbnailUrl?: string | null | undefined;
+              }
+            | null
+            | undefined;
           rules?:
             | {
                 __typename?: 'ModuleRules';
                 rules?:
-                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleRulesMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
                 extensions?:
-                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleExtensionsMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
               }
@@ -6436,11 +7059,17 @@ export type PlannerQuery = {
                       | {
                           __typename?: 'ModuleRules';
                           rules?:
-                            | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                            | {
+                                __typename?: 'ModuleRulesMetadata';
+                                options?: Array<string | null | undefined> | null | undefined;
+                              }
                             | null
                             | undefined;
                           extensions?:
-                            | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                            | {
+                                __typename?: 'ModuleExtensionsMetadata';
+                                options?: Array<string | null | undefined> | null | undefined;
+                              }
                             | null
                             | undefined;
                         }
@@ -6468,11 +7097,17 @@ export type PlannerQuery = {
                       | {
                           __typename?: 'ModuleRules';
                           rules?:
-                            | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                            | {
+                                __typename?: 'ModuleRulesMetadata';
+                                options?: Array<string | null | undefined> | null | undefined;
+                              }
                             | null
                             | undefined;
                           extensions?:
-                            | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                            | {
+                                __typename?: 'ModuleExtensionsMetadata';
+                                options?: Array<string | null | undefined> | null | undefined;
+                              }
                             | null
                             | undefined;
                         }
@@ -6500,11 +7135,17 @@ export type PlannerQuery = {
                       | {
                           __typename?: 'ModuleRules';
                           rules?:
-                            | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                            | {
+                                __typename?: 'ModuleRulesMetadata';
+                                options?: Array<string | null | undefined> | null | undefined;
+                              }
                             | null
                             | undefined;
                           extensions?:
-                            | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                            | {
+                                __typename?: 'ModuleExtensionsMetadata';
+                                options?: Array<string | null | undefined> | null | undefined;
+                              }
                             | null
                             | undefined;
                         }
@@ -6534,11 +7175,17 @@ export type PlannerQuery = {
                     | {
                         __typename?: 'ModuleRules';
                         rules?:
-                          | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                          | {
+                              __typename?: 'ModuleRulesMetadata';
+                              options?: Array<string | null | undefined> | null | undefined;
+                            }
                           | null
                           | undefined;
                         extensions?:
-                          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                          | {
+                              __typename?: 'ModuleExtensionsMetadata';
+                              options?: Array<string | null | undefined> | null | undefined;
+                            }
                           | null
                           | undefined;
                       }
@@ -6547,15 +7194,31 @@ export type PlannerQuery = {
                   categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
                 };
               }>;
+              owner?:
+                | {
+                    __typename?: 'Module';
+                    id: number;
+                    partNumber: string;
+                    description?: string | null | undefined;
+                    thumbnailUrl?: string | null | undefined;
+                  }
+                | null
+                | undefined;
               rules?:
                 | {
                     __typename?: 'ModuleRules';
                     rules?:
-                      | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                      | {
+                          __typename?: 'ModuleRulesMetadata';
+                          options?: Array<string | null | undefined> | null | undefined;
+                        }
                       | null
                       | undefined;
                     extensions?:
-                      | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                      | {
+                          __typename?: 'ModuleExtensionsMetadata';
+                          options?: Array<string | null | undefined> | null | undefined;
+                        }
                       | null
                       | undefined;
                   }
@@ -6595,11 +7258,17 @@ export type PlannerQuery = {
                     | {
                         __typename?: 'ModuleRules';
                         rules?:
-                          | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                          | {
+                              __typename?: 'ModuleRulesMetadata';
+                              options?: Array<string | null | undefined> | null | undefined;
+                            }
                           | null
                           | undefined;
                         extensions?:
-                          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                          | {
+                              __typename?: 'ModuleExtensionsMetadata';
+                              options?: Array<string | null | undefined> | null | undefined;
+                            }
                           | null
                           | undefined;
                       }
@@ -6627,11 +7296,17 @@ export type PlannerQuery = {
                     | {
                         __typename?: 'ModuleRules';
                         rules?:
-                          | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                          | {
+                              __typename?: 'ModuleRulesMetadata';
+                              options?: Array<string | null | undefined> | null | undefined;
+                            }
                           | null
                           | undefined;
                         extensions?:
-                          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                          | {
+                              __typename?: 'ModuleExtensionsMetadata';
+                              options?: Array<string | null | undefined> | null | undefined;
+                            }
                           | null
                           | undefined;
                       }
@@ -6659,11 +7334,17 @@ export type PlannerQuery = {
                     | {
                         __typename?: 'ModuleRules';
                         rules?:
-                          | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                          | {
+                              __typename?: 'ModuleRulesMetadata';
+                              options?: Array<string | null | undefined> | null | undefined;
+                            }
                           | null
                           | undefined;
                         extensions?:
-                          | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                          | {
+                              __typename?: 'ModuleExtensionsMetadata';
+                              options?: Array<string | null | undefined> | null | undefined;
+                            }
                           | null
                           | undefined;
                       }
@@ -6693,11 +7374,17 @@ export type PlannerQuery = {
                   | {
                       __typename?: 'ModuleRules';
                       rules?:
-                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | {
+                            __typename?: 'ModuleRulesMetadata';
+                            options?: Array<string | null | undefined> | null | undefined;
+                          }
                         | null
                         | undefined;
                       extensions?:
-                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | {
+                            __typename?: 'ModuleExtensionsMetadata';
+                            options?: Array<string | null | undefined> | null | undefined;
+                          }
                         | null
                         | undefined;
                     }
@@ -6706,15 +7393,31 @@ export type PlannerQuery = {
                 categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
               };
             }>;
+            owner?:
+              | {
+                  __typename?: 'Module';
+                  id: number;
+                  partNumber: string;
+                  description?: string | null | undefined;
+                  thumbnailUrl?: string | null | undefined;
+                }
+              | null
+              | undefined;
             rules?:
               | {
                   __typename?: 'ModuleRules';
                   rules?:
-                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | {
+                        __typename?: 'ModuleRulesMetadata';
+                        options?: Array<string | null | undefined> | null | undefined;
+                      }
                     | null
                     | undefined;
                   extensions?:
-                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | {
+                        __typename?: 'ModuleExtensionsMetadata';
+                        options?: Array<string | null | undefined> | null | undefined;
+                      }
                     | null
                     | undefined;
                 }
@@ -6775,11 +7478,17 @@ export type GetProjectModuleQuery = {
               | {
                   __typename?: 'ModuleRules';
                   rules?:
-                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | {
+                        __typename?: 'ModuleRulesMetadata';
+                        options?: Array<string | null | undefined> | null | undefined;
+                      }
                     | null
                     | undefined;
                   extensions?:
-                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | {
+                        __typename?: 'ModuleExtensionsMetadata';
+                        options?: Array<string | null | undefined> | null | undefined;
+                      }
                     | null
                     | undefined;
                 }
@@ -6807,11 +7516,17 @@ export type GetProjectModuleQuery = {
               | {
                   __typename?: 'ModuleRules';
                   rules?:
-                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | {
+                        __typename?: 'ModuleRulesMetadata';
+                        options?: Array<string | null | undefined> | null | undefined;
+                      }
                     | null
                     | undefined;
                   extensions?:
-                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | {
+                        __typename?: 'ModuleExtensionsMetadata';
+                        options?: Array<string | null | undefined> | null | undefined;
+                      }
                     | null
                     | undefined;
                 }
@@ -6839,11 +7554,17 @@ export type GetProjectModuleQuery = {
               | {
                   __typename?: 'ModuleRules';
                   rules?:
-                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | {
+                        __typename?: 'ModuleRulesMetadata';
+                        options?: Array<string | null | undefined> | null | undefined;
+                      }
                     | null
                     | undefined;
                   extensions?:
-                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | {
+                        __typename?: 'ModuleExtensionsMetadata';
+                        options?: Array<string | null | undefined> | null | undefined;
+                      }
                     | null
                     | undefined;
                 }
@@ -6873,11 +7594,17 @@ export type GetProjectModuleQuery = {
             | {
                 __typename?: 'ModuleRules';
                 rules?:
-                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleRulesMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
                 extensions?:
-                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleExtensionsMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
               }
@@ -6886,15 +7613,28 @@ export type GetProjectModuleQuery = {
           categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
         };
       }>;
+      owner?:
+        | {
+            __typename?: 'Module';
+            id: number;
+            partNumber: string;
+            description?: string | null | undefined;
+            thumbnailUrl?: string | null | undefined;
+          }
+        | null
+        | undefined;
       rules?:
         | {
             __typename?: 'ModuleRules';
             rules?:
-              | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+              | { __typename?: 'ModuleRulesMetadata'; options?: Array<string | null | undefined> | null | undefined }
               | null
               | undefined;
             extensions?:
-              | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+              | {
+                  __typename?: 'ModuleExtensionsMetadata';
+                  options?: Array<string | null | undefined> | null | undefined;
+                }
               | null
               | undefined;
           }
@@ -6952,11 +7692,17 @@ export type CreateProjectModuleMutation = {
               | {
                   __typename?: 'ModuleRules';
                   rules?:
-                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | {
+                        __typename?: 'ModuleRulesMetadata';
+                        options?: Array<string | null | undefined> | null | undefined;
+                      }
                     | null
                     | undefined;
                   extensions?:
-                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | {
+                        __typename?: 'ModuleExtensionsMetadata';
+                        options?: Array<string | null | undefined> | null | undefined;
+                      }
                     | null
                     | undefined;
                 }
@@ -6984,11 +7730,17 @@ export type CreateProjectModuleMutation = {
               | {
                   __typename?: 'ModuleRules';
                   rules?:
-                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | {
+                        __typename?: 'ModuleRulesMetadata';
+                        options?: Array<string | null | undefined> | null | undefined;
+                      }
                     | null
                     | undefined;
                   extensions?:
-                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | {
+                        __typename?: 'ModuleExtensionsMetadata';
+                        options?: Array<string | null | undefined> | null | undefined;
+                      }
                     | null
                     | undefined;
                 }
@@ -7016,11 +7768,17 @@ export type CreateProjectModuleMutation = {
               | {
                   __typename?: 'ModuleRules';
                   rules?:
-                    | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                    | {
+                        __typename?: 'ModuleRulesMetadata';
+                        options?: Array<string | null | undefined> | null | undefined;
+                      }
                     | null
                     | undefined;
                   extensions?:
-                    | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                    | {
+                        __typename?: 'ModuleExtensionsMetadata';
+                        options?: Array<string | null | undefined> | null | undefined;
+                      }
                     | null
                     | undefined;
                 }
@@ -7050,11 +7808,17 @@ export type CreateProjectModuleMutation = {
             | {
                 __typename?: 'ModuleRules';
                 rules?:
-                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleRulesMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
                 extensions?:
-                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleExtensionsMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
               }
@@ -7063,15 +7827,28 @@ export type CreateProjectModuleMutation = {
           categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
         };
       }>;
+      owner?:
+        | {
+            __typename?: 'Module';
+            id: number;
+            partNumber: string;
+            description?: string | null | undefined;
+            thumbnailUrl?: string | null | undefined;
+          }
+        | null
+        | undefined;
       rules?:
         | {
             __typename?: 'ModuleRules';
             rules?:
-              | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+              | { __typename?: 'ModuleRulesMetadata'; options?: Array<string | null | undefined> | null | undefined }
               | null
               | undefined;
             extensions?:
-              | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+              | {
+                  __typename?: 'ModuleExtensionsMetadata';
+                  options?: Array<string | null | undefined> | null | undefined;
+                }
               | null
               | undefined;
           }
@@ -7131,11 +7908,17 @@ export type UpdateProjectModuleMutation = {
                   | {
                       __typename?: 'ModuleRules';
                       rules?:
-                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | {
+                            __typename?: 'ModuleRulesMetadata';
+                            options?: Array<string | null | undefined> | null | undefined;
+                          }
                         | null
                         | undefined;
                       extensions?:
-                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | {
+                            __typename?: 'ModuleExtensionsMetadata';
+                            options?: Array<string | null | undefined> | null | undefined;
+                          }
                         | null
                         | undefined;
                     }
@@ -7163,11 +7946,17 @@ export type UpdateProjectModuleMutation = {
                   | {
                       __typename?: 'ModuleRules';
                       rules?:
-                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | {
+                            __typename?: 'ModuleRulesMetadata';
+                            options?: Array<string | null | undefined> | null | undefined;
+                          }
                         | null
                         | undefined;
                       extensions?:
-                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | {
+                            __typename?: 'ModuleExtensionsMetadata';
+                            options?: Array<string | null | undefined> | null | undefined;
+                          }
                         | null
                         | undefined;
                     }
@@ -7195,11 +7984,17 @@ export type UpdateProjectModuleMutation = {
                   | {
                       __typename?: 'ModuleRules';
                       rules?:
-                        | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                        | {
+                            __typename?: 'ModuleRulesMetadata';
+                            options?: Array<string | null | undefined> | null | undefined;
+                          }
                         | null
                         | undefined;
                       extensions?:
-                        | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                        | {
+                            __typename?: 'ModuleExtensionsMetadata';
+                            options?: Array<string | null | undefined> | null | undefined;
+                          }
                         | null
                         | undefined;
                     }
@@ -7229,11 +8024,17 @@ export type UpdateProjectModuleMutation = {
                 | {
                     __typename?: 'ModuleRules';
                     rules?:
-                      | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                      | {
+                          __typename?: 'ModuleRulesMetadata';
+                          options?: Array<string | null | undefined> | null | undefined;
+                        }
                       | null
                       | undefined;
                     extensions?:
-                      | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                      | {
+                          __typename?: 'ModuleExtensionsMetadata';
+                          options?: Array<string | null | undefined> | null | undefined;
+                        }
                       | null
                       | undefined;
                   }
@@ -7242,15 +8043,31 @@ export type UpdateProjectModuleMutation = {
               categories: Array<{ __typename?: 'Category'; id: number; slug: string; name: string }>;
             };
           }>;
+          owner?:
+            | {
+                __typename?: 'Module';
+                id: number;
+                partNumber: string;
+                description?: string | null | undefined;
+                thumbnailUrl?: string | null | undefined;
+              }
+            | null
+            | undefined;
           rules?:
             | {
                 __typename?: 'ModuleRules';
                 rules?:
-                  | { __typename?: 'ModuleRulesMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleRulesMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
                 extensions?:
-                  | { __typename?: 'ModuleExtensionsMetadata'; options?: Array<string> | null | undefined }
+                  | {
+                      __typename?: 'ModuleExtensionsMetadata';
+                      options?: Array<string | null | undefined> | null | undefined;
+                    }
                   | null
                   | undefined;
               }
@@ -7435,6 +8252,13 @@ export const CartDataFragmentDoc = gql`
         partNumber
         description
         thumbnailUrl
+        isVirtualProduct
+        owner {
+          id
+          partNumber
+          description
+          thumbnailUrl
+        }
       }
     }
   }
@@ -7487,6 +8311,12 @@ export const ModuleDataFragmentDoc = gql`
         ...ModuleDataWithoutExtensions
         rulesJson
       }
+    }
+    owner {
+      id
+      partNumber
+      description
+      thumbnailUrl
     }
   }
   ${ModuleDataWithoutExtensionsFragmentDoc}

@@ -12,6 +12,13 @@ export const CART_DATA = gql`
         partNumber
         description
         thumbnailUrl
+        isVirtualProduct
+        owner {
+          id
+          partNumber
+          description
+          thumbnailUrl
+        }
       }
     }
   }

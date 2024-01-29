@@ -8,6 +8,7 @@ import { PlusCircle } from 'react-feather';
 import Spinner from '../../UI/Spinner';
 import logging from '../../../lib/logging';
 import { useIntersection } from 'next/dist/client/use-intersection';
+import AlternativePill from '../../UI/AlternativePill';
 
 type ModuleButtonImageProps = { module: ModuleDataFragment; isChild?: boolean; isBlockedToAddSubmodule?: boolean };
 
@@ -16,7 +17,7 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
   // ** Misc
   // ***********
   const { createModule, createChildrenModule, isPending } = usePlannerContext();
-  const { partNumber } = module;
+  const { partNumber, owner } = module;
 
   // A hook that check is the element is visible, so we run logic only when it is
   // Ref: https://github.com/vercel/next.js/blob/0c04f96e9be0a78c1b3a77e8d2788afc0822ba1a/packages/next/client/image.tsx#L505
@@ -71,7 +72,7 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
         {module.thumbnailUrl && (
           <SkeletonImage
             key={partNumber}
-            src={module.thumbnailUrl}
+            src={module.thumbnailUrl || '#'}
             alt={partNumber}
             layout="fill"
             objectFit="contain"
@@ -103,8 +104,11 @@ const ModuleButtonImage: React.FC<ModuleButtonImageProps> = ({ module, isChild, 
           </div>
         </div>
       </div>
-      <p className="mt-2 text-base font-bold">{partNumber}</p>
-      {module.description && <p className="mt-4 text-base">{module.description}</p>}
+      <p className="flex items-center mt-2 text-base font-bold">
+        {owner?.partNumber || partNumber}
+        {owner && <AlternativePill />}
+      </p>
+      {module.description && <p className="mt-4 text-base">{owner?.description || module.description}</p>}
     </div>
   );
 };

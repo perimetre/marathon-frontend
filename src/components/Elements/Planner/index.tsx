@@ -27,7 +27,7 @@ const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTry
   const { isPending, didFinishSetup, error: unityError } = usePlannerContext();
 
   return (
-    <div className="relative flex max-h-screen">
+    <div className="relative flex max-h-screen overflow-hidden">
       {isPending > 0 && (
         <motion.div
           variants={{
@@ -37,9 +37,9 @@ const Planner: React.FC<PlannerProps> = ({ slug, data, loading, error, handleTry
           initial="hidden"
           animate="show"
           exit="hidden"
-          className="absolute z-20 right-10 bottom-10"
+          className="absolute z-20 overflow-hidden right-10 bottom-10"
         >
-          <div className="flex py-4 bg-white px-7 rounded-md">
+          <div className="flex py-4 overflow-hidden bg-white px-7 rounded-md">
             <Spinner className="w-6 h-6 mr-5" />
             <FormattedMessage id="build.loadingModule" />
           </div>
