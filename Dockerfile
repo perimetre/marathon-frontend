@@ -16,9 +16,9 @@ COPY package*.json ./
 COPY postcss.config.js ./
 COPY tailwind.config.js ./
 COPY tsconfig.json ./
-COPY sentry.client.config.js ./
-COPY sentry.server.config.js ./
-COPY sentry.properties ./
+# COPY sentry.client.config.js ./
+# COPY sentry.server.config.js ./
+# COPY sentry.properties ./
 
 COPY src ./src
 COPY locales ./locales
@@ -56,10 +56,10 @@ ARG NEXT_PUBLIC_UNITY_PRODUCT_NAME
 ENV NEXT_PUBLIC_UNITY_PRODUCT_NAME=${NEXT_PUBLIC_UNITY_PRODUCT_NAME}
 ARG NEXT_PUBLIC_UNITY_PRODUCT_VERSION
 ENV NEXT_PUBLIC_UNITY_PRODUCT_VERSION=${NEXT_PUBLIC_UNITY_PRODUCT_VERSION}
-ARG NEXT_PUBLIC_SENTRY_DSN
-ENV NEXT_PUBLIC_SENTRY_DSN=${NEXT_PUBLIC_SENTRY_DSN}
-ARG SENTRY_AUTH_TOKEN
-ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
+# ARG NEXT_PUBLIC_SENTRY_DSN
+# ENV NEXT_PUBLIC_SENTRY_DSN=${NEXT_PUBLIC_SENTRY_DSN}
+# ARG SENTRY_AUTH_TOKEN
+# ENV SENTRY_AUTH_TOKEN=${SENTRY_AUTH_TOKEN}
 ARG NEXT_PUBLIC_UNITY_PUBLIC_MEDIA_URI
 ENV NEXT_PUBLIC_UNITY_PUBLIC_MEDIA_URI=${NEXT_PUBLIC_UNITY_PUBLIC_MEDIA_URI}
 ARG NEXT_PUBLIC_UNITY_ASSET_BUNDLE_FOLDER
@@ -95,9 +95,9 @@ COPY --from=build /build/.npmrc ./
 COPY --from=build /build/.next ./.next
 COPY --from=build /build/next.config.js ./
 COPY --from=build /build/public ./public
-COPY --from=build /build/sentry.client.config.js ./
-COPY --from=build /build/sentry.server.config.js ./
-COPY --from=build /build/sentry.properties ./
+# COPY --from=build /build/sentry.client.config.js ./
+# COPY --from=build /build/sentry.server.config.js ./
+# COPY --from=build /build/sentry.properties ./
 
 RUN npm install next
 
