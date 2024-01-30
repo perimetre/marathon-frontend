@@ -42,3 +42,7 @@ yarn-error.log*
 
 # Sentry
 .sentryclirc
+
+# Docker
+docker-compose.yml
+.env
