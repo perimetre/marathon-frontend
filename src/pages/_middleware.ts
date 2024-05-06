@@ -15,7 +15,11 @@ export function middleware(request: NextRequest) {
   }
 
   // Ref: https://github.com/vercel/next.js/discussions/18419#discussioncomment-1663807
-  const shouldHandleLocale = !PUBLIC_FILE.test(pathname) && !pathname.includes('/api/') && locale === 'default';
+  const shouldHandleLocale =
+    !PUBLIC_FILE.test(pathname) &&
+    !pathname.includes('/api/') &&
+    locale === 'default' &&
+    !pathname.includes('/storage/');
 
   return shouldHandleLocale ? NextResponse.redirect(`/${LANG}${pathname + href.split(pathname)[1]}`) : undefined;
 }
